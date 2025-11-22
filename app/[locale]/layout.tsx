@@ -94,9 +94,9 @@ export const metadata: Metadata = {
     },
   },
   icons: {
-    icon: "/globe.svg",
-    shortcut: "/globe.svg",
-    apple: "/globe.svg",
+    icon: "/favicon.svg",
+    shortcut: "/favicon.svg",
+    apple: "/favicon.svg",
   },
   manifest: "/site.webmanifest",
 };

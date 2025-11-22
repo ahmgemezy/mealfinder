@@ -10,6 +10,7 @@ import { Recipe } from "@/lib/types/recipe";
 import Breadcrumb from "@/components/ui/Breadcrumb";
 import { useTranslations } from "next-intl";
 import { RECIPE_CATEGORIES, RECIPE_AREAS } from "@/lib/constants";
+import { searchMeals, filterByCategory, filterByArea, getMultipleRandomMeals } from "@/lib/api/mealdb";
 
 import { Suspense } from "react";
 
@@ -47,85 +48,27 @@ function RecipesContent() {
     const fetchRecipes = async () => {
         setIsLoading(true);
         try {
-            let url = "";
-            let needsLookup = false;
+            let recipes: Recipe[] = [];
 
             if (searchQuery) {
-                url = `https://www.themealdb.com/api/json/v1/1/search.php?s=${searchQuery}`;
+                // Search takes priority
+                recipes = await searchMeals(searchQuery);
+            } else if (selectedCategory && selectedArea) {
+                // Combined filter: fetch by category first, then filter by area client-side
+                const categoryRecipes = await filterByCategory(selectedCategory);
+                recipes = categoryRecipes.filter(recipe => recipe.area === selectedArea);
             } else if (selectedCategory) {
-                url = `https://www.themealdb.com/api/json/v1/1/filter.php?c=${selectedCategory}`;
-                needsLookup = true;
+                // Filter by category only
+                recipes = await filterByCategory(selectedCategory);
             } else if (selectedArea) {
-                url = `https://www.themealdb.com/api/json/v1/1/filter.php?a=${selectedArea}`;
-                needsLookup = true;
+                // Filter by area only
+                recipes = await filterByArea(selectedArea);
             } else {
-                // Default: fetch some random recipes
-                const randomRecipes = await Promise.all(
-                    Array(15)
-                        .fill(null)
-                        .map(async () => {
-                            const res = await fetch(
-                                "https://www.themealdb.com/api/json/v1/1/random.php"
-                            );
-                            const data = await res.json();
-                            return data.meals?.[0];
-                        })
-                );
-
-                // Deduplicate recipes by ID and filter out incomplete ones
-                const uniqueMeals = Array.from(
-                    new Map(
-                        randomRecipes
-                            .filter(Boolean)
-                            .filter((meal) => meal.strInstructions && meal.strInstructions.trim().length > 50)
-                            .map((meal) => [meal.idMeal, meal])
-                    ).values()
-                ).slice(0, 12);
-
-                setRecipes(
-                    uniqueMeals.map((meal) => transformMealToRecipe(meal))
-                );
-                setIsLoading(false);
-                return;
+                // Default: fetch random recipes
+                recipes = await getMultipleRandomMeals(12);
             }
 
-            const response = await fetch(url);
-            const data = await response.json();
-
-            if (data.meals) {
-                // Always fetch full details to ensure complete instructions
-                const detailedRecipes = await Promise.all(
-                    data.meals.map(async (meal: any) => {
-                        try {
-                            // If we already have full data from search, check if it's complete
-                            if (!needsLookup && meal.strInstructions && meal.strInstructions.trim().length > 50) {
-                                return meal;
-                            }
-
-                            // Otherwise, fetch full details via lookup
-                            const res = await fetch(
-                                `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${meal.idMeal}`
-                            );
-                            const detailData = await res.json();
-                            return detailData.meals?.[0];
-                        } catch (error) {
-                            console.error(`Error fetching details for meal ${meal.idMeal}:`, error);
-                            return null;
-                        }
-                    })
-                );
-
-                // Filter out recipes without proper instructions
-                const completeRecipes = detailedRecipes
-                    .filter(Boolean)
-                    .filter((meal) => meal.strInstructions && meal.strInstructions.trim().length > 50);
-
-                setRecipes(
-                    completeRecipes.map((meal) => transformMealToRecipe(meal))
-                );
-            } else {
-                setRecipes([]);
-            }
+            setRecipes(recipes);
         } catch (error) {
             console.error("Error fetching recipes:", error);
             setRecipes([]);
@@ -146,32 +89,7 @@ function RecipesContent() {
         router.push("/recipes");
     };
 
-    const transformMealToRecipe = (meal: any): Recipe => {
-        const ingredients = [];
-        for (let i = 1; i <= 20; i++) {
-            const ingredient = meal[`strIngredient${i}`];
-            const measure = meal[`strMeasure${i}`];
-            if (ingredient && ingredient.trim() !== "") {
-                ingredients.push({
-                    name: ingredient.trim(),
-                    measure: measure?.trim() || "",
-                });
-            }
-        }
 
-        return {
-            id: meal.idMeal,
-            name: meal.strMeal,
-            category: meal.strCategory,
-            area: meal.strArea,
-            instructions: meal.strInstructions,
-            thumbnail: meal.strMealThumb,
-            tags: meal.strTags ? meal.strTags.split(",").map((t: string) => t.trim()) : [],
-            youtube: meal.strYoutube || undefined,
-            ingredients,
-            source: meal.strSource || undefined,
-        };
-    };
 
     return (
         <div className="min-h-screen py-8 md:py-12">
@@ -229,8 +147,7 @@ function RecipesContent() {
                                 value={selectedCategory}
                                 onChange={(e) => {
                                     setSelectedCategory(e.target.value);
-                                    setSelectedArea("");
-                                    setSearchQuery("");
+                                    setSearchQuery(""); // Clear search when filtering
                                 }}
                                 className="w-full px-4 py-2.5 rounded-lg border border-input bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary-500"
                             >
@@ -249,8 +166,7 @@ function RecipesContent() {
                                 value={selectedArea}
                                 onChange={(e) => {
                                     setSelectedArea(e.target.value);
-                                    setSelectedCategory("");
-                                    setSearchQuery("");
+                                    setSearchQuery(""); // Clear search when filtering
                                 }}
                                 className="w-full px-4 py-2.5 rounded-lg border border-input bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary-500"
                             >
