@@ -1,0 +1,117 @@
+{
+    "Navigation": {
+        "home": "Home",
+        "recipes": "Recipes",
+        "favorites": "Favorites",
+        "surpriseMe": "Surprise Me",
+        "signIn": "Sign In",
+        "signOut": "Sign Out",
+        "myFavorites": "My Favorites"
+    },
+    "Hero": {
+        "title": "What To Eat?",
+        "subtitle": "Discover delicious meals from around the world.",
+        "cta": "Get Started",
+        "surprise": "Surprise Me"
+    },
+    "CTA": {
+        "title": "Ready to cook?",
+        "subtitle": "Find your next favorite meal today.",
+        "button": "Browse Recipes"
+    },
+    "Recipe": {
+        "ingredients": "Ingredients",
+        "instructions": "Instructions",
+        "youMightAlsoLike": "You Might Also Like",
+        "loveThisRecipe": "Love This Recipe?",
+        "saveToFavorites": "Save it to your favorites and never lose it!",
+        "viewFullRecipe": "View Full Recipe",
+        "video": "Video Tutorial",
+        "category": "Category",
+        "area": "Cuisine",
+        "tags": "Tags"
+    },
+    "Common": {
+        "loading": "Loading...",
+        "error": "Something went wrong",
+        "back": "Back"
+    },
+    "Home": {
+        "howItWorks": "How It Works",
+        "featuredRecipes": "Featured Recipes",
+        "viewAll": "View All",
+        "features": {
+            "surprise": {
+                "title": "Get Surprised",
+                "description": "Can't decide? Let us pick a random delicious meal for you with our Surprise Me feature."
+            },
+            "browse": {
+                "title": "Browse & Search",
+                "description": "Explore thousands of recipes by cuisine, category, or search for specific dishes."
+            },
+            "favorites": {
+                "title": "Save Favorites",
+                "description": "Keep track of your favorite recipes and build your personal cookbook."
+            }
+        }
+    },
+    "Recipes": {
+        "title": "Browse Recipes",
+        "subtitle": "Explore thousands of delicious recipes from around the world",
+        "searchPlaceholder": "Search for a recipe...",
+        "category": "Category",
+        "cuisine": "Cuisine",
+        "allCategories": "All Categories",
+        "allCuisines": "All Cuisines",
+        "activeFilters": "Active filters:",
+        "searchPrefix": "Search:",
+        "clearAll": "Clear all",
+        "foundRecipes": "Found {count} recipe{count, plural, =1 {} other {s}}",
+        "noRecipes": "No recipes found",
+        "noRecipesDesc": "Try adjusting your search or filters",
+        "clearFilters": "Clear Filters",
+        "recipeNotFound": "Recipe Not Found",
+        "ingredients": "Ingredients",
+        "instructions": "Instructions",
+        "videoTutorial": "Video Tutorial",
+        "youMightAlsoLike": "You Might Also Like"
+    },
+    "Favorites": {
+        "title": "Your Favorites",
+        "empty": "You haven't saved any recipes yet.",
+        "count": "You have saved {count} recipe{count, plural, =1 {} other {s}}.",
+        "emptyTitle": "Start Building Your Cookbook",
+        "emptyDesc": "Save your favorite recipes here so you can easily find them later. Browse our collection to get started!",
+        "browseRecipes": "Browse Recipes"
+    },
+    "Auth": {
+        "welcomeBack": "Welcome back",
+        "signInSubtitle": "Sign in to your account to access your favorites",
+        "signInGoogle": "Sign in with Google",
+        "orContinueWith": "Or continue with",
+        "emailAddress": "Email address",
+        "password": "Password",
+        "rememberMe": "Remember me",
+        "forgotPassword": "Forgot password?",
+        "signIn": "Sign in",
+        "noAccount": "Don't have an account?",
+        "signUp": "Sign up",
+        "createAccount": "Create an account",
+        "signUpSubtitle": "Join us to save your favorite recipes and more",
+        "signUpGoogle": "Sign up with Google",
+        "fullName": "Full Name",
+        "alreadyHaveAccount": "Already have an account?"
+    },
+    "Footer": {
+        "quickLinks": "Quick Links",
+        "home": "Home",
+        "surpriseMe": "Surprise Me",
+        "browseRecipes": "Browse Recipes",
+        "favorites": "Favorites",
+        "legal": "Legal",
+        "privacyPolicy": "Privacy Policy",
+        "cookiePolicy": "Cookie Policy",
+        "rightsReserved": "All rights reserved.",
+        "providedBy": "Recipe data provided by"
+    }
+}

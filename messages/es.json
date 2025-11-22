@@ -1,0 +1,123 @@
+{
+    "Navigation": {
+        "home": "Inicio",
+        "recipes": "Recetas",
+        "favorites": "Favoritos",
+        "surpriseMe": "Sorpréndeme",
+        "signIn": "Iniciar Sesión",
+        "signOut": "Cerrar Sesión",
+        "myFavorites": "Mis Favoritos"
+    },
+    "Hero": {
+        "title": "¿Qué comer?",
+        "subtitle": "Descubre deliciosas comidas de todo el mundo.",
+        "cta": "Empezar",
+        "surprise": "Sorpréndeme"
+    },
+    "CTA": {
+        "title": "¿Listo para cocinar?",
+        "subtitle": "Encuentra tu próxima comida favorita hoy.",
+        "button": "Explorar Recetas"
+    },
+    "Recipe": {
+        "ingredients": "Ingredientes",
+        "instructions": "Instrucciones",
+        "youMightAlsoLike": "También te podría gustar",
+        "loveThisRecipe": "¿Te encanta esta receta?",
+        "saveToFavorites": "¡Guárdala en tus favoritos y nunca la pierdas!",
+        "viewFullRecipe": "Ver Receta Completa",
+        "video": "Tutorial en Video",
+        "category": "Categoría",
+        "area": "Cocina",
+        "tags": "Etiquetas"
+    },
+    "Auth": {
+        "signInTitle": "Iniciar Sesión",
+        "signUpTitle": "Registrarse",
+        "email": "Correo electrónico",
+        "password": "Contraseña",
+        "noAccount": "¿No tienes una cuenta?",
+        "hasAccount": "¿Ya tienes una cuenta?",
+        "signUpLink": "Registrarse",
+        "signInLink": "Iniciar sesión",
+        "welcomeBack": "Bienvenido de nuevo",
+        "signInSubtitle": "Inicia sesión en tu cuenta para acceder a tus favoritos",
+        "signInGoogle": "Iniciar sesión con Google",
+        "orContinueWith": "O continuar con",
+        "emailAddress": "Dirección de correo electrónico",
+        "rememberMe": "Recuérdame",
+        "forgotPassword": "¿Olvidaste tu contraseña?",
+        "signIn": "Iniciar sesión",
+        "signUp": "Regístrate",
+        "createAccount": "Crear una cuenta",
+        "signUpSubtitle": "Únete a nosotros para guardar tus recetas favoritas y más",
+        "signUpGoogle": "Registrarse con Google",
+        "fullName": "Nombre completo",
+        "alreadyHaveAccount": "¿Ya tienes una cuenta?"
+    },
+    "Common": {
+        "loading": "Cargando...",
+        "error": "Algo salió mal",
+        "back": "Atrás"
+    },
+    "Home": {
+        "howItWorks": "Cómo funciona",
+        "featuredRecipes": "Recetas destacadas",
+        "viewAll": "Ver todo",
+        "features": {
+            "surprise": {
+                "title": "Sorpréndete",
+                "description": "¿No puedes decidir? Déjanos elegir una comida deliciosa al azar para ti."
+            },
+            "browse": {
+                "title": "Explorar y Buscar",
+                "description": "Explora miles de recetas por cocina, categoría o busca platos específicos."
+            },
+            "favorites": {
+                "title": "Guardar favoritos",
+                "description": "Lleva un registro de tus recetas favoritas y crea tu libro de cocina personal."
+            }
+        }
+    },
+    "Recipes": {
+        "title": "Explorar Recetas",
+        "subtitle": "Explora miles de recetas deliciosas de todo el mundo",
+        "searchPlaceholder": "Buscar una receta...",
+        "category": "Categoría",
+        "cuisine": "Cocina",
+        "allCategories": "Todas las categorías",
+        "allCuisines": "Todas las cocinas",
+        "activeFilters": "Filtros activos:",
+        "searchPrefix": "Búsqueda:",
+        "clearAll": "Borrar todo",
+        "foundRecipes": "Se encontraron {count} receta{count, plural, =1 {} other {s}}",
+        "noRecipes": "No se encontraron recetas",
+        "noRecipesDesc": "Intenta ajustar tu búsqueda o filtros",
+        "clearFilters": "Borrar filtros",
+        "recipeNotFound": "Receta no encontrada",
+        "ingredients": "Ingredientes",
+        "instructions": "Instrucciones",
+        "videoTutorial": "Video Tutorial",
+        "youMightAlsoLike": "También te podría gustar"
+    },
+    "Favorites": {
+        "title": "Tus Favoritos",
+        "empty": "Aún no has guardado ninguna receta.",
+        "count": "Has guardado {count} receta{count, plural, =1 {} other {s}}.",
+        "emptyTitle": "Empieza a crear tu libro de cocina",
+        "emptyDesc": "Guarda tus recetas favoritas aquí para encontrarlas fácilmente más tarde. ¡Explora nuestra colección para empezar!",
+        "browseRecipes": "Explorar Recetas"
+    },
+    "Footer": {
+        "quickLinks": "Enlaces Rápidos",
+        "home": "Inicio",
+        "surpriseMe": "Sorpréndeme",
+        "browseRecipes": "Explorar Recetas",
+        "favorites": "Favoritos",
+        "legal": "Legal",
+        "privacyPolicy": "Política de Privacidad",
+        "cookiePolicy": "Política de Cookies",
+        "rightsReserved": "Todos los derechos reservados.",
+        "providedBy": "Datos de recetas proporcionados por"
+    }
+}

@@ -1,0 +1,184 @@
+"use client";
+
+import { useState, useEffect, createContext, useContext, ReactNode } from "react";
+import { Recipe } from "@/lib/types/recipe";
+import { supabase } from "@/lib/supabase";
+import type { User } from "@supabase/supabase-js";
+import AuthModal from "@/components/features/AuthModal";
+
+interface FavoritesContextType {
+    favorites: Recipe[];
+    addFavorite: (recipe: Recipe) => void;
+    removeFavorite: (recipeId: string) => void;
+    isFavorite: (recipeId: string) => boolean;
+    toggleFavorite: (recipe: Recipe) => void;
+    isLoading: boolean;
+    openAuthModal: () => void;
+}
+
+const FavoritesContext = createContext<FavoritesContextType | undefined>(undefined);
+
+export function FavoritesProvider({ children }: { children: ReactNode }) {
+    const [favorites, setFavorites] = useState<Recipe[]>([]);
+    const [user, setUser] = useState<User | null>(null);
+    const [isLoading, setIsLoading] = useState(true);
+    const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+
+    // Get current user and listen for auth changes
+    useEffect(() => {
+        // Get initial user
+        supabase.auth.getSession().then(({ data: { session } }) => {
+            setUser(session?.user ?? null);
+        });
+
+        // Listen for auth changes
+        const {
+            data: { subscription },
+        } = supabase.auth.onAuthStateChange((_event, session) => {
+            setUser(session?.user ?? null);
+        });
+
+        return () => subscription.unsubscribe();
+    }, []);
+
+    // Load favorites from Supabase whenever user changes
+    useEffect(() => {
+        const loadFavorites = async () => {
+            if (!user) {
+                setFavorites([]);
+                setIsLoading(false);
+                return;
+            }
+
+            setIsLoading(true);
+            try {
+                const { data, error } = await supabase
+                    .from("favorites")
+                    .select("*")
+                    .eq("user_id", user.id);
+
+                if (error) throw error;
+
+                // Transform favorites data to Recipe format
+                const recipesFromFavorites: Recipe[] = (data || []).map((fav) => ({
+                    id: fav.recipe_id,
+                    name: fav.recipe_name,
+                    thumbnail: fav.recipe_thumbnail || "",
+                    category: fav.recipe_category || "",
+                    area: fav.recipe_area || "",
+                    instructions: "",
+                    tags: [],
+                    ingredients: [],
+                }));
+
+                setFavorites(recipesFromFavorites);
+            } catch (error) {
+                console.error("Error loading favorites:", error);
+                setFavorites([]);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        loadFavorites();
+    }, [user]);
+
+    const addFavorite = async (recipe: Recipe) => {
+        if (!user) {
+            setIsAuthModalOpen(true);
+            return;
+        }
+
+        // Optimistically update UI
+        setFavorites((prev) => {
+            if (prev.some((fav) => fav.id === recipe.id)) return prev;
+            return [...prev, recipe];
+        });
+
+        try {
+            const { error } = await supabase.from("favorites").insert({
+                user_id: user.id,
+                recipe_id: recipe.id,
+                recipe_name: recipe.name,
+                recipe_thumbnail: recipe.thumbnail,
+                recipe_category: recipe.category,
+                recipe_area: recipe.area,
+            });
+
+            if (error) throw error;
+        } catch (error: any) {
+            console.error("Error adding favorite:", error);
+            // Revert optimistic update on error
+            setFavorites((prev) => prev.filter((fav) => fav.id !== recipe.id));
+
+            if (error.code === "23505") {
+                // Duplicate key error - already favorited
+                return;
+            }
+            alert("Failed to add favorite. Please try again.");
+        }
+    };
+
+    const removeFavorite = async (recipeId: string) => {
+        if (!user) return;
+
+        // Optimistically update UI
+        const previousFavorites = favorites;
+        setFavorites((prev) => prev.filter((fav) => fav.id !== recipeId));
+
+        try {
+            const { error } = await supabase
+                .from("favorites")
+                .delete()
+                .eq("user_id", user.id)
+                .eq("recipe_id", recipeId);
+
+            if (error) throw error;
+        } catch (error) {
+            console.error("Error removing favorite:", error);
+            // Revert optimistic update on error
+            setFavorites(previousFavorites);
+            alert("Failed to remove favorite. Please try again.");
+        }
+    };
+
+    const isFavorite = (recipeId: string) => {
+        return favorites.some((fav) => fav.id === recipeId);
+    };
+
+    const toggleFavorite = (recipe: Recipe) => {
+        if (isFavorite(recipe.id)) {
+            removeFavorite(recipe.id);
+        } else {
+            addFavorite(recipe);
+        }
+    };
+
+    return (
+        <FavoritesContext.Provider
+            value={{
+                favorites,
+                addFavorite,
+                removeFavorite,
+                isFavorite,
+                toggleFavorite,
+                isLoading,
+                openAuthModal: () => setIsAuthModalOpen(true)
+            }}
+        >
+            {children}
+            <AuthModal
+                isOpen={isAuthModalOpen}
+                onClose={() => setIsAuthModalOpen(false)}
+            />
+        </FavoritesContext.Provider>
+    );
+}
+
+export function useFavorites() {
+    const context = useContext(FavoritesContext);
+    if (context === undefined) {
+        throw new Error("useFavorites must be used within a FavoritesProvider");
+    }
+    return context;
+}
