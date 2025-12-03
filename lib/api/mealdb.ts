@@ -242,6 +242,27 @@ export async function searchMeals(query: string): Promise<Recipe[]> {
     }
 }
 
+// Helper to fetch meals in batches to prevent timeouts
+async function fetchMealsInBatches(meals: { idMeal: string }[], limit: number = 100, batchSize: number = 5): Promise<Recipe[]> {
+    const targetMeals = meals.slice(0, limit);
+    const results: Recipe[] = [];
+
+    for (let i = 0; i < targetMeals.length; i += batchSize) {
+        const batch = targetMeals.slice(i, i + batchSize);
+        const batchResults = await Promise.all(
+            batch.map(meal => getMealById(meal.idMeal))
+        );
+        results.push(...batchResults.filter((meal): meal is Recipe => meal !== null));
+
+        // Small delay between batches to be nice to the API
+        if (i + batchSize < targetMeals.length) {
+            await wait(100);
+        }
+    }
+
+    return results;
+}
+
 /**
  * Filter meals by category
  */
@@ -250,12 +271,7 @@ export async function filterByCategory(category: string): Promise<Recipe[]> {
         const data = await fetchFromMealDB<MealDBResponse>("filter.php", { c: category });
         if (!data.meals) return [];
 
-        // Filter endpoint returns partial data, fetch full details for first 12
-        const detailedMeals = await Promise.all(
-            data.meals.slice(0, 12).map(meal => getMealById(meal.idMeal))
-        );
-
-        return detailedMeals.filter((meal): meal is Recipe => meal !== null);
+        return fetchMealsInBatches(data.meals);
     } catch (error) {
         console.error("Error filtering by category:", error);
         return [];
@@ -270,14 +286,44 @@ export async function filterByArea(area: string): Promise<Recipe[]> {
         const data = await fetchFromMealDB<MealDBResponse>("filter.php", { a: area });
         if (!data.meals) return [];
 
-        // Filter endpoint returns partial data, fetch full details for first 12
-        const detailedMeals = await Promise.all(
-            data.meals.slice(0, 12).map(meal => getMealById(meal.idMeal))
-        );
-
-        return detailedMeals.filter((meal): meal is Recipe => meal !== null);
+        return fetchMealsInBatches(data.meals);
     } catch (error) {
         console.error("Error filtering by area:", error);
+        return [];
+    }
+}
+
+/**
+ * Filter meals by multiple criteria (Category + Area) using ID intersection
+ */
+export async function filterByMultiple(category?: string, area?: string): Promise<Recipe[]> {
+    try {
+        // 1. If only one filter is present, use the specific function
+        if (category && !area) return filterByCategory(category);
+        if (!category && area) return filterByArea(area);
+        if (!category && !area) return [];
+
+        // 2. If both are present, fetch IDs for both and find intersection
+        const [categoryData, areaData] = await Promise.all([
+            fetchFromMealDB<MealDBResponse>("filter.php", { c: category! }),
+            fetchFromMealDB<MealDBResponse>("filter.php", { a: area! })
+        ]);
+
+        const categoryMeals = categoryData.meals || [];
+        const areaMeals = areaData.meals || [];
+
+        // Create a Set of IDs from the smaller list for faster lookup
+        const categoryIds = new Set(categoryMeals.map(m => m.idMeal));
+
+        // Find intersection: meals that exist in both lists
+        const intersection = areaMeals.filter(meal => categoryIds.has(meal.idMeal));
+
+        if (intersection.length === 0) return [];
+
+        // 3. Fetch full details for the intersection
+        return fetchMealsInBatches(intersection);
+    } catch (error) {
+        console.error("Error filtering by multiple criteria:", error);
         return [];
     }
 }
@@ -323,21 +369,85 @@ export async function getMultipleRandomMeals(count: number = 6): Promise<Recipe[
         const maxAttempts = count * 2; // Limit attempts to avoid infinite loops
         let attempts = 0;
 
+        // Add timestamp to ensure different results on each call
+        const timestamp = Date.now();
+
         // Fetch sequentially to avoid hitting rate limits with parallel requests
         while (meals.length < count && attempts < maxAttempts) {
-            const meal = await getRandomMeal();
-            if (meal && !seenIds.has(meal.id)) {
-                meals.push(meal);
-                seenIds.add(meal.id);
+            // Add both timestamp and random string to ensure uniqueness
+            const cacheBuster = `${timestamp}-${Math.random().toString(36).substring(7)}-${attempts}`;
+            const data = await fetchFromMealDB<MealDBResponse>("random.php", { cb: cacheBuster }, {
+                cache: "no-store",
+            });
+
+            if (data.meals && data.meals.length > 0) {
+                const recipe = transformMealDBToRecipe(data.meals[0]);
+                if (!seenIds.has(recipe.id)) {
+                    meals.push(recipe);
+                    seenIds.add(recipe.id);
+                    // Cache the random meal for future direct access
+                    saveRecipeToSupabase(recipe);
+                }
             }
+
             attempts++;
             // Small delay between requests
-            await wait(100);
+            if (meals.length < count) {
+                await wait(100);
+            }
         }
 
         return meals;
     } catch (error) {
         console.error("Error fetching multiple random meals:", error);
         return [];
+    }
+}
+
+/**
+ * Get related recipes based on category
+ */
+export async function getRelatedRecipes(category: string, currentId: string, count: number = 3): Promise<Recipe[]> {
+    try {
+        // Fetch all meals in the category
+        const data = await fetchFromMealDB<MealDBResponse>("filter.php", { c: category });
+
+        if (!data.meals || data.meals.length === 0) {
+            // Fallback to random if no category matches
+            return getMultipleRandomMeals(count);
+        }
+
+        // Filter out current recipe
+        const otherMeals = data.meals.filter(meal => meal.idMeal !== currentId);
+
+        if (otherMeals.length === 0) {
+            return getMultipleRandomMeals(count);
+        }
+
+        // Shuffle using Fisher-Yates algorithm
+        const shuffled = [...otherMeals];
+        for (let i = shuffled.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+        }
+        const selected = shuffled.slice(0, count);
+
+        // Fetch full details for selected meals
+        const detailedMeals = await Promise.all(
+            selected.map(meal => getMealById(meal.idMeal))
+        );
+
+        const validMeals = detailedMeals.filter((meal): meal is Recipe => meal !== null);
+
+        // If we didn't get enough valid meals (e.g. API errors), fill with randoms
+        if (validMeals.length < count) {
+            const randoms = await getMultipleRandomMeals(count - validMeals.length);
+            return [...validMeals, ...randoms];
+        }
+
+        return validMeals;
+    } catch (error) {
+        console.error("Error fetching related recipes:", error);
+        return getMultipleRandomMeals(count);
     }
 }

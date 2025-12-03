@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import {
     getRandomMeal,
     getRandomMealWithFilters,
-} from "@/lib/api/mealdb";
+} from "@/lib/api";
 
 export async function GET(request: NextRequest) {
     try {

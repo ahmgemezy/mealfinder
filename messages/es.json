@@ -24,9 +24,10 @@
         "instructions": "Instrucciones",
         "youMightAlsoLike": "También te podría gustar",
         "loveThisRecipe": "¿Te encanta esta receta?",
-        "saveToFavorites": "¡Guárdala en tus favoritos y nunca la pierdas!",
-        "viewFullRecipe": "Ver Receta Completa",
-        "video": "Tutorial en Video",
+        "saveToFavorites": "¡Guárdalo en tus favoritos y nunca lo pierdas!",
+        "viewFullRecipe": "Ver receta completa",
+        "video": "Video Tutorial",
+        "videoTutorial": "Video Tutorial",
         "category": "Categoría",
         "area": "Cocina",
         "tags": "Etiquetas"
@@ -119,5 +120,17 @@
         "cookiePolicy": "Política de Cookies",
         "rightsReserved": "Todos los derechos reservados.",
         "providedBy": "Datos de recetas proporcionados por"
+    },
+    "SurpriseMe": {
+        "title": "¡Sorpréndeme!",
+        "findingRecipe": "Buscando una receta deliciosa...",
+        "keyIngredients": "Ingredientes Clave",
+        "recipePreview": "Vista Previa de la Receta",
+        "clickToView": "Haz clic en 'Ver receta completa' para ver las instrucciones completas y todos los ingredientes",
+        "failedToLoad": "Error al cargar la receta. Por favor, inténtalo de nuevo.",
+        "close": "Cerrar",
+        "viewFullRecipe": "Ver receta completa",
+        "getAnotherMeal": "Obtener otra comida",
+        "moreIngredients": "+{count} más"
     }
 }

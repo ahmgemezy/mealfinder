@@ -2,14 +2,29 @@ import { Link } from "@/navigation";
 import Button from "@/components/ui/Button";
 import RecipeCard from "@/components/ui/RecipeCard";
 import { RecipeCardSkeleton } from "@/components/ui/Skeleton";
-import { getMultipleRandomMeals } from "@/lib/api/mealdb";
+import { getMultipleRandomMeals } from "@/lib/api";
 import { Suspense } from "react";
 import HeroSection from "@/components/sections/HeroSection";
 import CTASection from "@/components/sections/CTASection";
-import { useTranslations } from "next-intl";
+import { getTranslations } from "next-intl/server";
+import { unstable_noStore as noStore } from 'next/cache';
+import { headers } from 'next/headers';
 
-export default function HomePage() {
-  const t = useTranslations('Home');
+// Force dynamic rendering and disable all caching
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
+export default async function HomePage() {
+  // Force dynamic rendering
+  noStore();
+
+  // Read headers to ensure this is treated as a dynamic request
+  await headers();
+
+  const t = await getTranslations('Home');
+
+  // Generate a unique key for each request to force React to re-render
+  const requestKey = `featured-${Date.now()}-${Math.random()}`;
 
   return (
     <div className="min-h-screen">
@@ -69,8 +84,8 @@ export default function HomePage() {
               </svg>
             </Link>
           </div>
-          <Suspense fallback={<FeaturedRecipesSkeleton />}>
-            <FeaturedRecipes />
+          <Suspense key={requestKey} fallback={<FeaturedRecipesSkeleton />}>
+            <FeaturedRecipes key={requestKey} />
           </Suspense>
         </div>
       </section>
@@ -100,6 +115,9 @@ function FeatureCard({
 }
 
 async function FeaturedRecipes() {
+  // Disable caching for this component
+  noStore();
+
   const recipes = await getMultipleRandomMeals(9);
 
   if (recipes.length === 0) {

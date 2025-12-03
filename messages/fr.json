@@ -27,6 +27,7 @@
         "saveToFavorites": "Enregistrez-la dans vos favoris pour ne jamais la perdre !",
         "viewFullRecipe": "Voir la recette complète",
         "video": "Tutoriel Vidéo",
+        "videoTutorial": "Tutoriel vidéo",
         "category": "Catégorie",
         "area": "Cuisine",
         "tags": "Tags"
@@ -119,5 +120,17 @@
         "cookiePolicy": "Politique de cookies",
         "rightsReserved": "Tous droits réservés.",
         "providedBy": "Données de recettes fournies par"
+    },
+    "SurpriseMe": {
+        "title": "Surprends-moi !",
+        "findingRecipe": "Recherche d'une délicieuse recette...",
+        "keyIngredients": "Ingrédients Clés",
+        "recipePreview": "Aperçu de la Recette",
+        "clickToView": "Cliquez sur 'Voir la recette complète' pour voir les instructions complètes et tous les ingrédients",
+        "failedToLoad": "Échec du chargement de la recette. Veuillez réessayer.",
+        "close": "Fermer",
+        "viewFullRecipe": "Voir la recette complète",
+        "getAnotherMeal": "Obtenir un autre repas",
+        "moreIngredients": "+{count} de plus"
     }
 }

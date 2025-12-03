@@ -16,6 +16,14 @@ export interface Recipe {
     youtube?: string;
     ingredients: Ingredient[];
     source?: string;
+    // Optional fields from Spoonacular
+    servings?: number;
+    readyInMinutes?: number;
+    calories?: number;
+    protein?: number;
+    carbs?: number;
+    fat?: number;
+    apiSource?: 'mealdb' | 'spoonacular'; // Track which API provided the data
 }
 
 // Raw API response from TheMealDB
@@ -77,11 +85,63 @@ export interface MealDBResponse {
     meals: MealDBMeal[] | null;
 }
 
+// Spoonacular API types
+export interface SpoonacularIngredient {
+    id: number;
+    name: string;
+    amount: number;
+    unit: string;
+    original: string;
+}
+
+export interface SpoonacularNutrition {
+    nutrients: Array<{
+        name: string;
+        amount: number;
+        unit: string;
+    }>;
+}
+
+export interface SpoonacularRecipe {
+    id: number;
+    title: string;
+    image: string;
+    imageType?: string;
+    servings: number;
+    readyInMinutes: number;
+    sourceUrl?: string;
+    cuisines: string[];
+    dishTypes: string[];
+    diets: string[];
+    instructions?: string;
+    analyzedInstructions?: Array<{
+        steps: Array<{
+            number: number;
+            step: string;
+        }>;
+    }>;
+    extendedIngredients?: SpoonacularIngredient[];
+    nutrition?: SpoonacularNutrition;
+}
+
+export interface SpoonacularSearchResponse {
+    results: SpoonacularRecipe[];
+    offset: number;
+    number: number;
+    totalResults: number;
+}
+
+export interface SpoonacularRandomResponse {
+    recipes: SpoonacularRecipe[];
+}
+
 // Filter types
 export interface MealFilters {
     category?: string;
     area?: string;
     search?: string;
+    diet?: string;
+    intolerances?: string[];
 }
 
 // Categories and areas (cuisines)
@@ -159,5 +219,100 @@ export function transformMealDBToRecipe(meal: MealDBMeal): Recipe {
         youtube: meal.strYoutube || undefined,
         ingredients,
         source: meal.strSource || undefined,
+        apiSource: 'mealdb',
+    };
+}
+
+// Helper function to transform Spoonacular response to our Recipe type
+export function transformSpoonacularToRecipe(recipe: SpoonacularRecipe): Recipe {
+    const ingredients: Ingredient[] = [];
+
+    // Extract ingredients
+    if (recipe.extendedIngredients) {
+        recipe.extendedIngredients.forEach(ing => {
+            ingredients.push({
+                name: ing.name,
+                measure: `${ing.amount} ${ing.unit}`.trim(),
+            });
+        });
+    }
+
+    // Helper function to strip HTML tags
+    const stripHTML = (html: string): string => {
+        return html
+            .replace(/<[^>]*>/g, '') // Remove HTML tags
+            .replace(/&nbsp;/g, ' ') // Replace &nbsp; with space
+            .replace(/&amp;/g, '&')  // Replace &amp; with &
+            .replace(/&lt;/g, '<')   // Replace &lt; with <
+            .replace(/&gt;/g, '>')   // Replace &gt; with >
+            .replace(/&quot;/g, '"') // Replace &quot; with "
+            .trim();
+    };
+
+    // Extract instructions and strip HTML
+    let instructions = '';
+    if (recipe.instructions) {
+        instructions = stripHTML(recipe.instructions);
+    } else if (recipe.analyzedInstructions && recipe.analyzedInstructions.length > 0) {
+        instructions = recipe.analyzedInstructions[0].steps
+            .map(step => `${step.number}. ${stripHTML(step.step)}`)
+            .join('\n\n');
+    }
+
+    // Extract nutrition data
+    let calories: number | undefined;
+    let protein: number | undefined;
+    let carbs: number | undefined;
+    let fat: number | undefined;
+
+    if (recipe.nutrition?.nutrients) {
+        const nutrients = recipe.nutrition.nutrients;
+        calories = nutrients.find(n => n.name === 'Calories')?.amount;
+        protein = nutrients.find(n => n.name === 'Protein')?.amount;
+        carbs = nutrients.find(n => n.name === 'Carbohydrates')?.amount;
+        fat = nutrients.find(n => n.name === 'Fat')?.amount;
+    }
+
+    // Map cuisines to area (use first cuisine or default to empty)
+    const area = recipe.cuisines && recipe.cuisines.length > 0
+        ? recipe.cuisines[0]
+        : '';
+
+    // Map dishTypes to category (use first dishType or default to empty)
+    const category = recipe.dishTypes && recipe.dishTypes.length > 0
+        ? recipe.dishTypes[0]
+        : '';
+
+    // Combine diets and dishTypes as tags
+    const tags = [...(recipe.diets || []), ...(recipe.dishTypes || [])];
+
+    // Fix image URL - Spoonacular sometimes returns incomplete URLs
+    let thumbnail = recipe.image;
+    if (thumbnail) {
+        // Remove trailing dots and ensure proper extension
+        thumbnail = thumbnail.replace(/\.$/, '');
+        // If URL doesn't have proper extension, add jpg
+        if (!thumbnail.match(/\.(jpg|jpeg|png|webp)$/i)) {
+            thumbnail = `${thumbnail}.jpg`;
+        }
+    }
+
+    return {
+        id: recipe.id.toString(),
+        name: recipe.title,
+        category: category,
+        area: area,
+        instructions: instructions,
+        thumbnail: thumbnail,
+        tags: tags,
+        ingredients,
+        source: recipe.sourceUrl,
+        servings: recipe.servings,
+        readyInMinutes: recipe.readyInMinutes,
+        calories,
+        protein,
+        carbs,
+        fat,
+        apiSource: 'spoonacular',
     };
 }

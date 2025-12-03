@@ -3,14 +3,19 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import { Link } from "@/navigation";
 import Breadcrumb from "@/components/ui/Breadcrumb";
-import { getMealById, getMultipleRandomMeals } from "@/lib/api/mealdb";
+import { getMealById, getMultipleRandomMeals, getRelatedRecipes } from "@/lib/api";
 import { Recipe } from "@/lib/types/recipe";
 import { RECIPE_CATEGORIES, RECIPE_AREAS } from "@/lib/constants";
 import RecipeCard from "@/components/ui/RecipeCard";
 import Button from "@/components/ui/Button";
 import RecipeActions from "@/components/recipes/RecipeActions";
+import RecipeVideo from "@/components/recipes/RecipeVideo";
 import { extractIdFromSlug } from "@/lib/utils/slugs";
 import { getTranslations } from "next-intl/server";
+import IngredientIcon from "@/components/recipes/IngredientIcon";
+import NutritionFacts from "@/components/recipes/NutritionFacts";
+
+export const dynamic = "force-dynamic";
 
 interface RecipePageProps {
     params: Promise<{ id: string; locale: string }>;
@@ -78,7 +83,7 @@ export default async function RecipePage({ params }: RecipePageProps) {
     };
 
     // Get related recipes for the "You might also like" section
-    const relatedRecipes = await getMultipleRandomMeals(3);
+    const relatedRecipes = await getRelatedRecipes(recipe.category, recipe.id, 3);
 
     // JSON-LD structured data for SEO
     const jsonLd = {
@@ -156,15 +161,26 @@ export default async function RecipePage({ params }: RecipePageProps) {
                                     >
                                         {recipe.category}
                                     </Link>
-                                    {recipe.tags.map((tag) => (
-                                        <Link
-                                            key={tag}
-                                            href={getTagLink(tag)}
-                                            className="px-4 py-2 bg-white/10 backdrop-blur-md text-white rounded-full text-sm font-medium border border-white/10 hover:bg-white/20 transition-colors"
-                                        >
-                                            {tag}
-                                        </Link>
-                                    ))}
+                                    {recipe.tags
+                                        .filter(tag => tag && tag.trim() !== '')
+                                        .map((tag) => (
+                                            <Link
+                                                key={tag}
+                                                href={getTagLink(tag)}
+                                                className="px-4 py-2 bg-white/10 backdrop-blur-md text-white rounded-full text-sm font-medium border border-white/10 hover:bg-white/20 transition-colors"
+                                            >
+                                                {tag}
+                                            </Link>
+                                        ))}
+                                    {recipe.calories && (
+                                        <div className="px-4 py-2 bg-orange-500/20 backdrop-blur-md text-orange-200 rounded-full text-sm font-medium border border-orange-500/20 flex items-center gap-2">
+                                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7C14 5 16.09 5.777 17.656 7.343A7.975 7.975 0 0120 13a7.975 7.975 0 01-2.343 5.657z" />
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.879 16.121A3 3 0 1012.015 11L11 14H9c0 .768.293 1.536.879 2.121z" />
+                                            </svg>
+                                            {Math.round(recipe.calories)} kcal
+                                        </div>
+                                    )}
                                 </div>
 
                                 {/* Title */}
@@ -214,15 +230,10 @@ export default async function RecipePage({ params }: RecipePageProps) {
                                                     key={index}
                                                     className="flex items-center gap-2 md:gap-3 p-2 md:p-3 rounded-xl hover:bg-muted/50 transition-colors group"
                                                 >
-                                                    <div className="relative w-12 h-12 md:w-14 md:h-14 flex-shrink-0 bg-white rounded-xl p-1 md:p-1.5 shadow-sm border border-border group-hover:scale-105 transition-transform">
-                                                        <Image
-                                                            src={`https://www.themealdb.com/images/ingredients/${ingredient.name}-Small.png`}
-                                                            alt={ingredient.name}
-                                                            fill
-                                                            className="object-contain p-0.5 md:p-1"
-                                                            sizes="(max-width: 768px) 48px, 56px"
-                                                        />
-                                                    </div>
+                                                    <IngredientIcon
+                                                        ingredientName={ingredient.name}
+                                                        apiSource={recipe.apiSource}
+                                                    />
                                                     <div className="flex flex-col min-w-0 flex-1">
                                                         <span className="font-bold text-foreground break-words text-sm md:text-base leading-tight">
                                                             {ingredient.name}
@@ -236,6 +247,9 @@ export default async function RecipePage({ params }: RecipePageProps) {
                                         </ul>
                                     </div>
                                 </section>
+
+                                {/* Nutrition Facts */}
+                                <NutritionFacts recipe={recipe} />
 
                                 {/* Instructions */}
                                 <section>
@@ -306,24 +320,7 @@ export default async function RecipePage({ params }: RecipePageProps) {
                                 </section>
 
                                 {/* Video */}
-                                {recipe.youtube && (
-                                    <section>
-                                        <h2 className="font-display text-3xl font-bold mb-6">
-                                            {t('videoTutorial')}
-                                        </h2>
-                                        <div className="bg-card rounded-2xl overflow-hidden shadow-soft">
-                                            <div className="aspect-video">
-                                                <iframe
-                                                    src={`https://www.youtube.com/embed/${recipe.youtube.split("v=")[1]}`}
-                                                    title={`${recipe.name} video tutorial`}
-                                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                                    allowFullScreen
-                                                    className="w-full h-full"
-                                                />
-                                            </div>
-                                        </div>
-                                    </section>
-                                )}
+                                <RecipeVideo recipe={recipe} />
                             </div>
 
                             {/* Sidebar */}

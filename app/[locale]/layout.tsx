@@ -115,7 +115,7 @@ export default async function RootLayout({
 
   return (
     <html lang={locale}>
-      <body className={`${inter.variable} ${playfair.variable} ${geistMono.variable} antialiased`} translate="no">
+      <body className={`${inter.variable} ${playfair.variable} ${geistMono.variable} antialiased`} suppressHydrationWarning>
         <NextIntlClientProvider messages={messages}>
           <SurpriseMeProvider>
             <FavoritesProvider>

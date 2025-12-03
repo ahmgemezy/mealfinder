@@ -20,7 +20,34 @@ export default function LanguageSwitcher() {
     const currentLanguage = languages.find((l) => l.code === locale) || languages[0];
 
     const switchLanguage = (newLocale: string) => {
-        router.replace(pathname, { locale: newLocale });
+        // Manage Google Translate Cookies
+        const domain = window.location.hostname;
+        const topDomain = domain.split('.').slice(-2).join('.');
+
+        const deleteCookie = (name: string) => {
+            document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/`;
+            document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=${domain}`;
+            document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=.${domain}`;
+            if (domain !== topDomain) {
+                document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=.${topDomain}`;
+            }
+        };
+
+        const setCookie = (name: string, value: string) => {
+            document.cookie = `${name}=${value}; path=/`;
+            document.cookie = `${name}=${value}; path=/; domain=${domain}`;
+            document.cookie = `${name}=${value}; path=/; domain=.${domain}`;
+        };
+
+        if (newLocale === 'en') {
+            deleteCookie('googtrans');
+        } else {
+            setCookie('googtrans', `/en/${newLocale}`);
+        }
+
+        // Force reload to ensure Google Translate widget resets
+        const newPath = `/${newLocale}${pathname === '/' ? '' : pathname}`;
+        window.location.href = newPath;
         setIsOpen(false);
     };
 

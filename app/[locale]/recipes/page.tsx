@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { useSearchParams } from "next/navigation";
 import { useRouter } from "@/navigation";
 import RecipeCard from "@/components/ui/RecipeCard";
@@ -9,8 +9,8 @@ import Button from "@/components/ui/Button";
 import { Recipe } from "@/lib/types/recipe";
 import Breadcrumb from "@/components/ui/Breadcrumb";
 import { useTranslations } from "next-intl";
-import { RECIPE_CATEGORIES, RECIPE_AREAS } from "@/lib/constants";
-import { searchMeals, filterByCategory, filterByArea, getMultipleRandomMeals } from "@/lib/api/mealdb";
+import { SPOONACULAR_CATEGORIES, SPOONACULAR_CUISINES, SPOONACULAR_DIETS, MEALDB_CATEGORIES, MEALDB_AREAS } from "@/lib/constants";
+import { searchMeals, filterByCategory, filterByArea, filterByMultiple, getMultipleRandomMeals, getCategories, getAreas } from "@/lib/api";
 
 import { Suspense } from "react";
 
@@ -27,7 +27,9 @@ function RecipesContent() {
     const router = useRouter();
     const searchParams = useSearchParams();
     const [recipes, setRecipes] = useState<Recipe[]>([]);
-    const [isLoading, setIsLoading] = useState(false);
+    const [displayedRecipes, setDisplayedRecipes] = useState<Recipe[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
+    const [isLoadingMore, setIsLoadingMore] = useState(false);
     const [searchQuery, setSearchQuery] = useState(
         searchParams.get("search") || ""
     );
@@ -37,41 +39,140 @@ function RecipesContent() {
     const [selectedArea, setSelectedArea] = useState(
         searchParams.get("area") || ""
     );
+    const [selectedDiet, setSelectedDiet] = useState(
+        searchParams.get("diet") || ""
+    );
+    const [categories, setCategories] = useState<string[]>([]);
+    const [areas, setAreas] = useState<string[]>([]);
+    const [isLoadingFilters, setIsLoadingFilters] = useState(true);
+    const [page, setPage] = useState(1);
+    const RECIPES_PER_PAGE = 24;
+    const searchTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-    const categories = RECIPE_CATEGORIES;
-    const areas = RECIPE_AREAS;
+    // Load categories and areas dynamically based on API provider
+    useEffect(() => {
+        const loadFilters = async () => {
+            setIsLoadingFilters(true);
+            try {
+                const [fetchedCategories, fetchedAreas] = await Promise.all([
+                    getCategories(),
+                    getAreas(),
+                ]);
+                setCategories(fetchedCategories);
+                setAreas(fetchedAreas);
+            } catch (error) {
+                console.error("Error loading filters:", error);
+                // Fallback to static lists
+                setCategories(MEALDB_CATEGORIES);
+                setAreas(MEALDB_AREAS);
+            } finally {
+                setIsLoadingFilters(false);
+            }
+        };
+        loadFilters();
+    }, []);
+
+    // Debounced search: trigger search 500ms after user stops typing
+    useEffect(() => {
+        // Clear existing timeout
+        if (searchTimeoutRef.current) {
+            clearTimeout(searchTimeoutRef.current);
+        }
+
+        // Only trigger search if there's a query and it's from user typing (not initial load)
+        if (searchQuery && searchQuery.length > 0) {
+            searchTimeoutRef.current = setTimeout(() => {
+                fetchRecipes();
+            }, 500);
+        }
+
+        // Cleanup timeout on unmount
+        return () => {
+            if (searchTimeoutRef.current) {
+                clearTimeout(searchTimeoutRef.current);
+            }
+        };
+    }, [searchQuery]);
 
     useEffect(() => {
         fetchRecipes();
-    }, [selectedCategory, selectedArea]);
+    }, [selectedCategory, selectedArea, selectedDiet]);
+
+    // Infinite scroll implementation
+    useEffect(() => {
+        const handleScroll = () => {
+            // Check if user scrolled to near bottom (within 300px)
+            const scrollPosition = window.innerHeight + window.scrollY;
+            const pageHeight = document.documentElement.scrollHeight;
+
+            if (scrollPosition >= pageHeight - 300 && !isLoadingMore && !isLoading) {
+                loadMoreRecipes();
+            }
+        };
+
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, [displayedRecipes, recipes, isLoadingMore, isLoading]);
+
+    const loadMoreRecipes = async () => {
+        // Don't load more if we're showing filtered results (search or filters active)
+        if (searchQuery || selectedCategory || selectedArea || selectedDiet) {
+            return;
+        }
+
+        // Don't load more if all recipes are already displayed
+        if (displayedRecipes.length >= recipes.length) {
+            setIsLoadingMore(true);
+            try {
+                // Fetch more random recipes
+                const moreRecipes = await getMultipleRandomMeals(RECIPES_PER_PAGE);
+
+                // Deduplicate: filter out recipes that already exist based on ID
+                const existingIds = new Set(displayedRecipes.map(r => r.id));
+                const uniqueNewRecipes = moreRecipes.filter(recipe => !existingIds.has(recipe.id));
+
+                // Only add if we have unique recipes
+                if (uniqueNewRecipes.length > 0) {
+                    setRecipes(prev => [...prev, ...uniqueNewRecipes]);
+                    setDisplayedRecipes(prev => [...prev, ...uniqueNewRecipes]);
+                }
+            } catch (error) {
+                console.error("Error loading more recipes:", error);
+            } finally {
+                setIsLoadingMore(false);
+            }
+        }
+    };
 
     const fetchRecipes = async () => {
         setIsLoading(true);
+        setPage(1);
         try {
-            let recipes: Recipe[] = [];
+            let fetchedRecipes: Recipe[] = [];
 
             if (searchQuery) {
                 // Search takes priority
-                recipes = await searchMeals(searchQuery);
+                fetchedRecipes = await searchMeals(searchQuery);
             } else if (selectedCategory && selectedArea) {
-                // Combined filter: fetch by category first, then filter by area client-side
-                const categoryRecipes = await filterByCategory(selectedCategory);
-                recipes = categoryRecipes.filter(recipe => recipe.area === selectedArea);
+                // Combined filter: use optimized filterByMultiple
+                fetchedRecipes = await filterByMultiple(selectedCategory, selectedArea);
             } else if (selectedCategory) {
                 // Filter by category only
-                recipes = await filterByCategory(selectedCategory);
+                fetchedRecipes = await filterByCategory(selectedCategory);
             } else if (selectedArea) {
                 // Filter by area only
-                recipes = await filterByArea(selectedArea);
+                fetchedRecipes = await filterByArea(selectedArea);
             } else {
-                // Default: fetch random recipes
-                recipes = await getMultipleRandomMeals(12);
+                // Default: fetch initial batch of random recipes
+                fetchedRecipes = await getMultipleRandomMeals(RECIPES_PER_PAGE);
             }
 
-            setRecipes(recipes);
+            setRecipes(fetchedRecipes);
+            setDisplayedRecipes(fetchedRecipes);
         } catch (error) {
             console.error("Error fetching recipes:", error);
             setRecipes([]);
+            setDisplayedRecipes([]);
         } finally {
             setIsLoading(false);
         }
@@ -79,6 +180,11 @@ function RecipesContent() {
 
     const handleSearch = (e: React.FormEvent) => {
         e.preventDefault();
+        // Search is now handled by debounced useEffect
+        // Just trigger it immediately on form submit
+        if (searchTimeoutRef.current) {
+            clearTimeout(searchTimeoutRef.current);
+        }
         fetchRecipes();
     };
 
@@ -86,10 +192,12 @@ function RecipesContent() {
         setSearchQuery("");
         setSelectedCategory("");
         setSelectedArea("");
+        setSelectedDiet("");
+        setPage(1);
         router.push("/recipes");
     };
 
-
+    const hasActiveFilters = searchQuery || selectedCategory || selectedArea || selectedDiet;
 
     return (
         <div className="min-h-screen py-8 md:py-12">
@@ -140,7 +248,7 @@ function RecipesContent() {
                         </div>
                     </form>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                         <div>
                             <label className="block text-sm font-medium mb-2">{t('category')}</label>
                             <select
@@ -149,9 +257,10 @@ function RecipesContent() {
                                     setSelectedCategory(e.target.value);
                                     setSearchQuery(""); // Clear search when filtering
                                 }}
-                                className="w-full px-4 py-2.5 rounded-lg border border-input bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary-500"
+                                disabled={isLoadingFilters}
+                                className="w-full px-4 py-2.5 rounded-lg border border-input bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary-500 disabled:opacity-50"
                             >
-                                <option value="">{t('allCategories')}</option>
+                                <option value="">{isLoadingFilters ? 'Loading...' : t('allCategories')}</option>
                                 {categories.map((cat) => (
                                     <option key={cat} value={cat}>
                                         {cat}
@@ -168,9 +277,10 @@ function RecipesContent() {
                                     setSelectedArea(e.target.value);
                                     setSearchQuery(""); // Clear search when filtering
                                 }}
-                                className="w-full px-4 py-2.5 rounded-lg border border-input bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary-500"
+                                disabled={isLoadingFilters}
+                                className="w-full px-4 py-2.5 rounded-lg border border-input bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary-500 disabled:opacity-50"
                             >
-                                <option value="">{t('allCuisines')}</option>
+                                <option value="">{isLoadingFilters ? 'Loading...' : t('allCuisines')}</option>
                                 {areas.map((area) => (
                                     <option key={area} value={area}>
                                         {area}
@@ -178,9 +288,28 @@ function RecipesContent() {
                                 ))}
                             </select>
                         </div>
+
+                        <div>
+                            <label className="block text-sm font-medium mb-2">🥗 Diet</label>
+                            <select
+                                value={selectedDiet}
+                                onChange={(e) => {
+                                    setSelectedDiet(e.target.value);
+                                    setSearchQuery(""); // Clear search when filtering
+                                }}
+                                className="w-full px-4 py-2.5 rounded-lg border border-input bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary-500"
+                            >
+                                <option value="">All Diets</option>
+                                {SPOONACULAR_DIETS.map((diet) => (
+                                    <option key={diet} value={diet}>
+                                        {diet}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
                     </div>
 
-                    {(searchQuery || selectedCategory || selectedArea) && (
+                    {hasActiveFilters && (
                         <div className="mt-4 flex items-center gap-2">
                             <span className="text-sm text-muted-foreground">
                                 {t('activeFilters')}
@@ -200,6 +329,11 @@ function RecipesContent() {
                                     {selectedArea}
                                 </span>
                             )}
+                            {selectedDiet && (
+                                <span className="px-3 py-1 bg-green-50 dark:bg-green-950 text-green-600 dark:text-green-400 rounded-full text-sm font-medium">
+                                    🥗 {selectedDiet}
+                                </span>
+                            )}
                             <button
                                 onClick={clearFilters}
                                 className="text-sm text-muted-foreground hover:text-foreground underline"
@@ -211,23 +345,66 @@ function RecipesContent() {
                 </div>
 
                 {/* Results */}
-                {isLoading ? (
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                        {Array.from({ length: 12 }).map((_, i) => (
-                            <RecipeCardSkeleton key={i} />
-                        ))}
-                    </div>
-                ) : recipes.length > 0 ? (
+                {isLoading && displayedRecipes.length === 0 ? (
                     <>
-                        <div className="mb-6 text-muted-foreground">
-                            {t('foundRecipes', { count: recipes.length })}
+                        <div className="text-center mb-8">
+                            <div className="text-6xl mb-4 animate-bounce">🍳</div>
+                            <h2 className="font-display text-2xl font-bold mb-2 gradient-text">
+                                {t('preparingRecipes', { defaultValue: 'Preparing delicious recipes for you...' })}
+                            </h2>
+                            <p className="text-muted-foreground">
+                                {t('justAMoment', { defaultValue: 'This will only take a moment' })}
+                            </p>
                         </div>
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                            {recipes.map((recipe) => (
-                                <RecipeCard key={recipe.id} recipe={recipe} />
+                            {Array.from({ length: 12 }).map((_, i) => (
+                                <RecipeCardSkeleton key={i} />
                             ))}
                         </div>
                     </>
+                ) : displayedRecipes.length > 0 ? (
+                    <div className="relative">
+                        {/* Loading overlay when filtering/searching */}
+                        {isLoading && (
+                            <div className="absolute inset-0 bg-background/80 backdrop-blur-sm z-10 flex flex-col items-center justify-center rounded-2xl">
+                                <div className="bg-card p-6 rounded-xl shadow-lg flex flex-col items-center gap-3">
+                                    <div className="w-10 h-10 border-4 border-primary-500 border-t-transparent rounded-full animate-spin"></div>
+                                    <p className="text-lg font-medium text-foreground">
+                                        {t('searching', { defaultValue: 'Searching...' })}
+                                    </p>
+                                </div>
+                            </div>
+                        )}
+
+                        {/* Only show count when there are active filters */}
+                        {hasActiveFilters && (
+                            <div className="mb-6 text-muted-foreground">
+                                {t('foundRecipes', { count: displayedRecipes.length })}
+                            </div>
+                        )}
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                            {displayedRecipes.map((recipe) => (
+                                <RecipeCard key={`${recipe.id}-${recipe.name}`} recipe={recipe} />
+                            ))}
+                        </div>
+
+                        {/* Loading indicator for infinite scroll */}
+                        {isLoadingMore && !hasActiveFilters && (
+                            <>
+                                <div className="mt-8 mb-4 flex items-center justify-center gap-3">
+                                    <div className="w-6 h-6 border-3 border-primary-500 border-t-transparent rounded-full animate-spin"></div>
+                                    <p className="text-lg font-medium text-muted-foreground">
+                                        {t('loadingMore', { defaultValue: 'Loading more recipes...' })}
+                                    </p>
+                                </div>
+                                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                                    {Array.from({ length: 8 }).map((_, i) => (
+                                        <RecipeCardSkeleton key={`loading-${i}`} />
+                                    ))}
+                                </div>
+                            </>
+                        )}
+                    </div>
                 ) : (
                     <div className="text-center py-16">
                         <div className="text-6xl mb-4">🔍</div>

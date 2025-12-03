@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useState, ReactNode } from "react";
+import { createContext, useContext, useState, ReactNode, useCallback, useMemo } from "react";
 
 interface SurpriseMeContextType {
     isOpen: boolean;
@@ -13,11 +13,13 @@ const SurpriseMeContext = createContext<SurpriseMeContextType | undefined>(undef
 export function SurpriseMeProvider({ children }: { children: ReactNode }) {
     const [isOpen, setIsOpen] = useState(false);
 
-    const openModal = () => setIsOpen(true);
-    const closeModal = () => setIsOpen(false);
+    const openModal = useCallback(() => setIsOpen(true), []);
+    const closeModal = useCallback(() => setIsOpen(false), []);
+
+    const value = useMemo(() => ({ isOpen, openModal, closeModal }), [isOpen, openModal, closeModal]);
 
     return (
-        <SurpriseMeContext.Provider value={{ isOpen, openModal, closeModal }}>
+        <SurpriseMeContext.Provider value={value}>
             {children}
         </SurpriseMeContext.Provider>
     );

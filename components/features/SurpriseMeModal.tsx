@@ -1,17 +1,20 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { getRandomMeal } from "@/lib/api/mealdb";
+import { getRandomMeal } from "@/lib/api";
 import { Recipe } from "@/lib/types/recipe";
 import Button from "@/components/ui/Button";
 import Image from "next/image";
 import { useSurpriseMe } from "@/lib/contexts/SurpriseMeContext";
 import { getRecipeUrl } from "@/lib/utils/slugs";
 import { useRouter } from "@/navigation";
+import { useTranslations } from "next-intl";
 
 export default function SurpriseMeModal() {
+    const t = useTranslations('SurpriseMe');
     const { isOpen, closeModal } = useSurpriseMe();
     const router = useRouter();
+    const [isNavigating, setIsNavigating] = useState(false);
     const [recipe, setRecipe] = useState<Recipe | null>(null);
     const [isLoading, setIsLoading] = useState(false);
 
@@ -28,8 +31,11 @@ export default function SurpriseMeModal() {
     };
 
     useEffect(() => {
-        if (isOpen && !recipe) {
-            fetchRandomMeal();
+        if (isOpen) {
+            setIsNavigating(false);
+            if (!recipe) {
+                fetchRandomMeal();
+            }
         }
     }, [isOpen]);
 
@@ -48,7 +54,7 @@ export default function SurpriseMeModal() {
                 <div className="p-6 border-b border-border flex items-center justify-between">
                     <div className="flex items-center gap-3">
                         <span className="text-3xl">🎲</span>
-                        <h2 className="font-display text-2xl font-bold">Surprise Me!</h2>
+                        <h2 className="font-display text-2xl font-bold">{t('title')}</h2>
                     </div>
                     <button
                         onClick={closeModal}
@@ -66,13 +72,13 @@ export default function SurpriseMeModal() {
                         <div className="flex items-center justify-center py-20">
                             <div className="flex flex-col items-center gap-4">
                                 <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-primary-500"></div>
-                                <p className="text-muted-foreground">Finding a delicious recipe...</p>
+                                <p className="text-muted-foreground">{t('findingRecipe')}</p>
                             </div>
                         </div>
                     ) : recipe ? (
-                        <div className="space-y-6" translate="yes">
-                            {/* Image */}
-                            <div className="relative w-full h-64 md:h-80 rounded-2xl overflow-hidden">
+                        <div className="grid grid-cols-1 md:grid-cols-[300px_1fr] gap-6" translate="yes">
+                            {/* Image - Left Side */}
+                            <div className="relative w-full h-64 md:h-auto md:min-h-[400px] rounded-2xl overflow-hidden flex-shrink-0">
                                 <Image
                                     src={recipe.thumbnail}
                                     alt={recipe.name}
@@ -82,78 +88,85 @@ export default function SurpriseMeModal() {
                                 />
                             </div>
 
-                            {/* Title & Meta */}
-                            <div>
-                                <h3 className="font-display text-3xl font-bold mb-3">{recipe.name}</h3>
-                                <div className="flex flex-wrap gap-3">
-                                    <span className="px-4 py-2 bg-primary-500/10 text-primary-600 rounded-full text-sm font-medium">
-                                        {recipe.category}
-                                    </span>
-                                    <span className="px-4 py-2 bg-accent-500/10 text-accent-600 rounded-full text-sm font-medium">
-                                        {recipe.area}
-                                    </span>
-                                </div>
-                            </div>
-
-                            {/* Ingredients Preview */}
-                            <div>
-                                <h4 className="font-display text-xl font-bold mb-3">Key Ingredients</h4>
-                                <div className="flex flex-wrap gap-2">
-                                    {recipe.ingredients.slice(0, 6).map((ingredient, index) => (
-                                        <span key={index} className="px-3 py-1 bg-muted rounded-full text-sm text-muted-foreground">
-                                            {ingredient.name}
+                            {/* Content - Right Side */}
+                            <div className="space-y-4 flex flex-col">
+                                {/* Title & Meta */}
+                                <div lang="en">
+                                    <h3 className="font-display text-2xl md:text-3xl font-bold mb-3">{recipe.name}</h3>
+                                    <div className="flex flex-wrap gap-2">
+                                        <span className="px-3 py-1.5 bg-primary-500/10 text-primary-600 rounded-full text-sm font-medium">
+                                            {recipe.category}
                                         </span>
-                                    ))}
-                                    {recipe.ingredients.length > 6 && (
-                                        <span className="px-3 py-1 bg-primary-500/10 text-primary-600 rounded-full text-sm font-medium">
-                                            +{recipe.ingredients.length - 6} more
+                                        <span className="px-3 py-1.5 bg-accent-500/10 text-accent-600 rounded-full text-sm font-medium">
+                                            {recipe.area}
                                         </span>
-                                    )}
+                                    </div>
                                 </div>
-                            </div>
 
-                            {/* Instructions Preview */}
-                            <div>
-                                <h4 className="font-display text-xl font-bold mb-3">Recipe Preview</h4>
-                                <p className="text-muted-foreground leading-relaxed">
-                                    {recipe.instructions.substring(0, 200)}...
-                                </p>
-                                <p className="text-sm text-primary-600 font-medium mt-2">
-                                    Click "View Full Recipe" to see complete instructions and all ingredients
-                                </p>
+                                {/* Ingredients Preview */}
+                                <div>
+                                    <h4 className="font-display text-lg font-bold mb-2">{t('keyIngredients')}</h4>
+                                    <div className="flex flex-wrap gap-2" lang="en">
+                                        {recipe.ingredients.slice(0, 6).map((ingredient, index) => (
+                                            <span key={index} className="px-3 py-1 bg-muted rounded-full text-sm text-muted-foreground">
+                                                {ingredient.name}
+                                            </span>
+                                        ))}
+                                        {recipe.ingredients.length > 6 && (
+                                            <span className="px-3 py-1 bg-primary-500/10 text-primary-600 rounded-full text-sm font-medium">
+                                                {t('moreIngredients', { count: recipe.ingredients.length - 6 })}
+                                            </span>
+                                        )}
+                                    </div>
+                                </div>
+
+                                {/* Instructions Preview */}
+                                <div className="flex-1">
+                                    <h4 className="font-display text-lg font-bold mb-2">{t('recipePreview')}</h4>
+                                    <p className="text-muted-foreground leading-relaxed text-sm" lang="en">
+                                        {recipe.instructions.substring(0, 200)}...
+                                    </p>
+                                    <p className="text-xs text-primary-600 font-medium mt-2">
+                                        {t('clickToView')}
+                                    </p>
+                                </div>
                             </div>
                         </div>
                     ) : (
                         <div className="flex items-center justify-center py-20">
-                            <p className="text-muted-foreground">Failed to load recipe. Please try again.</p>
+                            <p className="text-muted-foreground">{t('failedToLoad')}</p>
                         </div>
                     )}
                 </div>
 
                 {/* Footer */}
-                <div className="p-6 border-t border-border bg-muted/30 flex justify-end gap-3">
-                    <Button variant="outline" onClick={closeModal}>
-                        Close
+                <div className="p-4 md:p-6 border-t border-border bg-muted/30 flex flex-col-reverse sm:flex-row sm:justify-end gap-3">
+                    <Button variant="outline" onClick={closeModal} className="w-full sm:w-auto">
+                        {t('close')}
                     </Button>
                     <Button
                         variant="outline"
                         onClick={() => {
                             if (recipe) {
-                                closeModal();
+                                setIsNavigating(true);
                                 router.push(getRecipeUrl(recipe.name, recipe.id));
                             }
                         }}
+                        className="w-full sm:w-auto"
+                        isLoading={isNavigating}
                     >
-                        <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                        </svg>
-                        View Full Recipe
+                        {!isNavigating && (
+                            <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                            </svg>
+                        )}
+                        {t('viewFullRecipe')}
                     </Button>
-                    <Button onClick={fetchRandomMeal} isLoading={isLoading}>
+                    <Button onClick={fetchRandomMeal} isLoading={isLoading} className="w-full sm:w-auto">
                         <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
                         </svg>
-                        Get Another Meal
+                        {t('getAnotherMeal')}
                     </Button>
                 </div>
             </div>

@@ -27,6 +27,7 @@
         "saveToFavorites": "Save it to your favorites and never lose it!",
         "viewFullRecipe": "View Full Recipe",
         "video": "Video Tutorial",
+        "videoTutorial": "Video Tutorial",
         "category": "Category",
         "area": "Cuisine",
         "tags": "Tags"
@@ -70,6 +71,10 @@
         "noRecipes": "No recipes found",
         "noRecipesDesc": "Try adjusting your search or filters",
         "clearFilters": "Clear Filters",
+        "loadingMore": "Loading more recipes...",
+        "searching": "Searching...",
+        "preparingRecipes": "Preparing delicious recipes for you...",
+        "justAMoment": "This will only take a moment",
         "recipeNotFound": "Recipe Not Found",
         "ingredients": "Ingredients",
         "instructions": "Instructions",
@@ -113,5 +118,17 @@
         "cookiePolicy": "Cookie Policy",
         "rightsReserved": "All rights reserved.",
         "providedBy": "Recipe data provided by"
+    },
+    "SurpriseMe": {
+        "title": "Surprise Me!",
+        "findingRecipe": "Finding a delicious recipe...",
+        "keyIngredients": "Key Ingredients",
+        "recipePreview": "Recipe Preview",
+        "clickToView": "Click 'View Full Recipe' to see complete instructions and all ingredients",
+        "failedToLoad": "Failed to load recipe. Please try again.",
+        "close": "Close",
+        "viewFullRecipe": "View Full Recipe",
+        "getAnotherMeal": "Get Another Meal",
+        "moreIngredients": "+{count} more"
     }
 }

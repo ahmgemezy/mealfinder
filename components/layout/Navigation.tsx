@@ -12,7 +12,7 @@ import LanguageSwitcher from "@/components/features/LanguageSwitcher";
 export default function Navigation() {
     const t = useTranslations('Navigation');
     const pathname = usePathname();
-    const { openModal } = useSurpriseMe();
+    const { openModal, closeModal } = useSurpriseMe();
     const { openAuthModal } = useFavorites();
     const [user, setUser] = useState<User | null>(null);
     const [showUserMenu, setShowUserMenu] = useState(false);
@@ -32,6 +32,11 @@ export default function Navigation() {
 
         return () => subscription.unsubscribe();
     }, []);
+
+    // Close modal when route changes
+    useEffect(() => {
+        closeModal();
+    }, [pathname, closeModal]);
 
     const handleSignOut = async () => {
         await supabase.auth.signOut();
@@ -59,7 +64,7 @@ export default function Navigation() {
     return (
         <>
             {/* Desktop & Mobile Navigation */}
-            <nav className="fixed top-0 left-0 right-0 z-50 glass-nav transition-all duration-300">
+            <nav className="notranslate fixed top-0 left-0 right-0 z-50 glass-nav transition-all duration-300">
                 <div className="container mx-auto px-4">
                     <div className="flex items-center justify-between h-16 md:h-20">
                         <Link href="/" className="flex items-center gap-3 group">
@@ -211,7 +216,7 @@ export default function Navigation() {
             </nav>
 
             {/* Mobile Bottom Navigation */}
-            <nav className="md:hidden fixed bottom-0 left-0 right-0 z-[9999] bg-card/95 backdrop-blur-lg border-t border-border pb-safe shadow-[0_-4px_20px_-5px_rgba(0,0,0,0.1)]">
+            <nav className="notranslate md:hidden fixed bottom-0 left-0 right-0 z-[9999] bg-card/95 backdrop-blur-lg border-t border-border pb-safe shadow-[0_-4px_20px_-5px_rgba(0,0,0,0.1)]">
                 <div className="flex items-center justify-around h-16 px-2">
                     {navItems.map((item) => {
                         const Icon = item.icon;
