@@ -48,6 +48,8 @@ export default function SurpriseMePage() {
             const params = new URLSearchParams();
             if (filters.category) params.append("category", filters.category);
             if (filters.area) params.append("area", filters.area);
+            // Add timestamp to prevent browser caching
+            params.append("t", Date.now().toString());
 
             const response = await fetch(`/api/random?${params.toString()}`);
             if (!response.ok) throw new Error("Failed to fetch meal");
