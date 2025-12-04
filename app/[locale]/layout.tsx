@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import { Analytics } from "@vercel/analytics/next";
 import { Inter, Playfair_Display, Geist_Mono } from "next/font/google";
 import "../globals.css";
 import Navigation from "@/components/layout/Navigation";
@@ -117,6 +118,7 @@ export default async function RootLayout({
                 <SurpriseMeModal />
                 <AutoGoogleTranslate locale={locale} />
                 <SpeedInsights />
+                <Analytics />
               </div>
             </FavoritesProvider>
           </SurpriseMeProvider>
