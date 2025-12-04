@@ -8,6 +8,7 @@ import { supabase } from "@/lib/supabase";
 import type { User } from "@supabase/supabase-js";
 import { useTranslations } from "next-intl";
 import LanguageSwitcher from "@/components/features/LanguageSwitcher";
+import Image from "next/image";
 
 export default function Navigation() {
     const t = useTranslations('Navigation');
@@ -75,8 +76,14 @@ export default function Navigation() {
                 <div className="container mx-auto px-4">
                     <div className="flex items-center justify-between h-16 md:h-20">
                         <Link href="/" className="flex items-center gap-3 group">
-                            <div className="w-10 h-10 bg-gradient-to-br from-primary-500 to-accent-500 rounded-xl flex items-center justify-center text-white shadow-lg group-hover:scale-105 transition-transform duration-300">
-                                <span className="text-xl font-bold">W</span>
+                            <div className="relative w-10 h-10 group-hover:scale-105 transition-transform duration-300">
+                                <Image
+                                    src="/logo-final.png"
+                                    alt="DishShuffle Logo"
+                                    fill
+                                    className="object-contain"
+                                    sizes="40px"
+                                />
                             </div>
                             <span className="hidden md:block font-display text-2xl font-bold text-foreground tracking-tight group-hover:text-primary-600 transition-colors">
                                 Dish Shuffle

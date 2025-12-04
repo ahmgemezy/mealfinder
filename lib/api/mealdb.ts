@@ -272,7 +272,13 @@ export async function searchMeals(query: string): Promise<Recipe[]> {
     try {
         const data = await fetchFromMealDB<MealDBResponse>("search.php", { s: query });
         if (!data.meals) return [];
-        return data.meals.map(transformMealDBToRecipe);
+
+        const recipes = data.meals.map(transformMealDBToRecipe);
+
+        // Cache all recipes to Supabase (fire and forget)
+        recipes.forEach(recipe => saveRecipeToSupabase(recipe));
+
+        return recipes;
     } catch (error) {
         console.error("Error searching meals:", error);
         return [];
@@ -506,8 +512,15 @@ export async function getRecipesFromSupabase(category?: string, area?: string, d
 
         if (diet) {
             // Tags is an array in the JSON. Use contains operator for arrays
-            // The @> operator checks if the left array contains the right array
-            query = query.contains('data->tags', [diet]);
+            // We check for both the exact diet string and a lowercase version to be safe
+            // Using .or() with the containment operator (cs)
+            const dietLower = diet.toLowerCase();
+            const dietProper = diet.charAt(0).toUpperCase() + diet.slice(1).toLowerCase();
+
+            // Construct filter string for .or()
+            // This checks if tags contains [diet] OR [dietLower] OR [dietProper]
+            // Note: This assumes diet doesn't contain commas or special chars that break the syntax
+            query = query.or(`data->tags.cs.{${diet}},data->tags.cs.{${dietLower}},data->tags.cs.{${dietProper}}`);
         }
 
         // Limit to reasonable amount, but high enough to be useful

@@ -273,7 +273,12 @@ export async function searchRecipes(query: string): Promise<Recipe[]> {
 
         if (!data.results) return [];
 
-        return data.results.map(transformSpoonacularToRecipe);
+        const recipes = data.results.map(transformSpoonacularToRecipe);
+
+        // Cache all recipes to Supabase (fire and forget)
+        recipes.forEach(recipe => saveRecipeToSupabase(recipe));
+
+        return recipes;
     } catch (error) {
         console.error("Error searching recipes in Spoonacular:", error);
         return [];
@@ -297,7 +302,12 @@ export async function filterByCategory(category: string): Promise<Recipe[]> {
 
         if (!data.results) return [];
 
-        return data.results.map(transformSpoonacularToRecipe);
+        const recipes = data.results.map(transformSpoonacularToRecipe);
+
+        // Cache all recipes to Supabase (fire and forget)
+        recipes.forEach(recipe => saveRecipeToSupabase(recipe));
+
+        return recipes;
     } catch (error) {
         console.error("Error filtering by category in Spoonacular:", error);
         return [];
@@ -321,7 +331,12 @@ export async function filterByArea(area: string): Promise<Recipe[]> {
 
         if (!data.results) return [];
 
-        return data.results.map(transformSpoonacularToRecipe);
+        const recipes = data.results.map(transformSpoonacularToRecipe);
+
+        // Cache all recipes to Supabase (fire and forget)
+        recipes.forEach(recipe => saveRecipeToSupabase(recipe));
+
+        return recipes;
     } catch (error) {
         console.error("Error filtering by area in Spoonacular:", error);
         return [];
@@ -345,7 +360,12 @@ export async function filterByDiet(diet: string): Promise<Recipe[]> {
 
         if (!data.results) return [];
 
-        return data.results.map(transformSpoonacularToRecipe);
+        const recipes = data.results.map(transformSpoonacularToRecipe);
+
+        // Cache all recipes to Supabase (fire and forget)
+        recipes.forEach(recipe => saveRecipeToSupabase(recipe));
+
+        return recipes;
     } catch (error) {
         console.error("Error filtering by diet in Spoonacular:", error);
         return [];

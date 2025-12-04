@@ -84,11 +84,7 @@ export const metadata: Metadata = {
       es: "/es",
     },
   },
-  icons: {
-    icon: "/favicon.svg",
-    shortcut: "/favicon.svg",
-    apple: "/favicon.svg",
-  },
+
   manifest: "/site.webmanifest",
 };
 

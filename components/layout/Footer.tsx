@@ -1,4 +1,5 @@
 import React from "react";
+import Image from "next/image";
 import { Link } from "@/navigation";
 import { useTranslations } from "next-intl";
 
@@ -14,8 +15,13 @@ export default function Footer() {
                     {/* Brand */}
                     <div className="md:col-span-2">
                         <Link href="/" className="flex items-center gap-2 mb-4">
-                            <div className="w-10 h-10 bg-gradient-to-br from-primary-500 to-accent-500 rounded-xl flex items-center justify-center">
-                                <span className="text-2xl">🍽️</span>
+                            <div className="relative w-10 h-10">
+                                <Image
+                                    src="/logo-final.png"
+                                    alt="Dish Shuffle Logo"
+                                    fill
+                                    className="object-contain"
+                                />
                             </div>
                             <span className="font-display text-xl font-bold gradient-text">
                                 Dish Shuffle

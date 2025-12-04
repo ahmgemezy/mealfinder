@@ -358,12 +358,15 @@ export async function filterByDiet(diet: string): Promise<Recipe[]> {
         if (provider === 'hybrid' || provider === 'mealdb') {
             try {
                 const dbRecipes = await mealdb.getRecipesFromSupabase(undefined, undefined, diet);
-                dbRecipes.forEach(r => {
-                    if (!seenIds.has(r.id)) {
-                        results.push(r);
-                        seenIds.add(r.id);
-                    }
-                });
+                if (dbRecipes.length > 0) {
+                    console.log(`Found ${dbRecipes.length} recipes for diet '${diet}' in Supabase`);
+                    dbRecipes.forEach(r => {
+                        if (!seenIds.has(r.id)) {
+                            results.push(r);
+                            seenIds.add(r.id);
+                        }
+                    });
+                }
             } catch (error) {
                 console.error("Database diet filter failed:", error);
             }
@@ -371,13 +374,19 @@ export async function filterByDiet(diet: string): Promise<Recipe[]> {
 
         // 2. Spoonacular API
         if (provider === 'hybrid' || provider === 'spoonacular') {
-            const spoonRecipes = await spoonacular.filterByDiet(diet);
-            spoonRecipes.forEach(r => {
-                if (!seenIds.has(r.id)) {
-                    results.push(r);
-                    seenIds.add(r.id);
-                }
-            });
+            // If we already have enough results from DB, we might want to skip API to save quota
+            // For now, we'll fetch from API only if we have fewer than 12 results
+            if (results.length < 12) {
+                const spoonRecipes = await spoonacular.filterByDiet(diet);
+                spoonRecipes.forEach(r => {
+                    if (!seenIds.has(r.id)) {
+                        results.push(r);
+                        seenIds.add(r.id);
+                    }
+                });
+            } else {
+                console.log(`Skipping Spoonacular API for diet '${diet}' as we have enough results from DB`);
+            }
         }
 
         return results;

@@ -95,7 +95,7 @@ export default function PrivacyPolicy() {
                     <h2 className="text-2xl font-bold mb-4 text-foreground">5. Contact Us</h2>
                     <p>
                         If you have any questions about this privacy policy or our privacy
-                        practices, please contact our Data Protection Officer at: privacy@whattoeat.com
+                        practices, please contact our Data Protection Officer at: contact@dishshuffle.com
                     </p>
                 </section>
             </div>
