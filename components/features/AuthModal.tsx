@@ -2,7 +2,6 @@
 
 import React from "react";
 import { Link } from "@/navigation";
-import { usePathname } from "next/navigation";
 
 interface AuthModalProps {
     isOpen: boolean;
@@ -10,7 +9,7 @@ interface AuthModalProps {
 }
 
 export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
-    const pathname = usePathname();
+    // const pathname = usePathname();
 
     if (!isOpen) return null;
 

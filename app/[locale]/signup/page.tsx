@@ -77,6 +77,7 @@ export default function SignUpPage() {
                     window.location.href = "/signin";
                 }
             }
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } catch (error: any) {
             console.error("Error signing up:", error);
             setError(error.message || "An error occurred during sign up. Please try again.");

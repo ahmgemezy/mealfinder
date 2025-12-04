@@ -1,6 +1,6 @@
 import {
     MealDBResponse,
-    MealDBMeal,
+    // MealDBMeal,
     Recipe,
     transformMealDBToRecipe,
     MealFilters,
@@ -10,6 +10,7 @@ import { supabase, isSupabaseConfigured } from "@/lib/supabase";
 const MEALDB_BASE_URL = "https://www.themealdb.com/api/json/v1/1";
 
 // Cache for API responses
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const cache = new Map<string, { data: any; timestamp: number }>();
 const CACHE_TTL = 15 * 60 * 1000; // 15 minutes
 
@@ -108,7 +109,14 @@ async function fetchFromMealDB<T>(
     };
 
     try {
-        const response = await fetch(url.toString(), fetchOptions);
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 10000); // 10s timeout
+
+        const response = await fetch(url.toString(), {
+            ...fetchOptions,
+            signal: controller.signal,
+        });
+        clearTimeout(timeoutId);
 
         if (response.status === 429 && retries > 0) {
             // Rate limited, wait and retry
@@ -151,7 +159,7 @@ export async function getRandomMeal(): Promise<Recipe | null> {
         const recipe = transformMealDBToRecipe(data.meals[0]);
 
         // Cache the random meal for future direct access
-        saveRecipeToSupabase(recipe);
+        await saveRecipeToSupabase(recipe);
 
         return recipe;
     } catch (error) {
@@ -169,27 +177,56 @@ export async function getRandomMealWithFilters(
     filters: MealFilters
 ): Promise<Recipe | null> {
     try {
-        let meals: MealDBMeal[] = [];
+        let candidateMeals: { idMeal: string }[] = [];
 
+        // 1. Fetch by Category if present
         if (filters.category) {
             const data = await fetchFromMealDB<MealDBResponse>("filter.php", {
                 c: filters.category,
             });
             if (data.meals) {
-                // Filter endpoint returns partial data, need to fetch full details
-                const randomMeal = data.meals[Math.floor(Math.random() * data.meals.length)];
-                return getMealById(randomMeal.idMeal);
+                candidateMeals = data.meals;
+            } else {
+                return null; // Category found no results
             }
-        } else if (filters.area) {
+        }
+
+        // 2. Fetch by Area if present
+        if (filters.area) {
             const data = await fetchFromMealDB<MealDBResponse>("filter.php", {
                 a: filters.area,
             });
+
             if (data.meals) {
-                const randomMeal = data.meals[Math.floor(Math.random() * data.meals.length)];
-                return getMealById(randomMeal.idMeal);
+                if (candidateMeals.length > 0) {
+                    // Intersection: Filter candidateMeals to only include those in area results
+                    const areaIds = new Set(data.meals.map(m => m.idMeal));
+                    candidateMeals = candidateMeals.filter(m => areaIds.has(m.idMeal));
+                } else if (!filters.category) {
+                    // Only area filter was present
+                    candidateMeals = data.meals;
+                } else {
+                    // Category was present but had results, now area has results.
+                    // If we are here, it means candidateMeals had items from category.
+                    // The intersection logic above handles it.
+                    // Wait, if candidateMeals was empty but category was present, we returned null above.
+                    // So if we are here and candidateMeals is empty, it means category wasn't present.
+                    // But we checked !filters.category in the else if.
+                    // So this block is reachable only if category wasn't present OR if it was present and had results.
+                }
+            } else {
+                return null; // Area found no results
             }
-        } else {
-            // No filters, return random meal
+        }
+
+        // 3. Pick random from candidates
+        if (candidateMeals.length > 0) {
+            const randomMeal = candidateMeals[Math.floor(Math.random() * candidateMeals.length)];
+            return getMealById(randomMeal.idMeal);
+        }
+
+        // 4. Fallback if no filters (or if filters resulted in empty set but we didn't return null yet? No, logic covers it)
+        if (!filters.category && !filters.area) {
             return getRandomMeal();
         }
 
@@ -219,7 +256,7 @@ export async function getMealById(id: string): Promise<Recipe | null> {
         const recipe = transformMealDBToRecipe(data.meals[0]);
 
         // 3. Save to Supabase cache
-        saveRecipeToSupabase(recipe);
+        await saveRecipeToSupabase(recipe);
 
         return recipe;
     } catch (error) {
@@ -243,7 +280,8 @@ export async function searchMeals(query: string): Promise<Recipe[]> {
 }
 
 // Helper to fetch meals in batches to prevent timeouts
-async function fetchMealsInBatches(meals: { idMeal: string }[], limit: number = 100, batchSize: number = 5): Promise<Recipe[]> {
+async function fetchMealsInBatches(meals: { idMeal: string }[], limit: number = 1000, batchSize: number = 5): Promise<Recipe[]> {
+    // Increased limit to support "show all" functionality
     const targetMeals = meals.slice(0, limit);
     const results: Recipe[] = [];
 
@@ -386,7 +424,7 @@ export async function getMultipleRandomMeals(count: number = 6): Promise<Recipe[
                     meals.push(recipe);
                     seenIds.add(recipe.id);
                     // Cache the random meal for future direct access
-                    saveRecipeToSupabase(recipe);
+                    await saveRecipeToSupabase(recipe);
                 }
             }
 
@@ -401,6 +439,147 @@ export async function getMultipleRandomMeals(count: number = 6): Promise<Recipe[
     } catch (error) {
         console.error("Error fetching multiple random meals:", error);
         return [];
+    }
+}
+
+/**
+ * Get random recipes from Supabase
+ */
+export async function getRandomRecipesFromSupabase(count: number, excludeIds: string[] = []): Promise<Recipe[]> {
+    if (!isSupabaseConfigured()) return [];
+
+    try {
+        // Fetch a larger pool of recent recipes to pick from
+        // We limit to 100 to get a good variety without fetching too much data
+        let query = supabase
+            .from('recipes')
+            .select('data')
+            .limit(100)
+            .order('created_at', { ascending: false });
+
+        // Filter out recipes we already have
+        if (excludeIds.length > 0) {
+            // Supabase/PostgREST syntax for NOT IN
+            // Note: URL length limits might apply for very large lists,
+            // but for typical scrolling (hundreds of items) it should be fine.
+            query = query.not('id', 'in', `(${excludeIds.join(',')})`);
+        }
+
+        const { data, error } = await query;
+
+        if (error || !data) return [];
+
+        const recipes = data.map(row => row.data as Recipe);
+
+        // Shuffle and pick 'count' recipes
+        const shuffled = recipes.sort(() => 0.5 - Math.random());
+        return shuffled.slice(0, count);
+    } catch (error) {
+        console.error("Error fetching random from Supabase:", error);
+        return [];
+    }
+}
+
+/**
+ * Get recipes from Supabase with filters
+ */
+export async function getRecipesFromSupabase(category?: string, area?: string, diet?: string): Promise<Recipe[]> {
+    if (!isSupabaseConfigured()) return [];
+
+    try {
+        let query = supabase
+            .from('recipes')
+            .select('data');
+
+        // Since we store the whole JSON in 'data' column, we need to use JSON operators
+        // Assuming 'data' column is JSONB.
+        // Note: This depends on how the data is structured in the JSON column.
+        // Based on Recipe type: category -> category, area -> area
+
+        if (category) {
+            query = query.eq('data->>category', category);
+        }
+
+        if (area) {
+            query = query.eq('data->>area', area);
+        }
+
+        if (diet) {
+            // Tags is an array in the JSON. Use contains operator for arrays
+            // The @> operator checks if the left array contains the right array
+            query = query.contains('data->tags', [diet]);
+        }
+
+        // Limit to reasonable amount, but high enough to be useful
+        query = query.limit(100);
+
+        const { data, error } = await query;
+
+        if (error || !data) return [];
+
+        return data.map(row => row.data as Recipe);
+    } catch (error) {
+        console.error("Error fetching filtered recipes from Supabase:", error);
+        return [];
+    }
+}
+
+/**
+ * Search recipes in Supabase by name
+ */
+export async function searchRecipesInSupabase(query: string): Promise<Recipe[]> {
+    if (!isSupabaseConfigured()) return [];
+
+    try {
+        const { data, error } = await supabase
+            .from('recipes')
+            .select('data')
+            .ilike('data->>name', `%${query}%`)
+            .limit(50);
+
+        if (error || !data) return [];
+
+        return data.map(row => row.data as Recipe);
+    } catch (error) {
+        console.error("Error searching recipes in Supabase:", error);
+        return [];
+    }
+}
+
+/**
+ * Get a random recipe from Supabase with filters
+ */
+export async function getRandomRecipeFromSupabaseWithFilters(filters: MealFilters): Promise<Recipe | null> {
+    if (!isSupabaseConfigured()) return null;
+
+    try {
+        let query = supabase
+            .from('recipes')
+            .select('data');
+
+        if (filters.category) {
+            query = query.eq('data->>category', filters.category);
+        }
+
+        if (filters.area) {
+            query = query.eq('data->>area', filters.area);
+        }
+
+        if (filters.diet) {
+            query = query.contains('data->tags', [filters.diet]);
+        }
+
+        // Fetch a batch of matching recipes
+        const { data, error } = await query.limit(20);
+
+        if (error || !data || data.length === 0) return null;
+
+        // Pick a random one
+        const randomIndex = Math.floor(Math.random() * data.length);
+        return data[randomIndex].data as Recipe;
+    } catch (error) {
+        console.error("Error fetching random filtered recipe from Supabase:", error);
+        return null;
     }
 }
 

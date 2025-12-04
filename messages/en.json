@@ -9,7 +9,7 @@
         "myFavorites": "My Favorites"
     },
     "Hero": {
-        "title": "What To Eat?",
+        "title": "Dish Shuffle",
         "subtitle": "Discover delicious meals from around the world.",
         "cta": "Get Started",
         "surprise": "Surprise Me"
@@ -30,7 +30,14 @@
         "videoTutorial": "Video Tutorial",
         "category": "Category",
         "area": "Cuisine",
-        "tags": "Tags"
+        "tags": "Tags",
+        "share": "Share Recipe",
+        "shareDescription": "Share this recipe with your friends",
+        "copyLink": "Copy Link",
+        "copied": "Copied!",
+        "shareOnFacebook": "Share on Facebook",
+        "shareOnTwitter": "Share on X",
+        "shareOnWhatsApp": "Share on WhatsApp"
     },
     "Common": {
         "loading": "Loading...",

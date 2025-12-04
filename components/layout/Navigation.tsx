@@ -19,7 +19,14 @@ export default function Navigation() {
 
     useEffect(() => {
         // Get initial session
-        supabase.auth.getSession().then(({ data: { session } }) => {
+        supabase.auth.getSession().then(({ data: { session }, error }) => {
+            if (error) {
+                console.error("Error getting session:", error);
+                // If the refresh token is invalid, sign out to clear the stale session
+                if (error.message.includes("Refresh Token")) {
+                    supabase.auth.signOut();
+                }
+            }
             setUser(session?.user ?? null);
         });
 
@@ -72,7 +79,7 @@ export default function Navigation() {
                                 <span className="text-xl font-bold">W</span>
                             </div>
                             <span className="hidden md:block font-display text-2xl font-bold text-foreground tracking-tight group-hover:text-primary-600 transition-colors">
-                                What To Eat?
+                                Dish Shuffle
                             </span>
                         </Link>
 

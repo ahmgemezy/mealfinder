@@ -1,18 +1,27 @@
 "use client";
 
-import { useState, useEffect, useCallback, useRef } from "react";
+import { useState, useEffect, Suspense, useRef, useCallback } from "react";
 import { useSearchParams } from "next/navigation";
 import { useRouter } from "@/navigation";
 import RecipeCard from "@/components/ui/RecipeCard";
 import { RecipeCardSkeleton } from "@/components/ui/Skeleton";
 import Button from "@/components/ui/Button";
 import { Recipe } from "@/lib/types/recipe";
-import Breadcrumb from "@/components/ui/Breadcrumb";
 import { useTranslations } from "next-intl";
-import { SPOONACULAR_CATEGORIES, SPOONACULAR_CUISINES, SPOONACULAR_DIETS, MEALDB_CATEGORIES, MEALDB_AREAS } from "@/lib/constants";
-import { searchMeals, filterByCategory, filterByArea, filterByMultiple, getMultipleRandomMeals, getCategories, getAreas } from "@/lib/api";
+import {
+    searchMeals,
+    filterByMultiple,
+    filterByCategory,
+    filterByArea,
+    filterByDiet,
+    getMultipleRandomMeals,
+    getCategories,
+    getAreas,
+} from "@/lib/api";
+import { SPOONACULAR_DIETS, MEALDB_CATEGORIES, MEALDB_AREAS } from "@/lib/constants";
+import Breadcrumb from "@/components/ui/Breadcrumb";
 
-import { Suspense } from "react";
+export const dynamic = "force-dynamic";
 
 export default function RecipesPage() {
     return (
@@ -45,9 +54,181 @@ function RecipesContent() {
     const [categories, setCategories] = useState<string[]>([]);
     const [areas, setAreas] = useState<string[]>([]);
     const [isLoadingFilters, setIsLoadingFilters] = useState(true);
-    const [page, setPage] = useState(1);
+    const [, setPage] = useState(1);
     const RECIPES_PER_PAGE = 24;
     const searchTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+    // Processing ref to prevent concurrent executions
+    const isProcessingRef = useRef(false);
+
+    // Request ID to handle race conditions
+    const filterRequestIdRef = useRef(0);
+
+    const loadMoreRecipes = useCallback(async () => {
+        // Capture current request ID
+        const currentRequestId = filterRequestIdRef.current;
+
+        // Prevent concurrent execution
+        if (isProcessingRef.current) return;
+        isProcessingRef.current = true;
+
+        // Handle client-side infinite scroll for filtered results
+        if (searchQuery || selectedCategory || selectedArea || selectedDiet) {
+            if (displayedRecipes.length < recipes.length) {
+                setIsLoadingMore(true);
+                // Simulate network delay for better UX
+                await new Promise(resolve => setTimeout(resolve, 500));
+
+                // Check if filters changed while we were waiting
+                if (currentRequestId !== filterRequestIdRef.current) {
+                    isProcessingRef.current = false;
+                    setIsLoadingMore(false);
+                    return;
+                }
+
+                const nextBatch = recipes.slice(
+                    displayedRecipes.length,
+                    displayedRecipes.length + RECIPES_PER_PAGE
+                );
+
+                if (nextBatch.length > 0) {
+                    setDisplayedRecipes(prev => {
+                        // Double check request ID inside updater to be absolutely sure
+                        if (currentRequestId !== filterRequestIdRef.current) return prev;
+
+                        const currentIds = new Set(prev.map(r => r.id));
+                        const uniqueNextBatch = nextBatch.filter(r => r?.id && !currentIds.has(r.id));
+                        return [...prev, ...uniqueNextBatch];
+                    });
+                }
+                setIsLoadingMore(false);
+            }
+            isProcessingRef.current = false;
+            return;
+        }
+
+        // Standard infinite scroll for random recipes
+        if (displayedRecipes.length >= recipes.length) {
+            setIsLoadingMore(true);
+            try {
+                // Fetch more random recipes, excluding ones we already have
+                const existingIds = displayedRecipes.map(r => r.id);
+                const moreRecipes = await getMultipleRandomMeals(RECIPES_PER_PAGE, existingIds);
+
+                // Check if filters changed while we were waiting
+                if (currentRequestId !== filterRequestIdRef.current) {
+                    isProcessingRef.current = false;
+                    setIsLoadingMore(false);
+                    return;
+                }
+
+                // Only add if we have unique recipes
+                if (moreRecipes.length > 0) {
+                    setRecipes(prev => {
+                        if (currentRequestId !== filterRequestIdRef.current) return prev;
+                        const currentIds = new Set(prev.map(r => r.id));
+                        const uniqueNew = moreRecipes.filter(r => r?.id && !currentIds.has(r.id));
+                        return [...prev, ...uniqueNew];
+                    });
+
+                    setDisplayedRecipes(prev => {
+                        if (currentRequestId !== filterRequestIdRef.current) return prev;
+                        const currentIds = new Set(prev.map(r => r.id));
+                        const uniqueNew = moreRecipes.filter(r => r?.id && !currentIds.has(r.id));
+                        return [...prev, ...uniqueNew];
+                    });
+                }
+            } catch (error) {
+                console.error("Error loading more recipes:", error);
+            } finally {
+                setIsLoadingMore(false);
+                isProcessingRef.current = false;
+            }
+        } else {
+            isProcessingRef.current = false;
+        }
+    }, [searchQuery, selectedCategory, selectedArea, selectedDiet, displayedRecipes, recipes, RECIPES_PER_PAGE]);
+
+    // Refs for stable access in event listener
+    const isLoadingRef = useRef(isLoading);
+    const isLoadingMoreRef = useRef(isLoadingMore);
+    const loadMoreRecipesRef = useRef(loadMoreRecipes);
+
+    useEffect(() => { isLoadingRef.current = isLoading; }, [isLoading]);
+    useEffect(() => { isLoadingMoreRef.current = isLoadingMore; }, [isLoadingMore]);
+    useEffect(() => { loadMoreRecipesRef.current = loadMoreRecipes; }, [loadMoreRecipes]);
+
+    const fetchRecipes = useCallback(async () => {
+        // Increment request ID to invalidate any pending operations
+        filterRequestIdRef.current += 1;
+        const currentRequestId = filterRequestIdRef.current;
+
+        isProcessingRef.current = false; // Reset processing lock
+
+        setIsLoading(true);
+        setPage(1);
+
+        // Clear existing recipes immediately to show skeleton loading state
+        // This prevents "junk data" (previous results) from being visible while searching
+        setRecipes([]);
+        setDisplayedRecipes([]);
+
+        try {
+            let fetchedRecipes: Recipe[] = [];
+
+            if (searchQuery) {
+                // Search takes priority
+                fetchedRecipes = await searchMeals(searchQuery);
+            } else if (selectedDiet) {
+                // Diet filter (Spoonacular-specific)
+                fetchedRecipes = await filterByDiet(selectedDiet);
+            } else if (selectedCategory && selectedArea) {
+                // Combined filter: use optimized filterByMultiple
+                fetchedRecipes = await filterByMultiple(selectedCategory, selectedArea);
+            } else if (selectedCategory) {
+                // Filter by category only
+                fetchedRecipes = await filterByCategory(selectedCategory);
+            } else if (selectedArea) {
+                // Filter by area only
+                fetchedRecipes = await filterByArea(selectedArea);
+            } else {
+                // Default: fetch initial batch of random recipes
+                fetchedRecipes = await getMultipleRandomMeals(RECIPES_PER_PAGE);
+            }
+
+            // Check if this request is still valid
+            if (currentRequestId !== filterRequestIdRef.current) {
+                return;
+            }
+
+            // Client-side deduplication safety net
+            const uniqueRecipes: Recipe[] = [];
+            const seenIds = new Set<string>();
+
+            fetchedRecipes.forEach(recipe => {
+                if (recipe?.id && !seenIds.has(recipe.id)) {
+                    uniqueRecipes.push(recipe);
+                    seenIds.add(recipe.id);
+                }
+            });
+
+            setRecipes(uniqueRecipes);
+            // Initial display: first batch or all if less than batch size
+            setDisplayedRecipes(uniqueRecipes.slice(0, RECIPES_PER_PAGE));
+        } catch (error) {
+            console.error("Error fetching recipes:", error);
+            // Only update error state if request is still valid
+            if (currentRequestId === filterRequestIdRef.current) {
+                setRecipes([]);
+                setDisplayedRecipes([]);
+            }
+        } finally {
+            // Only turn off loading if this is the latest request
+            if (currentRequestId === filterRequestIdRef.current) {
+                setIsLoading(false);
+            }
+        }
+    }, [searchQuery, selectedCategory, selectedArea, selectedDiet, RECIPES_PER_PAGE]);
 
     // Load categories and areas dynamically based on API provider
     useEffect(() => {
@@ -92,11 +273,13 @@ function RecipesContent() {
                 clearTimeout(searchTimeoutRef.current);
             }
         };
-    }, [searchQuery]);
+    }, [searchQuery, fetchRecipes]);
 
     useEffect(() => {
+        // Reset processing ref when filters change
+        isProcessingRef.current = false;
         fetchRecipes();
-    }, [selectedCategory, selectedArea, selectedDiet]);
+    }, [selectedCategory, selectedArea, selectedDiet, fetchRecipes]);
 
     // Infinite scroll implementation
     useEffect(() => {
@@ -105,78 +288,20 @@ function RecipesContent() {
             const scrollPosition = window.innerHeight + window.scrollY;
             const pageHeight = document.documentElement.scrollHeight;
 
-            if (scrollPosition >= pageHeight - 300 && !isLoadingMore && !isLoading) {
-                loadMoreRecipes();
+            if (scrollPosition >= pageHeight - 300 &&
+                !isLoadingMoreRef.current &&
+                !isLoadingRef.current) {
+                loadMoreRecipesRef.current();
             }
         };
 
         window.addEventListener('scroll', handleScroll);
         return () => window.removeEventListener('scroll', handleScroll);
-    }, [displayedRecipes, recipes, isLoadingMore, isLoading]);
+    }, []); // Stable listener
 
-    const loadMoreRecipes = async () => {
-        // Don't load more if we're showing filtered results (search or filters active)
-        if (searchQuery || selectedCategory || selectedArea || selectedDiet) {
-            return;
-        }
 
-        // Don't load more if all recipes are already displayed
-        if (displayedRecipes.length >= recipes.length) {
-            setIsLoadingMore(true);
-            try {
-                // Fetch more random recipes
-                const moreRecipes = await getMultipleRandomMeals(RECIPES_PER_PAGE);
 
-                // Deduplicate: filter out recipes that already exist based on ID
-                const existingIds = new Set(displayedRecipes.map(r => r.id));
-                const uniqueNewRecipes = moreRecipes.filter(recipe => !existingIds.has(recipe.id));
 
-                // Only add if we have unique recipes
-                if (uniqueNewRecipes.length > 0) {
-                    setRecipes(prev => [...prev, ...uniqueNewRecipes]);
-                    setDisplayedRecipes(prev => [...prev, ...uniqueNewRecipes]);
-                }
-            } catch (error) {
-                console.error("Error loading more recipes:", error);
-            } finally {
-                setIsLoadingMore(false);
-            }
-        }
-    };
-
-    const fetchRecipes = async () => {
-        setIsLoading(true);
-        setPage(1);
-        try {
-            let fetchedRecipes: Recipe[] = [];
-
-            if (searchQuery) {
-                // Search takes priority
-                fetchedRecipes = await searchMeals(searchQuery);
-            } else if (selectedCategory && selectedArea) {
-                // Combined filter: use optimized filterByMultiple
-                fetchedRecipes = await filterByMultiple(selectedCategory, selectedArea);
-            } else if (selectedCategory) {
-                // Filter by category only
-                fetchedRecipes = await filterByCategory(selectedCategory);
-            } else if (selectedArea) {
-                // Filter by area only
-                fetchedRecipes = await filterByArea(selectedArea);
-            } else {
-                // Default: fetch initial batch of random recipes
-                fetchedRecipes = await getMultipleRandomMeals(RECIPES_PER_PAGE);
-            }
-
-            setRecipes(fetchedRecipes);
-            setDisplayedRecipes(fetchedRecipes);
-        } catch (error) {
-            console.error("Error fetching recipes:", error);
-            setRecipes([]);
-            setDisplayedRecipes([]);
-        } finally {
-            setIsLoading(false);
-        }
-    };
 
     const handleSearch = (e: React.FormEvent) => {
         e.preventDefault();
@@ -379,12 +504,14 @@ function RecipesContent() {
                         {/* Only show count when there are active filters */}
                         {hasActiveFilters && (
                             <div className="mb-6 text-muted-foreground">
-                                {t('foundRecipes', { count: displayedRecipes.length })}
+                                {t('foundRecipes', { count: recipes.length })}
                             </div>
                         )}
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                             {displayedRecipes.map((recipe) => (
-                                <RecipeCard key={`${recipe.id}-${recipe.name}`} recipe={recipe} />
+                                recipe?.id ? (
+                                    <RecipeCard key={recipe.id} recipe={recipe} />
+                                ) : null
                             ))}
                         </div>
 
@@ -399,7 +526,7 @@ function RecipesContent() {
                                 </div>
                                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                                     {Array.from({ length: 8 }).map((_, i) => (
-                                        <RecipeCardSkeleton key={`loading-${i}`} />
+                                        <RecipeCardSkeleton key={`loading - ${i} `} />
                                     ))}
                                 </div>
                             </>

@@ -18,7 +18,7 @@ export default function Footer() {
                                 <span className="text-2xl">🍽️</span>
                             </div>
                             <span className="font-display text-xl font-bold gradient-text">
-                                What To Eat?
+                                Dish Shuffle
                             </span>
                         </Link>
                         <p className="text-muted-foreground max-w-md">
@@ -91,16 +91,7 @@ export default function Footer() {
 
                 <div className="border-t border-border mt-8 pt-8 text-center text-sm text-muted-foreground">
                     <p>
-                        © {currentYear} What To Eat? {t('rightsReserved')} {t('providedBy')}{" "}
-                        <a
-                            href="https://www.themealdb.com/"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-primary-500 hover:underline"
-                        >
-                            TheMealDB
-                        </a>
-                        .
+                        © {currentYear} Dish Shuffle {t('rightsReserved')}.
                     </p>
                 </div>
             </div>

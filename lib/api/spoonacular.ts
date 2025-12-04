@@ -12,6 +12,7 @@ const SPOONACULAR_API_KEY = process.env.SPOONACULAR_API_KEY;
 const SPOONACULAR_BASE_URL = "https://api.spoonacular.com";
 
 // Cache for API responses
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const cache = new Map<string, { data: any; timestamp: number }>();
 const CACHE_TTL = 15 * 60 * 1000; // 15 minutes
 
@@ -110,9 +111,14 @@ async function fetchFromSpoonacular<T>(
     }
 
     try {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 10000); // 10s timeout
+
         const response = await fetch(url.toString(), {
-            next: { revalidate: 900 }, // 15 minutes
+            next: { revalidate: skipCache ? 0 : 900 }, // 0 for no-cache, 900 for 15 minutes
+            signal: controller.signal,
         });
+        clearTimeout(timeoutId);
 
         if (response.status === 429 && retries > 0) {
             // Rate limited, wait and retry
@@ -163,7 +169,7 @@ export async function getRandomRecipe(): Promise<Recipe | null> {
         const recipe = transformSpoonacularToRecipe(data.recipes[0]);
 
         // Cache to Supabase
-        saveRecipeToSupabase(recipe);
+        await saveRecipeToSupabase(recipe);
 
         return recipe;
     } catch (error) {
@@ -241,7 +247,7 @@ export async function getRecipeById(id: string): Promise<Recipe | null> {
         const recipe = transformSpoonacularToRecipe(data);
 
         // 3. Save to Supabase
-        saveRecipeToSupabase(recipe);
+        await saveRecipeToSupabase(recipe);
 
         return recipe;
     } catch (error) {
@@ -259,7 +265,7 @@ export async function searchRecipes(query: string): Promise<Recipe[]> {
             "recipes/complexSearch",
             {
                 query: query,
-                number: "12",
+                number: "100",
                 addRecipeInformation: "true",
                 fillIngredients: "true",
             }
@@ -283,7 +289,7 @@ export async function filterByCategory(category: string): Promise<Recipe[]> {
             "recipes/complexSearch",
             {
                 type: category.toLowerCase(),
-                number: "12",
+                number: "100",
                 addRecipeInformation: "true",
                 fillIngredients: "true",
             }
@@ -307,7 +313,7 @@ export async function filterByArea(area: string): Promise<Recipe[]> {
             "recipes/complexSearch",
             {
                 cuisine: area,
-                number: "12",
+                number: "100",
                 addRecipeInformation: "true",
                 fillIngredients: "true",
             }
@@ -318,6 +324,30 @@ export async function filterByArea(area: string): Promise<Recipe[]> {
         return data.results.map(transformSpoonacularToRecipe);
     } catch (error) {
         console.error("Error filtering by area in Spoonacular:", error);
+        return [];
+    }
+}
+
+/**
+ * Filter recipes by diet
+ */
+export async function filterByDiet(diet: string): Promise<Recipe[]> {
+    try {
+        const data = await fetchFromSpoonacular<SpoonacularSearchResponse>(
+            "recipes/complexSearch",
+            {
+                diet: diet.toLowerCase(),
+                number: "100",
+                addRecipeInformation: "true",
+                fillIngredients: "true",
+            }
+        );
+
+        if (!data.results) return [];
+
+        return data.results.map(transformSpoonacularToRecipe);
+    } catch (error) {
+        console.error("Error filtering by diet in Spoonacular:", error);
         return [];
     }
 }
@@ -398,7 +428,7 @@ export async function getMultipleRandomRecipes(count: number = 6): Promise<Recip
         const recipes = data.recipes.map(transformSpoonacularToRecipe);
 
         // Cache all recipes to Supabase
-        recipes.forEach(recipe => saveRecipeToSupabase(recipe));
+        await Promise.all(recipes.map(recipe => saveRecipeToSupabase(recipe)));
 
         return recipes;
     } catch (error) {

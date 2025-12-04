@@ -27,7 +27,14 @@ export function FavoritesProvider({ children }: { children: ReactNode }) {
     // Get current user and listen for auth changes
     useEffect(() => {
         // Get initial user
-        supabase.auth.getSession().then(({ data: { session } }) => {
+        supabase.auth.getSession().then(({ data: { session }, error }) => {
+            if (error) {
+                console.error("Error getting session:", error);
+                // If the refresh token is invalid, sign out to clear the stale session
+                if (error.message.includes("Refresh Token")) {
+                    supabase.auth.signOut();
+                }
+            }
             setUser(session?.user ?? null);
         });
 
@@ -106,6 +113,7 @@ export function FavoritesProvider({ children }: { children: ReactNode }) {
             });
 
             if (error) throw error;
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } catch (error: any) {
             console.error("Error adding favorite:", error);
             // Revert optimistic update on error

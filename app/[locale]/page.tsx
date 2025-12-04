@@ -1,5 +1,4 @@
 import { Link } from "@/navigation";
-import Button from "@/components/ui/Button";
 import RecipeCard from "@/components/ui/RecipeCard";
 import { RecipeCardSkeleton } from "@/components/ui/Skeleton";
 import { getMultipleRandomMeals } from "@/lib/api";
@@ -24,6 +23,7 @@ export default async function HomePage() {
   const t = await getTranslations('Home');
 
   // Generate a unique key for each request to force React to re-render
+  // eslint-disable-next-line react-hooks/purity
   const requestKey = `featured-${Date.now()}-${Math.random()}`;
 
   return (

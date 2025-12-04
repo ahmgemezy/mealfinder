@@ -1,6 +1,7 @@
 "use client";
 
 import FavoriteButton from "@/components/ui/FavoriteButton";
+import ShareButton from "@/components/recipes/ShareButton";
 import { Recipe } from "@/lib/types/recipe";
 import { useTranslations } from "next-intl";
 
@@ -22,7 +23,20 @@ export default function RecipeActions({ recipe }: RecipeActionsProps) {
                     {t('saveToFavorites')}
                 </p>
             </div>
-            <FavoriteButton recipe={recipe} className="w-full justify-center" />
+            <FavoriteButton recipe={recipe} className="w-full justify-center mb-4" />
+
+            <div className="relative">
+                <div className="absolute inset-0 flex items-center" aria-hidden="true">
+                    <div className="w-full border-t border-border/50"></div>
+                </div>
+                <div className="relative flex justify-center">
+                    <span className="bg-card px-2 text-xs text-muted-foreground uppercase tracking-wider">or</span>
+                </div>
+            </div>
+
+            <div className="mt-4">
+                <ShareButton recipe={recipe} />
+            </div>
         </div>
     );
 }

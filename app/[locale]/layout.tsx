@@ -30,45 +30,34 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "What To Eat? - Discover Your Next Meal",
-    template: "%s | What To Eat?",
+    default: "Dish Shuffle - Discover Your Next Meal",
+    template: "%s | Dish Shuffle",
   },
-  description:
-    "Discover delicious recipes from around the world. Get random meal suggestions, browse thousands of recipes, and find your next favorite dish.",
-  keywords: [
-    "recipes",
-    "meals",
-    "cooking",
-    "food",
-    "dinner ideas",
-    "meal suggestions",
-    "random meal generator",
-    "recipe finder",
-  ],
-  authors: [{ name: "What To Eat Team" }],
-  creator: "What To Eat",
-  publisher: "What To Eat",
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"),
+  description: "Find your next favorite meal with Dish Shuffle. Browse thousands of recipes from around the world.",
+  keywords: ["recipes", "food", "cooking", "meal planner", "dish shuffle", "what to eat"],
+  authors: [{ name: "Dish Shuffle Team" }],
+  creator: "Dish Shuffle",
+  publisher: "Dish Shuffle",
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://dishshuffle.com"),
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "/",
-    siteName: "What To Eat?",
-    title: "What To Eat? - Discover Your Next Meal",
-    description:
-      "Discover delicious recipes from around the world. Get random meal suggestions and find your next favorite dish.",
+    url: "https://dishshuffle.com",
+    siteName: "Dish Shuffle",
+    title: "Dish Shuffle - Discover Your Next Meal",
+    description: "Find your next favorite meal with Dish Shuffle. Browse thousands of recipes from around the world.",
     images: [
       {
         url: "/og-image.jpg",
         width: 1200,
         height: 630,
-        alt: "What To Eat? - Recipe Discovery Platform",
+        alt: "Dish Shuffle - Recipe Discovery Platform",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "What To Eat? - Discover Your Next Meal",
+    title: "Dish Shuffle - Discover Your Next Meal",
     description:
       "Discover delicious recipes from around the world. Get random meal suggestions and find your next favorite dish.",
     images: ["/og-image.jpg"],

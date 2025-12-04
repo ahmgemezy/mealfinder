@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Link } from "@/navigation";
 import Button from "@/components/ui/Button";
 
 type CookiePreferences = {
@@ -167,7 +166,7 @@ export default function CookieConsent() {
                     </h3>
                     <p className="text-sm text-muted-foreground leading-relaxed">
                         We use cookies to enhance your browsing experience, serve personalized
-                        content, and analyze our traffic. By clicking "Accept All", you
+                        content, and analyze our traffic. By clicking &quot;Accept All&quot;, you
                         consent to our use of cookies.
                     </p>
                 </div>

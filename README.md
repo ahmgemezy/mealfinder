@@ -1,39 +1,17 @@
-# What To Eat? 🍽️
+# Dish Shuffle 🍽️
 
-A mobile-first web application that helps you discover delicious recipes from around the world using a **dual-API system** that supports both TheMealDB and Spoonacular.
+**Dish Shuffle** is a modern, feature-rich recipe discovery application built with Next.js 15, TypeScript, and Tailwind CSS. It helps users decide what to eat by providing random meal suggestions, detailed recipes, and a seamless browsing experience.
 
-## Features
+## 🚀 Features
 
 - 🎲 **Surprise Me** - Get random meal suggestions
 - 🔍 **Browse & Search** - Explore recipes by category, cuisine, or search query
 - ❤️ **Favorites** - Save your favorite recipes (requires authentication)
-- 🌍 **Multi-language Support** - Available in English, Arabic, and French
+- 🌍 **Multi-language Support** - Available in English, Spanish, and French
 - 🎨 **Premium UI/UX** - Beautiful, modern design with dark mode support
 - 📱 **Mobile-First** - Optimized for all devices
 - 🔄 **Dual-API System** - Flexible recipe data from TheMealDB or Spoonacular
 
-## Dual-API System
-
-This application supports multiple recipe API providers:
-
-### Supported Providers
-
-- **TheMealDB** - Free, unlimited access to 300+ recipes
-- **Spoonacular** - Premium API with 360,000+ recipes, nutrition data, and advanced filtering (150 free requests/day)
-
-### API Provider Configuration
-
-Set the `RECIPE_API_PROVIDER` environment variable in your `.env.local`:
-
-```bash
-# Options: 'mealdb', 'spoonacular', or 'hybrid'
-RECIPE_API_PROVIDER=mealdb
-```
-
-**Provider Modes:**
-
-- `mealdb` - Use TheMealDB only (default, free, unlimited)
-- `spoonacular` - Use Spoonacular only (requires API key, richer data)
 - `hybrid` - Use both APIs (TheMealDB as primary, Spoonacular for fallback/advanced features)
 
 ## Getting Started
@@ -49,8 +27,8 @@ RECIPE_API_PROVIDER=mealdb
 1. **Clone the repository**
 
 ```bash
-git clone https://github.com/yourusername/mealfinder.git
-cd mealfinder
+git clone https://github.com/yourusername/dishshuffle.git
+cd dishshuffle
 ```
 
 2. **Install dependencies**
@@ -117,7 +95,7 @@ If you want to use Spoonacular API:
 ## Project Structure
 
 ```
-mealfinder/
+dishshuffle/
 ├── app/                    # Next.js app router pages
 ├── components/             # React components
 ├── lib/

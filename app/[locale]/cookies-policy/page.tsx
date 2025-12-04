@@ -2,8 +2,8 @@ import React from "react";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-    title: "Cookie Policy | What To Eat?",
-    description: "Understand how What To Eat? uses cookies to improve your experience. Manage your cookie preferences.",
+    title: "Cookie Policy | Dish Shuffle",
+    description: "Understand how Dish Shuffle uses cookies to improve your experience. Manage your cookie preferences.",
 };
 
 export default function CookiesPolicyPage() {
@@ -18,7 +18,7 @@ export default function CookiesPolicyPage() {
                 <section className="mb-10">
                     <h2 className="text-2xl font-bold mb-4 text-foreground">1. What Are Cookies?</h2>
                     <p>
-                        Cookies are small text files that are placed on your computer or
+                        content, and analyze our traffic. By clicking &quot;Accept All&quot;, your computer or
                         mobile device by websites that you visit. They are widely used in
                         order to make websites work, or work more efficiently, as well as to
                         provide information to the owners of the site.
@@ -63,7 +63,7 @@ export default function CookiesPolicyPage() {
                 <section className="mb-10">
                     <h2 className="text-2xl font-bold mb-4 text-foreground">3. Managing Cookies</h2>
                     <p>
-                        You can change your cookie preferences at any time by clicking the "Cookie Settings" button in our banner. You can also adjust your browser settings to block or delete cookies.
+                        You can change your cookie preferences at any time by clicking the &quot;Cookie Settings&quot; button in our banner. You can also adjust your browser settings to block or delete cookies.
                     </p>
                     <p className="mt-4">
                         To find out more about cookies, including how to see what cookies have been set, visit <a href="https://www.aboutcookies.org" target="_blank" rel="noopener noreferrer" className="text-primary-600 hover:underline">www.aboutcookies.org</a> or <a href="https://www.allaboutcookies.org" target="_blank" rel="noopener noreferrer" className="text-primary-600 hover:underline">www.allaboutcookies.org</a>.

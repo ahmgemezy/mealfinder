@@ -79,7 +79,7 @@ export default function SurpriseMePage() {
                             Surprise Me!
                         </h1>
                         <p className="text-xl text-muted-foreground">
-                            Can't decide what to eat? Let us pick a delicious meal for you!
+                            Can&apos;t decide what to eat? Let us pick a delicious meal for you!
                         </p>
                     </div>
 

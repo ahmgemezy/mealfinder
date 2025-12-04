@@ -37,7 +37,7 @@ export default function SurpriseMeModal() {
                 fetchRandomMeal();
             }
         }
-    }, [isOpen]);
+    }, [isOpen, recipe]);
 
     if (!isOpen) return null;
 

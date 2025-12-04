@@ -13,7 +13,7 @@ export default function AutoGoogleTranslate({ locale }: AutoGoogleTranslateProps
     useEffect(() => {
         // Function to initialize Google Translate
         const googleTranslateElementInit = () => {
-            // @ts-ignore
+            // @ts-expect-error - Google Translate API is not typed
             new window.google.translate.TranslateElement(
                 {
                     pageLanguage: "en",
@@ -25,7 +25,7 @@ export default function AutoGoogleTranslate({ locale }: AutoGoogleTranslateProps
         };
 
         // Expose init function to global scope
-        // @ts-ignore
+        // @ts-expect-error - Extending window object
         window.googleTranslateElementInit = googleTranslateElementInit;
 
         // Load Google Translate script if not already loaded

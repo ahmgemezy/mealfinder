@@ -19,9 +19,6 @@ export default function IngredientIcon({ ingredientName, apiSource = 'mealdb' }:
         return `https://img.spoonacular.com/ingredients_100x100/${encodeURIComponent(ingredientName.toLowerCase().replace(/\s+/g, '-'))}.jpg`;
     };
 
-    const getFirstLetter = () => {
-        return ingredientName.charAt(0).toUpperCase();
-    };
 
     const getEmojiForIngredient = (name: string): string => {
         const lowerName = name.toLowerCase();

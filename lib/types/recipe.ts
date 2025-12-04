@@ -283,8 +283,12 @@ export function transformSpoonacularToRecipe(recipe: SpoonacularRecipe): Recipe 
         ? recipe.dishTypes[0]
         : '';
 
-    // Combine diets and dishTypes as tags
-    const tags = [...(recipe.diets || []), ...(recipe.dishTypes || [])];
+    // Combine cuisines, diets, and dishTypes as tags
+    const tags = [
+        ...(recipe.cuisines || []),
+        ...(recipe.diets || []),
+        ...(recipe.dishTypes || [])
+    ];
 
     // Fix image URL - Spoonacular sometimes returns incomplete URLs
     let thumbnail = recipe.image;

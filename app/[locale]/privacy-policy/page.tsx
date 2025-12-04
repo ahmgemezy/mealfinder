@@ -1,24 +1,31 @@
 import React from "react";
 import { Metadata } from "next";
+// import { useTranslations } from "next-intl";
 
 export const metadata: Metadata = {
-    title: "Privacy Policy | What To Eat?",
-    description: "Learn how What To Eat? collects, uses, and protects your personal data. Compliant with GDPR and CCPA regulations.",
+    title: "Privacy Policy | Dish Shuffle",
+    description: "Learn how Dish Shuffle collects, uses, and protects your personal data. Compliant with GDPR and CCPA regulations.",
 };
 
-export default function PrivacyPolicyPage() {
+export default function PrivacyPolicy() {
+
     return (
         <div className="container mx-auto px-4 py-12 max-w-4xl">
-            <h1 className="font-display text-4xl md:text-5xl font-bold mb-8 gradient-text">Privacy Policy</h1>
-            <div className="prose prose-lg prose-stone dark:prose-invert max-w-none">
-                <p className="text-muted-foreground mb-8 text-lg">
+            <h1 className="text-4xl font-bold mb-8 text-gray-900 dark:text-white">
+                Privacy Policy
+            </h1>
+
+            <div className="prose dark:prose-invert max-w-none">
+                <p className="lead text-xl text-gray-600 dark:text-gray-300 mb-8">
                     Last updated: {new Date().toLocaleDateString()}
                 </p>
 
                 <section className="mb-10">
-                    <h2 className="text-2xl font-bold mb-4 text-foreground">1. Introduction</h2>
-                    <p>
-                        Welcome to What To Eat? ("we," "our," or "us"). We respect your
+                    <h2 className="text-2xl font-semibold mb-4 text-gray-800 dark:text-gray-100">
+                        1. Introduction
+                    </h2>
+                    <p className="text-gray-600 dark:text-gray-300">
+                        Welcome to Dish Shuffle (&quot;we,&quot; &quot;our,&quot; or &quot;us&quot;). We respect your
                         privacy and are committed to protecting your personal data. This
                         privacy policy will inform you as to how we look after your personal
                         data when you visit our website and tell you about your privacy

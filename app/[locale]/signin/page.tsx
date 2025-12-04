@@ -62,6 +62,7 @@ export default function SignInPage() {
                 // Successfully signed in, redirect to home
                 window.location.href = "/";
             }
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } catch (error: any) {
             console.error("Error signing in:", error);
             setError(error.message || "Invalid email or password. Please try again.");
