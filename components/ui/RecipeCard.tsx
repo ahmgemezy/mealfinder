@@ -50,9 +50,13 @@ export default function RecipeCard({ recipe, priority = false }: RecipeCardProps
                             </span>
                         )}
                     </div>
-                    <h3 className="font-display text-xl font-bold leading-tight mb-1 line-clamp-2 group-hover:text-primary-200 transition-colors">
+                    <span
+                        role="heading"
+                        aria-level={3}
+                        className="font-display text-xl font-bold leading-tight mb-1 line-clamp-2 group-hover:text-primary-200 transition-colors"
+                    >
                         {recipe.name}
-                    </h3>
+                    </span>
                 </div>
             </div>
 
