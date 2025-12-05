@@ -59,6 +59,7 @@ export default function SurpriseMeModal() {
                     <button
                         onClick={closeModal}
                         className="text-muted-foreground hover:text-foreground transition-colors"
+                        aria-label={t('close')}
                     >
                         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -95,12 +96,12 @@ export default function SurpriseMeModal() {
                                     <h3 className="font-display text-2xl md:text-3xl font-bold mb-3">{recipe.name}</h3>
                                     <div className="flex flex-wrap gap-2">
                                         {recipe.category && recipe.category.trim() !== '' && (
-                                            <span className="px-3 py-1.5 bg-primary-500/10 text-primary-600 rounded-full text-sm font-medium">
+                                            <span className="px-3 py-1.5 bg-primary-500/10 text-primary-500 rounded-full text-sm font-medium">
                                                 {recipe.category}
                                             </span>
                                         )}
                                         {recipe.area && recipe.area.trim() !== '' && (
-                                            <span className="px-3 py-1.5 bg-accent-500/10 text-accent-600 rounded-full text-sm font-medium">
+                                            <span className="px-3 py-1.5 bg-accent-500/10 text-accent-500 rounded-full text-sm font-medium">
                                                 {recipe.area}
                                             </span>
                                         )}
@@ -117,7 +118,7 @@ export default function SurpriseMeModal() {
                                             </span>
                                         ))}
                                         {recipe.ingredients.length > 6 && (
-                                            <span className="px-3 py-1 bg-primary-500/10 text-primary-600 rounded-full text-sm font-medium">
+                                            <span className="px-3 py-1 bg-primary-500/10 text-primary-500 rounded-full text-sm font-medium">
                                                 {t('moreIngredients', { count: recipe.ingredients.length - 6 })}
                                             </span>
                                         )}
@@ -130,7 +131,7 @@ export default function SurpriseMeModal() {
                                     <p className="text-muted-foreground leading-relaxed text-sm" lang="en">
                                         {recipe.instructions.substring(0, 200)}...
                                     </p>
-                                    <p className="text-xs text-primary-600 font-medium mt-2">
+                                    <p className="text-xs text-primary-500 font-medium mt-2">
                                         {t('clickToView')}
                                     </p>
                                 </div>

@@ -122,7 +122,7 @@ export default function SignInPage() {
                                 id="remember-me"
                                 name="remember-me"
                                 type="checkbox"
-                                className="h-4 w-4 rounded border-input text-primary-600 focus:ring-primary-500"
+                                className="h-4 w-4 rounded border-input text-primary-500 focus:ring-primary-500"
                             />
                             <label
                                 htmlFor="remember-me"
@@ -135,7 +135,7 @@ export default function SignInPage() {
                         <div className="text-sm">
                             <a
                                 href="#"
-                                className="font-medium text-primary-600 hover:text-primary-500"
+                                className="font-medium text-primary-500 hover:text-primary-500"
                             >
                                 {t('forgotPassword')}
                             </a>
@@ -151,7 +151,7 @@ export default function SignInPage() {
                     {t('noAccount')}{" "}
                     <Link
                         href="/signup"
-                        className="font-medium text-primary-600 hover:text-primary-500"
+                        className="font-medium text-primary-500 hover:text-primary-500"
                     >
                         {t('signUp')}
                     </Link>

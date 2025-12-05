@@ -85,7 +85,7 @@ export default function Navigation() {
                                     sizes="56px"
                                 />
                             </div>
-                            <span className="hidden md:block font-display text-2xl font-bold text-foreground tracking-tight group-hover:text-primary-600 transition-colors">
+                            <span className="hidden md:block font-display text-2xl font-bold text-foreground tracking-tight group-hover:text-primary-400 transition-colors">
                                 Dish Shuffle
                             </span>
                         </Link>
@@ -246,7 +246,7 @@ export default function Navigation() {
                                     }
                                 }}
                                 className={`flex flex-col items-center justify-center gap-1 px-4 py-2 rounded-xl transition-all duration-300 ${active
-                                    ? "text-primary-600 scale-105"
+                                    ? "text-primary-500 scale-105"
                                     : "text-muted-foreground hover:text-foreground"
                                     }`}
                             >

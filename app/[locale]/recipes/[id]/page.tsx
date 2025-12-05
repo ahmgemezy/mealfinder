@@ -240,7 +240,7 @@ export default async function RecipePage({ params }: RecipePageProps) {
                                                         <span className="font-bold text-foreground break-words text-sm md:text-base leading-tight">
                                                             {ingredient.name}
                                                         </span>
-                                                        <span className="text-xs md:text-sm text-primary-600 font-medium break-words leading-tight">
+                                                        <span className="text-xs md:text-sm text-primary-500 font-medium break-words leading-tight">
                                                             {ingredient.measure}
                                                         </span>
                                                     </div>

@@ -440,17 +440,17 @@ function RecipesContent() {
                                 {t('activeFilters')}
                             </span>
                             {searchQuery && (
-                                <span className="px-3 py-1 bg-primary-50 dark:bg-primary-950 text-primary-600 dark:text-primary-400 rounded-full text-sm font-medium">
+                                <span className="px-3 py-1 bg-primary-50 dark:bg-primary-950 text-primary-500 dark:text-primary-400 rounded-full text-sm font-medium">
                                     {t('searchPrefix')} {searchQuery}
                                 </span>
                             )}
                             {selectedCategory && (
-                                <span className="px-3 py-1 bg-primary-50 dark:bg-primary-950 text-primary-600 dark:text-primary-400 rounded-full text-sm font-medium">
+                                <span className="px-3 py-1 bg-primary-50 dark:bg-primary-950 text-primary-500 dark:text-primary-400 rounded-full text-sm font-medium">
                                     {selectedCategory}
                                 </span>
                             )}
                             {selectedArea && (
-                                <span className="px-3 py-1 bg-primary-50 dark:bg-primary-950 text-primary-600 dark:text-primary-400 rounded-full text-sm font-medium">
+                                <span className="px-3 py-1 bg-primary-50 dark:bg-primary-950 text-primary-500 dark:text-primary-400 rounded-full text-sm font-medium">
                                     {selectedArea}
                                 </span>
                             )}

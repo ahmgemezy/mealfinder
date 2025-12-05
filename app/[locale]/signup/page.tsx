@@ -149,7 +149,7 @@ export default function SignUpPage() {
                     {t('alreadyHaveAccount')}{" "}
                     <Link
                         href="/signin"
-                        className="font-medium text-primary-600 hover:text-primary-500"
+                        className="font-medium text-primary-500 hover:text-primary-500"
                     >
                         {t('signIn')}
                     </Link>

@@ -94,15 +94,15 @@ export default function PrivacyPolicy() {
                     <p className="mt-4">
                         <strong>Opting Out of Personalized Advertising:</strong> You may opt out of
                         personalized advertising by visiting{" "}
-                        <a href="https://www.google.com/settings/ads" className="text-primary-600 hover:underline" target="_blank" rel="noopener noreferrer">
+                        <a href="https://www.google.com/settings/ads" className="text-primary-500 hover:underline" target="_blank" rel="noopener noreferrer">
                             Google Ads Settings
                         </a>{" "}
                         or{" "}
-                        <a href="https://optout.aboutads.info/" className="text-primary-600 hover:underline" target="_blank" rel="noopener noreferrer">
+                        <a href="https://optout.aboutads.info/" className="text-primary-500 hover:underline" target="_blank" rel="noopener noreferrer">
                             www.aboutads.info
                         </a>
                         . You can also visit the Network Advertising Initiative opt-out page at{" "}
-                        <a href="https://optout.networkadvertising.org/" className="text-primary-600 hover:underline" target="_blank" rel="noopener noreferrer">
+                        <a href="https://optout.networkadvertising.org/" className="text-primary-500 hover:underline" target="_blank" rel="noopener noreferrer">
                             networkadvertising.org
                         </a>
                         .

@@ -136,12 +136,12 @@ export default function SurpriseMePage() {
                                     Active filters:
                                 </span>
                                 {filters.category && (
-                                    <span className="px-3 py-1 bg-primary-50 dark:bg-primary-950 text-primary-600 dark:text-primary-400 rounded-full text-sm font-medium">
+                                    <span className="px-3 py-1 bg-primary-50 dark:bg-primary-950 text-primary-500 dark:text-primary-400 rounded-full text-sm font-medium">
                                         {filters.category}
                                     </span>
                                 )}
                                 {filters.area && (
-                                    <span className="px-3 py-1 bg-primary-50 dark:bg-primary-950 text-primary-600 dark:text-primary-400 rounded-full text-sm font-medium">
+                                    <span className="px-3 py-1 bg-primary-50 dark:bg-primary-950 text-primary-500 dark:text-primary-400 rounded-full text-sm font-medium">
                                         {filters.area}
                                     </span>
                                 )}

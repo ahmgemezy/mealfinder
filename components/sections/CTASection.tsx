@@ -40,7 +40,7 @@ export default function CTASection() {
                         <Link href="/recipes">
                             <Button
                                 size="lg"
-                                className="bg-white text-primary-600 hover:bg-white/90 shadow-hard"
+                                className="bg-white text-primary-500 hover:bg-white/90 shadow-hard"
                             >
                                 <SparklesIcon className="w-5 h-5" />
                                 {t('button')}

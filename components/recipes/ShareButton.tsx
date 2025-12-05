@@ -116,8 +116,8 @@ export default function ShareButton({ recipe, className = "" }: ShareButtonProps
             <button
                 onClick={handleShare}
                 className={`group relative flex items-center justify-center w-full gap-2 px-4 py-3 rounded-xl transition-all duration-300 ${className} ${isOpen
-                    ? "bg-primary-50 text-primary-600 dark:bg-primary-950/30 dark:text-primary-400"
-                    : "bg-white dark:bg-card text-muted-foreground hover:text-primary-600 hover:bg-primary-50 dark:hover:bg-primary-950/30 border border-border shadow-sm hover:shadow-md"
+                    ? "bg-primary-50 text-primary-500 dark:bg-primary-950/30 dark:text-primary-400"
+                    : "bg-white dark:bg-card text-muted-foreground hover:text-primary-400 hover:bg-primary-50 dark:hover:bg-primary-950/30 border border-border shadow-sm hover:shadow-md"
                     }`}
                 aria-label={t('share')}
             >

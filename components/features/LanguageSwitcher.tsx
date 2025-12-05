@@ -87,7 +87,7 @@ export default function LanguageSwitcher() {
                             <button
                                 key={lang.code}
                                 onClick={() => switchLanguage(lang.code)}
-                                className={`w-full text-left px-4 py-2 text-sm flex items-center gap-3 hover:bg-muted transition-colors ${locale === lang.code ? "bg-primary-50 text-primary-600 font-medium" : "text-foreground"
+                                className={`w-full text-left px-4 py-2 text-sm flex items-center gap-3 hover:bg-muted transition-colors ${locale === lang.code ? "bg-primary-50 text-primary-500 font-medium" : "text-foreground"
                                     }`}
                             >
                                 <span className="text-lg">{lang.flag}</span>

@@ -66,7 +66,7 @@ export default async function HomePage() {
             </h2>
             <Link
               href="/recipes"
-              className="text-primary-500 hover:text-primary-600 font-medium flex items-center gap-2"
+              className="text-primary-500 hover:text-primary-400 font-medium flex items-center gap-2"
             >
               {t('viewAll')}
               <svg

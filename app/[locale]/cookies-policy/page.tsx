@@ -104,25 +104,25 @@ export default function CookiesPolicyPage() {
                     </p>
                     <ul className="list-disc pl-6 mt-4 space-y-2">
                         <li>
-                            <a href="https://www.google.com/settings/ads" className="text-primary-600 hover:underline" target="_blank" rel="noopener noreferrer">
+                            <a href="https://www.google.com/settings/ads" className="text-primary-500 hover:underline" target="_blank" rel="noopener noreferrer">
                                 Google Ads Settings
                             </a>
                             {" "}- Manage your Google ad personalization preferences
                         </li>
                         <li>
-                            <a href="https://optout.aboutads.info/" className="text-primary-600 hover:underline" target="_blank" rel="noopener noreferrer">
+                            <a href="https://optout.aboutads.info/" className="text-primary-500 hover:underline" target="_blank" rel="noopener noreferrer">
                                 Digital Advertising Alliance (DAA)
                             </a>
                             {" "}- Opt out of interest-based advertising
                         </li>
                         <li>
-                            <a href="https://optout.networkadvertising.org/" className="text-primary-600 hover:underline" target="_blank" rel="noopener noreferrer">
+                            <a href="https://optout.networkadvertising.org/" className="text-primary-500 hover:underline" target="_blank" rel="noopener noreferrer">
                                 Network Advertising Initiative (NAI)
                             </a>
                             {" "}- Opt out of targeted advertising
                         </li>
                         <li>
-                            <a href="https://youronlinechoices.eu/" className="text-primary-600 hover:underline" target="_blank" rel="noopener noreferrer">
+                            <a href="https://youronlinechoices.eu/" className="text-primary-500 hover:underline" target="_blank" rel="noopener noreferrer">
                                 Your Online Choices (EU)
                             </a>
                             {" "}- For European users
@@ -151,22 +151,22 @@ export default function CookiesPolicyPage() {
                     </p>
                     <ul className="list-disc pl-6 mt-4 space-y-2">
                         <li>
-                            <a href="https://support.google.com/chrome/answer/95647" className="text-primary-600 hover:underline" target="_blank" rel="noopener noreferrer">
+                            <a href="https://support.google.com/chrome/answer/95647" className="text-primary-500 hover:underline" target="_blank" rel="noopener noreferrer">
                                 Google Chrome
                             </a>
                         </li>
                         <li>
-                            <a href="https://support.mozilla.org/en-US/kb/cookies-information-websites-store-on-your-computer" className="text-primary-600 hover:underline" target="_blank" rel="noopener noreferrer">
+                            <a href="https://support.mozilla.org/en-US/kb/cookies-information-websites-store-on-your-computer" className="text-primary-500 hover:underline" target="_blank" rel="noopener noreferrer">
                                 Mozilla Firefox
                             </a>
                         </li>
                         <li>
-                            <a href="https://support.apple.com/guide/safari/manage-cookies-sfri11471/mac" className="text-primary-600 hover:underline" target="_blank" rel="noopener noreferrer">
+                            <a href="https://support.apple.com/guide/safari/manage-cookies-sfri11471/mac" className="text-primary-500 hover:underline" target="_blank" rel="noopener noreferrer">
                                 Safari
                             </a>
                         </li>
                         <li>
-                            <a href="https://support.microsoft.com/en-us/windows/delete-and-manage-cookies" className="text-primary-600 hover:underline" target="_blank" rel="noopener noreferrer">
+                            <a href="https://support.microsoft.com/en-us/windows/delete-and-manage-cookies" className="text-primary-500 hover:underline" target="_blank" rel="noopener noreferrer">
                                 Microsoft Edge
                             </a>
                         </li>
@@ -215,12 +215,12 @@ export default function CookiesPolicyPage() {
                     </p>
                     <ul className="list-disc pl-6 mt-4 space-y-2">
                         <li>
-                            <a href="https://www.aboutcookies.org" target="_blank" rel="noopener noreferrer" className="text-primary-600 hover:underline">
+                            <a href="https://www.aboutcookies.org" target="_blank" rel="noopener noreferrer" className="text-primary-500 hover:underline">
                                 www.aboutcookies.org
                             </a>
                         </li>
                         <li>
-                            <a href="https://www.allaboutcookies.org" target="_blank" rel="noopener noreferrer" className="text-primary-600 hover:underline">
+                            <a href="https://www.allaboutcookies.org" target="_blank" rel="noopener noreferrer" className="text-primary-500 hover:underline">
                                 www.allaboutcookies.org
                             </a>
                         </li>
