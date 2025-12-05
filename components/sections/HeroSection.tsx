@@ -33,12 +33,14 @@ export default function HeroSection() {
             {/* Background Image */}
             <div className="absolute inset-0 z-0">
                 <Image
-                    src="/hero-bg.png"
+                    src="/hero-bg.webp"
                     alt="Delicious food background"
                     fill
                     className="object-cover"
                     priority
-                    quality={90}
+                    fetchPriority="high"
+                    quality={75}
+                    sizes="100vw"
                 />
                 {/* Gradient Overlay for readability */}
                 <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black/80" />
