@@ -18,10 +18,11 @@ export default function CookiesPolicyPage() {
                 <section className="mb-10">
                     <h2 className="text-2xl font-bold mb-4 text-foreground">1. What Are Cookies?</h2>
                     <p>
-                        content, and analyze our traffic. By clicking &quot;Accept All&quot;, your computer or
-                        mobile device by websites that you visit. They are widely used in
-                        order to make websites work, or work more efficiently, as well as to
-                        provide information to the owners of the site.
+                        Cookies are small text files that are placed on your computer or mobile
+                        device by websites that you visit. They are widely used in order to make
+                        websites work, or work more efficiently, as well as to provide information
+                        to the owners of the site. Cookies enable websites to remember your actions
+                        and preferences over a period of time.
                     </p>
                 </section>
 
@@ -52,22 +53,178 @@ export default function CookiesPolicyPage() {
                         </div>
 
                         <div className="bg-card p-6 rounded-2xl border border-border">
-                            <h3 className="text-xl font-bold mb-2 text-foreground">Targeting Cookies</h3>
+                            <h3 className="text-xl font-bold mb-2 text-foreground">Advertising / Targeting Cookies</h3>
                             <p className="text-muted-foreground">
-                                These cookies may be set through our site by our advertising partners. They may be used by those companies to build a profile of your interests and show you relevant adverts on other sites.
+                                These cookies are set through our site by our advertising partners to serve you relevant advertisements. They may be used by those companies to build a profile of your interests and show you relevant adverts on other sites. They do not store directly personal information, but are based on uniquely identifying your browser and internet device.
                             </p>
                         </div>
                     </div>
                 </section>
 
                 <section className="mb-10">
-                    <h2 className="text-2xl font-bold mb-4 text-foreground">3. Managing Cookies</h2>
+                    <h2 className="text-2xl font-bold mb-4 text-foreground">3. Third-Party Advertising Cookies</h2>
                     <p>
-                        You can change your cookie preferences at any time by clicking the &quot;Cookie Settings&quot; button in our banner. You can also adjust your browser settings to block or delete cookies.
+                        We display advertisements on our website to support our free service. Our advertising partners may use cookies to serve personalized ads. These partners include:
+                    </p>
+
+                    <div className="space-y-6 mt-4">
+                        <div className="bg-card p-6 rounded-2xl border border-border">
+                            <h3 className="text-xl font-bold mb-2 text-foreground">Google AdSense</h3>
+                            <p className="text-muted-foreground mb-3">
+                                Google uses cookies to serve ads based on your prior visits to our website or other websites. Google&apos;s use of the DoubleClick cookie enables it and its partners to serve ads to you based on your visit to our site and/or other sites on the Internet.
+                            </p>
+                            <p className="text-muted-foreground">
+                                <strong>Cookies used:</strong> __gads, __gpi, __Secure-3PAPISID, NID, CONSENT, and others.
+                            </p>
+                        </div>
+
+                        <div className="bg-card p-6 rounded-2xl border border-border">
+                            <h3 className="text-xl font-bold mb-2 text-foreground">Ezoic</h3>
+                            <p className="text-muted-foreground mb-3">
+                                Ezoic uses machine learning technology to optimize ad placements and improve user experience. Ezoic may collect data about your browsing behavior to serve relevant advertisements and improve website performance.
+                            </p>
+                            <p className="text-muted-foreground">
+                                <strong>Cookies used:</strong> ezoadgid, ezoref, ezosuiba498, ezopvc, ezouspvh, and others.
+                            </p>
+                        </div>
+
+                        <div className="bg-card p-6 rounded-2xl border border-border">
+                            <h3 className="text-xl font-bold mb-2 text-foreground">Other Ad Networks</h3>
+                            <p className="text-muted-foreground">
+                                We may partner with additional advertising networks that use cookies and similar technologies to deliver targeted advertisements. These partners comply with industry standards and offer opt-out mechanisms.
+                            </p>
+                        </div>
+                    </div>
+                </section>
+
+                <section className="mb-10">
+                    <h2 className="text-2xl font-bold mb-4 text-foreground">4. Opt-Out of Personalized Advertising</h2>
+                    <p>
+                        You can opt out of personalized advertising by visiting the following links:
+                    </p>
+                    <ul className="list-disc pl-6 mt-4 space-y-2">
+                        <li>
+                            <a href="https://www.google.com/settings/ads" className="text-primary-600 hover:underline" target="_blank" rel="noopener noreferrer">
+                                Google Ads Settings
+                            </a>
+                            {" "}- Manage your Google ad personalization preferences
+                        </li>
+                        <li>
+                            <a href="https://optout.aboutads.info/" className="text-primary-600 hover:underline" target="_blank" rel="noopener noreferrer">
+                                Digital Advertising Alliance (DAA)
+                            </a>
+                            {" "}- Opt out of interest-based advertising
+                        </li>
+                        <li>
+                            <a href="https://optout.networkadvertising.org/" className="text-primary-600 hover:underline" target="_blank" rel="noopener noreferrer">
+                                Network Advertising Initiative (NAI)
+                            </a>
+                            {" "}- Opt out of targeted advertising
+                        </li>
+                        <li>
+                            <a href="https://youronlinechoices.eu/" className="text-primary-600 hover:underline" target="_blank" rel="noopener noreferrer">
+                                Your Online Choices (EU)
+                            </a>
+                            {" "}- For European users
+                        </li>
+                    </ul>
+                    <p className="mt-4 text-muted-foreground">
+                        Please note that opting out does not mean you will no longer see ads; it means the ads you see will be less relevant to your interests.
+                    </p>
+                </section>
+
+                <section className="mb-10">
+                    <h2 className="text-2xl font-bold mb-4 text-foreground">5. Managing Cookies in Your Browser</h2>
+                    <p>
+                        Most web browsers allow you to control cookies through their settings. You can set your browser to:
+                    </p>
+                    <ul className="list-disc pl-6 mt-4 space-y-2">
+                        <li>Block all cookies</li>
+                        <li>Accept all cookies</li>
+                        <li>Block third-party cookies</li>
+                        <li>Clear all cookies when you close the browser</li>
+                        <li>Open a &quot;private browsing&quot; / &quot;incognito&quot; session</li>
+                        <li>Install add-ons and plugins to extend browser privacy features</li>
+                    </ul>
+                    <p className="mt-4">
+                        Here are links to manage cookies in popular browsers:
+                    </p>
+                    <ul className="list-disc pl-6 mt-4 space-y-2">
+                        <li>
+                            <a href="https://support.google.com/chrome/answer/95647" className="text-primary-600 hover:underline" target="_blank" rel="noopener noreferrer">
+                                Google Chrome
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://support.mozilla.org/en-US/kb/cookies-information-websites-store-on-your-computer" className="text-primary-600 hover:underline" target="_blank" rel="noopener noreferrer">
+                                Mozilla Firefox
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://support.apple.com/guide/safari/manage-cookies-sfri11471/mac" className="text-primary-600 hover:underline" target="_blank" rel="noopener noreferrer">
+                                Safari
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://support.microsoft.com/en-us/windows/delete-and-manage-cookies" className="text-primary-600 hover:underline" target="_blank" rel="noopener noreferrer">
+                                Microsoft Edge
+                            </a>
+                        </li>
+                    </ul>
+                    <p className="mt-4 text-muted-foreground">
+                        Please note that blocking cookies may impact your experience on our website and limit certain functionality.
+                    </p>
+                </section>
+
+                <section className="mb-10">
+                    <h2 className="text-2xl font-bold mb-4 text-foreground">6. Cookie Retention</h2>
+                    <p>
+                        Cookies have varying lifespans:
+                    </p>
+                    <ul className="list-disc pl-6 mt-4 space-y-2">
+                        <li>
+                            <strong>Session Cookies:</strong> These are temporary cookies that expire when you close your browser.
+                        </li>
+                        <li>
+                            <strong>Persistent Cookies:</strong> These cookies remain on your device until they expire or you delete them. They can last from a few days to several years.
+                        </li>
+                    </ul>
+                </section>
+
+                <section className="mb-10">
+                    <h2 className="text-2xl font-bold mb-4 text-foreground">7. Updates to This Policy</h2>
+                    <p>
+                        We may update this Cookie Policy from time to time to reflect changes in our practices or for other operational, legal, or regulatory reasons. Please revisit this page regularly to stay informed about our use of cookies.
+                    </p>
+                </section>
+
+                <section className="mb-10">
+                    <h2 className="text-2xl font-bold mb-4 text-foreground">8. Contact Us</h2>
+                    <p>
+                        If you have any questions about our use of cookies or this policy, please contact us at:
                     </p>
                     <p className="mt-4">
-                        To find out more about cookies, including how to see what cookies have been set, visit <a href="https://www.aboutcookies.org" target="_blank" rel="noopener noreferrer" className="text-primary-600 hover:underline">www.aboutcookies.org</a> or <a href="https://www.allaboutcookies.org" target="_blank" rel="noopener noreferrer" className="text-primary-600 hover:underline">www.allaboutcookies.org</a>.
+                        <strong>Email:</strong> contact@dishshuffle.com
                     </p>
+                </section>
+
+                <section className="mb-10">
+                    <h2 className="text-2xl font-bold mb-4 text-foreground">More Information</h2>
+                    <p>
+                        To learn more about cookies, visit:
+                    </p>
+                    <ul className="list-disc pl-6 mt-4 space-y-2">
+                        <li>
+                            <a href="https://www.aboutcookies.org" target="_blank" rel="noopener noreferrer" className="text-primary-600 hover:underline">
+                                www.aboutcookies.org
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.allaboutcookies.org" target="_blank" rel="noopener noreferrer" className="text-primary-600 hover:underline">
+                                www.allaboutcookies.org
+                            </a>
+                        </li>
+                    </ul>
                 </section>
             </div>
         </div>

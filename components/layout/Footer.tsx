@@ -14,8 +14,8 @@ export default function Footer() {
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
                     {/* Brand */}
                     <div className="md:col-span-2">
-                        <Link href="/" className="flex items-center gap-2 mb-4">
-                            <div className="relative w-10 h-10">
+                        <Link href="/" className="flex items-center gap-1 mb-4">
+                            <div className="relative w-14 h-14">
                                 <Image
                                     src="/logo-final.png"
                                     alt="Dish Shuffle Logo"
@@ -89,6 +89,14 @@ export default function Footer() {
                                     className="text-muted-foreground hover:text-primary-500 transition-colors"
                                 >
                                     {t('cookiePolicy')}
+                                </Link>
+                            </li>
+                            <li>
+                                <Link
+                                    href="/terms-of-service"
+                                    className="text-muted-foreground hover:text-primary-500 transition-colors"
+                                >
+                                    {t('termsOfService')}
                                 </Link>
                             </li>
                         </ul>

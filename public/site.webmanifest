@@ -3,9 +3,14 @@
     "short_name": "Dish Shuffle",
     "icons": [
         {
-            "src": "/globe.svg",
-            "sizes": "any",
-            "type": "image/svg+xml"
+            "src": "/logo-final.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        },
+        {
+            "src": "/favicon.png",
+            "sizes": "192x192",
+            "type": "image/png"
         }
     ],
     "theme_color": "#ef4444",

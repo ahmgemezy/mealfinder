@@ -75,14 +75,14 @@ export default function Navigation() {
             <nav className="notranslate fixed top-0 left-0 right-0 z-50 glass-nav transition-all duration-300">
                 <div className="container mx-auto px-4">
                     <div className="flex items-center justify-between h-16 md:h-20">
-                        <Link href="/" className="flex items-center gap-3 group">
-                            <div className="relative w-10 h-10 group-hover:scale-105 transition-transform duration-300">
+                        <Link href="/" className="flex items-center gap-1 group">
+                            <div className="relative w-14 h-14 group-hover:scale-105 transition-transform duration-300">
                                 <Image
                                     src="/logo-final.png"
                                     alt="DishShuffle Logo"
                                     fill
                                     className="object-contain"
-                                    sizes="40px"
+                                    sizes="56px"
                                 />
                             </div>
                             <span className="hidden md:block font-display text-2xl font-bold text-foreground tracking-tight group-hover:text-primary-600 transition-colors">
