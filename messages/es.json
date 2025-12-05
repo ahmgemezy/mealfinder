@@ -98,6 +98,8 @@
         "recipeNotFound": "Receta no encontrada",
         "ingredients": "Ingredientes",
         "instructions": "Instrucciones",
+        "noInstructionsAvailable": "Las instrucciones no están disponibles para esta receta.",
+        "viewOriginalRecipe": "Ver receta original",
         "videoTutorial": "Video Tutorial",
         "youMightAlsoLike": "También te podría gustar"
     },

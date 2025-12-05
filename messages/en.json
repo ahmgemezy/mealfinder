@@ -85,6 +85,8 @@
         "recipeNotFound": "Recipe Not Found",
         "ingredients": "Ingredients",
         "instructions": "Instructions",
+        "noInstructionsAvailable": "Instructions are not available for this recipe.",
+        "viewOriginalRecipe": "View Original Recipe",
         "videoTutorial": "Video Tutorial",
         "youMightAlsoLike": "You Might Also Like"
     },

@@ -94,12 +94,16 @@ export default function SurpriseMeModal() {
                                 <div lang="en">
                                     <h3 className="font-display text-2xl md:text-3xl font-bold mb-3">{recipe.name}</h3>
                                     <div className="flex flex-wrap gap-2">
-                                        <span className="px-3 py-1.5 bg-primary-500/10 text-primary-600 rounded-full text-sm font-medium">
-                                            {recipe.category}
-                                        </span>
-                                        <span className="px-3 py-1.5 bg-accent-500/10 text-accent-600 rounded-full text-sm font-medium">
-                                            {recipe.area}
-                                        </span>
+                                        {recipe.category && recipe.category.trim() !== '' && (
+                                            <span className="px-3 py-1.5 bg-primary-500/10 text-primary-600 rounded-full text-sm font-medium">
+                                                {recipe.category}
+                                            </span>
+                                        )}
+                                        {recipe.area && recipe.area.trim() !== '' && (
+                                            <span className="px-3 py-1.5 bg-accent-500/10 text-accent-600 rounded-full text-sm font-medium">
+                                                {recipe.area}
+                                            </span>
+                                        )}
                                     </div>
                                 </div>
 

@@ -39,12 +39,16 @@ export default function RecipeCard({ recipe, priority = false }: RecipeCardProps
 
                 <div className="absolute bottom-0 left-0 right-0 p-5 text-white transform translate-y-2 group-hover:translate-y-0 transition-transform duration-500">
                     <div className="flex items-center gap-2 text-xs font-medium mb-2 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">
-                        <span className="px-2 py-1 rounded-full bg-primary-500/80 backdrop-blur-sm">
-                            {recipe.area}
-                        </span>
-                        <span className="px-2 py-1 rounded-full bg-white/20 backdrop-blur-sm">
-                            {recipe.category}
-                        </span>
+                        {recipe.area && recipe.area.trim() !== '' && (
+                            <span className="px-2 py-1 rounded-full bg-primary-500/80 backdrop-blur-sm">
+                                {recipe.area}
+                            </span>
+                        )}
+                        {recipe.category && recipe.category.trim() !== '' && (
+                            <span className="px-2 py-1 rounded-full bg-white/20 backdrop-blur-sm">
+                                {recipe.category}
+                            </span>
+                        )}
                     </div>
                     <h3 className="font-display text-xl font-bold leading-tight mb-1 line-clamp-2 group-hover:text-primary-200 transition-colors">
                         {recipe.name}

@@ -147,18 +147,22 @@ export default async function RecipePage({ params }: RecipePageProps) {
                             <div className="flex-1 text-center md:text-left space-y-6">
                                 {/* Tags/Badges */}
                                 <div className="flex flex-wrap justify-center md:justify-start gap-3" translate="yes">
-                                    <Link
-                                        href={`/recipes?area=${encodeURIComponent(recipe.area)}`}
-                                        className="px-4 py-2 bg-white/10 backdrop-blur-md text-white rounded-full text-sm font-medium border border-white/10 hover:bg-white/20 transition-colors"
-                                    >
-                                        {recipe.area}
-                                    </Link>
-                                    <Link
-                                        href={`/recipes?category=${encodeURIComponent(recipe.category)}`}
-                                        className="px-4 py-2 bg-white/10 backdrop-blur-md text-white rounded-full text-sm font-medium border border-white/10 hover:bg-white/20 transition-colors"
-                                    >
-                                        {recipe.category}
-                                    </Link>
+                                    {recipe.area && recipe.area.trim() !== '' && (
+                                        <Link
+                                            href={`/recipes?area=${encodeURIComponent(recipe.area)}`}
+                                            className="px-4 py-2 bg-white/10 backdrop-blur-md text-white rounded-full text-sm font-medium border border-white/10 hover:bg-white/20 transition-colors"
+                                        >
+                                            {recipe.area}
+                                        </Link>
+                                    )}
+                                    {recipe.category && recipe.category.trim() !== '' && (
+                                        <Link
+                                            href={`/recipes?category=${encodeURIComponent(recipe.category)}`}
+                                            className="px-4 py-2 bg-white/10 backdrop-blur-md text-white rounded-full text-sm font-medium border border-white/10 hover:bg-white/20 transition-colors"
+                                        >
+                                            {recipe.category}
+                                        </Link>
+                                    )}
                                     {recipe.tags
                                         .filter(tag => tag && tag.trim() !== '')
                                         .map((tag) => (
@@ -255,11 +259,9 @@ export default async function RecipePage({ params }: RecipePageProps) {
                                         {t('instructions')}
                                     </h2>
                                     <div className="bg-card rounded-2xl p-8 shadow-soft">
-                                        <div className="space-y-8 relative" translate="yes">
-                                            {/* Vertical connecting line */}
-                                            <div className="absolute left-6 top-6 bottom-6 w-0.5 bg-gradient-to-b from-primary-200 via-primary-300 to-primary-200 opacity-30" />
-
-                                            {recipe.instructions
+                                        {(() => {
+                                            // Process instructions and filter valid steps
+                                            const processedSteps = recipe.instructions
                                                 // 1. Replace newlines with spaces to treat as a single block of text first
                                                 .replace(/\r\n|\r|\n/g, ' ')
                                                 // 2. Split by period followed by space, BUT ignore common abbreviations
@@ -288,32 +290,70 @@ export default async function RecipePage({ params }: RecipePageProps) {
                                                     if (step.length < 5) return false;
                                                     if (!/[a-zA-Z]/.test(step)) return false;
                                                     return true;
-                                                })
-                                                .map((step, index) => (
-                                                    <div key={index} className="flex gap-6 group relative">
-                                                        {/* Decorative dot indicator */}
-                                                        <div className="relative flex-shrink-0 mt-1">
-                                                            <div className="w-12 h-12 rounded-full bg-gradient-to-br from-primary-400 to-primary-600 flex items-center justify-center shadow-lg group-hover:scale-110 group-hover:shadow-xl transition-all duration-300">
-                                                                {/* Inner decorative ring */}
-                                                                <div className="w-8 h-8 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center">
-                                                                    {/* Center dot */}
-                                                                    <div className="w-3 h-3 rounded-full bg-white" />
-                                                                </div>
-                                                            </div>
-                                                            {/* Animated pulse effect */}
-                                                            <div className="absolute inset-0 rounded-full bg-primary-400 opacity-0 group-hover:opacity-20 group-hover:scale-150 transition-all duration-500" />
-                                                        </div>
+                                                });
 
-                                                        {/* Instruction text */}
-                                                        <div className="flex-1 pt-2">
-                                                            <p className="text-foreground text-lg leading-relaxed font-normal">
-                                                                {step}
-                                                            </p>
+                                            // Check if we have valid instructions
+                                            if (processedSteps.length === 0) {
+                                                // Show fallback message with link to source
+                                                return (
+                                                    <div className="text-center py-8">
+                                                        <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-muted flex items-center justify-center">
+                                                            <svg className="w-8 h-8 text-muted-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                                            </svg>
                                                         </div>
+                                                        <p className="text-muted-foreground mb-4">
+                                                            {t('noInstructionsAvailable')}
+                                                        </p>
+                                                        {recipe.source && (
+                                                            <a
+                                                                href={recipe.source}
+                                                                target="_blank"
+                                                                rel="noopener noreferrer"
+                                                                className="inline-flex items-center gap-2 px-6 py-3 bg-primary-600 hover:bg-primary-700 text-white rounded-full font-medium transition-colors"
+                                                            >
+                                                                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                                                                </svg>
+                                                                {t('viewOriginalRecipe')}
+                                                            </a>
+                                                        )}
                                                     </div>
-                                                ))
+                                                );
                                             }
-                                        </div>
+
+                                            // Render normal instructions
+                                            return (
+                                                <div className="space-y-8 relative" translate="yes">
+                                                    {/* Vertical connecting line */}
+                                                    <div className="absolute left-6 top-6 bottom-6 w-0.5 bg-gradient-to-b from-primary-200 via-primary-300 to-primary-200 opacity-30" />
+
+                                                    {processedSteps.map((step, index) => (
+                                                        <div key={index} className="flex gap-6 group relative">
+                                                            {/* Decorative dot indicator */}
+                                                            <div className="relative flex-shrink-0 mt-1">
+                                                                <div className="w-12 h-12 rounded-full bg-gradient-to-br from-primary-400 to-primary-600 flex items-center justify-center shadow-lg group-hover:scale-110 group-hover:shadow-xl transition-all duration-300">
+                                                                    {/* Inner decorative ring */}
+                                                                    <div className="w-8 h-8 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center">
+                                                                        {/* Center dot */}
+                                                                        <div className="w-3 h-3 rounded-full bg-white" />
+                                                                    </div>
+                                                                </div>
+                                                                {/* Animated pulse effect */}
+                                                                <div className="absolute inset-0 rounded-full bg-primary-400 opacity-0 group-hover:opacity-20 group-hover:scale-150 transition-all duration-500" />
+                                                            </div>
+
+                                                            {/* Instruction text */}
+                                                            <div className="flex-1 pt-2">
+                                                                <p className="text-foreground text-lg leading-relaxed font-normal">
+                                                                    {step}
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            );
+                                        })()}
                                     </div>
                                 </section>
 
