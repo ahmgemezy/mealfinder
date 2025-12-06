@@ -114,6 +114,7 @@ export interface SpoonacularRecipe {
     dishTypes: string[];
     diets: string[];
     instructions?: string;
+    summary?: string;  // Recipe summary - used as fallback when instructions are missing
     analyzedInstructions?: Array<{
         steps: Array<{
             number: number;
@@ -257,6 +258,10 @@ export function transformSpoonacularToRecipe(recipe: SpoonacularRecipe): Recipe 
         instructions = recipe.analyzedInstructions[0].steps
             .map(step => `${step.number}. ${stripHTML(step.step)}`)
             .join('\n\n');
+    } else if (recipe.summary) {
+        // Some Spoonacular recipes don't have instructions - use summary as fallback
+        // Add a note that full instructions are available at the source
+        instructions = stripHTML(recipe.summary);
     }
 
     // Extract nutrition data
