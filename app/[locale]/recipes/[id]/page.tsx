@@ -33,29 +33,43 @@ export async function generateMetadata({
         };
     }
 
-    const description = recipe.instructions.slice(0, 160) + "...";
+    const description = recipe.instructions
+        .replace(/\s+/g, ' ')
+        .trim()
+        .slice(0, 155) + "...";
+
+    const recipeUrl = `https://dishshuffle.com/${locale}/recipes/${slug}`;
+    const imageUrl = recipe.thumbnail || 'https://dishshuffle.com/logo-final.png';
 
     return {
-        title: `${recipe.name} Recipe`,
+        title: `${recipe.name} Recipe | Dish Shuffle`,
         description,
         openGraph: {
-            title: `${recipe.name} - ${recipe.area} ${recipe.category}`,
+            title: `${recipe.name} - ${recipe.area || ''} ${recipe.category || ''} Recipe`.trim(),
             description,
+            url: recipeUrl,
+            siteName: 'Dish Shuffle',
+            locale: locale === 'en' ? 'en_US' : locale === 'fr' ? 'fr_FR' : 'es_ES',
+            type: 'article',
             images: [
                 {
-                    url: recipe.thumbnail,
+                    url: imageUrl,
                     width: 1200,
                     height: 630,
                     alt: recipe.name,
+                    type: 'image/jpeg',
                 },
             ],
-            type: "article",
         },
         twitter: {
             card: "summary_large_image",
             title: `${recipe.name} Recipe`,
             description,
-            images: [recipe.thumbnail],
+            images: [imageUrl],
+            creator: '@dishshuffle',
+        },
+        alternates: {
+            canonical: recipeUrl,
         },
     };
 }
