@@ -3,6 +3,13 @@
 import { useState, useEffect } from "react";
 import Button from "@/components/ui/Button";
 
+// Extend Window interface for gtag
+declare global {
+    interface Window {
+        gtag: (command: string, action: string, params?: Record<string, string>) => void;
+    }
+}
+
 type CookiePreferences = {
     essential: boolean;
     performance: boolean;
@@ -25,11 +32,38 @@ export default function CookieConsent() {
         if (!consent) {
             const timer = setTimeout(() => setIsVisible(true), 1000);
             return () => clearTimeout(timer);
+        } else {
+            // Restore Google consent from previous session
+            try {
+                const savedPrefs: CookiePreferences = JSON.parse(consent);
+                if (typeof window !== 'undefined' && typeof window.gtag === 'function') {
+                    window.gtag('consent', 'update', {
+                        'ad_storage': savedPrefs.targeting ? 'granted' : 'denied',
+                        'ad_user_data': savedPrefs.targeting ? 'granted' : 'denied',
+                        'ad_personalization': savedPrefs.targeting ? 'granted' : 'denied',
+                        'analytics_storage': savedPrefs.performance ? 'granted' : 'denied',
+                    });
+                }
+            } catch (e) {
+                console.error('Error restoring consent:', e);
+            }
         }
     }, []);
 
     const savePreferences = (prefs: CookiePreferences) => {
         localStorage.setItem("cookie-consent", JSON.stringify(prefs));
+
+        // Update Google Consent Mode
+        // This informs Google Analytics/Ads about user's consent choices
+        if (typeof window !== 'undefined' && typeof window.gtag === 'function') {
+            window.gtag('consent', 'update', {
+                'ad_storage': prefs.targeting ? 'granted' : 'denied',
+                'ad_user_data': prefs.targeting ? 'granted' : 'denied',
+                'ad_personalization': prefs.targeting ? 'granted' : 'denied',
+                'analytics_storage': prefs.performance ? 'granted' : 'denied',
+            });
+        }
+
         setIsVisible(false);
         setShowSettings(false);
     };

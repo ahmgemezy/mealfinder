@@ -110,6 +110,27 @@ export default async function RootLayout({
 
   return (
     <html lang={locale}>
+      {/* Google Consent Mode - Set defaults BEFORE loading gtag.js */}
+      <Script
+        id="google-consent-default"
+        strategy="beforeInteractive"
+        dangerouslySetInnerHTML={{
+          __html: `
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            
+            // Set default consent to 'denied' for GDPR compliance
+            // This runs BEFORE gtag.js loads
+            gtag('consent', 'default', {
+              'ad_storage': 'denied',
+              'ad_user_data': 'denied',
+              'ad_personalization': 'denied',
+              'analytics_storage': 'denied',
+              'wait_for_update': 500
+            });
+          `,
+        }}
+      />
       {/* Google Analytics */}
       <Script
         strategy="afterInteractive"
