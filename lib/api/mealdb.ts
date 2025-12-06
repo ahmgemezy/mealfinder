@@ -289,9 +289,13 @@ export async function getMealById(id: string): Promise<Recipe | null> {
         // 1. Try to get from Supabase cache first
         const cachedRecipe = await fetchRecipeFromSupabase(id);
 
-        // Return cached recipe only if it has a valid thumbnail
-        // If thumbnail is missing/empty, refetch from API to fix corrupted cache
-        if (cachedRecipe && cachedRecipe.thumbnail && cachedRecipe.thumbnail.trim() !== '') {
+        // Return cached recipe only if it has valid thumbnail AND youtube (for MealDB recipes)
+        // If either is missing, refetch from API to fix corrupted cache
+        const hasValidThumbnail = cachedRecipe?.thumbnail && cachedRecipe.thumbnail.trim() !== '';
+        const hasValidYoutube = cachedRecipe?.youtube && cachedRecipe.youtube.trim() !== '';
+
+        // For MealDB recipes, both thumbnail and youtube should be present
+        if (cachedRecipe && hasValidThumbnail && hasValidYoutube) {
             return cachedRecipe;
         }
 
