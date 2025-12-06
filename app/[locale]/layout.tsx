@@ -30,63 +30,68 @@ const geistMono = Geist_Mono({
   display: "swap",
 });
 
-export const metadata: Metadata = {
-  title: {
-    default: "Dish Shuffle - Discover Your Next Meal",
-    template: "%s | Dish Shuffle",
-  },
-  description: "Find your next favorite meal with Dish Shuffle. Browse thousands of recipes from around the world.",
-  keywords: ["recipes", "food", "cooking", "meal planner", "dish shuffle", "what to eat"],
-  authors: [{ name: "Dish Shuffle Team" }],
-  creator: "Dish Shuffle",
-  publisher: "Dish Shuffle",
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://dishshuffle.com"),
-  openGraph: {
-    type: "website",
-    locale: "en_US",
-    url: "https://dishshuffle.com",
-    siteName: "Dish Shuffle",
-    title: "Dish Shuffle - Discover Your Next Meal",
+const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://dishshuffle.com";
+
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+  const { locale } = await params;
+
+  return {
+    title: {
+      default: "Dish Shuffle - Discover Your Next Meal",
+      template: "%s | Dish Shuffle",
+    },
     description: "Find your next favorite meal with Dish Shuffle. Browse thousands of recipes from around the world.",
-    images: [
-      {
-        url: "/og-image.jpg",
-        width: 1200,
-        height: 630,
-        alt: "Dish Shuffle - Recipe Discovery Platform",
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Dish Shuffle - Discover Your Next Meal",
-    description:
-      "Discover delicious recipes from around the world. Get random meal suggestions and find your next favorite dish.",
-    images: ["/og-image.jpg"],
-    creator: "@whattoeat",
-  },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
+    keywords: ["recipes", "food", "cooking", "meal planner", "dish shuffle", "what to eat"],
+    authors: [{ name: "Dish Shuffle Team" }],
+    creator: "Dish Shuffle",
+    publisher: "Dish Shuffle",
+    metadataBase: new URL(baseUrl),
+    openGraph: {
+      type: "website",
+      locale: locale === "en" ? "en_US" : locale === "fr" ? "fr_FR" : locale === "es" ? "es_ES" : "en_US",
+      url: `${baseUrl}/${locale}`,
+      siteName: "Dish Shuffle",
+      title: "Dish Shuffle - Discover Your Next Meal",
+      description: "Find your next favorite meal with Dish Shuffle. Browse thousands of recipes from around the world.",
+      images: [
+        {
+          url: "/og-image.jpg",
+          width: 1200,
+          height: 630,
+          alt: "Dish Shuffle - Recipe Discovery Platform",
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: "Dish Shuffle - Discover Your Next Meal",
+      description:
+        "Discover delicious recipes from around the world. Get random meal suggestions and find your next favorite dish.",
+      images: ["/og-image.jpg"],
+      creator: "@whattoeat",
+    },
+    robots: {
       index: true,
       follow: true,
-      "max-video-preview": -1,
-      "max-image-preview": "large",
-      "max-snippet": -1,
+      googleBot: {
+        index: true,
+        follow: true,
+        "max-video-preview": -1,
+        "max-image-preview": "large",
+        "max-snippet": -1,
+      },
     },
-  },
-  alternates: {
-    canonical: "https://dishshuffle.com",
-    languages: {
-      en: "https://dishshuffle.com/en",
-      fr: "https://dishshuffle.com/fr",
-      es: "https://dishshuffle.com/es",
+    alternates: {
+      canonical: `${baseUrl}/${locale}`,
+      languages: {
+        en: `${baseUrl}/en`,
+        fr: `${baseUrl}/fr`,
+        es: `${baseUrl}/es`,
+      },
     },
-  },
-
-  manifest: "/site.webmanifest",
-};
+    manifest: "/site.webmanifest",
+  };
+}
 
 import AutoGoogleTranslate from "@/components/features/AutoGoogleTranslate";
 
