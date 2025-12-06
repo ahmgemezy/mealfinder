@@ -256,119 +256,181 @@ export async function getRecipeById(id: string): Promise<Recipe | null> {
     }
 }
 
+// Pagination result type
+export interface PaginatedResult {
+    recipes: Recipe[];
+    totalResults: number;
+    hasMore: boolean;
+    offset: number;
+}
+
+const PAGE_SIZE = 20;
+
 /**
- * Search recipes by name
+ * Search recipes by name with pagination
+ * Fetches full recipe details including instructions for each result
  */
-export async function searchRecipes(query: string): Promise<Recipe[]> {
+export async function searchRecipes(query: string, offset: number = 0): Promise<PaginatedResult> {
     try {
+        // First, get recipe IDs from complexSearch
         const data = await fetchFromSpoonacular<SpoonacularSearchResponse>(
             "recipes/complexSearch",
             {
                 query: query,
-                number: "100",
-                addRecipeInformation: "true",
-                fillIngredients: "true",
+                number: PAGE_SIZE.toString(),
+                offset: offset.toString(),
             }
         );
 
-        if (!data.results) return [];
+        if (!data.results || data.results.length === 0) {
+            return { recipes: [], totalResults: data.totalResults || 0, hasMore: false, offset };
+        }
 
-        const recipes = data.results.map(transformSpoonacularToRecipe);
+        // Fetch full details for each recipe (includes instructions)
+        const recipePromises = data.results.map(result =>
+            getRecipeById(result.id.toString())
+        );
 
-        // Cache all recipes to Supabase (fire and forget)
-        recipes.forEach(recipe => saveRecipeToSupabase(recipe));
+        const recipes = await Promise.all(recipePromises);
+        const validRecipes = recipes.filter((recipe): recipe is Recipe => recipe !== null);
 
-        return recipes;
+        const hasMore = offset + data.results.length < data.totalResults;
+
+        return {
+            recipes: validRecipes,
+            totalResults: data.totalResults,
+            hasMore,
+            offset,
+        };
     } catch (error) {
         console.error("Error searching recipes in Spoonacular:", error);
-        return [];
+        return { recipes: [], totalResults: 0, hasMore: false, offset };
     }
 }
 
 /**
- * Filter recipes by category (dishType)
+ * Filter recipes by category (dishType) with pagination
+ * Fetches full recipe details including instructions for each result
  */
-export async function filterByCategory(category: string): Promise<Recipe[]> {
+export async function filterByCategory(category: string, offset: number = 0): Promise<PaginatedResult> {
     try {
+        // First, get recipe IDs from complexSearch
         const data = await fetchFromSpoonacular<SpoonacularSearchResponse>(
             "recipes/complexSearch",
             {
                 type: category.toLowerCase(),
-                number: "100",
-                addRecipeInformation: "true",
-                fillIngredients: "true",
+                number: PAGE_SIZE.toString(),
+                offset: offset.toString(),
             }
         );
 
-        if (!data.results) return [];
+        if (!data.results || data.results.length === 0) {
+            return { recipes: [], totalResults: data.totalResults || 0, hasMore: false, offset };
+        }
 
-        const recipes = data.results.map(transformSpoonacularToRecipe);
+        // Fetch full details for each recipe (includes instructions)
+        const recipePromises = data.results.map(result =>
+            getRecipeById(result.id.toString())
+        );
 
-        // Cache all recipes to Supabase (fire and forget)
-        recipes.forEach(recipe => saveRecipeToSupabase(recipe));
+        const recipes = await Promise.all(recipePromises);
+        const validRecipes = recipes.filter((recipe): recipe is Recipe => recipe !== null);
 
-        return recipes;
+        const hasMore = offset + data.results.length < data.totalResults;
+
+        return {
+            recipes: validRecipes,
+            totalResults: data.totalResults,
+            hasMore,
+            offset,
+        };
     } catch (error) {
         console.error("Error filtering by category in Spoonacular:", error);
-        return [];
+        return { recipes: [], totalResults: 0, hasMore: false, offset };
     }
 }
 
 /**
- * Filter recipes by area (cuisine)
+ * Filter recipes by area (cuisine) with pagination
+ * Fetches full recipe details including instructions for each result
  */
-export async function filterByArea(area: string): Promise<Recipe[]> {
+export async function filterByArea(area: string, offset: number = 0): Promise<PaginatedResult> {
     try {
+        // First, get recipe IDs from complexSearch
         const data = await fetchFromSpoonacular<SpoonacularSearchResponse>(
             "recipes/complexSearch",
             {
                 cuisine: area,
-                number: "100",
-                addRecipeInformation: "true",
-                fillIngredients: "true",
+                number: PAGE_SIZE.toString(),
+                offset: offset.toString(),
             }
         );
 
-        if (!data.results) return [];
+        if (!data.results || data.results.length === 0) {
+            return { recipes: [], totalResults: data.totalResults || 0, hasMore: false, offset };
+        }
 
-        const recipes = data.results.map(transformSpoonacularToRecipe);
+        // Fetch full details for each recipe (includes instructions)
+        const recipePromises = data.results.map(result =>
+            getRecipeById(result.id.toString())
+        );
 
-        // Cache all recipes to Supabase (fire and forget)
-        recipes.forEach(recipe => saveRecipeToSupabase(recipe));
+        const recipes = await Promise.all(recipePromises);
+        const validRecipes = recipes.filter((recipe): recipe is Recipe => recipe !== null);
 
-        return recipes;
+        const hasMore = offset + data.results.length < data.totalResults;
+
+        return {
+            recipes: validRecipes,
+            totalResults: data.totalResults,
+            hasMore,
+            offset,
+        };
     } catch (error) {
         console.error("Error filtering by area in Spoonacular:", error);
-        return [];
+        return { recipes: [], totalResults: 0, hasMore: false, offset };
     }
 }
 
 /**
- * Filter recipes by diet
+ * Filter recipes by diet with pagination
+ * Fetches full recipe details including instructions for each result
  */
-export async function filterByDiet(diet: string): Promise<Recipe[]> {
+export async function filterByDiet(diet: string, offset: number = 0): Promise<PaginatedResult> {
     try {
+        // First, get recipe IDs from complexSearch
         const data = await fetchFromSpoonacular<SpoonacularSearchResponse>(
             "recipes/complexSearch",
             {
                 diet: diet.toLowerCase(),
-                number: "100",
-                addRecipeInformation: "true",
-                fillIngredients: "true",
+                number: PAGE_SIZE.toString(),
+                offset: offset.toString(),
             }
         );
 
-        if (!data.results) return [];
+        if (!data.results || data.results.length === 0) {
+            return { recipes: [], totalResults: data.totalResults || 0, hasMore: false, offset };
+        }
 
-        const recipes = data.results.map(transformSpoonacularToRecipe);
+        // Fetch full details for each recipe (includes instructions)
+        const recipePromises = data.results.map(result =>
+            getRecipeById(result.id.toString())
+        );
 
-        // Cache all recipes to Supabase (fire and forget)
-        recipes.forEach(recipe => saveRecipeToSupabase(recipe));
+        const recipes = await Promise.all(recipePromises);
+        const validRecipes = recipes.filter((recipe): recipe is Recipe => recipe !== null);
 
-        return recipes;
+        const hasMore = offset + data.results.length < data.totalResults;
+
+        return {
+            recipes: validRecipes,
+            totalResults: data.totalResults,
+            hasMore,
+            offset,
+        };
     } catch (error) {
         console.error("Error filtering by diet in Spoonacular:", error);
-        return [];
+        return { recipes: [], totalResults: 0, hasMore: false, offset };
     }
 }
 

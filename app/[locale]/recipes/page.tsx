@@ -17,6 +17,10 @@ import {
     getMultipleRandomMeals,
     getCategories,
     getAreas,
+    loadMoreSearchResults,
+    loadMoreCategoryResults,
+    loadMoreAreaResults,
+    loadMoreDietResults,
 } from "@/lib/api";
 import { SPOONACULAR_DIETS, MEALDB_CATEGORIES, MEALDB_AREAS } from "@/lib/constants";
 import Breadcrumb from "@/components/ui/Breadcrumb";
@@ -58,6 +62,10 @@ function RecipesContent() {
     const RECIPES_PER_PAGE = 24;
     const searchTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
+    // Pagination state for Spoonacular API
+    const [spoonacularOffset, setSpoonacularOffset] = useState(20); // Start at 20 since first batch was offset 0
+    const [hasMoreFromApi, setHasMoreFromApi] = useState(true);
+
     // Processing ref to prevent concurrent executions
     const isProcessingRef = useRef(false);
 
@@ -72,14 +80,13 @@ function RecipesContent() {
         if (isProcessingRef.current) return;
         isProcessingRef.current = true;
 
-        // Handle client-side infinite scroll for filtered results
+        // Handle filtered results pagination
         if (searchQuery || selectedCategory || selectedArea || selectedDiet) {
+            // First, show more from already-loaded recipes
             if (displayedRecipes.length < recipes.length) {
                 setIsLoadingMore(true);
-                // Simulate network delay for better UX
-                await new Promise(resolve => setTimeout(resolve, 500));
+                await new Promise(resolve => setTimeout(resolve, 300));
 
-                // Check if filters changed while we were waiting
                 if (currentRequestId !== filterRequestIdRef.current) {
                     isProcessingRef.current = false;
                     setIsLoadingMore(false);
@@ -93,36 +100,78 @@ function RecipesContent() {
 
                 if (nextBatch.length > 0) {
                     setDisplayedRecipes(prev => {
-                        // Double check request ID inside updater to be absolutely sure
                         if (currentRequestId !== filterRequestIdRef.current) return prev;
-
                         const currentIds = new Set(prev.map(r => r.id));
                         const uniqueNextBatch = nextBatch.filter(r => r?.id && !currentIds.has(r.id));
                         return [...prev, ...uniqueNextBatch];
                     });
                 }
                 setIsLoadingMore(false);
+                isProcessingRef.current = false;
+                return;
             }
+
+            // If we've shown all loaded recipes and there might be more from API, fetch them
+            if (hasMoreFromApi) {
+                setIsLoadingMore(true);
+                try {
+                    const existingIds = recipes.map(r => r.id);
+                    let result: { recipes: Recipe[]; hasMore: boolean } = { recipes: [], hasMore: false };
+
+                    // Call the appropriate load more function based on active filter
+                    if (searchQuery) {
+                        result = await loadMoreSearchResults(searchQuery, spoonacularOffset, existingIds);
+                    } else if (selectedDiet) {
+                        result = await loadMoreDietResults(selectedDiet, spoonacularOffset, existingIds);
+                    } else if (selectedCategory && !selectedArea) {
+                        result = await loadMoreCategoryResults(selectedCategory, spoonacularOffset, existingIds);
+                    } else if (selectedArea && !selectedCategory) {
+                        result = await loadMoreAreaResults(selectedArea, spoonacularOffset, existingIds);
+                    } else if (selectedCategory && selectedArea) {
+                        // For combined filters, try category pagination
+                        result = await loadMoreCategoryResults(selectedCategory, spoonacularOffset, existingIds);
+                        // Filter by area client-side
+                        result.recipes = result.recipes.filter(r => r.area === selectedArea);
+                    }
+
+                    if (currentRequestId !== filterRequestIdRef.current) {
+                        isProcessingRef.current = false;
+                        setIsLoadingMore(false);
+                        return;
+                    }
+
+                    if (result.recipes.length > 0) {
+                        setRecipes(prev => [...prev, ...result.recipes]);
+                        setDisplayedRecipes(prev => [...prev, ...result.recipes]);
+                        setSpoonacularOffset(prev => prev + 20);
+                    }
+                    setHasMoreFromApi(result.hasMore);
+                } catch (error) {
+                    console.error("Error loading more filtered recipes:", error);
+                } finally {
+                    setIsLoadingMore(false);
+                    isProcessingRef.current = false;
+                }
+                return;
+            }
+
             isProcessingRef.current = false;
             return;
         }
 
-        // Standard infinite scroll for random recipes
+        // Standard infinite scroll for random recipes (no filters)
         if (displayedRecipes.length >= recipes.length) {
             setIsLoadingMore(true);
             try {
-                // Fetch more random recipes, excluding ones we already have
                 const existingIds = displayedRecipes.map(r => r.id);
                 const moreRecipes = await getMultipleRandomMeals(RECIPES_PER_PAGE, existingIds);
 
-                // Check if filters changed while we were waiting
                 if (currentRequestId !== filterRequestIdRef.current) {
                     isProcessingRef.current = false;
                     setIsLoadingMore(false);
                     return;
                 }
 
-                // Only add if we have unique recipes
                 if (moreRecipes.length > 0) {
                     setRecipes(prev => {
                         if (currentRequestId !== filterRequestIdRef.current) return prev;
@@ -147,7 +196,7 @@ function RecipesContent() {
         } else {
             isProcessingRef.current = false;
         }
-    }, [searchQuery, selectedCategory, selectedArea, selectedDiet, displayedRecipes, recipes, RECIPES_PER_PAGE]);
+    }, [searchQuery, selectedCategory, selectedArea, selectedDiet, displayedRecipes, recipes, RECIPES_PER_PAGE, spoonacularOffset, hasMoreFromApi]);
 
     // Refs for stable access in event listener
     const isLoadingRef = useRef(isLoading);
@@ -167,6 +216,10 @@ function RecipesContent() {
 
         setIsLoading(true);
         setPage(1);
+
+        // Reset pagination state for new search/filter
+        setSpoonacularOffset(20); // First batch is offset 0, next will be 20
+        setHasMoreFromApi(true);
 
         // Clear existing recipes immediately to show skeleton loading state
         // This prevents "junk data" (previous results) from being visible while searching

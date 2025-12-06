@@ -30,6 +30,9 @@ const getProvider = (): 'mealdb' | 'spoonacular' | 'hybrid' => {
     return provider as 'mealdb' | 'spoonacular' | 'hybrid';
 };
 
+// Re-export PaginatedResult for use in components
+export type { PaginatedResult } from './spoonacular';
+
 /**
  * Get a random meal/recipe
  */
@@ -170,8 +173,8 @@ export async function searchMeals(query: string): Promise<Recipe[]> {
         }
 
         if (provider === 'spoonacular') {
-            const spoonRecipes = await spoonacular.searchRecipes(query);
-            spoonRecipes.forEach(r => {
+            const spoonResult = await spoonacular.searchRecipes(query);
+            spoonResult.recipes.forEach(r => {
                 if (!seenIds.has(r.id)) {
                     results.push(r);
                     seenIds.add(r.id);
@@ -196,7 +199,7 @@ export async function searchMeals(query: string): Promise<Recipe[]> {
             }
 
             if (spoonacularResults.status === 'fulfilled') {
-                spoonacularResults.value.forEach(r => {
+                spoonacularResults.value.recipes.forEach(r => {
                     if (!seenIds.has(r.id)) {
                         results.push(r);
                         seenIds.add(r.id);
@@ -224,8 +227,29 @@ export async function searchMeals(query: string): Promise<Recipe[]> {
 }
 
 /**
- * Filter by category
+ * Load more search results (for pagination)
  */
+export async function loadMoreSearchResults(
+    query: string,
+    offset: number,
+    existingIds: string[]
+): Promise<{ recipes: Recipe[]; hasMore: boolean }> {
+    const provider = getProvider();
+
+    try {
+        if (provider === 'spoonacular' || provider === 'hybrid') {
+            const result = await spoonacular.searchRecipes(query, offset);
+            const seenIds = new Set(existingIds);
+            const newRecipes = result.recipes.filter(r => !seenIds.has(r.id));
+            return { recipes: newRecipes, hasMore: result.hasMore };
+        }
+        return { recipes: [], hasMore: false };
+    } catch (error) {
+        console.error("Error loading more search results:", error);
+        return { recipes: [], hasMore: false };
+    }
+}
+
 /**
  * Filter by category
  */
@@ -266,10 +290,8 @@ export async function filterByCategory(category: string): Promise<Recipe[]> {
 
         // 3. Spoonacular (if hybrid or spoonacular)
         if (provider === 'hybrid' || provider === 'spoonacular') {
-            // Only fetch if we don't have "enough" or if we want "all" (user asked for all)
-            // User asked for ALL, so we fetch from Spoonacular too
-            const spoonRecipes = await spoonacular.filterByCategory(category);
-            spoonRecipes.forEach(r => {
+            const spoonResult = await spoonacular.filterByCategory(category);
+            spoonResult.recipes.forEach(r => {
                 if (!seenIds.has(r.id)) {
                     results.push(r);
                     seenIds.add(r.id);
@@ -286,8 +308,29 @@ export async function filterByCategory(category: string): Promise<Recipe[]> {
 }
 
 /**
- * Filter by area/cuisine
+ * Load more category filter results (for pagination)
  */
+export async function loadMoreCategoryResults(
+    category: string,
+    offset: number,
+    existingIds: string[]
+): Promise<{ recipes: Recipe[]; hasMore: boolean }> {
+    const provider = getProvider();
+
+    try {
+        if (provider === 'spoonacular' || provider === 'hybrid') {
+            const result = await spoonacular.filterByCategory(category, offset);
+            const seenIds = new Set(existingIds);
+            const newRecipes = result.recipes.filter(r => !seenIds.has(r.id));
+            return { recipes: newRecipes, hasMore: result.hasMore };
+        }
+        return { recipes: [], hasMore: false };
+    } catch (error) {
+        console.error("Error loading more category results:", error);
+        return { recipes: [], hasMore: false };
+    }
+}
+
 /**
  * Filter by area/cuisine
  */
@@ -328,8 +371,8 @@ export async function filterByArea(area: string): Promise<Recipe[]> {
 
         // 3. Spoonacular
         if (provider === 'hybrid' || provider === 'spoonacular') {
-            const spoonRecipes = await spoonacular.filterByArea(area);
-            spoonRecipes.forEach(r => {
+            const spoonResult = await spoonacular.filterByArea(area);
+            spoonResult.recipes.forEach(r => {
                 if (!seenIds.has(r.id)) {
                     results.push(r);
                     seenIds.add(r.id);
@@ -342,6 +385,30 @@ export async function filterByArea(area: string): Promise<Recipe[]> {
     } catch (error) {
         console.error("Error in filterByArea:", error);
         return results;
+    }
+}
+
+/**
+ * Load more area filter results (for pagination)
+ */
+export async function loadMoreAreaResults(
+    area: string,
+    offset: number,
+    existingIds: string[]
+): Promise<{ recipes: Recipe[]; hasMore: boolean }> {
+    const provider = getProvider();
+
+    try {
+        if (provider === 'spoonacular' || provider === 'hybrid') {
+            const result = await spoonacular.filterByArea(area, offset);
+            const seenIds = new Set(existingIds);
+            const newRecipes = result.recipes.filter(r => !seenIds.has(r.id));
+            return { recipes: newRecipes, hasMore: result.hasMore };
+        }
+        return { recipes: [], hasMore: false };
+    } catch (error) {
+        console.error("Error loading more area results:", error);
+        return { recipes: [], hasMore: false };
     }
 }
 
@@ -377,8 +444,8 @@ export async function filterByDiet(diet: string): Promise<Recipe[]> {
             // If we already have enough results from DB, we might want to skip API to save quota
             // For now, we'll fetch from API only if we have fewer than 12 results
             if (results.length < 12) {
-                const spoonRecipes = await spoonacular.filterByDiet(diet);
-                spoonRecipes.forEach(r => {
+                const spoonResult = await spoonacular.filterByDiet(diet);
+                spoonResult.recipes.forEach(r => {
                     if (!seenIds.has(r.id)) {
                         results.push(r);
                         seenIds.add(r.id);
@@ -397,8 +464,29 @@ export async function filterByDiet(diet: string): Promise<Recipe[]> {
 }
 
 /**
- * Filter meals by multiple criteria (Category + Area)
+ * Load more diet filter results (for pagination)
  */
+export async function loadMoreDietResults(
+    diet: string,
+    offset: number,
+    existingIds: string[]
+): Promise<{ recipes: Recipe[]; hasMore: boolean }> {
+    const provider = getProvider();
+
+    try {
+        if (provider === 'spoonacular' || provider === 'hybrid') {
+            const result = await spoonacular.filterByDiet(diet, offset);
+            const seenIds = new Set(existingIds);
+            const newRecipes = result.recipes.filter(r => !seenIds.has(r.id));
+            return { recipes: newRecipes, hasMore: result.hasMore };
+        }
+        return { recipes: [], hasMore: false };
+    } catch (error) {
+        console.error("Error loading more diet results:", error);
+        return { recipes: [], hasMore: false };
+    }
+}
+
 /**
  * Filter meals by multiple criteria (Category + Area)
  */
@@ -440,24 +528,25 @@ export async function filterByMultiple(category?: string, area?: string): Promis
         // 3. Spoonacular
         if (provider === 'hybrid' || provider === 'spoonacular') {
             // Spoonacular supports complex filtering
-            // For now, we fallback to single filter if multiple not supported in spoonacular.ts
-            let spoonRecipes: Recipe[] = [];
-            if (category) spoonRecipes = await spoonacular.filterByCategory(category);
-            else if (area) spoonRecipes = await spoonacular.filterByArea(area);
+            let spoonResult: spoonacular.PaginatedResult | null = null;
+            if (category) spoonResult = await spoonacular.filterByCategory(category);
+            else if (area) spoonResult = await spoonacular.filterByArea(area);
 
-            // If both, we need to filter locally or improve spoonacular.ts
-            if (category && area) {
-                spoonRecipes = spoonRecipes.filter(r => r.area === area);
-                // Note: This is imperfect as Spoonacular area mapping might differ
-            }
-
-            spoonRecipes.forEach(r => {
-                if (!seenIds.has(r.id)) {
-                    results.push(r);
-                    seenIds.add(r.id);
-                    seenNames.add(r.name.toLowerCase());
+            if (spoonResult) {
+                let spoonRecipes = spoonResult.recipes;
+                // If both, we need to filter locally
+                if (category && area) {
+                    spoonRecipes = spoonRecipes.filter(r => r.area === area);
                 }
-            });
+
+                spoonRecipes.forEach(r => {
+                    if (!seenIds.has(r.id)) {
+                        results.push(r);
+                        seenIds.add(r.id);
+                        seenNames.add(r.name.toLowerCase());
+                    }
+                });
+            }
         }
 
         return results;
