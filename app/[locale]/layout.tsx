@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Analytics } from "@vercel/analytics/next";
+import Script from "next/script";
 import { Inter, Playfair_Display, Geist_Mono } from "next/font/google";
 import "../globals.css";
 import Navigation from "@/components/layout/Navigation";
@@ -11,6 +12,8 @@ import { SurpriseMeProvider } from "@/lib/contexts/SurpriseMeContext";
 import SurpriseMeModal from "@/components/features/SurpriseMeModal";
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
+
+const GA_TRACKING_ID = 'G-1CJ0891RQ7';
 
 const inter = Inter({
   variable: "--font-inter",
@@ -107,6 +110,23 @@ export default async function RootLayout({
 
   return (
     <html lang={locale}>
+      {/* Google Analytics */}
+      <Script
+        strategy="afterInteractive"
+        src={`https://www.googletagmanager.com/gtag/js?id=${GA_TRACKING_ID}`}
+      />
+      <Script
+        id="google-analytics"
+        strategy="afterInteractive"
+        dangerouslySetInnerHTML={{
+          __html: `
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', '${GA_TRACKING_ID}');
+          `,
+        }}
+      />
       <body className={`${inter.variable} ${playfair.variable} ${geistMono.variable} antialiased`} suppressHydrationWarning>
         <NextIntlClientProvider messages={messages}>
           <SurpriseMeProvider>
