@@ -17,6 +17,6 @@ export const config = {
         // - _next/static (static files)
         // - _next/image (image optimization files)
         // - Static assets and SEO files
-        '/((?!api|auth|_next/static|_next/image|favicon\\.ico|favicon\\.png|sitemap\\.xml|robots\\.txt|icon\\.png|site\\.webmanifest|og-image\\.jpg|logo-final\\.png|logo\\.jpeg|hero-bg\\.webp|.*\\.svg).*)'
+        '/((?!api|auth|_next/static|_next/image|favicon\\.ico|favicon\\.png|sitemap\\.xml|robots\\.txt|ads\\.txt|icon\\.png|site\\.webmanifest|og-image\\.jpg|logo-final\\.png|logo\\.jpeg|hero-bg\\.webp|.*\\.svg).*)'
     ]
 };
