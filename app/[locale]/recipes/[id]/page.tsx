@@ -83,26 +83,56 @@ export default async function RecipePage({ params }: RecipePageProps) {
     // Get related recipes for the "You might also like" section
     const relatedRecipes = await getRelatedRecipes(recipe.category, recipe.id, 3);
 
-    // JSON-LD structured data for SEO
+    // JSON-LD structured data for SEO - Enhanced for Google Rich Results
     const jsonLd = {
         "@context": "https://schema.org",
         "@type": "Recipe",
         name: recipe.name,
-        image: recipe.thumbnail,
-        description: recipe.instructions.slice(0, 200),
-        recipeCategory: recipe.category,
-        recipeCuisine: recipe.area,
+        image: [recipe.thumbnail],
+        description: recipe.instructions.slice(0, 200).replace(/\s+/g, ' ').trim(),
+        author: {
+            "@type": "Organization",
+            name: "Dish Shuffle",
+            url: "https://dishshuffle.com"
+        },
+        publisher: {
+            "@type": "Organization",
+            name: "Dish Shuffle",
+            logo: {
+                "@type": "ImageObject",
+                url: "https://dishshuffle.com/logo-final.png"
+            }
+        },
+        datePublished: new Date().toISOString().split('T')[0],
+        recipeCategory: recipe.category || "Main Course",
+        recipeCuisine: recipe.area || "International",
         recipeIngredient: recipe.ingredients.map(
-            (ing) => `${ing.measure} ${ing.name}`
+            (ing) => `${ing.measure} ${ing.name}`.trim()
         ),
         recipeInstructions: recipe.instructions
             .split(".")
-            .filter((s) => s.trim())
+            .filter((s) => s.trim().length > 5)
             .map((step, index) => ({
                 "@type": "HowToStep",
                 position: index + 1,
-                text: step.trim(),
+                text: step.trim() + "."
             })),
+        // Nutrition info if available
+        ...(recipe.calories && {
+            nutrition: {
+                "@type": "NutritionInformation",
+                calories: `${Math.round(recipe.calories)} calories`,
+                ...(recipe.protein && { proteinContent: `${recipe.protein}g` }),
+                ...(recipe.carbs && { carbohydrateContent: `${recipe.carbs}g` }),
+                ...(recipe.fat && { fatContent: `${recipe.fat}g` })
+            }
+        }),
+        // Estimated times (default values for better rich results)
+        prepTime: "PT15M",
+        cookTime: "PT30M",
+        totalTime: "PT45M",
+        recipeYield: "4 servings",
+        keywords: [recipe.category, recipe.area, ...recipe.tags].filter(Boolean).join(", ")
     };
 
     return (
