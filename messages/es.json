@@ -30,7 +30,14 @@
         "videoTutorial": "Video Tutorial",
         "category": "Categoría",
         "area": "Cocina",
-        "tags": "Etiquetas"
+        "tags": "Etiquetas",
+        "share": "Compartir receta",
+        "shareDescription": "Comparte esta receta con tus amigos",
+        "copyLink": "Copiar enlace",
+        "copied": "¡Copiado!",
+        "shareOnFacebook": "Compartir en Facebook",
+        "shareOnTwitter": "Compartir en X",
+        "shareOnWhatsApp": "Compartir en WhatsApp"
     },
     "Auth": {
         "signInTitle": "Iniciar Sesión",
@@ -95,6 +102,10 @@
         "noRecipes": "No se encontraron recetas",
         "noRecipesDesc": "Intenta ajustar tu búsqueda o filtros",
         "clearFilters": "Borrar filtros",
+        "loadingMore": "Cargando más recetas...",
+        "searching": "Buscando...",
+        "preparingRecipes": "Preparando deliciosas recetas para ti...",
+        "justAMoment": "Esto solo tomará un momento",
         "recipeNotFound": "Receta no encontrada",
         "ingredients": "Ingredientes",
         "instructions": "Instrucciones",
