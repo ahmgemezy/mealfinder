@@ -77,11 +77,11 @@ export const metadata: Metadata = {
     },
   },
   alternates: {
-    canonical: "/",
+    canonical: "https://dishshuffle.com",
     languages: {
-      en: "/en",
-      fr: "/fr",
-      es: "/es",
+      en: "https://dishshuffle.com/en",
+      fr: "https://dishshuffle.com/fr",
+      es: "https://dishshuffle.com/es",
     },
   },
 
