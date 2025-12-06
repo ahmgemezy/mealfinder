@@ -90,6 +90,25 @@ export default async function HomePage() {
         </div>
       </section>
 
+      {/* Privacy & Legal Notice - Required for Google OAuth Verification */}
+      <section className="py-8 bg-muted/50">
+        <div className="container mx-auto px-4">
+          <div className="text-center text-sm text-muted-foreground">
+            <p>
+              By using Dish Shuffle, you agree to our{' '}
+              <Link href="/privacy-policy" className="text-primary-500 hover:underline font-medium">
+                Privacy Policy
+              </Link>
+              {' '}and{' '}
+              <Link href="/terms-of-service" className="text-primary-500 hover:underline font-medium">
+                Terms of Service
+              </Link>
+              . We respect your privacy and protect your data.
+            </p>
+          </div>
+        </div>
+      </section>
+
       {/* CTA Section */}
       <CTASection />
     </div>
