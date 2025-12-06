@@ -192,34 +192,40 @@ export default function CookieConsent() {
     }
 
     return (
-        <div className="fixed bottom-0 left-0 right-0 z-50 p-4 md:p-6 bg-background/95 backdrop-blur-md border-t border-border shadow-hard animate-slide-up">
-            <div className="container mx-auto max-w-6xl flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+        <div className="fixed bottom-16 md:bottom-0 left-0 right-0 z-40 p-3 md:p-6 bg-background/95 backdrop-blur-md border-t border-border shadow-hard animate-slide-up">
+            <div className="container mx-auto max-w-6xl flex flex-col md:flex-row items-start md:items-center justify-between gap-3 md:gap-6">
                 <div className="flex-1">
-                    <h3 className="font-display text-lg font-bold mb-2">
+                    <h3 className="font-display text-base md:text-lg font-bold mb-1">
                         We value your privacy
                     </h3>
-                    <p className="text-sm text-muted-foreground leading-relaxed">
+                    <p className="text-xs md:text-sm text-muted-foreground leading-relaxed">
                         We use cookies to enhance your browsing experience, serve personalized
                         content, and analyze our traffic. By clicking &quot;Accept All&quot;, you
                         consent to our use of cookies.
                     </p>
                 </div>
-                <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
+                <div className="flex flex-row gap-2 w-full md:w-auto flex-wrap">
                     <Button
                         variant="outline"
+                        size="sm"
                         onClick={() => setShowSettings(true)}
-                        className="whitespace-nowrap"
+                        className="whitespace-nowrap text-xs md:text-sm flex-1 md:flex-none"
                     >
-                        Cookie Settings
+                        Settings
                     </Button>
                     <Button
                         variant="outline"
+                        size="sm"
                         onClick={handleRejectAll}
-                        className="whitespace-nowrap"
+                        className="whitespace-nowrap text-xs md:text-sm flex-1 md:flex-none"
                     >
-                        Reject All
+                        Reject
                     </Button>
-                    <Button onClick={handleAcceptAll} className="whitespace-nowrap">
+                    <Button
+                        size="sm"
+                        onClick={handleAcceptAll}
+                        className="whitespace-nowrap text-xs md:text-sm flex-1 md:flex-none"
+                    >
                         Accept All
                     </Button>
                 </div>
