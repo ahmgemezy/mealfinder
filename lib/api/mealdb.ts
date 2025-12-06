@@ -288,18 +288,20 @@ export async function getMealById(id: string): Promise<Recipe | null> {
     try {
         // 1. Try to get from Supabase cache first
         const cachedRecipe = await fetchRecipeFromSupabase(id);
-        if (cachedRecipe) {
-            // console.log(`Cache hit for recipe ${id}`);
+
+        // Return cached recipe only if it has a valid thumbnail
+        // If thumbnail is missing/empty, refetch from API to fix corrupted cache
+        if (cachedRecipe && cachedRecipe.thumbnail && cachedRecipe.thumbnail.trim() !== '') {
             return cachedRecipe;
         }
 
-        // 2. If not in cache, fetch from API
+        // 2. Fetch from API (either no cache or cache has missing thumbnail)
         const data = await fetchFromMealDB<MealDBResponse>("lookup.php", { i: id });
         if (!data.meals || data.meals.length === 0) return null;
 
         const recipe = transformMealDBToRecipe(data.meals[0]);
 
-        // 3. Save to Supabase cache
+        // 3. Save to Supabase cache (this will update corrupted entries)
         await saveRecipeToSupabase(recipe);
 
         return recipe;

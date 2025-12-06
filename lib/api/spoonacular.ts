@@ -279,9 +279,12 @@ export async function getRecipeById(id: string): Promise<Recipe | null> {
         // 1. Try Supabase cache first
         const cachedRecipe = await fetchRecipeFromSupabase(id);
 
-        // Return cached recipe only if it has valid instructions
-        // Old cached recipes may be missing instructions from before the fix
-        if (cachedRecipe && cachedRecipe.instructions && cachedRecipe.instructions.trim() !== '') {
+        // Return cached recipe only if it has valid instructions AND thumbnail
+        // Old cached recipes may be missing data from before fixes
+        const hasValidInstructions = cachedRecipe?.instructions && cachedRecipe.instructions.trim() !== '';
+        const hasValidThumbnail = cachedRecipe?.thumbnail && cachedRecipe.thumbnail.trim() !== '';
+
+        if (cachedRecipe && hasValidInstructions && hasValidThumbnail) {
             return cachedRecipe;
         }
 

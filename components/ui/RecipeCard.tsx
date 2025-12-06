@@ -25,16 +25,12 @@ export default function RecipeCard({ recipe, priority = false }: RecipeCardProps
                         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                         className="object-cover group-hover:scale-110 transition-transform duration-700"
                         priority={priority}
-                        onError={(e) => {
-                            // Hide broken image and show fallback
-                            e.currentTarget.style.display = 'none';
-                        }}
                     />
-                ) : null}
-                {/* Fallback placeholder - always rendered behind the image */}
-                <div className="absolute inset-0 bg-gradient-to-br from-muted to-muted-foreground/20 flex items-center justify-center -z-10">
-                    <span className="text-6xl">🍽️</span>
-                </div>
+                ) : (
+                    <div className="w-full h-full bg-gradient-to-br from-muted to-muted-foreground/20 flex items-center justify-center">
+                        <span className="text-6xl">🍽️</span>
+                    </div>
+                )}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-500" />
 
                 <div className="absolute top-3 right-3 z-10">
