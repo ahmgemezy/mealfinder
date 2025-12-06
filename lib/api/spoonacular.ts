@@ -232,11 +232,14 @@ export async function getRecipeById(id: string): Promise<Recipe | null> {
     try {
         // 1. Try Supabase cache first
         const cachedRecipe = await fetchRecipeFromSupabase(id);
-        if (cachedRecipe) {
+
+        // Return cached recipe only if it has valid instructions
+        // Old cached recipes may be missing instructions from before the fix
+        if (cachedRecipe && cachedRecipe.instructions && cachedRecipe.instructions.trim() !== '') {
             return cachedRecipe;
         }
 
-        // 2. Fetch from Spoonacular with nutrition
+        // 2. Fetch from Spoonacular with nutrition (either no cache or incomplete cache)
         const data = await fetchFromSpoonacular<SpoonacularRecipe>(
             `recipes/${id}/information`,
             { includeNutrition: "true" }
@@ -246,7 +249,7 @@ export async function getRecipeById(id: string): Promise<Recipe | null> {
 
         const recipe = transformSpoonacularToRecipe(data);
 
-        // 3. Save to Supabase
+        // 3. Save/update to Supabase with complete data
         await saveRecipeToSupabase(recipe);
 
         return recipe;
