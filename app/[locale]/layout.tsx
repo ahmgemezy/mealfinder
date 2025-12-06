@@ -93,6 +93,9 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
       },
     },
     manifest: "/site.webmanifest",
+    other: {
+      "google-adsense-account": "ca-pub-2393924023690242",
+    },
   };
 }
 
