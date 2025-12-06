@@ -42,14 +42,21 @@ async function fetchRecipeFromSupabase(id: string): Promise<Recipe | null> {
     if (!isSupabaseConfigured()) return null;
 
     try {
-        const { data, error } = await supabase
-            .from('recipes')
-            .select('data')
-            .eq('id', id)
-            .single();
+        return await retryAsync(
+            async () => {
+                const { data, error } = await supabase
+                    .from('recipes')
+                    .select('data')
+                    .eq('id', id)
+                    .single();
 
-        if (error || !data) return null;
-        return data.data as Recipe;
+                if (error || !data) return null;
+                return data.data as Recipe;
+            },
+            3,
+            200,
+            `fetchRecipe:${id}`
+        );
     } catch (error) {
         console.error("Error fetching from Supabase:", error);
         return null;
@@ -59,26 +66,63 @@ async function fetchRecipeFromSupabase(id: string): Promise<Recipe | null> {
 async function saveRecipeToSupabase(recipe: Recipe): Promise<void> {
     if (!isSupabaseConfigured()) return;
 
-    try {
-        // Fire and forget - don't await this to avoid slowing down the response
-        supabase
-            .from('recipes')
-            .upsert({
-                id: recipe.id,
-                data: recipe,
-                created_at: new Date().toISOString()
-            }, { onConflict: 'id' })
-            .then(({ error }) => {
-                if (error) {
-                    console.error("Error saving to Supabase:", error.message, error);
-                }
-            });
-    } catch (error) {
-        console.error("Error saving to Supabase (exception):", error);
-    }
+    // Fire and forget with retry - use .then() to avoid blocking
+    retryAsync(
+        async () => {
+            const { error } = await supabase
+                .from('recipes')
+                .upsert({
+                    id: recipe.id,
+                    data: recipe,
+                    created_at: new Date().toISOString()
+                }, { onConflict: 'id' });
+
+            if (error) throw error;
+        },
+        2,
+        200,
+        `saveRecipe:${recipe.id}`
+    ).catch((error) => {
+        console.error("Error saving to Supabase:", error);
+    });
 }
 
 const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
+/**
+ * Retry helper with exponential backoff for Supabase operations
+ * Handles transient network errors (socket closed, fetch failed, etc.)
+ */
+async function retryAsync<T>(
+    fn: () => Promise<T>,
+    retries: number = 3,
+    baseDelay: number = 200,
+    context: string = 'operation'
+): Promise<T> {
+    let lastError: Error | null = null;
+
+    for (let attempt = 0; attempt <= retries; attempt++) {
+        try {
+            return await fn();
+        } catch (error) {
+            lastError = error as Error;
+            const isTransientError =
+                error instanceof Error &&
+                (error.message.includes('fetch failed') ||
+                    error.message.includes('socket') ||
+                    error.message.includes('ECONNRESET') ||
+                    error.message.includes('ETIMEDOUT'));
+
+            if (attempt < retries && isTransientError) {
+                const delay = baseDelay * Math.pow(2, attempt);
+                console.warn(`Retry ${attempt + 1}/${retries} for ${context} after ${delay}ms`);
+                await wait(delay);
+            }
+        }
+    }
+
+    throw lastError;
+}
 
 async function fetchFromMealDB<T>(
     endpoint: string,
@@ -455,31 +499,34 @@ export async function getRandomRecipesFromSupabase(count: number, excludeIds: st
     if (!isSupabaseConfigured()) return [];
 
     try {
-        // Fetch a larger pool of recent recipes to pick from
-        // We limit to 100 to get a good variety without fetching too much data
-        let query = supabase
-            .from('recipes')
-            .select('data')
-            .limit(100)
-            .order('created_at', { ascending: false });
+        return await retryAsync(
+            async () => {
+                // Fetch a larger pool of recent recipes to pick from
+                let query = supabase
+                    .from('recipes')
+                    .select('data')
+                    .limit(100)
+                    .order('created_at', { ascending: false });
 
-        // Filter out recipes we already have
-        if (excludeIds.length > 0) {
-            // Supabase/PostgREST syntax for NOT IN
-            // Note: URL length limits might apply for very large lists,
-            // but for typical scrolling (hundreds of items) it should be fine.
-            query = query.not('id', 'in', `(${excludeIds.join(',')})`);
-        }
+                // Filter out recipes we already have
+                if (excludeIds.length > 0) {
+                    query = query.not('id', 'in', `(${excludeIds.join(',')})`);
+                }
 
-        const { data, error } = await query;
+                const { data, error } = await query;
 
-        if (error || !data) return [];
+                if (error || !data) return [];
 
-        const recipes = data.map(row => row.data as Recipe);
+                const recipes = data.map(row => row.data as Recipe);
 
-        // Shuffle and pick 'count' recipes
-        const shuffled = recipes.sort(() => 0.5 - Math.random());
-        return shuffled.slice(0, count);
+                // Shuffle and pick 'count' recipes
+                const shuffled = recipes.sort(() => 0.5 - Math.random());
+                return shuffled.slice(0, count);
+            },
+            3,
+            200,
+            'getRandomRecipesFromSupabase'
+        );
     } catch (error) {
         console.error("Error fetching random from Supabase:", error);
         return [];
@@ -540,19 +587,26 @@ export async function getRecipesFromSupabase(category?: string, area?: string, d
 /**
  * Search recipes in Supabase by name
  */
-export async function searchRecipesInSupabase(query: string): Promise<Recipe[]> {
+export async function searchRecipesInSupabase(searchQuery: string): Promise<Recipe[]> {
     if (!isSupabaseConfigured()) return [];
 
     try {
-        const { data, error } = await supabase
-            .from('recipes')
-            .select('data')
-            .ilike('data->>name', `%${query}%`)
-            .limit(50);
+        return await retryAsync(
+            async () => {
+                const { data, error } = await supabase
+                    .from('recipes')
+                    .select('data')
+                    .ilike('data->>name', `%${searchQuery}%`)
+                    .limit(50);
 
-        if (error || !data) return [];
+                if (error || !data) return [];
 
-        return data.map(row => row.data as Recipe);
+                return data.map(row => row.data as Recipe);
+            },
+            3,
+            200,
+            'searchRecipesInSupabase'
+        );
     } catch (error) {
         console.error("Error searching recipes in Supabase:", error);
         return [];
@@ -566,30 +620,37 @@ export async function getRandomRecipeFromSupabaseWithFilters(filters: MealFilter
     if (!isSupabaseConfigured()) return null;
 
     try {
-        let query = supabase
-            .from('recipes')
-            .select('data');
+        return await retryAsync(
+            async () => {
+                let query = supabase
+                    .from('recipes')
+                    .select('data');
 
-        if (filters.category) {
-            query = query.eq('data->>category', filters.category);
-        }
+                if (filters.category) {
+                    query = query.eq('data->>category', filters.category);
+                }
 
-        if (filters.area) {
-            query = query.eq('data->>area', filters.area);
-        }
+                if (filters.area) {
+                    query = query.eq('data->>area', filters.area);
+                }
 
-        if (filters.diet) {
-            query = query.contains('data->tags', [filters.diet]);
-        }
+                if (filters.diet) {
+                    query = query.contains('data->tags', [filters.diet]);
+                }
 
-        // Fetch a batch of matching recipes
-        const { data, error } = await query.limit(20);
+                // Fetch a batch of matching recipes
+                const { data, error } = await query.limit(20);
 
-        if (error || !data || data.length === 0) return null;
+                if (error || !data || data.length === 0) return null;
 
-        // Pick a random one
-        const randomIndex = Math.floor(Math.random() * data.length);
-        return data[randomIndex].data as Recipe;
+                // Pick a random one
+                const randomIndex = Math.floor(Math.random() * data.length);
+                return data[randomIndex].data as Recipe;
+            },
+            3,
+            200,
+            'getRandomRecipeFromSupabaseWithFilters'
+        );
     } catch (error) {
         console.error("Error fetching random filtered recipe from Supabase:", error);
         return null;

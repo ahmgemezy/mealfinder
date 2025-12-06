@@ -39,18 +39,63 @@ function setCache<T>(key: string, data: T): void {
 }
 
 // Supabase Caching Helpers (same as MealDB)
+
+const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
+/**
+ * Retry helper with exponential backoff for Supabase operations
+ * Handles transient network errors (socket closed, fetch failed, etc.)
+ */
+async function retryAsync<T>(
+    fn: () => Promise<T>,
+    retries: number = 3,
+    baseDelay: number = 200,
+    context: string = 'operation'
+): Promise<T> {
+    let lastError: Error | null = null;
+
+    for (let attempt = 0; attempt <= retries; attempt++) {
+        try {
+            return await fn();
+        } catch (error) {
+            lastError = error as Error;
+            const isTransientError =
+                error instanceof Error &&
+                (error.message.includes('fetch failed') ||
+                    error.message.includes('socket') ||
+                    error.message.includes('ECONNRESET') ||
+                    error.message.includes('ETIMEDOUT'));
+
+            if (attempt < retries && isTransientError) {
+                const delay = baseDelay * Math.pow(2, attempt);
+                console.warn(`Retry ${attempt + 1}/${retries} for ${context} after ${delay}ms`);
+                await wait(delay);
+            }
+        }
+    }
+
+    throw lastError;
+}
+
 async function fetchRecipeFromSupabase(id: string): Promise<Recipe | null> {
     if (!isSupabaseConfigured()) return null;
 
     try {
-        const { data, error } = await supabase
-            .from('recipes')
-            .select('data')
-            .eq('id', id)
-            .single();
+        return await retryAsync(
+            async () => {
+                const { data, error } = await supabase
+                    .from('recipes')
+                    .select('data')
+                    .eq('id', id)
+                    .single();
 
-        if (error || !data) return null;
-        return data.data as Recipe;
+                if (error || !data) return null;
+                return data.data as Recipe;
+            },
+            3,
+            200,
+            `fetchRecipe:${id}`
+        );
     } catch (error) {
         console.error("Error fetching from Supabase:", error);
         return null;
@@ -60,25 +105,26 @@ async function fetchRecipeFromSupabase(id: string): Promise<Recipe | null> {
 async function saveRecipeToSupabase(recipe: Recipe): Promise<void> {
     if (!isSupabaseConfigured()) return;
 
-    try {
-        supabase
-            .from('recipes')
-            .upsert({
-                id: recipe.id,
-                data: recipe,
-                created_at: new Date().toISOString()
-            }, { onConflict: 'id' })
-            .then(({ error }) => {
-                if (error) {
-                    console.error("Error saving to Supabase:", error.message, error);
-                }
-            });
-    } catch (error) {
-        console.error("Error saving to Supabase (exception):", error);
-    }
-}
+    // Fire and forget with retry - use .then() to avoid blocking
+    retryAsync(
+        async () => {
+            const { error } = await supabase
+                .from('recipes')
+                .upsert({
+                    id: recipe.id,
+                    data: recipe,
+                    created_at: new Date().toISOString()
+                }, { onConflict: 'id' });
 
-const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+            if (error) throw error;
+        },
+        2,
+        200,
+        `saveRecipe:${recipe.id}`
+    ).catch((error) => {
+        console.error("Error saving to Supabase:", error);
+    });
+}
 
 async function fetchFromSpoonacular<T>(
     endpoint: string,
