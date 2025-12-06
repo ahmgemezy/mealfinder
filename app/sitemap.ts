@@ -82,11 +82,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
     if (isSupabaseConfigured()) {
         try {
-            // Fetch all recipes from Supabase (limit to 1000 for sitemap)
+            // Fetch all recipes from Supabase
             const { data: recipes, error } = await supabase
                 .from('recipes')
-                .select('id, name, updated_at')
-                .limit(1000);
+                .select('id, name, updated_at');
 
             if (!error && recipes) {
                 recipeRoutes = recipes.map((recipe) => ({
