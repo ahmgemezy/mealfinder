@@ -377,6 +377,56 @@ function RecipesContent() {
 
     const hasActiveFilters = searchQuery || selectedCategory || selectedArea || selectedDiet;
 
+    // Inject ItemList JSON-LD structured data for SEO
+    useEffect(() => {
+        // Remove any existing structured data script
+        const existingScript = document.querySelector('script[data-schema="itemlist"]');
+        if (existingScript) {
+            existingScript.remove();
+        }
+
+        // Only add if we have recipes to show
+        if (displayedRecipes.length === 0) return;
+
+        const itemListSchema = {
+            "@context": "https://schema.org",
+            "@type": "ItemList",
+            name: selectedCategory
+                ? `${selectedCategory} Recipes`
+                : selectedArea
+                    ? `${selectedArea} Recipes`
+                    : searchQuery
+                        ? `Recipes for "${searchQuery}"`
+                        : "Browse Recipes",
+            description: "Discover delicious recipes from around the world on Dish Shuffle",
+            numberOfItems: displayedRecipes.length,
+            itemListElement: displayedRecipes.slice(0, 10).map((recipe, index) => ({
+                "@type": "ListItem",
+                position: index + 1,
+                item: {
+                    "@type": "Recipe",
+                    name: recipe.name,
+                    url: `https://dishshuffle.com/en/recipes/${recipe.name.toLowerCase().replace(/[^a-z0-9\s-]/g, '').replace(/\s+/g, '-')}-${recipe.id}`,
+                    image: recipe.thumbnail,
+                    author: {
+                        "@type": "Organization",
+                        name: "Dish Shuffle"
+                    }
+                }
+            }))
+        };
+
+        const script = document.createElement('script');
+        script.type = 'application/ld+json';
+        script.setAttribute('data-schema', 'itemlist');
+        script.textContent = JSON.stringify(itemListSchema);
+        document.head.appendChild(script);
+
+        return () => {
+            script.remove();
+        };
+    }, [displayedRecipes, selectedCategory, selectedArea, searchQuery]);
+
     return (
         <div className="min-h-screen py-8 md:py-12">
             <div className="container mx-auto px-4">
