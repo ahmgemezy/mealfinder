@@ -1,6 +1,6 @@
 import { MetadataRoute } from "next";
 import { RECIPE_CATEGORIES, RECIPE_AREAS } from "@/lib/constants";
-import { supabase, isSupabaseConfigured } from "@/lib/supabase";
+import { supabase } from "@/lib/supabase";
 
 // Helper to generate slug from recipe name (must match the slug format used in the app)
 function generateSlug(name: string, id: string): string {
@@ -80,24 +80,27 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     // Individual recipe pages from Supabase
     let recipeRoutes: MetadataRoute.Sitemap = [];
 
-    if (isSupabaseConfigured()) {
-        try {
-            // Fetch all recipes from Supabase
-            const { data: recipes, error } = await supabase
-                .from('recipes')
-                .select('id, name, updated_at');
+    try {
+        // Fetch all recipes from Supabase
+        const { data: recipes, error } = await supabase
+            .from('recipes')
+            .select('id, name, updated_at');
 
-            if (!error && recipes) {
-                recipeRoutes = recipes.map((recipe) => ({
-                    url: `${baseUrl}/recipes/${generateSlug(recipe.name, recipe.id)}`,
-                    lastModified: recipe.updated_at ? new Date(recipe.updated_at) : new Date(),
-                    changeFrequency: "weekly" as const,
-                    priority: 0.6,
-                }));
-            }
-        } catch (error) {
-            console.error("Error fetching recipes for sitemap:", error);
+        if (error) {
+            console.error("Supabase error fetching recipes for sitemap:", error);
+        } else if (recipes && recipes.length > 0) {
+            console.log(`Sitemap: Found ${recipes.length} recipes in Supabase`);
+            recipeRoutes = recipes.map((recipe) => ({
+                url: `${baseUrl}/recipes/${generateSlug(recipe.name, recipe.id)}`,
+                lastModified: recipe.updated_at ? new Date(recipe.updated_at) : new Date(),
+                changeFrequency: "weekly" as const,
+                priority: 0.6,
+            }));
+        } else {
+            console.log("Sitemap: No recipes found in Supabase");
         }
+    } catch (error) {
+        console.error("Error fetching recipes for sitemap:", error);
     }
 
     return [...staticRoutes, ...legalRoutes, ...categoryRoutes, ...areaRoutes, ...recipeRoutes];
