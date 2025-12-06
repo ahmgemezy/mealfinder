@@ -2,7 +2,8 @@ import { MetadataRoute } from "next";
 import { RECIPE_CATEGORIES, RECIPE_AREAS } from "@/lib/constants";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+    // Use custom site URL or production domain as fallback
+    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://dishshuffle.com";
 
     // Static routes
     const routes: MetadataRoute.Sitemap = [
