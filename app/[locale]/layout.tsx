@@ -148,6 +148,16 @@ export default async function RootLayout({
           `,
         }}
       />
+      {/* Google Ads Conversion Event - Page View */}
+      <Script
+        id="google-ads-conversion"
+        strategy="afterInteractive"
+        dangerouslySetInnerHTML={{
+          __html: `
+            gtag('event', 'conversion_event_page_view', {});
+          `,
+        }}
+      />
       <body className={`${inter.variable} ${playfair.variable} ${geistMono.variable} antialiased`} suppressHydrationWarning>
         <NextIntlClientProvider messages={messages}>
           <SurpriseMeProvider>
