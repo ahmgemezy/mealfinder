@@ -82,20 +82,23 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
     try {
         // Fetch all recipes from Supabase
+        // Note: The recipes table stores name inside a 'data' JSONB column
         const { data: recipes, error } = await supabase
             .from('recipes')
-            .select('id, name, updated_at');
+            .select('id, data, created_at');
 
         if (error) {
             console.error("Supabase error fetching recipes for sitemap:", error);
         } else if (recipes && recipes.length > 0) {
             console.log(`Sitemap: Found ${recipes.length} recipes in Supabase`);
-            recipeRoutes = recipes.map((recipe) => ({
-                url: `${baseUrl}/recipes/${generateSlug(recipe.name, recipe.id)}`,
-                lastModified: recipe.updated_at ? new Date(recipe.updated_at) : new Date(),
-                changeFrequency: "weekly" as const,
-                priority: 0.6,
-            }));
+            recipeRoutes = recipes
+                .filter((recipe) => recipe.data?.name) // Only include recipes with a name
+                .map((recipe) => ({
+                    url: `${baseUrl}/recipes/${generateSlug(recipe.data.name, recipe.id)}`,
+                    lastModified: recipe.created_at ? new Date(recipe.created_at) : new Date(),
+                    changeFrequency: "weekly" as const,
+                    priority: 0.6,
+                }));
         } else {
             console.log("Sitemap: No recipes found in Supabase");
         }
