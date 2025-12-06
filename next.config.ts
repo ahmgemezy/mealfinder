@@ -8,6 +8,7 @@ const nextConfig: NextConfig = {
     root: __dirname,
   },
   images: {
+    unoptimized: true, // Disable Vercel Image Optimization due to quota exceeded
     remotePatterns: [
       {
         protocol: "https",
