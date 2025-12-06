@@ -80,13 +80,23 @@ export default function SurpriseMeModal() {
                         <div className="grid grid-cols-1 md:grid-cols-[300px_1fr] gap-6" translate="yes">
                             {/* Image - Left Side */}
                             <div className="relative w-full h-64 md:h-auto md:min-h-[400px] rounded-2xl overflow-hidden flex-shrink-0">
-                                <Image
-                                    src={recipe.thumbnail}
-                                    alt={recipe.name}
-                                    fill
-                                    className="object-cover"
-                                    priority
-                                />
+                                {recipe.thumbnail ? (
+                                    <Image
+                                        src={recipe.thumbnail}
+                                        alt={recipe.name}
+                                        fill
+                                        className="object-cover"
+                                        priority
+                                        onError={(e) => {
+                                            // Hide broken image and show fallback
+                                            e.currentTarget.style.display = 'none';
+                                        }}
+                                    />
+                                ) : null}
+                                {/* Fallback placeholder - always rendered behind the image */}
+                                <div className="absolute inset-0 bg-gradient-to-br from-muted to-muted-foreground/20 flex items-center justify-center -z-10">
+                                    <span className="text-8xl">🍽️</span>
+                                </div>
                             </div>
 
                             {/* Content - Right Side */}

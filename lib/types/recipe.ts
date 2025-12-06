@@ -290,15 +290,23 @@ export function transformSpoonacularToRecipe(recipe: SpoonacularRecipe): Recipe 
         ...(recipe.dishTypes || [])
     ];
 
-    // Fix image URL - Spoonacular sometimes returns incomplete URLs
-    let thumbnail = recipe.image;
-    if (thumbnail) {
+    // Fix image URL - Spoonacular sometimes returns incomplete URLs or undefined
+    let thumbnail = '';
+    if (recipe.image && recipe.image.trim() !== '') {
+        thumbnail = recipe.image;
         // Remove trailing dots and ensure proper extension
         thumbnail = thumbnail.replace(/\.$/, '');
         // If URL doesn't have proper extension, add jpg
         if (!thumbnail.match(/\.(jpg|jpeg|png|webp)$/i)) {
             thumbnail = `${thumbnail}.jpg`;
         }
+        // If URL doesn't start with http, it might be a relative path - construct full URL
+        if (!thumbnail.startsWith('http')) {
+            thumbnail = `https://img.spoonacular.com/recipes/${recipe.id}-556x370.jpg`;
+        }
+    } else {
+        // If no image provided, construct one from the recipe ID
+        thumbnail = `https://img.spoonacular.com/recipes/${recipe.id}-556x370.jpg`;
     }
 
     return {
