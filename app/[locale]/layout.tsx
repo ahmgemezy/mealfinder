@@ -158,6 +158,13 @@ export default async function RootLayout({
           `,
         }}
       />
+      {/* Google AdSense */}
+      <Script
+        async
+        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2393924023690242"
+        crossOrigin="anonymous"
+        strategy="afterInteractive"
+      />
       <body className={`${inter.variable} ${playfair.variable} ${geistMono.variable} antialiased`} suppressHydrationWarning>
         <NextIntlClientProvider messages={messages}>
           <SurpriseMeProvider>
