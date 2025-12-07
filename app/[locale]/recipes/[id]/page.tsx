@@ -130,7 +130,10 @@ export default async function RecipePage({ params }: RecipePageProps) {
             .map((step, index) => ({
                 "@type": "HowToStep",
                 position: index + 1,
-                text: step.trim() + "."
+                text: step.trim() + ".",
+                name: `Step ${index + 1}`,
+                url: `https://dishshuffle.com/recipes/${slug}#step-${index + 1}`,
+                image: recipe.thumbnail
             })),
         // Nutrition info - always include with available data or reasonable defaults
         nutrition: {
@@ -174,7 +177,8 @@ export default async function RecipePage({ params }: RecipePageProps) {
                 thumbnailUrl: recipe.thumbnail,
                 contentUrl: recipe.youtube,
                 embedUrl: recipe.youtube.replace('watch?v=', 'embed/'),
-                uploadDate: new Date().toISOString().split('T')[0]
+                uploadDate: new Date().toISOString().split('T')[0],
+                duration: recipe.readyInMinutes ? `PT${recipe.readyInMinutes}M` : "PT10M"
             }
         })
     };
