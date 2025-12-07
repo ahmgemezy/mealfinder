@@ -140,5 +140,13 @@
         "viewFullRecipe": "View Full Recipe",
         "getAnotherMeal": "Get Another Meal",
         "moreIngredients": "+{count} more"
+    },
+    "NotFound": {
+        "title": "Recipe Not Found",
+        "description": "Oops! Looks like this dish got away.",
+        "suggestion": "Don't worry, we have plenty more delicious recipes waiting for you!",
+        "goHome": "Go Home",
+        "browseRecipes": "Browse Recipes",
+        "funTagline": "Even the best chefs sometimes lose a recipe... 👨‍🍳"
     }
 }

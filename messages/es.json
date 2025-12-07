@@ -146,5 +146,13 @@
         "viewFullRecipe": "Ver receta completa",
         "getAnotherMeal": "Obtener otra comida",
         "moreIngredients": "+{count} más"
+    },
+    "NotFound": {
+        "title": "Receta No Encontrada",
+        "description": "¡Ups! Parece que este plato se escapó.",
+        "suggestion": "¡No te preocupes, tenemos muchas más recetas deliciosas esperándote!",
+        "goHome": "Inicio",
+        "browseRecipes": "Explorar Recetas",
+        "funTagline": "Hasta los mejores chefs pierden una receta a veces... 👨‍🍳"
     }
 }

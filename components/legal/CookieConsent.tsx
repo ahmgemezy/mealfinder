@@ -35,6 +35,19 @@ export default function CookieConsent() {
         } else {
             // Restore Google consent from previous session
             try {
+                // Handle legacy string values like "all" from previous versions
+                if (consent === "all" || consent === "essential") {
+                    // Migrate to new format
+                    const newPrefs: CookiePreferences = {
+                        essential: true,
+                        performance: consent === "all",
+                        functional: consent === "all",
+                        targeting: consent === "all",
+                    };
+                    localStorage.setItem("cookie-consent", JSON.stringify(newPrefs));
+                    return;
+                }
+
                 const savedPrefs: CookiePreferences = JSON.parse(consent);
                 if (typeof window !== 'undefined' && typeof window.gtag === 'function') {
                     window.gtag('consent', 'update', {
@@ -45,7 +58,10 @@ export default function CookieConsent() {
                     });
                 }
             } catch (e) {
-                console.error('Error restoring consent:', e);
+                // If JSON parsing fails, clear invalid data and show consent banner again
+                console.error('Error restoring consent, resetting:', e);
+                localStorage.removeItem("cookie-consent");
+                setIsVisible(true);
             }
         }
     }, []);

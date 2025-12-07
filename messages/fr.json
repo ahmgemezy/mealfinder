@@ -146,5 +146,13 @@
         "viewFullRecipe": "Voir la recette complète",
         "getAnotherMeal": "Obtenir un autre repas",
         "moreIngredients": "+{count} de plus"
+    },
+    "NotFound": {
+        "title": "Recette Introuvable",
+        "description": "Oups ! On dirait que ce plat s'est échappé.",
+        "suggestion": "Ne vous inquiétez pas, nous avons plein d'autres délicieuses recettes qui vous attendent !",
+        "goHome": "Accueil",
+        "browseRecipes": "Parcourir les recettes",
+        "funTagline": "Même les meilleurs chefs perdent parfois une recette... 👨‍🍳"
     }
 }

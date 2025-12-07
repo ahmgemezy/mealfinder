@@ -136,6 +136,58 @@ body {
       transform: translate(0px, 0px) scale(1);
     }
   }
+
+  /* 404 Page Animations */
+  @keyframes float-1 {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-20px) rotate(5deg); }
+  }
+
+  @keyframes float-2 {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-30px) rotate(-5deg); }
+  }
+
+  @keyframes float-3 {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-15px) rotate(8deg); }
+  }
+
+  @keyframes float-4 {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-25px) rotate(-8deg); }
+  }
+
+  @keyframes float-5 {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-18px) rotate(3deg); }
+  }
+
+  @keyframes bounce-plate {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+
+  @keyframes wiggle-left {
+    0%, 100% { transform: translateY(-50%) rotate(-5deg); }
+    25% { transform: translateY(-50%) rotate(-15deg); }
+    75% { transform: translateY(-50%) rotate(5deg); }
+  }
+
+  @keyframes wiggle-right {
+    0%, 100% { transform: translateY(-50%) rotate(5deg); }
+    25% { transform: translateY(-50%) rotate(15deg); }
+    75% { transform: translateY(-50%) rotate(-5deg); }
+  }
+
+  --animate-float-1: float-1 6s ease-in-out infinite;
+  --animate-float-2: float-2 7s ease-in-out infinite 0.5s;
+  --animate-float-3: float-3 8s ease-in-out infinite 1s;
+  --animate-float-4: float-4 5s ease-in-out infinite 1.5s;
+  --animate-float-5: float-5 9s ease-in-out infinite 2s;
+  --animate-bounce-plate: bounce-plate 2s ease-in-out infinite;
+  --animate-wiggle-left: wiggle-left 3s ease-in-out infinite;
+  --animate-wiggle-right: wiggle-right 3s ease-in-out infinite 0.5s;
 }
 
 /* CSS Custom Properties */
