@@ -81,11 +81,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     let recipeRoutes: MetadataRoute.Sitemap = [];
 
     try {
-        // Fetch all recipes from Supabase
+        // Fetch all recipes from Supabase (up to 10,000)
         // Note: The recipes table stores name inside a 'data' JSONB column
         const { data: recipes, error } = await supabase
             .from('recipes')
-            .select('id, data, created_at');
+            .select('id, data, created_at')
+            .limit(10000); // Increased from default 1000
 
         if (error) {
             console.error("Supabase error fetching recipes for sitemap:", error);

@@ -40,7 +40,7 @@ export default function ShareButton({ recipe, className = "" }: ShareButtonProps
                     url: window.location.href,
                 });
             } catch (error) {
-                console.log("Error sharing:", error);
+                // Silently fail - user cancelled or error occurred
             }
         }
     };

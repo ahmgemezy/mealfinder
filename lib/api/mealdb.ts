@@ -6,6 +6,7 @@ import {
     MealFilters,
 } from "@/lib/types/recipe";
 import { supabase, isSupabaseConfigured } from "@/lib/supabase";
+import { devLog } from "@/lib/utils/logger";
 
 const MEALDB_BASE_URL = "https://www.themealdb.com/api/json/v1/1";
 
@@ -60,7 +61,7 @@ async function fetchRecipeFromSupabase(id: string): Promise<Recipe | null> {
                     const createdAt = new Date(data.created_at).getTime();
                     const now = Date.now();
                     if (now - createdAt > SUPABASE_CACHE_TTL_MS) {
-                        console.log(`Cache expired for recipe ${id} (older than 120 days)`);
+                        devLog.log(`Cache expired for recipe ${id} (older than 120 days)`);
                         return null; // Return null to trigger refetch from API
                     }
                 }

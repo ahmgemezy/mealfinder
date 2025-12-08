@@ -19,6 +19,7 @@
 import { Recipe, MealFilters } from "@/lib/types/recipe";
 import * as mealdb from "./mealdb";
 import * as spoonacular from "./spoonacular";
+import { devLog } from "@/lib/utils/logger";
 
 // Get API provider from environment variable
 const getProvider = (): 'mealdb' | 'spoonacular' | 'hybrid' => {
@@ -47,7 +48,7 @@ export async function getRandomMeal(): Promise<Recipe | null> {
             const meal = await mealdb.getRandomMeal();
             if (meal) return meal;
 
-            console.log("TheMealDB failed, trying Spoonacular...");
+            devLog.log("TheMealDB failed, trying Spoonacular...");
             return await spoonacular.getRandomRecipe();
         } else {
             // Default: mealdb
@@ -81,7 +82,7 @@ export async function getRandomMealWithFilters(filters: MealFilters): Promise<Re
             try {
                 const dbMeal = await mealdb.getRandomRecipeFromSupabaseWithFilters(filters);
                 if (dbMeal) {
-                    console.log("Found random filtered meal in Supabase");
+                    devLog.log("Found random filtered meal in Supabase");
                     return dbMeal;
                 }
             } catch (error) {
@@ -95,7 +96,7 @@ export async function getRandomMealWithFilters(filters: MealFilters): Promise<Re
             const meal = await mealdb.getRandomMealWithFilters(filters);
             if (meal) return meal;
 
-            console.log("TheMealDB filtered random failed, trying Spoonacular...");
+            devLog.log("TheMealDB filtered random failed, trying Spoonacular...");
             return await spoonacular.getRandomRecipeWithFilters(filters);
         } else {
             return await mealdb.getRandomMealWithFilters(filters);
@@ -426,7 +427,7 @@ export async function filterByDiet(diet: string): Promise<Recipe[]> {
             try {
                 const dbRecipes = await mealdb.getRecipesFromSupabase(undefined, undefined, diet);
                 if (dbRecipes.length > 0) {
-                    console.log(`Found ${dbRecipes.length} recipes for diet '${diet}' in Supabase`);
+                    devLog.log(`Found ${dbRecipes.length} recipes for diet '${diet}' in Supabase`);
                     dbRecipes.forEach(r => {
                         if (!seenIds.has(r.id)) {
                             results.push(r);
@@ -452,7 +453,7 @@ export async function filterByDiet(diet: string): Promise<Recipe[]> {
                     }
                 });
             } else {
-                console.log(`Skipping Spoonacular API for diet '${diet}' as we have enough results from DB`);
+                devLog.log(`Skipping Spoonacular API for diet '${diet}' as we have enough results from DB`);
             }
         }
 
@@ -644,7 +645,7 @@ export async function getMultipleRandomMeals(count: number = 6, excludeIds: stri
             try {
                 const dbRecipes = await mealdb.getRandomRecipesFromSupabase(count, excludeIds);
                 if (dbRecipes.length > 0) {
-                    console.log(`Fetched ${dbRecipes.length} recipes from Supabase`);
+                    devLog.log(`Fetched ${dbRecipes.length} recipes from Supabase`);
                     results.push(...dbRecipes);
                 }
             } catch (error) {
@@ -669,7 +670,7 @@ export async function getMultipleRandomMeals(count: number = 6, excludeIds: stri
         if (provider === 'hybrid' || provider === 'spoonacular') {
             const remaining = count - results.length;
             if (remaining > 0) {
-                console.log(`Fetching ${remaining} recipes from Spoonacular (fallback)`);
+                devLog.log(`Fetching ${remaining} recipes from Spoonacular (fallback)`);
                 const spoonRecipes = await spoonacular.getMultipleRandomRecipes(remaining);
                 results.push(...spoonRecipes);
             }
@@ -707,7 +708,7 @@ export async function getRelatedRecipes(category: string, currentId: string, cou
             let results = await mealdb.getRelatedRecipes(category, currentId, count);
             if (results.length >= count) return results;
 
-            console.log("TheMealDB related recipes returned insufficient results, trying Spoonacular...");
+            devLog.log("TheMealDB related recipes returned insufficient results, trying Spoonacular...");
 
             try {
                 // Try to get similar recipes from Spoonacular if ID is numeric (Spoonacular ID)

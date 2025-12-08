@@ -4,6 +4,7 @@
 
 import { supabase, isSupabaseConfigured } from '@/lib/supabase';
 import { Recipe } from '@/lib/types/recipe';
+import { devLog } from '@/lib/utils/logger';
 
 const YOUTUBE_API_KEY = process.env.NEXT_PUBLIC_YOUTUBE_API_KEY;
 const YOUTUBE_API_BASE_URL = 'https://www.googleapis.com/youtube/v3';
@@ -53,12 +54,12 @@ export async function searchRecipeVideo(recipeName: string): Promise<string | nu
 
         // Check if we got any results
         if (!data.items || data.items.length === 0) {
-            console.log(`No YouTube videos found for: ${recipeName}`);
+            devLog.log(`No YouTube videos found for: ${recipeName}`);
             return null;
         }
 
         const videoId = data.items[0].id.videoId;
-        console.log(`Found YouTube video for ${recipeName}: ${videoId}`);
+        devLog.log(`Found YouTube video for ${recipeName}: ${videoId}`);
 
         return videoId;
     } catch (error) {
@@ -128,7 +129,7 @@ export async function updateRecipeYoutubeUrl(
 
         if (fetchError) {
             // Recipe might not be cached yet - that's okay
-            console.log(`Recipe ${recipeId} not in cache, cannot update YouTube URL`);
+            devLog.log(`Recipe ${recipeId} not in cache, cannot update YouTube URL`);
             return;
         }
 
@@ -152,7 +153,7 @@ export async function updateRecipeYoutubeUrl(
             return;
         }
 
-        console.log(`Cached YouTube video for recipe ${recipeId}: ${youtubeUrl}`);
+        devLog.log(`Cached YouTube video for recipe ${recipeId}: ${youtubeUrl}`);
     } catch (error) {
         console.error('Error caching YouTube video:', error);
     }
