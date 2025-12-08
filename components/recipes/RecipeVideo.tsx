@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { Recipe } from '@/lib/types/recipe';
-import { searchRecipeVideo, extractYouTubeVideoId } from '@/lib/api/youtube';
+import { searchRecipeVideo, extractYouTubeVideoId, updateRecipeYoutubeUrl } from '@/lib/api/youtube';
 import { useTranslations } from 'next-intl';
 
 interface RecipeVideoProps {
@@ -33,6 +33,11 @@ export default function RecipeVideo({ recipe }: RecipeVideoProps) {
                 try {
                     const foundVideoId = await searchRecipeVideo(recipe.name);
                     setVideoId(foundVideoId);
+
+                    // Cache the found video URL to Supabase (fire and forget)
+                    if (foundVideoId) {
+                        updateRecipeYoutubeUrl(recipe.id, foundVideoId);
+                    }
                 } catch (error) {
                     console.error('Error loading recipe video:', error);
                     setVideoId(null);

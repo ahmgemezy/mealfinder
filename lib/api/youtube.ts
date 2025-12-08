@@ -2,6 +2,9 @@
  * YouTube Data API v3 integration for searching cooking tutorial videos
  */
 
+import { supabase, isSupabaseConfigured } from '@/lib/supabase';
+import { Recipe } from '@/lib/types/recipe';
+
 const YOUTUBE_API_KEY = process.env.NEXT_PUBLIC_YOUTUBE_API_KEY;
 const YOUTUBE_API_BASE_URL = 'https://www.googleapis.com/youtube/v3';
 
@@ -94,5 +97,63 @@ export function extractYouTubeVideoId(url: string): string | null {
     } catch (error) {
         console.error('Error extracting YouTube video ID:', error);
         return null;
+    }
+}
+
+/**
+ * Update a recipe's YouTube URL in Supabase cache
+ * This saves the found video so we don't need to search again
+ * @param recipeId - The recipe ID to update
+ * @param videoId - The YouTube video ID that was found
+ */
+export async function updateRecipeYoutubeUrl(
+    recipeId: string,
+    videoId: string
+): Promise<void> {
+    if (!isSupabaseConfigured()) {
+        console.warn('Supabase not configured. Cannot cache YouTube video.');
+        return;
+    }
+
+    try {
+        // Construct full YouTube URL
+        const youtubeUrl = `https://www.youtube.com/watch?v=${videoId}`;
+
+        // Fetch the current recipe data
+        const { data: existingData, error: fetchError } = await supabase
+            .from('recipes')
+            .select('data')
+            .eq('id', recipeId)
+            .single();
+
+        if (fetchError) {
+            // Recipe might not be cached yet - that's okay
+            console.log(`Recipe ${recipeId} not in cache, cannot update YouTube URL`);
+            return;
+        }
+
+        // Update the recipe with the YouTube URL
+        const updatedRecipe: Recipe = {
+            ...(existingData.data as Recipe),
+            youtube: youtubeUrl,
+        };
+
+        // Save back to Supabase
+        const { error: updateError } = await supabase
+            .from('recipes')
+            .upsert({
+                id: recipeId,
+                data: updatedRecipe,
+                created_at: new Date().toISOString(),
+            }, { onConflict: 'id' });
+
+        if (updateError) {
+            console.error('Error updating recipe YouTube URL:', updateError);
+            return;
+        }
+
+        console.log(`Cached YouTube video for recipe ${recipeId}: ${youtubeUrl}`);
+    } catch (error) {
+        console.error('Error caching YouTube video:', error);
     }
 }
