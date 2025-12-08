@@ -18,7 +18,10 @@ export function useSearchHistory() {
             if (stored) {
                 const parsed = JSON.parse(stored);
                 if (Array.isArray(parsed)) {
-                    setHistory(parsed.slice(0, MAX_HISTORY_ITEMS));
+                    // Schedule state update for next render to avoid cascading updates
+                    setTimeout(() => {
+                        setHistory(parsed.slice(0, MAX_HISTORY_ITEMS));
+                    }, 0);
                 }
             }
         } catch (error) {

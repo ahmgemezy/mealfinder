@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { getRandomMeal } from "@/lib/api";
 import { Recipe } from "@/lib/types/recipe";
 import Button from "@/components/ui/Button";
@@ -21,7 +21,7 @@ export default function SurpriseMeModal() {
     const [isLoading, setIsLoading] = useState(false);
     const abortControllerRef = useRef<AbortController | null>(null);
 
-    const fetchRandomMeal = async () => {
+    const fetchRandomMeal = useCallback(async () => {
         // Cancel any previous request
         if (abortControllerRef.current) {
             abortControllerRef.current.abort();
@@ -54,7 +54,7 @@ export default function SurpriseMeModal() {
                 setIsLoading(false);
             }
         }
-    };
+    }, [addToast]);
 
     useEffect(() => {
         if (isOpen) {
@@ -76,7 +76,7 @@ export default function SurpriseMeModal() {
                 abortControllerRef.current.abort();
             }
         };
-    }, [isOpen]);
+    }, [isOpen, fetchRandomMeal]);
 
     if (!isOpen) return null;
 

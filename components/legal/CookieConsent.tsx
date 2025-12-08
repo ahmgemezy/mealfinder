@@ -61,7 +61,10 @@ export default function CookieConsent() {
                 // If JSON parsing fails, clear invalid data and show consent banner again
                 console.error('Error restoring consent, resetting:', e);
                 localStorage.removeItem("cookie-consent");
-                setIsVisible(true);
+                // Schedule state update for next render to avoid cascading updates
+                setTimeout(() => {
+                    setIsVisible(true);
+                }, 0);
             }
         }
     }, []);

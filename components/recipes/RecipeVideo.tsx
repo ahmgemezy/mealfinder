@@ -49,7 +49,7 @@ export default function RecipeVideo({ recipe }: RecipeVideoProps) {
         }
 
         loadVideo();
-    }, [recipe.youtube, recipe.name, searchAttempted]);
+    }, [recipe.id, recipe.youtube, recipe.name, searchAttempted]);
 
     // Don't render anything if loading or no video found
     if (isLoading) {

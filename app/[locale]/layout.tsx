@@ -14,6 +14,7 @@ import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
 import { ToastProvider } from "@/lib/contexts/ToastContext";
 import { ToastContainer } from "@/components/ui/Toast";
+import { validateEnvVars } from '@/lib/env-validator';
 
 const GA_TRACKING_ID = 'G-1CJ0891RQ7';
 
@@ -110,6 +111,9 @@ export default async function RootLayout({
   children: React.ReactNode;
   params: Promise<{ locale: string }>;
 }>) {
+  // Validate environment variables on server side
+  validateEnvVars();
+
   const { locale } = await params;
   const messages = await getMessages();
 

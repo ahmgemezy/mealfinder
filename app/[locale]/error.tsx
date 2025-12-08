@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect } from 'react'
+import Link from 'next/link'
 
 export default function Error({
     error,
@@ -38,7 +39,7 @@ export default function Error({
                 </h2>
 
                 <p className="text-muted-foreground mb-8">
-                    We encountered an unexpected error. Don't worry, we're working on it!
+                    We encountered an unexpected error. Don&apos;t worry, we&apos;re working on it!
                 </p>
 
                 <div className="space-y-4">
@@ -49,12 +50,12 @@ export default function Error({
                         Try again
                     </button>
 
-                    <a
+                    <Link
                         href="/"
                         className="block w-full px-6 py-3 border border-border rounded-lg hover:bg-muted transition-colors font-medium"
                     >
                         Go back home
-                    </a>
+                    </Link>
                 </div>
 
                 {process.env.NODE_ENV === 'development' && (

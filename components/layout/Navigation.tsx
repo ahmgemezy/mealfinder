@@ -112,6 +112,7 @@ export default function Navigation() {
                             ))}
                             <button
                                 onClick={openModal}
+                                aria-label="Get random recipe suggestion"
                                 className="px-5 py-2.5 rounded-full font-medium text-sm text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-all duration-300"
                             >
                                 {t('surpriseMe')}
@@ -127,6 +128,9 @@ export default function Navigation() {
                                 <div className="relative">
                                     <button
                                         onClick={() => setShowUserMenu(!showUserMenu)}
+                                        aria-label={`User menu for ${getUserName()}`}
+                                        aria-expanded={showUserMenu}
+                                        aria-haspopup="true"
                                         className="flex items-center gap-2 px-4 py-2 rounded-full font-medium text-sm bg-muted hover:bg-muted/80 transition-colors"
                                     >
                                         <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary-500 to-accent-500 flex items-center justify-center text-white font-bold text-sm">
@@ -257,6 +261,7 @@ export default function Navigation() {
                     })}
                     <button
                         onClick={openModal}
+                        aria-label="Get random recipe suggestion"
                         className="flex flex-col items-center justify-center gap-1 px-4 py-2 rounded-xl transition-all duration-300 text-muted-foreground hover:text-foreground"
                     >
                         <SparklesIcon className="w-6 h-6 stroke-current" />
