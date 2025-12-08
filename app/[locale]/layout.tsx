@@ -58,7 +58,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
       description: "Find your next favorite meal with Dish Shuffle. Browse thousands of recipes from around the world.",
       images: [
         {
-          url: "/og-image.jpg",
+          url: "/og-image.png",
           width: 1200,
           height: 630,
           alt: "Dish Shuffle - Recipe Discovery Platform",
@@ -70,7 +70,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
       title: "Dish Shuffle - Discover Your Next Meal",
       description:
         "Discover delicious recipes from around the world. Get random meal suggestions and find your next favorite dish.",
-      images: ["/og-image.jpg"],
+      images: ["/og-image.png"],
       creator: "@whattoeat",
     },
     robots: {
