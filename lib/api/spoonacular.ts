@@ -77,6 +77,9 @@ async function retryAsync<T>(
     throw lastError;
 }
 
+// Cache expiration: 120 days in milliseconds
+const SUPABASE_CACHE_TTL_MS = 120 * 24 * 60 * 60 * 1000;
+
 async function fetchRecipeFromSupabase(id: string): Promise<Recipe | null> {
     if (!isSupabaseConfigured()) return null;
 
@@ -85,11 +88,22 @@ async function fetchRecipeFromSupabase(id: string): Promise<Recipe | null> {
             async () => {
                 const { data, error } = await supabase
                     .from('recipes')
-                    .select('data')
+                    .select('data, created_at')
                     .eq('id', id)
                     .single();
 
                 if (error || !data) return null;
+
+                // Check if cache has expired (older than 120 days)
+                if (data.created_at) {
+                    const createdAt = new Date(data.created_at).getTime();
+                    const now = Date.now();
+                    if (now - createdAt > SUPABASE_CACHE_TTL_MS) {
+                        console.log(`Cache expired for recipe ${id} (older than 120 days)`);
+                        return null; // Return null to trigger refetch from API
+                    }
+                }
+
                 return data.data as Recipe;
             },
             3,
