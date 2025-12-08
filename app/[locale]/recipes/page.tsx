@@ -296,9 +296,9 @@ function RecipesContent() {
                 setAreas(fetchedAreas);
             } catch (error) {
                 console.error("Error loading filters:", error);
-                // Fallback to static lists
-                setCategories(MEALDB_CATEGORIES);
-                setAreas(MEALDB_AREAS);
+                // Fallback to static lists - spread to convert readonly to mutable
+                setCategories([...MEALDB_CATEGORIES]);
+                setAreas([...MEALDB_AREAS]);
             } finally {
                 setIsLoadingFilters(false);
             }

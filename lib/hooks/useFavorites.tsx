@@ -5,6 +5,7 @@ import { Recipe } from "@/lib/types/recipe";
 import { supabase } from "@/lib/supabase";
 import type { User } from "@supabase/supabase-js";
 import AuthModal from "@/components/features/AuthModal";
+import { useToast } from "@/lib/contexts/ToastContext";
 
 interface FavoritesContextType {
     favorites: Recipe[];
@@ -23,6 +24,7 @@ export function FavoritesProvider({ children }: { children: ReactNode }) {
     const [user, setUser] = useState<User | null>(null);
     const [isLoading, setIsLoading] = useState(true);
     const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+    const { addToast } = useToast();
 
     // Get current user and listen for auth changes
     useEffect(() => {
@@ -66,17 +68,34 @@ export function FavoritesProvider({ children }: { children: ReactNode }) {
 
                 if (error) throw error;
 
-                // Transform favorites data to Recipe format
-                const recipesFromFavorites: Recipe[] = (data || []).map((fav) => ({
-                    id: fav.recipe_id,
-                    name: fav.recipe_name,
-                    thumbnail: fav.recipe_thumbnail || "",
-                    category: fav.recipe_category || "",
-                    area: fav.recipe_area || "",
-                    instructions: "",
-                    tags: [],
-                    ingredients: [],
-                }));
+                // Transform favorites data to Recipe format with full data
+                const recipesFromFavorites: Recipe[] = await Promise.all(
+                    (data || []).map(async (fav) => {
+                        // Try to fetch full recipe data from recipes table
+                        const { data: fullRecipe } = await supabase
+                            .from("recipes")
+                            .select("data")
+                            .eq("id", fav.recipe_id)
+                            .single();
+
+                        if (fullRecipe?.data) {
+                            // Use full recipe data if available
+                            return fullRecipe.data as Recipe;
+                        }
+
+                        // Fall back to basic data from favorites table
+                        return {
+                            id: fav.recipe_id,
+                            name: fav.recipe_name,
+                            thumbnail: fav.recipe_thumbnail || "",
+                            category: fav.recipe_category || "",
+                            area: fav.recipe_area || "",
+                            instructions: "",
+                            tags: [],
+                            ingredients: [],
+                        };
+                    })
+                );
 
                 setFavorites(recipesFromFavorites);
             } catch (error) {
@@ -96,11 +115,14 @@ export function FavoritesProvider({ children }: { children: ReactNode }) {
             return;
         }
 
+        // Check if already favorited
+        if (favorites.some((fav) => fav.id === recipe.id)) {
+            addToast(`${recipe.name} is already in your favorites`, "info");
+            return;
+        }
+
         // Optimistically update UI
-        setFavorites((prev) => {
-            if (prev.some((fav) => fav.id === recipe.id)) return prev;
-            return [...prev, recipe];
-        });
+        setFavorites((prev) => [...prev, recipe]);
 
         try {
             const { error } = await supabase.from("favorites").insert({
@@ -113,6 +135,7 @@ export function FavoritesProvider({ children }: { children: ReactNode }) {
             });
 
             if (error) throw error;
+            addToast(`${recipe.name} added to favorites!`, "success");
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } catch (error: any) {
             console.error("Error adding favorite:", error);
@@ -121,14 +144,19 @@ export function FavoritesProvider({ children }: { children: ReactNode }) {
 
             if (error.code === "23505") {
                 // Duplicate key error - already favorited
+                addToast(`${recipe.name} is already in your favorites`, "info");
                 return;
             }
-            alert("Failed to add favorite. Please try again.");
+            addToast("Failed to add favorite. Please try again.", "error");
         }
     };
 
     const removeFavorite = async (recipeId: string) => {
         if (!user) return;
+
+        // Get recipe name for toast message
+        const recipe = favorites.find((fav) => fav.id === recipeId);
+        const recipeName = recipe?.name || "Recipe";
 
         // Optimistically update UI
         const previousFavorites = favorites;
@@ -142,11 +170,12 @@ export function FavoritesProvider({ children }: { children: ReactNode }) {
                 .eq("recipe_id", recipeId);
 
             if (error) throw error;
+            addToast(`${recipeName} removed from favorites`, "success");
         } catch (error) {
             console.error("Error removing favorite:", error);
             // Revert optimistic update on error
             setFavorites(previousFavorites);
-            alert("Failed to remove favorite. Please try again.");
+            addToast("Failed to remove favorite. Please try again.", "error");
         }
     };
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { getRandomMeal } from "@/lib/api";
 import { Recipe } from "@/lib/types/recipe";
 import Button from "@/components/ui/Button";
@@ -9,35 +9,74 @@ import { useSurpriseMe } from "@/lib/contexts/SurpriseMeContext";
 import { getRecipeUrl } from "@/lib/utils/slugs";
 import { useRouter } from "@/navigation";
 import { useTranslations } from "next-intl";
+import { useToast } from "@/lib/contexts/ToastContext";
 
 export default function SurpriseMeModal() {
     const t = useTranslations('SurpriseMe');
     const { isOpen, closeModal } = useSurpriseMe();
     const router = useRouter();
+    const { addToast } = useToast();
     const [isNavigating, setIsNavigating] = useState(false);
     const [recipe, setRecipe] = useState<Recipe | null>(null);
     const [isLoading, setIsLoading] = useState(false);
+    const abortControllerRef = useRef<AbortController | null>(null);
 
     const fetchRandomMeal = async () => {
+        // Cancel any previous request
+        if (abortControllerRef.current) {
+            abortControllerRef.current.abort();
+        }
+
+        // Create new AbortController for this request
+        const abortController = new AbortController();
+        abortControllerRef.current = abortController;
+
         setIsLoading(true);
         try {
             const meal = await getRandomMeal();
+
+            // Check if request was aborted
+            if (abortController.signal.aborted) {
+                return;
+            }
+
             setRecipe(meal);
         } catch (error) {
+            // Ignore abort errors
+            if (error instanceof Error && error.name === 'AbortError') {
+                return;
+            }
+
             console.error("Error fetching random meal:", error);
+            addToast("Failed to load random recipe. Please try again.", "error");
         } finally {
-            setIsLoading(false);
+            if (!abortController.signal.aborted) {
+                setIsLoading(false);
+            }
         }
     };
 
     useEffect(() => {
         if (isOpen) {
             setIsNavigating(false);
-            if (!recipe) {
-                fetchRandomMeal();
+            // Reset recipe when modal opens to prevent stale data
+            setRecipe(null);
+            fetchRandomMeal();
+        } else {
+            // Cancel request when modal closes
+            if (abortControllerRef.current) {
+                abortControllerRef.current.abort();
+                abortControllerRef.current = null;
             }
         }
-    }, [isOpen, recipe]);
+
+        // Cleanup on unmount
+        return () => {
+            if (abortControllerRef.current) {
+                abortControllerRef.current.abort();
+            }
+        };
+    }, [isOpen]);
 
     if (!isOpen) return null;
 

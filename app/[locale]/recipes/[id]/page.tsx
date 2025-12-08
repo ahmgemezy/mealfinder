@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 import { Link } from "@/navigation";
 import Breadcrumb from "@/components/ui/Breadcrumb";
 import { getMealById, getRelatedRecipes } from "@/lib/api";
-import { RECIPE_CATEGORIES, RECIPE_AREAS } from "@/lib/constants";
+import { isValidCategory, isValidArea } from "@/lib/constants";
 import RecipeCard from "@/components/ui/RecipeCard";
 import RecipeActions from "@/components/recipes/RecipeActions";
 import RecipeVideo from "@/components/recipes/RecipeVideo";
@@ -85,10 +85,10 @@ export default async function RecipePage({ params }: RecipePageProps) {
     }
 
     const getTagLink = (tag: string) => {
-        if (RECIPE_CATEGORIES.includes(tag)) {
+        if (isValidCategory(tag)) {
             return `/recipes?category=${encodeURIComponent(tag)}`;
         }
-        if (RECIPE_AREAS.includes(tag)) {
+        if (isValidArea(tag)) {
             return `/recipes?area=${encodeURIComponent(tag)}`;
         }
         return `/recipes?search=${encodeURIComponent(tag)}`;

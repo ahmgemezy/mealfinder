@@ -12,6 +12,8 @@ import { SurpriseMeProvider } from "@/lib/contexts/SurpriseMeContext";
 import SurpriseMeModal from "@/components/features/SurpriseMeModal";
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
+import { ToastProvider } from "@/lib/contexts/ToastContext";
+import { ToastContainer } from "@/components/ui/Toast";
 
 const GA_TRACKING_ID = 'G-1CJ0891RQ7';
 
@@ -172,20 +174,23 @@ export default async function RootLayout({
       </head>
       <body className={`${inter.variable} ${playfair.variable} ${geistMono.variable} antialiased`} suppressHydrationWarning>
         <NextIntlClientProvider messages={messages}>
-          <SurpriseMeProvider>
-            <FavoritesProvider>
-              <div className="flex flex-col min-h-screen">
-                <Navigation />
-                <main className="flex-grow">{children}</main>
-                <Footer />
-                <CookieConsent />
-                <SurpriseMeModal />
-                <AutoGoogleTranslate locale={locale} />
-                <SpeedInsights />
-                <Analytics />
-              </div>
-            </FavoritesProvider>
-          </SurpriseMeProvider>
+          <ToastProvider>
+            <SurpriseMeProvider>
+              <FavoritesProvider>
+                <div className="flex flex-col min-h-screen">
+                  <Navigation />
+                  <main className="flex-grow">{children}</main>
+                  <Footer />
+                  <CookieConsent />
+                  <SurpriseMeModal />
+                  <AutoGoogleTranslate locale={locale} />
+                  <SpeedInsights />
+                  <Analytics />
+                </div>
+                <ToastContainer />
+              </FavoritesProvider>
+            </SurpriseMeProvider>
+          </ToastProvider>
         </NextIntlClientProvider>
       </body>
     </html >

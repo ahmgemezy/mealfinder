@@ -20,6 +20,13 @@ import { Recipe, MealFilters } from "@/lib/types/recipe";
 import * as mealdb from "./mealdb";
 import * as spoonacular from "./spoonacular";
 import { devLog } from "@/lib/utils/logger";
+import {
+    validateRecipeId,
+    validateSearchQuery,
+    validateCategory,
+    validateArea,
+    sanitizeInput,
+} from "@/lib/utils/validation";
 
 // Get API provider from environment variable
 const getProvider = (): 'mealdb' | 'spoonacular' | 'hybrid' => {
@@ -120,6 +127,12 @@ export async function getRandomMealWithFilters(filters: MealFilters): Promise<Re
  * Get meal/recipe by ID
  */
 export async function getMealById(id: string): Promise<Recipe | null> {
+    // Validate recipe ID
+    if (!validateRecipeId(id)) {
+        console.warn("Invalid recipe ID provided to getMealById:", id);
+        return null;
+    }
+
     const provider = getProvider();
 
     try {
@@ -150,6 +163,17 @@ export async function getMealById(id: string): Promise<Recipe | null> {
  * Search meals/recipes by query
  */
 export async function searchMeals(query: string): Promise<Recipe[]> {
+    // Validate and sanitize search query
+    if (!validateSearchQuery(query)) {
+        console.warn("Invalid search query provided to searchMeals:", query);
+        return [];
+    }
+
+    const sanitizedQuery = sanitizeInput(query);
+    if (!sanitizedQuery) {
+        return [];
+    }
+
     const provider = getProvider();
 
     try {
@@ -160,7 +184,7 @@ export async function searchMeals(query: string): Promise<Recipe[]> {
         // 1. Database (Supabase) - Always check first
         if (provider === 'hybrid' || provider === 'mealdb') {
             try {
-                const dbRecipes = await mealdb.searchRecipesInSupabase(query);
+                const dbRecipes = await mealdb.searchRecipesInSupabase(sanitizedQuery);
                 dbRecipes.forEach(r => {
                     if (!seenIds.has(r.id)) {
                         results.push(r);
@@ -174,7 +198,7 @@ export async function searchMeals(query: string): Promise<Recipe[]> {
         }
 
         if (provider === 'spoonacular') {
-            const spoonResult = await spoonacular.searchRecipes(query);
+            const spoonResult = await spoonacular.searchRecipes(sanitizedQuery);
             spoonResult.recipes.forEach(r => {
                 if (!seenIds.has(r.id)) {
                     results.push(r);
@@ -185,8 +209,8 @@ export async function searchMeals(query: string): Promise<Recipe[]> {
         } else if (provider === 'hybrid') {
             // In hybrid mode, combine results from both APIs
             const [mealdbResults, spoonacularResults] = await Promise.allSettled([
-                mealdb.searchMeals(query),
-                spoonacular.searchRecipes(query),
+                mealdb.searchMeals(sanitizedQuery),
+                spoonacular.searchRecipes(sanitizedQuery),
             ]);
 
             if (mealdbResults.status === 'fulfilled') {
@@ -210,7 +234,7 @@ export async function searchMeals(query: string): Promise<Recipe[]> {
             }
         } else {
             // MealDB only
-            const mealdbRecipes = await mealdb.searchMeals(query);
+            const mealdbRecipes = await mealdb.searchMeals(sanitizedQuery);
             mealdbRecipes.forEach(r => {
                 if (!seenIds.has(r.id)) {
                     results.push(r);
@@ -255,6 +279,12 @@ export async function loadMoreSearchResults(
  * Filter by category
  */
 export async function filterByCategory(category: string): Promise<Recipe[]> {
+    // Validate category
+    if (!validateCategory(category)) {
+        console.warn("Invalid category provided to filterByCategory:", category);
+        return [];
+    }
+
     const provider = getProvider();
     const results: Recipe[] = [];
     const seenIds = new Set<string>();
@@ -336,6 +366,12 @@ export async function loadMoreCategoryResults(
  * Filter by area/cuisine
  */
 export async function filterByArea(area: string): Promise<Recipe[]> {
+    // Validate area
+    if (!validateArea(area)) {
+        console.warn("Invalid area provided to filterByArea:", area);
+        return [];
+    }
+
     const provider = getProvider();
     const results: Recipe[] = [];
     const seenIds = new Set<string>();

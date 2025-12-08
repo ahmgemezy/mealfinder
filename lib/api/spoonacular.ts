@@ -12,6 +12,19 @@ import { devLog } from "@/lib/utils/logger";
 const SPOONACULAR_API_KEY = process.env.SPOONACULAR_API_KEY;
 const SPOONACULAR_BASE_URL = "https://api.spoonacular.com";
 
+/**
+ * Check if Spoonacular is properly configured
+ */
+export function isSpoonacularConfigured(): boolean {
+    const isConfigured = !!SPOONACULAR_API_KEY && SPOONACULAR_API_KEY.trim() !== "";
+
+    if (!isConfigured) {
+        console.warn("Spoonacular API key is not configured. Some features may not work.");
+    }
+
+    return isConfigured;
+}
+
 // Cache for API responses
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const cache = new Map<string, { data: any; timestamp: number }>();

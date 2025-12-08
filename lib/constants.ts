@@ -14,7 +14,7 @@ export const MEALDB_CATEGORIES = [
     "Starter",
     "Breakfast",
     "Miscellaneous"
-];
+] as const;
 
 // TheMealDB Areas (kept for backward compatibility)
 export const MEALDB_AREAS = [
@@ -46,7 +46,7 @@ export const MEALDB_AREAS = [
     "Turkish",
     "Ukrainian",
     "Vietnamese",
-];
+] as const;
 
 // Spoonacular Cuisines (more comprehensive)
 export const SPOONACULAR_CUISINES = [
@@ -76,7 +76,7 @@ export const SPOONACULAR_CUISINES = [
     "Spanish",
     "Thai",
     "Vietnamese",
-];
+] as const;
 
 // Spoonacular Dish Types (replaces categories)
 export const SPOONACULAR_CATEGORIES = [
@@ -94,7 +94,7 @@ export const SPOONACULAR_CATEGORIES = [
     "Fingerfood",
     "Snack",
     "Drink",
-];
+] as const;
 
 // Spoonacular Diet Filters (NEW!)
 export const SPOONACULAR_DIETS = [
@@ -109,7 +109,7 @@ export const SPOONACULAR_DIETS = [
     "Primal",
     "Low FODMAP",
     "Whole30",
-];
+] as const;
 
 // Spoonacular Intolerances (NEW!)
 export const SPOONACULAR_INTOLERANCES = [
@@ -125,10 +125,31 @@ export const SPOONACULAR_INTOLERANCES = [
     "Sulfite",
     "Tree Nut",
     "Wheat",
-];
+] as const;
+
+// Type-safe exports
+export type RecipeCategory = typeof MEALDB_CATEGORIES[number];
+export type RecipeArea = typeof MEALDB_AREAS[number] | typeof SPOONACULAR_CUISINES[number];
 
 // Combined/Unified lists (for current API provider)
 export const RECIPE_CATEGORIES = MEALDB_CATEGORIES;
 
 // Merge and deduplicate areas/cuisines
 export const RECIPE_AREAS = Array.from(new Set([...MEALDB_AREAS, ...SPOONACULAR_CUISINES])).sort();
+
+/**
+ * Type guard to check if a value is a valid recipe category
+ */
+export function isValidCategory(value: unknown): value is RecipeCategory {
+    return typeof value === "string" && MEALDB_CATEGORIES.includes(value as RecipeCategory);
+}
+
+/**
+ * Type guard to check if a value is a valid recipe area
+ */
+export function isValidArea(value: unknown): value is RecipeArea {
+    if (typeof value !== "string") return false;
+
+    const allAreas = [...MEALDB_AREAS, ...SPOONACULAR_CUISINES];
+    return allAreas.includes(value as RecipeArea);
+}
