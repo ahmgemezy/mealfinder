@@ -128,6 +128,7 @@
         "surpriseMe": "Surprends-moi",
         "browseRecipes": "Parcourir les recettes",
         "favorites": "Favoris",
+        "faq": "FAQ",
         "legal": "Légal",
         "privacyPolicy": "Politique de confidentialité",
         "cookiePolicy": "Politique de cookies",
@@ -146,6 +147,119 @@
         "viewFullRecipe": "Voir la recette complète",
         "getAnotherMeal": "Obtenir un autre repas",
         "moreIngredients": "+{count} de plus"
+    },
+    "FAQ": {
+        "title": "Questions Fréquemment Posées",
+        "subtitle": "Trouvez des réponses aux questions courantes sur la cuisine, les recettes et l'utilisation de Dish Shuffle",
+        "categories": {
+            "cooking": "Bases de Cuisine",
+            "safety": "Sécurité Alimentaire & Stockage",
+            "substitutions": "Substitutions d'Ingrédients",
+            "planning": "Planification des Repas",
+            "platform": "Utiliser Dish Shuffle"
+        },
+        "questions": {
+            "howToBoilEgg": {
+                "q": "Comment faire bouillir un œuf parfaitement ?",
+                "a": "Placez les œufs dans une casserole et couvrez d'eau froide de 2,5 cm. Portez à ébullition, puis éteignez le feu et couvrez. Laissez reposer 10-12 minutes pour des œufs durs, 6-7 minutes pour des œufs mollets. Transférez immédiatement dans de l'eau glacée pour arrêter la cuisson."
+            },
+            "howToCookPasta": {
+                "q": "Comment cuire des pâtes al dente ?",
+                "a": "Utilisez une grande casserole avec beaucoup d'eau bouillante salée (environ 1 cuillère à soupe de sel pour 4 litres d'eau). Faites cuire les pâtes 1-2 minutes de moins que les instructions du paquet, en remuant occasionnellement. Goûtez pour une texture ferme mais tendre."
+            },
+            "howToCookRice": {
+                "q": "Quelle est la meilleure façon de cuire du riz moelleux ?",
+                "a": "Rincez le riz jusqu'à ce que l'eau soit claire pour enlever l'excès d'amidon. Utilisez un ratio de 2:1 d'eau pour le riz. Portez à ébullition, réduisez à feu doux, couvrez et laissez mijoter 18-20 minutes sans soulever le couvercle. Retirez du feu et laissez reposer couvert 5 minutes, puis aérez avec une fourchette."
+            },
+            "howToCookSteak": {
+                "q": "Comment cuire le steak parfait ?",
+                "a": "Séchez le steak et assaisonnez généreusement de sel et poivre 30-40 minutes avant la cuisson. Préchauffez une poêle épaisse jusqu'à ce qu'elle soit très chaude. Saisissez 3-4 minutes de chaque côté pour une cuisson saignante (température interne de 54-57°C). Laissez reposer 5-10 minutes avant de trancher."
+            },
+            "bakingPowderVsSoda": {
+                "q": "Quelle est la différence entre la levure chimique et le bicarbonate de soude ?",
+                "a": "Le bicarbonate de soude est du bicarbonate de sodium pur et nécessite un acide (comme du babeurre ou du jus de citron) pour s'activer. La levure chimique contient du bicarbonate de soude plus un acide, donc elle fonctionne seule. Ils ne sont pas interchangeables."
+            },
+            "shouldWashChicken": {
+                "q": "Dois-je laver le poulet cru avant de le cuire ?",
+                "a": "Non, ne lavez jamais le poulet cru. Le rinçage peut propager des bactéries nocives comme la salmonelle à votre évier, plans de travail et autres surfaces par les éclaboussures d'eau. La cuisson du poulet à une température interne de 75°C tuera toutes les bactéries en toute sécurité."
+            },
+            "howLongFoodLeftOut": {
+                "q": "Combien de temps les aliments cuits peuvent-ils rester dehors ?",
+                "a": "Les aliments cuits ne doivent pas rester à température ambiante pendant plus de 2 heures (1 heure si la température dépasse 32°C). Les bactéries se multiplient rapidement entre 4°C et 60°C. Réfrigérez rapidement les restes dans des contenants peu profonds pour un refroidissement rapide."
+            },
+            "frozenVsFresh": {
+                "q": "Les légumes surgelés sont-ils aussi nutritifs que les frais ?",
+                "a": "Oui ! Les légumes surgelés sont souvent cueillis et congelés à maturité maximale, préservant les nutriments. Ils peuvent en fait être plus nutritifs que les légumes frais qui sont restés plusieurs jours. Les légumes surgelés sont parfaits pour les soupes, sautés et casseroles."
+            },
+            "cheeseGoneBad": {
+                "q": "Comment savoir si le fromage est périmé ?",
+                "a": "Pour les fromages à pâte dure, de petites quantités de moisissure peuvent être coupées (coupez 2,5 cm autour et en dessous de la moisissure). Jetez les fromages à pâte molle s'ils sont moisis. Les signes de détérioration incluent une odeur inhabituelle, une texture visqueuse ou des changements de couleur significatifs."
+            },
+            "restMeatAfterCooking": {
+                "q": "Pourquoi dois-je laisser reposer la viande après la cuisson ?",
+                "a": "Le repos permet aux fibres musculaires de se détendre et aux jus de se redistribuer dans toute la viande. Si vous coupez immédiatement, les jus s'écoulent dans l'assiette. Laissez reposer les petites pièces 5-10 minutes, les grands rôtis 15-20 minutes, recouvertes légèrement de papier aluminium."
+            },
+            "butterSaltedOrUnsalted": {
+                "q": "Dois-je utiliser du beurre salé ou non salé pour la pâtisserie ?",
+                "a": "Utilisez du beurre non salé pour la pâtisserie. Il vous donne un contrôle complet sur la teneur en sel de votre recette. Le beurre salé peut varier en salinité entre les marques, rendant plus difficile l'obtention de résultats cohérents."
+            },
+            "freshVsDriedHerbs": {
+                "q": "Comment substituer les herbes séchées aux herbes fraîches ?",
+                "a": "Utilisez un tiers de la quantité d'herbes séchées par rapport aux herbes fraîches (1 cuillère à café séchée = 1 cuillère à soupe fraîche). Les herbes séchées sont plus concentrées. Ajoutez les herbes séchées tôt dans la cuisson, les herbes fraîches vers la fin. Les herbes délicates comme le basilic, la coriandre et le persil sont bien meilleures fraîches."
+            },
+            "oliveOilForBaking": {
+                "q": "Puis-je substituer l'huile d'olive à l'huile végétale en pâtisserie ?",
+                "a": "Oui, mais l'huile d'olive a une saveur plus forte qui affectera le goût. Pour la pâtisserie salée, cela fonctionne bien. Pour les gâteaux et les produits de boulangerie sucrés, utilisez de l'huile d'olive légère ou restez avec des huiles neutres comme l'huile végétale ou de canola."
+            },
+            "wholeWheatFlour": {
+                "q": "Puis-je utiliser de la farine de blé entier au lieu de la farine tout usage ?",
+                "a": "Pour les produits de boulangerie tendres comme les gâteaux, ce n'est pas recommandé car la farine de blé entier produit des résultats plus denses. Pour les muffins, pains rapides et biscuits, vous pouvez substituer jusqu'à 50% de farine tout usage par de la farine de blé entier. Commencez avec 25% et ajustez au goût."
+            },
+            "eggSubstitutes": {
+                "q": "Que puis-je utiliser à la place des œufs en pâtisserie ?",
+                "a": "Substituts courants : 60 ml de compote de pommes, 60 ml de banane écrasée, ou 1 cuillère à soupe de graines de lin moulues mélangées à 3 cuillères à soupe d'eau (laissez reposer 5 minutes) par œuf. Les substituts d'œufs commerciaux fonctionnent également bien. Les résultats varient selon la recette."
+            },
+            "whatIsMealPlanning": {
+                "q": "Qu'est-ce que la planification des repas exactement ?",
+                "a": "La planification des repas consiste à décider à l'avance quels repas vous préparerez pour une période spécifique, généralement une semaine. Cela implique de choisir des recettes, de faire une liste de courses et parfois de préparer des ingrédients à l'avance. Cela permet d'économiser du temps, de l'argent et de réduire le gaspillage alimentaire."
+            },
+            "howOftenMealPlan": {
+                "q": "À quelle fréquence dois-je planifier mes repas ?",
+                "a": "La planification hebdomadaire est la plus courante et pratique. Planifiez le même jour chaque semaine (beaucoup choisissent le dimanche) pour vous aligner sur votre emploi du temps et vos courses. Certaines personnes planifient pour 2 semaines à la fois, tandis que d'autres préfèrent 3-5 jours."
+            },
+            "mealPlanSaveMoney": {
+                "q": "Comment la planification des repas permet-elle d'économiser de l'argent ?",
+                "a": "La planification des repas réduit les achats impulsifs, minimise le gaspillage alimentaire, vous permet de profiter des soldes et d'acheter en vrac, et évite les plats à emporter coûteux de dernière minute. Vous achetez seulement ce dont vous avez besoin et utilisez tout ce que vous achetez."
+            },
+            "mealPrepStorage": {
+                "q": "Combien de temps les aliments préparés à l'avance se conservent-ils ?",
+                "a": "La plupart des aliments préparés durent 3-4 jours dans des contenants hermétiques au réfrigérateur. Certains articles comme les soupes et ragoûts durent jusqu'à 5 jours. Pour un stockage plus long, congelez les portions jusqu'à 3 mois. Étiquetez toujours les contenants avec les dates."
+            },
+            "portionSizes": {
+                "q": "Comment déterminer les portions ?",
+                "a": "Une assiette équilibrée comprend généralement : 1/2 de légumes, 1/4 de protéines maigres (environ la taille de votre paume), et 1/4 de céréales complètes ou de légumes féculents (environ la taille de votre poing). Ajustez en fonction de votre niveau d'activité et de vos besoins alimentaires."
+            },
+            "howToSaveRecipes": {
+                "q": "Comment sauvegarder des recettes sur Dish Shuffle ?",
+                "a": "Cliquez sur l'icône cœur sur n'importe quelle carte de recette ou page de détails de recette. Vous devrez vous connecter pour sauvegarder des recettes. Toutes vos recettes sauvegardées apparaissent dans votre page Favoris, accessible depuis le menu de navigation."
+            },
+            "howToSearchRecipes": {
+                "q": "Comment rechercher des recettes spécifiques ?",
+                "a": "Utilisez la barre de recherche sur la page Recettes pour rechercher par nom de recette, ingrédient ou cuisine. Vous pouvez également filtrer par catégorie (comme Dessert ou Petit-déjeuner) et cuisine (comme Italien ou Mexicain) à l'aide des filtres déroulants."
+            },
+            "surpriseMeFeature": {
+                "q": "Qu'est-ce que la fonctionnalité Surprends-moi ?",
+                "a": "Surprends-moi sélectionne aléatoirement une délicieuse recette pour vous lorsque vous ne pouvez pas décider quoi cuisiner. Cliquez sur le bouton 'Surprends-moi' dans la navigation, et nous vous montrerons une recette aléatoire avec un aperçu. Vous pouvez continuer à cliquer pour de nouvelles suggestions jusqu'à ce que vous trouviez quelque chose que vous aimez !"
+            },
+            "recipesFromWhere": {
+                "q": "D'où viennent les recettes ?",
+                "a": "Nos recettes proviennent de TheMealDB et Spoonacular, deux bases de données de recettes complètes. Nous organisons et organisons des milliers de recettes de diverses cuisines et catégories pour vous aider à découvrir de nouveaux plats."
+            },
+            "canIShareRecipes": {
+                "q": "Puis-je partager des recettes avec des amis ?",
+                "a": "Oui ! Chaque page de recette a un bouton Partager qui vous permet de partager via Facebook, Twitter (X), WhatsApp ou de copier le lien pour partager n'importe où. Partagez vos découvertes préférées avec vos amis et votre famille !"
+            }
+        }
     },
     "NotFound": {
         "title": "Recette Introuvable",

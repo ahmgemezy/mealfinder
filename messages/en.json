@@ -122,6 +122,7 @@
         "surpriseMe": "Surprise Me",
         "browseRecipes": "Browse Recipes",
         "favorites": "Favorites",
+        "faq": "FAQ",
         "legal": "Legal",
         "privacyPolicy": "Privacy Policy",
         "cookiePolicy": "Cookie Policy",
@@ -140,6 +141,119 @@
         "viewFullRecipe": "View Full Recipe",
         "getAnotherMeal": "Get Another Meal",
         "moreIngredients": "+{count} more"
+    },
+    "FAQ": {
+        "title": "Frequently Asked Questions",
+        "subtitle": "Find answers to common questions about cooking, recipes, and using Dish Shuffle",
+        "categories": {
+            "cooking": "Cooking Basics",
+            "safety": "Food Safety & Storage",
+            "substitutions": "Ingredient Substitutions",
+            "planning": "Meal Planning",
+            "platform": "Using Dish Shuffle"
+        },
+        "questions": {
+            "howToBoilEgg": {
+                "q": "How do I boil an egg perfectly?",
+                "a": "Place eggs in a pot and cover with cold water by 1 inch. Bring to a boil, then turn off heat and cover. Let sit for 10-12 minutes for hard-boiled, 6-7 minutes for soft-boiled. Transfer to ice water immediately to stop cooking and prevent the green ring around the yolk."
+            },
+            "howToCookPasta": {
+                "q": "How do I cook pasta al dente?",
+                "a": "Use a large pot with plenty of salted boiling water (about 1 tablespoon salt per 4 quarts water). Cook pasta for 1-2 minutes less than package directions, stirring occasionally. Taste test for a firm but tender texture. Reserve 1 cup pasta water before draining to help thicken sauces."
+            },
+            "howToCookRice": {
+                "q": "What's the best way to cook fluffy rice?",
+                "a": "Rinse rice until water runs clear to remove excess starch. Use a 2:1 ratio of water to rice. Bring to a boil, reduce to low heat, cover, and simmer for 18-20 minutes without lifting the lid. Remove from heat and let stand covered for 5 minutes, then fluff with a fork."
+            },
+            "howToCookSteak": {
+                "q": "How do I cook the perfect steak?",
+                "a": "Pat steak dry and season generously with salt and pepper 30-40 minutes before cooking. Preheat a heavy pan until very hot. Sear 3-4 minutes per side for medium-rare (internal temp 130-135°F). Let rest 5-10 minutes before slicing to allow juices to redistribute."
+            },
+            "bakingPowderVsSoda": {
+                "q": "What's the difference between baking powder and baking soda?",
+                "a": "Baking soda is pure sodium bicarbonate and needs an acid (like buttermilk or lemon juice) to activate. Baking powder contains baking soda plus an acid, so it works on its own. They're not interchangeable - use what the recipe calls for."
+            },
+            "shouldWashChicken": {
+                "q": "Should I wash raw chicken before cooking?",
+                "a": "No, never wash raw chicken. Rinsing can spread harmful bacteria like salmonella to your sink, countertops, and other surfaces through water splashes. Cooking chicken to an internal temperature of 165°F will kill any bacteria safely."
+            },
+            "howLongFoodLeftOut": {
+                "q": "How long can cooked food be left out?",
+                "a": "Cooked food should not be left at room temperature for more than 2 hours (1 hour if temperature is above 90°F). Bacteria multiply rapidly between 40°F and 140°F. Refrigerate leftovers promptly in shallow containers for quick cooling."
+            },
+            "frozenVsFresh": {
+                "q": "Are frozen vegetables as nutritious as fresh?",
+                "a": "Yes! Frozen vegetables are often picked and frozen at peak ripeness, preserving nutrients. They can actually be more nutritious than fresh vegetables that have been sitting for days. Frozen vegetables are perfect for soups, stir-fries, and casseroles."
+            },
+            "cheeseGoneBad": {
+                "q": "How do I know if cheese has gone bad?",
+                "a": "For hard cheeses, small amounts of mold can be cut away (cut 1 inch around and below the mold). Discard soft cheeses if moldy. Signs of spoilage include unusual smell, slimy texture, or significant color changes. When in doubt, throw it out."
+            },
+            "restMeatAfterCooking": {
+                "q": "Why should I rest meat after cooking?",
+                "a": "Resting allows muscle fibers to relax and juices to redistribute throughout the meat. If you cut immediately, juices run out onto the plate. Rest small cuts 5-10 minutes, larger roasts 15-20 minutes, tented loosely with foil."
+            },
+            "butterSaltedOrUnsalted": {
+                "q": "Should I use salted or unsalted butter for baking?",
+                "a": "Use unsalted butter for baking. It gives you complete control over the salt content in your recipe. Salted butter can vary in saltiness between brands, making it harder to achieve consistent results. Save salted butter for spreading and cooking."
+            },
+            "freshVsDriedHerbs": {
+                "q": "How do I substitute dried herbs for fresh?",
+                "a": "Use one-third the amount of dried herbs compared to fresh (1 teaspoon dried = 1 tablespoon fresh). Dried herbs are more concentrated. Add dried herbs early in cooking, fresh herbs near the end. Delicate herbs like basil, cilantro, and parsley are much better fresh."
+            },
+            "oliveOilForBaking": {
+                "q": "Can I substitute olive oil for vegetable oil in baking?",
+                "a": "Yes, but olive oil has a stronger flavor that will affect the taste. For savory baking, it works well. For cakes and sweet baked goods, use light olive oil or stick with neutral oils like vegetable or canola oil for best results."
+            },
+            "wholeWheatFlour": {
+                "q": "Can I use whole wheat flour instead of all-purpose flour?",
+                "a": "For tender baked goods like cakes, it's not recommended as whole wheat flour produces denser results. For muffins, quick breads, and cookies, you can substitute up to 50% of all-purpose flour with whole wheat. Start with 25% and adjust to taste."
+            },
+            "eggSubstitutes": {
+                "q": "What can I use instead of eggs in baking?",
+                "a": "Common substitutes: 1/4 cup applesauce, 1/4 cup mashed banana, or 1 tablespoon ground flaxseed mixed with 3 tablespoons water (let sit 5 minutes) per egg. Commercial egg replacers also work well. Results vary by recipe."
+            },
+            "whatIsMealPlanning": {
+                "q": "What exactly is meal planning?",
+                "a": "Meal planning is deciding in advance what meals you'll prepare for a specific period, usually a week. It involves choosing recipes, making a shopping list, and sometimes prepping ingredients ahead. It saves time, money, and reduces food waste."
+            },
+            "howOftenMealPlan": {
+                "q": "How often should I meal plan?",
+                "a": "Weekly planning is most common and practical. Plan on the same day each week (many choose Sunday) to align with your schedule and grocery shopping. Some people plan for 2 weeks at a time, while others prefer 3-5 days."
+            },
+            "mealPlanSaveMoney": {
+                "q": "How does meal planning save money?",
+                "a": "Meal planning reduces impulse purchases, minimizes food waste, allows you to shop sales and buy in bulk, and prevents expensive last-minute takeout. You buy only what you need and use everything you purchase."
+            },
+            "mealPrepStorage": {
+                "q": "How long does meal-prepped food last?",
+                "a": "Most meal-prepped food lasts 3-4 days in airtight containers in the refrigerator. Some items like soups and stews last up to 5 days. For longer storage, freeze portions for up to 3 months. Always label containers with dates."
+            },
+            "portionSizes": {
+                "q": "How do I figure out portion sizes?",
+                "a": "A balanced plate typically includes: 1/2 vegetables, 1/4 lean protein (about the size of your palm), and 1/4 whole grains or starchy vegetables (about the size of your fist). Adjust based on your activity level and dietary needs."
+            },
+            "howToSaveRecipes": {
+                "q": "How do I save recipes on Dish Shuffle?",
+                "a": "Click the heart icon on any recipe card or recipe detail page. You'll need to sign in to save recipes. All your saved recipes appear in your Favorites page, accessible from the navigation menu."
+            },
+            "howToSearchRecipes": {
+                "q": "How do I search for specific recipes?",
+                "a": "Use the search bar on the Recipes page to search by recipe name, ingredient, or cuisine. You can also filter by category (like Dessert or Breakfast) and cuisine (like Italian or Mexican) using the dropdown filters."
+            },
+            "surpriseMeFeature": {
+                "q": "What is the Surprise Me feature?",
+                "a": "Surprise Me randomly selects a delicious recipe for you when you can't decide what to cook. Click the 'Surprise Me' button in the navigation, and we'll show you a random recipe with a preview. You can keep clicking for new suggestions until you find something you love!"
+            },
+            "recipesFromWhere": {
+                "q": "Where do the recipes come from?",
+                "a": "Our recipes are sourced from TheMealDB and Spoonacular, two comprehensive recipe databases. We curate and organize thousands of recipes from various cuisines and categories to help you discover new dishes."
+            },
+            "canIShareRecipes": {
+                "q": "Can I share recipes with friends?",
+                "a": "Yes! Every recipe page has a Share button that lets you share via Facebook, Twitter (X), WhatsApp, or copy the link to share anywhere. Share your favorite discoveries with friends and family!"
+            }
+        }
     },
     "NotFound": {
         "title": "Recipe Not Found",

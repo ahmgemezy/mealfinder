@@ -128,6 +128,7 @@
         "surpriseMe": "Sorpréndeme",
         "browseRecipes": "Explorar Recetas",
         "favorites": "Favoritos",
+        "faq": "FAQ",
         "legal": "Legal",
         "privacyPolicy": "Política de Privacidad",
         "cookiePolicy": "Política de Cookies",
@@ -146,6 +147,119 @@
         "viewFullRecipe": "Ver receta completa",
         "getAnotherMeal": "Obtener otra comida",
         "moreIngredients": "+{count} más"
+    },
+    "FAQ": {
+        "title": "Preguntas Frecuentes",
+        "subtitle": "Encuentra respuestas a preguntas comunes sobre cocina, recetas y el uso de Dish Shuffle",
+        "categories": {
+            "cooking": "Fundamentos de Cocina",
+            "safety": "Seguridad Alimentaria y Almacenamiento",
+            "substitutions": "Sustituciones de Ingredientes",
+            "planning": "Planificación de Comidas",
+            "platform": "Usar Dish Shuffle"
+        },
+        "questions": {
+            "howToBoilEgg": {
+                "q": "¿Cómo hervir un huevo perfectamente?",
+                "a": "Coloca los huevos en una olla y cúbrelos con agua fría por 2,5 cm. Lleva a ebullición, luego apaga el fuego y tapa. Deja reposar 10-12 minutos para huevos duros, 6-7 minutos para huevos blandos. Transfiere inmediatamente a agua helada para detener la cocción."
+            },
+            "howToCookPasta": {
+                "q": "¿Cómo cocinar pasta al dente?",
+                "a": "Usa una olla grande con abundante agua hirviendo con sal (aproximadamente 1 cucharada de sal por 4 litros de agua). Cocina la pasta 1-2 minutos menos que las instrucciones del paquete, revolviendo ocasionalmente. Prueba para una textura firme pero tierna."
+            },
+            "howToCookRice": {
+                "q": "¿Cuál es la mejor manera de cocinar arroz esponjoso?",
+                "a": "Enjuaga el arroz hasta que el agua salga clara para eliminar el exceso de almidón. Usa una proporción de 2:1 de agua a arroz. Lleva a ebullición, reduce a fuego lento, tapa y cocina a fuego lento durante 18-20 minutos sin levantar la tapa. Retira del fuego y deja reposar tapado durante 5 minutos, luego esponja con un tenedor."
+            },
+            "howToCookSteak": {
+                "q": "¿Cómo cocinar el filete perfecto?",
+                "a": "Seca el filete y sazona generosamente con sal y pimienta 30-40 minutos antes de cocinar. Precalienta una sartén pesada hasta que esté muy caliente. Sella 3-4 minutos por lado para término medio (temperatura interna de 54-57°C). Deja reposar 5-10 minutos antes de cortar."
+            },
+            "bakingPowderVsSoda": {
+                "q": "¿Cuál es la diferencia entre polvo de hornear y bicarbonato de sodio?",
+                "a": "El bicarbonato de sodio es bicarbonato de sodio puro y necesita un ácido (como suero de leche o jugo de limón) para activarse. El polvo de hornear contiene bicarbonato de sodio más un ácido, por lo que funciona solo. No son intercambiables."
+            },
+            "shouldWashChicken": {
+                "q": "¿Debo lavar el pollo crudo antes de cocinarlo?",
+                "a": "No, nunca laves el pollo crudo. Enjuagarlo puede propagar bacterias dañinas como la salmonela a tu fregadero, encimeras y otras superficies a través de salpicaduras de agua. Cocinar el pollo a una temperatura interna de 75°C matará cualquier bacteria de manera segura."
+            },
+            "howLongFoodLeftOut": {
+                "q": "¿Cuánto tiempo se puede dejar la comida cocida fuera?",
+                "a": "La comida cocida no debe dejarse a temperatura ambiente durante más de 2 horas (1 hora si la temperatura supera los 32°C). Las bacterias se multiplican rápidamente entre 4°C y 60°C. Refrigera las sobras rápidamente en recipientes poco profundos para un enfriamiento rápido."
+            },
+            "frozenVsFresh": {
+                "q": "¿Las verduras congeladas son tan nutritivas como las frescas?",
+                "a": "¡Sí! Las verduras congeladas a menudo se recogen y congelan en su punto máximo de madurez, preservando los nutrientes. De hecho, pueden ser más nutritivas que las verduras frescas que han estado varios días. Las verduras congeladas son perfectas para sopas, salteados y guisos."
+            },
+            "cheeseGoneBad": {
+                "q": "¿Cómo sé si el queso se ha echado a perder?",
+                "a": "Para quesos duros, pequeñas cantidades de moho se pueden cortar (corta 2,5 cm alrededor y debajo del moho). Descarta los quesos blandos si tienen moho. Los signos de deterioro incluyen olor inusual, textura viscosa o cambios significativos de color."
+            },
+            "restMeatAfterCooking": {
+                "q": "¿Por qué debo dejar reposar la carne después de cocinarla?",
+                "a": "El reposo permite que las fibras musculares se relajen y los jugos se redistribuyan por toda la carne. Si cortas inmediatamente, los jugos se escurren en el plato. Deja reposar los cortes pequeños 5-10 minutos, los asados grandes 15-20 minutos, cubiertos ligeramente con papel de aluminio."
+            },
+            "butterSaltedOrUnsalted": {
+                "q": "¿Debo usar mantequilla con sal o sin sal para hornear?",
+                "a": "Usa mantequilla sin sal para hornear. Te da control completo sobre el contenido de sal en tu receta. La mantequilla con sal puede variar en salinidad entre marcas, lo que dificulta lograr resultados consistentes."
+            },
+            "freshVsDriedHerbs": {
+                "q": "¿Cómo sustituir hierbas secas por hierbas frescas?",
+                "a": "Usa un tercio de la cantidad de hierbas secas en comparación con las frescas (1 cucharadita seca = 1 cucharada fresca). Las hierbas secas están más concentradas. Agrega hierbas secas temprano en la cocción, hierbas frescas cerca del final. Las hierbas delicadas como albahaca, cilantro y perejil son mucho mejores frescas."
+            },
+            "oliveOilForBaking": {
+                "q": "¿Puedo sustituir aceite de oliva por aceite vegetal al hornear?",
+                "a": "Sí, pero el aceite de oliva tiene un sabor más fuerte que afectará el gusto. Para hornear salado, funciona bien. Para pasteles y productos horneados dulces, usa aceite de oliva ligero o quédate con aceites neutros como aceite vegetal o de canola."
+            },
+            "wholeWheatFlour": {
+                "q": "¿Puedo usar harina integral en lugar de harina para todo uso?",
+                "a": "Para productos horneados tiernos como pasteles, no se recomienda ya que la harina integral produce resultados más densos. Para muffins, panes rápidos y galletas, puedes sustituir hasta el 50% de harina para todo uso con harina integral. Comienza con 25% y ajusta al gusto."
+            },
+            "eggSubstitutes": {
+                "q": "¿Qué puedo usar en lugar de huevos al hornear?",
+                "a": "Sustitutos comunes: 60 ml de puré de manzana, 60 ml de plátano machacado, o 1 cucharada de semillas de lino molidas mezcladas con 3 cucharadas de agua (dejar reposar 5 minutos) por huevo. Los reemplazos comerciales de huevo también funcionan bien. Los resultados varían según la receta."
+            },
+            "whatIsMealPlanning": {
+                "q": "¿Qué es exactamente la planificación de comidas?",
+                "a": "La planificación de comidas es decidir con anticipación qué comidas prepararás para un período específico, generalmente una semana. Implica elegir recetas, hacer una lista de compras y, a veces, preparar ingredientes con anticipación. Ahorra tiempo, dinero y reduce el desperdicio de alimentos."
+            },
+            "howOftenMealPlan": {
+                "q": "¿Con qué frecuencia debo planificar mis comidas?",
+                "a": "La planificación semanal es la más común y práctica. Planifica el mismo día cada semana (muchos eligen el domingo) para alinearte con tu horario y compras. Algunas personas planifican para 2 semanas a la vez, mientras que otras prefieren 3-5 días."
+            },
+            "mealPlanSaveMoney": {
+                "q": "¿Cómo ahorra dinero la planificación de comidas?",
+                "a": "La planificación de comidas reduce las compras impulsivas, minimiza el desperdicio de alimentos, te permite aprovechar las ofertas y comprar al por mayor, y evita la comida para llevar costosa de último minuto. Compras solo lo que necesitas y usas todo lo que compras."
+            },
+            "mealPrepStorage": {
+                "q": "¿Cuánto tiempo duran los alimentos preparados con anticipación?",
+                "a": "La mayoría de los alimentos preparados duran 3-4 días en recipientes herméticos en el refrigerador. Algunos artículos como sopas y guisos duran hasta 5 días. Para un almacenamiento más prolongado, congela las porciones hasta por 3 meses. Siempre etiqueta los recipientes con fechas."
+            },
+            "portionSizes": {
+                "q": "¿Cómo determino los tamaños de las porciones?",
+                "a": "Un plato equilibrado típicamente incluye: 1/2 de verduras, 1/4 de proteína magra (aproximadamente del tamaño de tu palma), y 1/4 de granos integrales o verduras con almidón (aproximadamente del tamaño de tu puño). Ajusta según tu nivel de actividad y necesidades dietéticas."
+            },
+            "howToSaveRecipes": {
+                "q": "¿Cómo guardo recetas en Dish Shuffle?",
+                "a": "Haz clic en el ícono de corazón en cualquier tarjeta de receta o página de detalles de receta. Necesitarás iniciar sesión para guardar recetas. Todas tus recetas guardadas aparecen en tu página de Favoritos, accesible desde el menú de navegación."
+            },
+            "howToSearchRecipes": {
+                "q": "¿Cómo busco recetas específicas?",
+                "a": "Usa la barra de búsqueda en la página de Recetas para buscar por nombre de receta, ingrediente o cocina. También puedes filtrar por categoría (como Postre o Desayuno) y cocina (como Italiana o Mexicana) usando los filtros desplegables."
+            },
+            "surpriseMeFeature": {
+                "q": "¿Qué es la función Sorpréndeme?",
+                "a": "Sorpréndeme selecciona aleatoriamente una receta deliciosa para ti cuando no puedes decidir qué cocinar. Haz clic en el botón 'Sorpréndeme' en la navegación, y te mostraremos una receta aleatoria con una vista previa. ¡Puedes seguir haciendo clic para nuevas sugerencias hasta que encuentres algo que te encante!"
+            },
+            "recipesFromWhere": {
+                "q": "¿De dónde vienen las recetas?",
+                "a": "Nuestras recetas provienen de TheMealDB y Spoonacular, dos bases de datos de recetas completas. Curamos y organizamos miles de recetas de varias cocinas y categorías para ayudarte a descubrir nuevos platos."
+            },
+            "canIShareRecipes": {
+                "q": "¿Puedo compartir recetas con amigos?",
+                "a": "¡Sí! Cada página de receta tiene un botón Compartir que te permite compartir a través de Facebook, Twitter (X), WhatsApp o copiar el enlace para compartir en cualquier lugar. ¡Comparte tus descubrimientos favoritos con amigos y familiares!"
+            }
+        }
     },
     "NotFound": {
         "title": "Receta No Encontrada",

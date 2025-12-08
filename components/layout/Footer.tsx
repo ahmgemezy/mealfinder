@@ -68,6 +68,14 @@ export default function Footer() {
                                     {t('favorites')}
                                 </Link>
                             </li>
+                            <li>
+                                <Link
+                                    href="/faq"
+                                    className="text-muted-foreground hover:text-primary-500 transition-colors"
+                                >
+                                    {t('faq')}
+                                </Link>
+                            </li>
                         </ul>
                     </div>
 
