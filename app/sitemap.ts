@@ -1,6 +1,7 @@
 import { MetadataRoute } from "next";
 import { RECIPE_CATEGORIES, RECIPE_AREAS } from "@/lib/constants";
 import { supabase } from "@/lib/supabase";
+import { getAllPostsMetadata } from "@/lib/utils/blog-helpers";
 
 // Helper to generate slug from recipe name (must match the slug format used in the app)
 function generateSlug(name: string, id: string): string {
@@ -33,6 +34,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         },
         {
             url: `${baseUrl}/recipes`,
+            lastModified: new Date(),
+            changeFrequency: "daily",
+            priority: 0.8,
+        },
+        {
+            url: `${baseUrl}/blog`,
             lastModified: new Date(),
             changeFrequency: "daily",
             priority: 0.8,
@@ -107,5 +114,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         console.error("Error fetching recipes for sitemap:", error);
     }
 
-    return [...staticRoutes, ...legalRoutes, ...categoryRoutes, ...areaRoutes, ...recipeRoutes];
+    // Blog post routes
+    const blogRoutes: MetadataRoute.Sitemap = getAllPostsMetadata().map((post) => ({
+        url: `${baseUrl}/blog/${post.slug}`,
+        lastModified: new Date(post.publishedDate),
+        changeFrequency: "monthly",
+        priority: 0.7,
+    }));
+
+    return [...staticRoutes, ...legalRoutes, ...categoryRoutes, ...areaRoutes, ...recipeRoutes, ...blogRoutes];
 }
