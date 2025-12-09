@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "generate:blog": "npx ts-node scripts/generate-blog-post.ts"
   },
   "dependencies": {
     "@supabase/ssr": "^0.8.0",
@@ -30,8 +31,10 @@
     "baseline-browser-mapping": "^2.8.32",
     "eslint": "^9",
     "eslint-config-next": "16.0.7",
+    "openai": "^4.73.0",
     "sharp": "^0.34.5",
     "tailwindcss": "^4",
+    "ts-node": "^10.9.2",
     "typescript": "^5"
   }
 }
