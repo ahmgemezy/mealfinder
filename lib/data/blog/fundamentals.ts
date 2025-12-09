@@ -237,7 +237,7 @@ Don't have a recipe for tonight? Use your new knowledge on a reliable [Roast Chi
         author: "Chef Alex",
         publishedDate: "2024-02-19",
         readTime: 9,
-        featuredImage: "https://images.unsplash.com/photo-1518982080212-2e5d8ddb6287?w=800&q=80",
+        featuredImage: "https://images.unsplash.com/photo-1507048331197-7d4ac70811cf?w=800&q=80",
         excerpt: "Why does restaurant food taste better? Usually, it's the seasoning. Learn the golden rules of salt and acid.",
         content: `
 # The Science of Seasoning: How to Make Every Dish Taste Better

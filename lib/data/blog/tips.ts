@@ -171,7 +171,7 @@ Stock up your freezer with our hearty [beef](/recipes?category=Beef) and [chicke
         author: "Sarah Jenkins",
         publishedDate: "2024-06-10",
         readTime: 7,
-        featuredImage: "https://images.unsplash.com/photo-1529543544277-750e2ea6e1f0?w=800&q=80",
+        featuredImage: "https://images.unsplash.com/photo-1543353071-873f17a7a088?w=800&q=80",
         excerpt: "Hospitality is about making guests feel safe and welcome. Learn how to navigate modern dietary restrictions without cooking 4 different meals.",
         content: `
 # Cooking for Special Diets: Accommodating Food Allergies and Restrictions
