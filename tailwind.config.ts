@@ -9,9 +9,7 @@ const config: Config = {
   // In Tailwind v4, theme configuration is handled in CSS.
   // Keeping this file minimal to avoid conflicts, but ensuring content paths are correct.
   theme: {},
-  plugins: [
-    require('@tailwindcss/typography'),
-  ],
+  plugins: [],
 };
 
 export default config;

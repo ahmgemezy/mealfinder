@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@plugin "@tailwindcss/typography";
 
 /* Hide Google Translate UI elements */
 .goog-te-banner-frame,
