@@ -22,6 +22,12 @@ const BLOG_CATEGORIES = [
     "Diet & Nutrition",
     "Cuisine Exploration",
     "Cooking Tips & Trends",
+    "Budget-Friendly Eats",
+    "Quick & Easy",
+    "Seasonal Spotlight",
+    "Kitchen Gear & Gadgets",
+    "Entertaining & Hosting",
+    "Ingredient Deep Dive",
 ] as const;
 
 type BlogCategory = (typeof BLOG_CATEGORIES)[number];

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useSearchParams, useRouter } from "next/navigation";
 import { BlogPostMetadata } from "@/lib/types/blog";
 import BlogCard from "./BlogCard";
 
@@ -12,11 +13,21 @@ interface BlogFilterProps {
 
 export default function BlogFilter({ posts, tags, locale }: BlogFilterProps) {
     const [selectedTag, setSelectedTag] = useState<string | null>(null);
+    const router = useRouter();
 
-    // Filter posts by selected tag
-    const filteredPosts = selectedTag
-        ? posts.filter(post => post.tags.includes(selectedTag))
-        : posts;
+    const searchParams = useSearchParams();
+    const searchQuery = searchParams.get('search')?.toLowerCase() || '';
+
+    // Filter posts by selected tag and search query
+    const filteredPosts = posts.filter(post => {
+        const matchesTag = selectedTag ? post.tags.includes(selectedTag) : true;
+        const matchesSearch = searchQuery
+            ? post.title.toLowerCase().includes(searchQuery) ||
+            post.excerpt.toLowerCase().includes(searchQuery) ||
+            post.description.toLowerCase().includes(searchQuery)
+            : true;
+        return matchesTag && matchesSearch;
+    });
 
     // Sort by date (newest first)
     const sortedPosts = [...filteredPosts].sort(
@@ -36,8 +47,8 @@ export default function BlogFilter({ posts, tags, locale }: BlogFilterProps) {
                         key={tag}
                         onClick={() => handleTagClick(tag)}
                         className={`px-3 py-1 text-sm rounded-full transition-colors cursor-pointer ${selectedTag === tag
-                                ? "bg-primary-600 text-white"
-                                : "bg-muted/50 hover:bg-muted text-muted-foreground hover:text-foreground"
+                            ? "bg-primary-600 text-white"
+                            : "bg-muted/50 hover:bg-muted text-muted-foreground hover:text-foreground"
                             }`}
                     >
                         #{tag}
@@ -74,9 +85,18 @@ export default function BlogFilter({ posts, tags, locale }: BlogFilterProps) {
             {/* No results message */}
             {sortedPosts.length === 0 && (
                 <div className="text-center py-12">
-                    <p className="text-muted-foreground">No posts found for this tag.</p>
+                    <p className="text-muted-foreground">
+                        {searchQuery
+                            ? `No posts found matching "${searchQuery}"`
+                            : "No posts found for this tag."}
+                    </p>
                     <button
-                        onClick={() => setSelectedTag(null)}
+                        onClick={() => {
+                            setSelectedTag(null);
+                            if (searchQuery) {
+                                router.push(`/${locale}/blog`);
+                            }
+                        }}
                         className="mt-4 text-primary-600 hover:underline"
                     >
                         View all posts

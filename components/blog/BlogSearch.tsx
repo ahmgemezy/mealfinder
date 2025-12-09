@@ -1,15 +1,21 @@
 "use client";
 
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useState, useEffect } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 interface BlogSearchProps {
     locale: string;
 }
 
 export default function BlogSearch({ locale }: BlogSearchProps) {
-    const [query, setQuery] = useState('');
+    const searchParams = useSearchParams();
+    const initialQuery = searchParams.get('search') || '';
+    const [query, setQuery] = useState(initialQuery);
     const router = useRouter();
+
+    useEffect(() => {
+        setQuery(searchParams.get('search') || '');
+    }, [searchParams]);
 
     const handleSearch = (e: React.FormEvent) => {
         e.preventDefault();
