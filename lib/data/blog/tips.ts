@@ -10,7 +10,7 @@ export const tipsPosts: BlogPost[] = [
         author: "Chef Alex",
         publishedDate: "2024-05-20",
         readTime: 7,
-        featuredImage: "/images/blog/zero-waste.jpg",
+        featuredImage: "https://images.unsplash.com/photo-1495521821757-a1efb6729352?w=800&q=80",
         excerpt: "Did you know carrot tops make amazing pesto? Learn how to turn 'trash' into treasure with these zero-waste hacks.",
         content: `
 # Zero-Waste Cooking: How to Use Every Part of Your Ingredients
@@ -62,7 +62,7 @@ Ready to save money? Start with our [budget-friendly recipes](/recipes).
         author: "Sarah Jenkins",
         publishedDate: "2024-05-27",
         readTime: 6,
-        featuredImage: "/images/blog/one-pot.jpg",
+        featuredImage: "https://images.unsplash.com/photo-1547592166-23ac45744acd?w=800&q=80",
         excerpt: "The only thing better than a home-cooked meal is not having to spend an hour washing dishes afterwards. Here is the formula for one-pot success.",
         content: `
 # One-Pot Meals: Delicious Dinners with Minimal Cleanup
@@ -111,7 +111,7 @@ Search for "Stew" or "Casserole" in our [recipes](/recipes) for easy cleanup ide
         author: "Chef Alex",
         publishedDate: "2024-06-03",
         readTime: 8,
-        featuredImage: "/images/blog/batch-cooking.jpg",
+        featuredImage: "https://images.unsplash.com/photo-1556909211-36987daf7b4d?w=800&q=80",
         excerpt: "The freezer is your best friend. Learn which foods freeze beautifully and which turn to mush, plus the 'Rule of Double'.",
         content: `
 # Batch Cooking Secrets: Feed Your Family All Week
@@ -171,7 +171,7 @@ Stock up your freezer with our hearty [beef](/recipes?category=Beef) and [chicke
         author: "Sarah Jenkins",
         publishedDate: "2024-06-10",
         readTime: 7,
-        featuredImage: "/images/blog/friends-eating.jpg",
+        featuredImage: "https://images.unsplash.com/photo-1529543544277-750e2ea6e1f0?w=800&q=80",
         excerpt: "Hospitality is about making guests feel safe and welcome. Learn how to navigate modern dietary restrictions without cooking 4 different meals.",
         content: `
 # Cooking for Special Diets: Accommodating Food Allergies and Restrictions
@@ -229,7 +229,7 @@ Use our advanced [Filtering System](/recipes) to find recipes by diet!
         author: "Chef Alex",
         publishedDate: "2024-06-17",
         readTime: 6,
-        featuredImage: "/images/blog/seasonal-produce.jpg",
+        featuredImage: "https://images.unsplash.com/photo-1490818387583-1baba5e638af?w=800&q=80",
         excerpt: "Nature provides exactly what we need, when we need it. A guide to what to eat in Spring, Summer, Fall, and Winter.",
         content: `
 # Seasonal Cooking: How to Shop and Cook with the Seasons

@@ -10,7 +10,7 @@ export const fundamentalsPosts: BlogPost[] = [
         author: "Chef Alex",
         publishedDate: "2024-01-15",
         readTime: 8,
-        featuredImage: "/images/blog/knife-skills.jpg",
+        featuredImage: "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=800&q=80",
         excerpt: "Good knife skills are the foundation of good cooking. In this guide, we break down the grip, the motion, and the essential cuts that will transform your time in the kitchen.",
         content: `
 # The Ultimate Guide to Knife Skills Every Home Cook Needs
@@ -81,7 +81,7 @@ Check out our [Vegetable Stir-Fry Recipes](/recipes?category=Vegetarian) to prac
         author: "Sarah Jenkins",
         publishedDate: "2024-01-22",
         readTime: 10,
-        featuredImage: "/images/blog/cooking-techniques.jpg",
+        featuredImage: "https://images.unsplash.com/photo-1466637574441-749b8f19452f?w=800&q=80",
         excerpt: "Stop following recipes blindly and start understanding techniques. Learn the core methods of Sautéing, Roasting, and Braising to cook anything without a recipe.",
         content: `
 # Mastering Cooking Techniques: Sautéing, Roasting, and Braising Explained
@@ -138,7 +138,7 @@ Ready to try braising? Search for "Beef Stew" in our [recipes section](/recipes)
         author: "Chef Alex",
         publishedDate: "2024-02-05",
         readTime: 7,
-        featuredImage: "/images/blog/kitchen-tools.jpg",
+        featuredImage: "https://images.unsplash.com/photo-1556909114-44e3e70034e2?w=800&q=80",
         excerpt: "Stop buying unitaskers. Discover the essential high-quality tools that professional chefs actually use at home.",
         content: `
 # Essential Kitchen Equipment: Building Your Perfect Cooking Arsenal
@@ -192,7 +192,7 @@ Invest in quality basics, and they will last you a lifetime.
         author: "Dr. Emily Foodsci",
         publishedDate: "2024-02-12",
         readTime: 6,
-        featuredImage: "/images/blog/thermometer.jpg",
+        featuredImage: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800&q=80",
         excerpt: "Dry chicken? Undercooked pork? Never again. Learn the safe internal temperatures for every type of protein.",
         content: `
 # Understanding Cooking Temperatures: A Complete Guide to Food Safety
@@ -237,7 +237,7 @@ Don't have a recipe for tonight? Use your new knowledge on a reliable [Roast Chi
         author: "Chef Alex",
         publishedDate: "2024-02-19",
         readTime: 9,
-        featuredImage: "/images/blog/salting.jpg",
+        featuredImage: "https://images.unsplash.com/photo-1518982080212-2e5d8ddb6287?w=800&q=80",
         excerpt: "Why does restaurant food taste better? Usually, it's the seasoning. Learn the golden rules of salt and acid.",
         content: `
 # The Science of Seasoning: How to Make Every Dish Taste Better

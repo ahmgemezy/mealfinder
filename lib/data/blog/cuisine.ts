@@ -10,7 +10,7 @@ export const cuisinePosts: BlogPost[] = [
         author: "Giulia Rossi",
         publishedDate: "2024-04-15",
         readTime: 11,
-        featuredImage: "/images/blog/italian-cuisine.jpg",
+        featuredImage: "https://images.unsplash.com/photo-1498579150354-977475b7ea0b?w=800&q=80",
         excerpt: "Think you know Italian food? Think again. Discover the regional diversity of Italy's 20 regions, from Risotto in Milan to Caponata in Sicily.",
         content: `
 # Exploring Italian Cuisine: Beyond Pasta and Pizza
@@ -60,7 +60,7 @@ Want to travel via your kitchen? Try our authentic [Italian Recipes](/recipes?ar
         author: "Chef Alex",
         publishedDate: "2024-04-22",
         readTime: 10,
-        featuredImage: "/images/blog/mexican-cuisine.jpg",
+        featuredImage: "https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=800&q=80",
         excerpt: "Real Mexican food is a UNESCO World Heritage treasure. Learn about Nixtamalization, the holy trinity of chiles, and why mole takes 3 days to make.",
         content: `
 # Authentic Mexican Cooking: Essential Ingredients and Techniques
@@ -110,7 +110,7 @@ Explore the flavors of [Mexico](/recipes?area=Mexican) in our recipe collection.
         author: "Chef Alex",
         publishedDate: "2024-04-29",
         readTime: 8,
-        featuredImage: "/images/blog/stir-fry.jpg",
+        featuredImage: "https://images.unsplash.com/photo-1617093727343-374698b1b08d?w=800&q=80",
         excerpt: "Why are your stir-fries soggy? You're missing the heat. Learn the secrets of the Wok and how to layer flavors for that restaurant quality taste.",
         content: `
 # The Art of Asian Stir-Fry: Techniques from Chinese to Thai Cuisine
@@ -164,7 +164,7 @@ Try making our [Chinese](/recipes?area=Chinese) or [Thai](/recipes?area=Thai) re
         author: "Dr. Emily Foodsci",
         publishedDate: "2024-05-06",
         readTime: 9,
-        featuredImage: "/images/blog/greek-food.jpg",
+        featuredImage: "https://images.unsplash.com/photo-1544025162-d76694265947?w=800&q=80",
         excerpt: "From Meze platters to grilled kebabs, explore the shared culinary heritage of Greece and Turkey.",
         content: `
 # Mediterranean Flavors: A Journey Through Greek and Turkish Cooking
@@ -215,7 +215,7 @@ Transport yourself to the Aegean sea with our [Greek](/recipes?area=Greek) and [
         author: "Sarah Jenkins",
         publishedDate: "2024-05-13",
         readTime: 12,
-        featuredImage: "/images/blog/indian-spices.jpg",
+        featuredImage: "https://images.unsplash.com/photo-1596040033229-a9821ebd058d?w=800&q=80",
         excerpt: "What is 'Curry Powder'? (Spoiler: It doesn't exist in India). Learn how to bloom spices and build deep, complex flavors.",
         content: `
 # Indian Spices Demystified: A Beginner's Guide to Curry and Beyond

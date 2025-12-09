@@ -10,7 +10,7 @@ export const nutritionPosts: BlogPost[] = [
         author: "Dr. Emily Foodsci",
         publishedDate: "2024-03-04",
         readTime: 12,
-        featuredImage: "/images/blog/mediterranean-diet.jpg",
+        featuredImage: "https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?w=800&q=80",
         excerpt: "It's not just a diet; it's a lifestyle. Explore the fresh flavors and health benefits of the Mediterranean way of eating.",
         content: `
 # Complete Guide to the Mediterranean Diet: Benefits and Recipes
@@ -72,7 +72,7 @@ Ready to dive in? Filter our recipes by [Mediterranean](/recipes?area=Italian) o
         author: "Sarah Jenkins",
         publishedDate: "2024-03-11",
         readTime: 10,
-        featuredImage: "/images/blog/keto-diet.jpg",
+        featuredImage: "https://images.unsplash.com/photo-1432139555190-58524dae6a55?w=800&q=80",
         excerpt: "Is butter a health food now? On Keto, yes. Learn the rules of the Ketogenic diet and how to enter metabolic ketosis safely.",
         content: `
 # Keto Diet Explained: Low-Carb Cooking for Beginners
@@ -133,7 +133,7 @@ Search for "Keto" in our [recipes](/recipes) to find low-carb inspiration.
         author: "Chef Alex",
         publishedDate: "2024-03-18",
         readTime: 8,
-        featuredImage: "/images/blog/plant-based.jpg",
+        featuredImage: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=800&q=80",
         excerpt: "Whether you're vegan or just trying 'Meatless Monday', learn the secrets to making satisfy plant-based meals that even carnivores will love.",
         content: `
 # Plant-Based Cooking: Essential Tips for Vegan and Vegetarian Meals
@@ -184,7 +184,7 @@ Explore our dedicated [Vegan](/recipes?category=Vegan) and [Vegetarian](/recipes
         author: "Sarah Jenkins",
         publishedDate: "2024-03-25",
         readTime: 9,
-        featuredImage: "/images/blog/gluten-free.jpg",
+        featuredImage: "https://images.unsplash.com/photo-1509440159596-0249088772ff?w=800&q=80",
         excerpt: "No wheat? No problem. Learn the art of gluten-free cooking and baking without ending up with dense, crumbly disasters.",
         content: `
 # Gluten-Free Cooking Made Easy: Substitutions and Techniques
@@ -241,7 +241,7 @@ Check out our [GF-friendly recipes](/recipes) (check the ingredients list carefu
         author: "Chef Alex",
         publishedDate: "2024-04-01",
         readTime: 7,
-        featuredImage: "/images/blog/meal-prep.jpg",
+        featuredImage: "https://images.unsplash.com/photo-1498837167922-ddd27525d352?w=800&q=80",
         excerpt: "Sunday preparation prevents Monday desperation. Learn the 'Component Method' of meal prepping to avoid eating the same boring meal every day.",
         content: `
 # Meal Prep for Busy Professionals: Save Time and Eat Healthy
