@@ -3,7 +3,7 @@
     "short_name": "Dish Shuffle",
     "icons": [
         {
-            "src": "/logo-final.png",
+            "src": "/favicon.png",
             "sizes": "512x512",
             "type": "image/png"
         },
