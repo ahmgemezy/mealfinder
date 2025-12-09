@@ -11,6 +11,9 @@ type Props = {
     params: Promise<{ locale: string; slug: string }>;
 };
 
+// Force dynamic rendering to avoid DYNAMIC_SERVER_USAGE error with getTranslations
+export const dynamic = 'force-dynamic';
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
     const { locale, slug } = await params;
     const post = getPostBySlug(slug);
@@ -49,13 +52,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
             images: [post.featuredImage],
         },
     };
-}
-
-export async function generateStaticParams() {
-    const posts = getAllPosts();
-    return posts.map((post) => ({
-        slug: post.slug,
-    }));
 }
 
 export default async function BlogPostPage({ params }: Props) {
