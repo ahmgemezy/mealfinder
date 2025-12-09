@@ -21,7 +21,8 @@ export default function TableOfContents() {
                     id: elem.id,
                     text: elem.textContent || '',
                     level: parseInt(elem.tagName.substring(1)),
-                }));
+                }))
+                .filter(item => !['Related Articles', 'Quick Links', 'Legal'].includes(item.text.trim()));
 
             setHeadings(elements);
 

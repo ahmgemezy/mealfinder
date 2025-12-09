@@ -165,34 +165,12 @@ export default async function BlogPostPage({ params }: Props) {
                 <div className="hidden lg:block">
                     <div className="sticky top-24 space-y-8">
                         <TableOfContents />
-
-                        <div>
-                            <h3 className="font-display font-bold text-xl mb-6">Related Articles</h3>
-                            <div className="grid gap-6">
-                                {relatedPosts.map(post => (
-                                    <Link key={post.slug} href={`/${locale}/blog/${post.slug}`} className="group block">
-                                        <div className="relative aspect-video rounded-lg overflow-hidden mb-3">
-                                            <Image
-                                                src={post.featuredImage}
-                                                alt={post.title}
-                                                fill
-                                                className="object-cover group-hover:scale-105 transition-transform"
-                                            />
-                                        </div>
-                                        <h4 className="font-bold group-hover:text-primary-600 transition-colors line-clamp-2 mb-1">
-                                            {post.title}
-                                        </h4>
-                                        <div className="text-xs text-muted-foreground">{post.readTime} min read</div>
-                                    </Link>
-                                ))}
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
 
-            {/* Mobile Related Posts (Below content) */}
-            <div className="lg:hidden container mx-auto px-4 mt-16 max-w-4xl">
+            {/* Related Posts (Below content) */}
+            <div className="container mx-auto px-4 mt-16 max-w-4xl pb-12">
                 <h3 className="font-display font-bold text-2xl mb-6">Related Articles</h3>
                 <RelatedPosts posts={relatedPosts} locale={locale} />
             </div>
