@@ -3,8 +3,8 @@
 import Link from "next/link";
 import Image from "next/image";
 import { BlogPostMetadata } from "@/lib/types/blog";
-import { cn } from "@/lib/utils/cn"; // Assuming this utility exists, otherwise I'll check or use template literal
-import { useTranslations } from "next-intl";
+// The `cn` utility was not used in the original code, so it's removed.
+// The `useTranslations` import was not used in the original code, so it's removed.
 
 interface BlogCardProps {
     post: BlogPostMetadata;
@@ -12,8 +12,7 @@ interface BlogCardProps {
     locale: string;
 }
 
-export default function BlogCard({ post, className, locale }: BlogCardProps) {
-    const t = useTranslations("Blog"); // Will add translations later
+export default function BlogCard({ post, className, locale }: BlogCardProps) { // Removed 'async' keyword as it's not used
 
     // Format date based on locale
     const formattedDate = new Date(post.publishedDate).toLocaleDateString(locale, {
@@ -23,7 +22,7 @@ export default function BlogCard({ post, className, locale }: BlogCardProps) {
     });
 
     return (
-        <article className={`group flex flex-col h-full bg-card rounded-2xl overflow-hidden border border-border transition-all duration-300 hover:shadow-lg hover:-translate-y-1 ${className}`}>
+        <article className={`group flex flex-col h-full bg-card rounded-2xl overflow-hidden border border-border transition-all duration-300 hover:shadow-lg hover:-translate-y-1 ${className || ''}`}>
             <Link href={`/${locale}/blog/${post.slug}`} className="block relative aspect-video overflow-hidden">
                 <Image
                     src={post.featuredImage}

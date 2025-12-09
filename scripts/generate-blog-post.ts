@@ -37,6 +37,13 @@ interface JinaSearchResult {
     description?: string;
 }
 
+interface JinaAPIItem {
+    title?: string;
+    url?: string;
+    content?: string;
+    description?: string;
+}
+
 interface GeneratedBlogPost {
     slug: string;
     title: string;
@@ -89,7 +96,7 @@ async function searchWithJina(query: string): Promise<JinaSearchResult[]> {
         const data = await response.json();
 
         // JINA returns results in data array
-        const results: JinaSearchResult[] = (data.data || []).slice(0, 5).map((item: any) => ({
+        const results: JinaSearchResult[] = (data.data || []).slice(0, 5).map((item: JinaAPIItem) => ({
             title: item.title || "",
             url: item.url || "",
             content: item.content || "",

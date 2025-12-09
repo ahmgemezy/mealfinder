@@ -6,7 +6,11 @@ import Button from "@/components/ui/Button";
 // Extend Window interface for gtag
 declare global {
     interface Window {
-        gtag: (command: string, action: string, params?: Record<string, string>) => void;
+        gtag?: (
+            command: string,
+            action: string,
+            params?: Record<string, string | number | boolean>
+        ) => void;
     }
 }
 

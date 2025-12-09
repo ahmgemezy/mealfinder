@@ -276,14 +276,16 @@
             "nutrition": "Alimentation & Nutrition",
             "cuisine": "Exploration Culinaire",
             "tips": "Conseils & Tendances"
-        }
-    },
-    "NotFound": {
-        "title": "Recette Introuvable",
-        "description": "Oups ! On dirait que ce plat s'est échappé.",
-        "suggestion": "Ne vous inquiétez pas, nous avons plein d'autres délicieuses recettes qui vous attendent !",
-        "goHome": "Accueil",
-        "browseRecipes": "Parcourir les recettes",
-        "funTagline": "Même les meilleurs chefs perdent parfois une recette... 👨‍🍳"
+        },
+        "readMore": "Lire la suite"
     }
+},
+"NotFound": {
+    "title": "Recette Introuvable",
+    "description": "Oups ! On dirait que ce plat s'est échappé.",
+    "suggestion": "Ne vous inquiétez pas, nous avons plein d'autres délicieuses recettes qui vous attendent !",
+    "goHome": "Accueil",
+    "browseRecipes": "Parcourir les recettes",
+    "funTagline": "Même les meilleurs chefs perdent parfois une recette... 👨‍🍳"
+}
 }

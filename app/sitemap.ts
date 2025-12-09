@@ -115,12 +115,35 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     }
 
     // Blog post routes
-    const blogRoutes: MetadataRoute.Sitemap = getAllPostsMetadata().map((post) => ({
-        url: `${baseUrl}/blog/${post.slug}`,
+    const blogPosts = getAllPostsMetadata();
+    const blogUrls = blogPosts.map((post) => ({
+        url: `${baseUrl}/en/blog/${post.slug}`,
         lastModified: new Date(post.publishedDate),
-        changeFrequency: "monthly",
+        changeFrequency: "monthly" as const,
         priority: 0.7,
+        alternates: {
+            languages: {
+                en: `${baseUrl}/en/blog/${post.slug}`,
+                fr: `${baseUrl}/fr/blog/${post.slug}`,
+                es: `${baseUrl}/es/blog/${post.slug}`,
+            },
+        },
     }));
 
-    return [...staticRoutes, ...legalRoutes, ...categoryRoutes, ...areaRoutes, ...recipeRoutes, ...blogRoutes];
+    // Add blog index page
+    const blogIndex = {
+        url: `${baseUrl}/en/blog`,
+        lastModified: new Date(),
+        changeFrequency: "weekly" as const,
+        priority: 0.8,
+        alternates: {
+            languages: {
+                en: `${baseUrl}/en/blog`,
+                fr: `${baseUrl}/fr/blog`,
+                es: `${baseUrl}/es/blog`,
+            },
+        },
+    };
+
+    return [...staticRoutes, ...legalRoutes, ...categoryRoutes, ...areaRoutes, ...recipeRoutes, blogIndex, ...blogUrls];
 }

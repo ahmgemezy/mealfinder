@@ -276,7 +276,8 @@
             "nutrition": "Dieta y Nutrición",
             "cuisine": "Exploración Culinaria",
             "tips": "Consejos y Tendencias"
-        }
+        },
+        "readMore": "Leer más"
     },
     "NotFound": {
         "title": "Receta No Encontrada",

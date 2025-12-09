@@ -2,6 +2,7 @@ import { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 import { getAllPostsMetadata, getAllTags } from "@/lib/utils/blog-helpers";
 import BlogFilter from "@/components/blog/BlogFilter";
+import BlogSearch from "@/components/blog/BlogSearch";
 
 export const dynamic = 'force-dynamic';
 
@@ -48,6 +49,7 @@ export default async function BlogPage({
             </div>
 
             {/* Blog Filter and Grid */}
+            <BlogSearch locale={locale} />
             <BlogFilter posts={posts} tags={tags} locale={locale} />
         </div>
     );

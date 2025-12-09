@@ -270,7 +270,8 @@
             "nutrition": "Diet & Nutrition",
             "cuisine": "Cuisine Exploration",
             "tips": "Cooking Tips & Trends"
-        }
+        },
+        "readMore": "Read More"
     },
     "NotFound": {
         "title": "Recipe Not Found",

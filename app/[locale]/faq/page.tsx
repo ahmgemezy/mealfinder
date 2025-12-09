@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 import FAQClient from "./FAQClient";
+import { Link } from "@/navigation";
 
 const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://dishshuffle.com";
 
@@ -145,18 +146,18 @@ export default async function FAQPage({
                         Explore our recipe collection or try the Surprise Me feature to discover something new!
                     </p>
                     <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                        <a
+                        <Link
                             href="/recipes"
                             className="px-6 py-3 bg-primary-500 text-white rounded-lg hover:bg-primary-600 transition-colors font-medium shadow-lg hover:shadow-xl"
                         >
                             Browse Recipes
-                        </a>
-                        <a
+                        </Link>
+                        <Link
                             href="/"
                             className="px-6 py-3 border border-border rounded-lg hover:bg-muted transition-colors font-medium"
                         >
                             Go Home
-                        </a>
+                        </Link>
                     </div>
                 </div>
             </div>
