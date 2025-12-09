@@ -3,6 +3,7 @@
         "home": "Inicio",
         "recipes": "Recetas",
         "favorites": "Favoritos",
+        "blog": "Blog",
         "surpriseMe": "Sorpréndeme",
         "signIn": "Iniciar Sesión",
         "signOut": "Cerrar Sesión",
@@ -128,6 +129,7 @@
         "surpriseMe": "Sorpréndeme",
         "browseRecipes": "Explorar Recetas",
         "favorites": "Favoritos",
+        "blog": "Blog",
         "faq": "FAQ",
         "legal": "Legal",
         "privacyPolicy": "Política de Privacidad",
@@ -259,6 +261,21 @@
                 "q": "¿Puedo compartir recetas con amigos?",
                 "a": "¡Sí! Cada página de receta tiene un botón Compartir que te permite compartir a través de Facebook, Twitter (X), WhatsApp o copiar el enlace para compartir en cualquier lugar. ¡Comparte tus descubrimientos favoritos con amigos y familiares!"
             }
+        }
+    },
+    "Blog": {
+        "title": "Blog Dish Shuffle",
+        "subtitle": "Descubre consejos de cocina, asesoramiento nutricional e inspiración culinaria de nuestros expertos.",
+        "readPost": "Leer Artículo",
+        "minRead": "min de lectura",
+        "relatedArticles": "Artículos Relacionados",
+        "sharePost": "Comparte este artículo:",
+        "categories": {
+            "all": "Todos los Artículos",
+            "fundamentals": "Fundamentos de Cocina",
+            "nutrition": "Dieta y Nutrición",
+            "cuisine": "Exploración Culinaria",
+            "tips": "Consejos y Tendencias"
         }
     },
     "NotFound": {

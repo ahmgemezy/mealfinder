@@ -256,6 +256,21 @@
             }
         }
     },
+    "Blog": {
+        "title": "Dish Shuffle Blog",
+        "subtitle": "Discover cooking tips, nutrition advice, and culinary inspiration from our experts.",
+        "readPost": "Read Post",
+        "minRead": "min read",
+        "relatedArticles": "Related Articles",
+        "sharePost": "Share this post:",
+        "categories": {
+            "all": "All Posts",
+            "fundamentals": "Cooking Fundamentals",
+            "nutrition": "Diet & Nutrition",
+            "cuisine": "Cuisine Exploration",
+            "tips": "Cooking Tips & Trends"
+        }
+    },
     "NotFound": {
         "title": "Recipe Not Found",
         "description": "Oops! Looks like this dish got away.",
