@@ -170,7 +170,7 @@ export default async function BlogPostPage({ params }: Props) {
             </div>
 
             {/* Related Posts (Below content) */}
-            <div className="w-[80vw] mx-auto px-4 mt-16 pb-12">
+            <div className="w-[80vw] mx-auto px-4 mt-16 pb-8">
                 <h3 className="font-display font-bold text-2xl mb-6">Related Articles</h3>
                 <RelatedPosts posts={relatedPosts} locale={locale} />
             </div>

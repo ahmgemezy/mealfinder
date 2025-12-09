@@ -18,26 +18,33 @@ export default function RelatedPosts({ posts, locale }: RelatedPostsProps) {
                 <Link
                     key={post.slug}
                     href={`/${locale}/blog/${post.slug}`}
-                    className="group flex gap-4 md:block hover:bg-muted/50 p-3 rounded-xl transition-colors"
+                    className="group flex flex-col h-full bg-card border border-border/50 rounded-xl overflow-hidden hover:shadow-lg hover:-translate-y-1 transition-all duration-300"
                 >
-                    <div className="relative w-24 h-24 md:w-full md:aspect-video rounded-lg overflow-hidden flex-shrink-0 md:mb-3">
+                    <div className="relative w-full aspect-[16/10] overflow-hidden">
                         <Image
                             src={post.featuredImage}
                             alt={post.title}
                             fill
-                            className="object-cover transition-transform duration-300 group-hover:scale-105"
-                            sizes="(max-width: 768px) 96px, 100vw"
+                            className="object-cover transition-transform duration-500 group-hover:scale-105"
+                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                         />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                     </div>
-                    <div>
-                        <span className="text-xs font-semibold text-primary-600 mb-1 block">
-                            {post.category}
-                        </span>
-                        <h4 className="font-bold text-sm md:text-base line-clamp-2 md:line-clamp-2 group-hover:text-primary-700 transition-colors">
+                    <div className="p-5 flex flex-col flex-grow">
+                        <div className="flex items-center gap-2 mb-3">
+                            <span className="px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100/50 text-primary-700 dark:bg-primary-900/30 dark:text-primary-300 border border-primary-200/50 dark:border-primary-800/50">
+                                {post.category}
+                            </span>
+                            <span className="text-xs text-muted-foreground ml-auto">
+                                {post.readTime} min read
+                            </span>
+                        </div>
+                        <h4 className="font-display font-bold text-lg leading-tight mb-2 group-hover:text-primary transition-colors line-clamp-2">
                             {post.title}
                         </h4>
-                        <div className="text-xs text-muted-foreground mt-1">
-                            {post.readTime} min read
+                        {/* Optionally add description if available in prop type, but currently not used. */}
+                        <div className="mt-auto pt-4 flex items-center text-sm font-medium text-primary opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
+                            Read Article <span className="ml-1">→</span>
                         </div>
                     </div>
                 </Link>
