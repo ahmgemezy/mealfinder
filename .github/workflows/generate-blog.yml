@@ -47,7 +47,7 @@ jobs:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           JINA_API_KEY: ${{ secrets.JINA_API_KEY }}
         run: |
-          npx ts-node scripts/generate-blog-post.ts --topic "${{ inputs.topic }}" --category "${{ inputs.category }}"
+          npx tsx scripts/generate-blog-post.ts --topic "${{ inputs.topic }}" --category "${{ inputs.category }}"
 
       - name: Commit and Push
         run: |
