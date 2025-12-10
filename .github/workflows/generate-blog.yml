@@ -1,0 +1,58 @@
+name: Generate Blog Post
+
+on:
+  workflow_dispatch:
+    inputs:
+      topic:
+        description: 'Blog Post Topic'
+        required: true
+        type: string
+      category:
+        description: 'Category'
+        required: true
+        type: choice
+        options:
+          - "Cooking Fundamentals"
+          - "Diet & Nutrition"
+          - "Cuisine Exploration"
+          - "Cooking Tips & Trends"
+          - "Budget-Friendly Eats"
+          - "Quick & Easy"
+          - "Seasonal Spotlight"
+          - "Kitchen Gear & Gadgets"
+          - "Entertaining & Hosting"
+          - "Ingredient Deep Dive"
+
+jobs:
+  generate-and-publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Generate Blog Post
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          JINA_API_KEY: ${{ secrets.JINA_API_KEY }}
+        run: |
+          npx ts-node scripts/generate-blog-post.ts --topic "${{ inputs.topic }}" --category "${{ inputs.category }}"
+
+      - name: Commit and Push
+        run: |
+          git config --global user.name "Dish Shuffle Bot"
+          git config --global user.email "bot@dishshuffle.com"
+          git add lib/data/blog/*.ts
+          git commit -m "content: new blog post '${{ inputs.topic }}'"
+          git push
