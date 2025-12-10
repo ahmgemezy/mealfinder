@@ -157,7 +157,12 @@ export default async function BlogPostPage({ params }: Props) {
 
                     {/* Social Share */}
                     <div className="mt-8">
-                        <ShareButtons title={post.title} url={`https://dishshuffle.com/${locale}/blog/${post.slug}`} />
+                        <ShareButtons
+                            title={post.title}
+                            url={`https://dishshuffle.com/${locale}/blog/${post.slug}`}
+                            excerpt={post.excerpt}
+                            tags={post.tags}
+                        />
                     </div>
                 </div>
 

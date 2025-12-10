@@ -5,9 +5,11 @@ import { useState } from 'react';
 interface ShareButtonsProps {
     title: string;
     url: string;
+    excerpt?: string;
+    tags?: string[];
 }
 
-export default function ShareButtons({ title, url }: ShareButtonsProps) {
+export default function ShareButtons({ title, url, excerpt, tags }: ShareButtonsProps) {
     const [copied, setCopied] = useState(false);
 
     const handleCopyLink = async () => {
@@ -20,8 +22,11 @@ export default function ShareButtons({ title, url }: ShareButtonsProps) {
         }
     };
 
+    const twitterText = excerpt ? `${title}\n\n${excerpt}` : title;
+    const hashtags = tags ? `&hashtags=${tags.join(',')}` : '';
+
     const shareUrls = {
-        twitter: `https://twitter.com/intent/tweet?text=${encodeURIComponent(title)}&url=${encodeURIComponent(url)}`,
+        twitter: `https://twitter.com/intent/tweet?text=${encodeURIComponent(twitterText)}&url=${encodeURIComponent(url)}${hashtags}`,
         facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`,
         linkedin: `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`,
     };
