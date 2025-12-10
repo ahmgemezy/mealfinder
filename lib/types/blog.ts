@@ -1,12 +1,17 @@
 /**
  * Blog post types and interfaces
  */
-
 export const BLOG_CATEGORIES = [
     "Cooking Fundamentals",
     "Diet & Nutrition",
     "Cuisine Exploration",
     "Cooking Tips & Trends",
+    "Budget-Friendly Eats",
+    "Quick & Easy",
+    "Seasonal Spotlight",
+    "Kitchen Gear & Gadgets",
+    "Entertaining & Hosting",
+    "Ingredient Deep Dive",
 ] as const;
 
 export type BlogCategory = typeof BLOG_CATEGORIES[number];
