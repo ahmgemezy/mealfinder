@@ -8,8 +8,7 @@
  *   npx ts-node scripts/generate-blog-post.ts --topic "Italian pasta" --category "Cuisine Exploration" --output
  */
 
-import pkg from '@next/env';
-const { loadEnvConfig } = pkg;
+import { loadEnvConfig } from '@next/env';
 import * as fs from 'fs';
 import * as path from 'path';
 
