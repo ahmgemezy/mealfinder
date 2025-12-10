@@ -21,7 +21,13 @@ on:
           - "Seasonal Spotlight"
           - "Kitchen Gear & Gadgets"
           - "Entertaining & Hosting"
+          - "Kitchen Gear & Gadgets"
+          - "Entertaining & Hosting"
           - "Ingredient Deep Dive"
+      author:
+        description: 'Author Name (Optional)'
+        required: false
+        type: string
 
 jobs:
   generate-and-publish:
@@ -47,7 +53,7 @@ jobs:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           JINA_API_KEY: ${{ secrets.JINA_API_KEY }}
         run: |
-          npx tsx scripts/generate-blog-post.ts --topic "${{ inputs.topic }}" --category "${{ inputs.category }}"
+          npx tsx scripts/generate-blog-post.ts --topic "${{ inputs.topic }}" --category "${{ inputs.category }}" --author "${{ inputs.author }}"
 
       - name: Commit and Push
         run: |

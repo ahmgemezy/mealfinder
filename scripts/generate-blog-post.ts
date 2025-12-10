@@ -23,7 +23,11 @@ loadEnvConfig(process.cwd());
 const JINA_SEARCH_URL = "https://s.jina.ai/";
 const JINA_READER_URL = "https://r.jina.ai/";
 
-const AUTHORS = ["Chef Alex", "Sarah Jenkins", "Dr. Emily Foodsci", "Giulia Rossi"];
+const AUTHORS = [
+    "Chef Alex", "Sarah Jenkins", "Dr. Emily Foodsci", "Giulia Rossi",
+    "Marcus Chen", "Elena Rodriguez", "James Oliver", "Priya Patel",
+    "Sophie Dubois", "Kenji Yamamoto"
+];
 
 const FALLBACK_IMAGES = [
     "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800&q=80", // Generic food
@@ -99,6 +103,7 @@ interface GeneratedBlogPost {
 interface CLIArgs {
     topic: string;
     category: BlogCategory;
+    author?: string;
     output: boolean;
     dryRun: boolean;
 }
@@ -194,7 +199,8 @@ async function rewriteWithAI(
     topic: string,
     category: BlogCategory,
     sourceContent: string,
-    availableImages: string[]
+    availableImages: string[],
+    forcedAuthor?: string
 ): Promise<GeneratedBlogPost> {
     const apiKey = process.env.OPENAI_API_KEY;
 
@@ -279,8 +285,8 @@ Output ONLY the JSON object, no markdown code blocks.`;
         // Parse JSON response
         const parsed = JSON.parse(rawContent);
 
-        // Get random author
-        const author = AUTHORS[Math.floor(Math.random() * AUTHORS.length)];
+        // Get author (forced or random)
+        const author = forcedAuthor || AUTHORS[Math.floor(Math.random() * AUTHORS.length)];
 
         // Get today's date
         const today = new Date().toISOString().split("T")[0];
@@ -416,6 +422,9 @@ function parseArgs(): CLIArgs {
                 console.log(`Valid categories: ${BLOG_CATEGORIES.join(", ")}`);
             }
             i++;
+        } else if (args[i] === "--author" && args[i + 1]) {
+            result.author = args[i + 1];
+            i++;
         } else if (args[i] === "--output") {
             result.output = true;
         } else if (args[i] === "--dry-run") {
@@ -462,6 +471,7 @@ async function main() {
         console.log("Options:");
         console.log("  --topic      Topic to write about (required)");
         console.log("  --category   Blog category (default: Cooking Fundamentals)");
+        console.log("  --author     Specific author name (optional)");
         console.log("  --output     Output code ready to paste (optional)");
         console.log("  --dry-run    Generate but do not save to file (optional)");
         console.log("");
@@ -501,7 +511,8 @@ async function main() {
 
         // Step 3: Generate blog post with AI
         console.log("");
-        const blogPost = await rewriteWithAI(args.topic, args.category, combinedContent, allImages);
+        if (args.author) console.log(`👤 Author: ${args.author}`);
+        const blogPost = await rewriteWithAI(args.topic, args.category, combinedContent, allImages, args.author);
 
         // Step 4: Output result
         console.log("\n=====================================");
