@@ -1,5 +1,6 @@
 "use client";
 
+import remarkGfm from 'remark-gfm';
 import Markdown from 'react-markdown';
 import Link from 'next/link';
 
@@ -12,6 +13,7 @@ export default function BlogContent({ content }: BlogContentProps) {
     return (
         <article className="prose prose-lg dark:prose-invert max-w-none prose-headings:font-display prose-headings:font-bold prose-a:text-primary-600 hover:prose-a:text-primary-700 prose-img:rounded-xl">
             <Markdown
+                remarkPlugins={[remarkGfm]}
                 components={{
                     // Custom link component to handle internal vs external links
                     a: ({ href, children }) => {
