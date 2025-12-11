@@ -320,13 +320,13 @@ Meal prepping doesn't have to be intimidating. With a little planning and practi
 Embrace meal prepping, and watch how it transforms your culinary routine. Happy prepping!
         `
     }
-,
+    ,
     {
         slug: "space-saving-kitchen-gadgets-every-small-apartment-needs-2026",
         title: "Space-Saving Kitchen Gadgets Every Small Apartment Needs in 2026",
         description: "Discover essential space-saving kitchen gadgets perfect for small apartments in 2026.",
         category: "Kitchen Gear & Gadgets",
-        tags: ["Kitchen Gadgets","Space-Saving","Small Apartments","Smart Kitchen","2026 Trends"],
+        tags: ["Kitchen Gadgets", "Space-Saving", "Small Apartments", "Smart Kitchen", "2026 Trends"],
         author: "Giulia Rossi",
         publishedDate: "2025-12-10",
         readTime: 15,
@@ -388,13 +388,13 @@ Most modern space-saving gadgets are designed with energy efficiency in mind, re
 The future of kitchen design is not just about minimizing space but maximizing utility. By investing in the right space-saving kitchen gadgets, you can transform a small apartment kitchen into a functional culinary haven. For more inspiration, explore our [healthy recipes](/recipes?category=Healthy) or discover new [quick meal ideas](/recipes?category=Quick-Meals) to complement your newly optimized kitchen setup.
         `
     }
-,
+    ,
     {
         slug: "must-have-multi-functional-kitchen-gadgets",
         title: "7 Must-Have Multi-Functional Kitchen Gadgets That Replace 20+ Tools",
         description: "Discover the ultimate guide to multi-functional kitchen gadgets that streamline your cooking process by replacing over 20 tools.",
         category: "Kitchen Gear & Gadgets",
-        tags: ["Kitchen Gadgets","Multi-Functional Tools","Cooking Efficiency","Home Cooking","Kitchen Essentials"],
+        tags: ["Kitchen Gadgets", "Multi-Functional Tools", "Cooking Efficiency", "Home Cooking", "Kitchen Essentials"],
         author: "Giulia Rossi",
         publishedDate: "2025-12-10",
         readTime: 15,
@@ -533,13 +533,13 @@ Follow manufacturer care instructions and avoid exposing gadgets to conditions b
 Incorporating multi-functional kitchen gadgets into your culinary routine not only enhances efficiency but also fosters creativity by freeing up space and reducing clutter. As you explore new recipes and techniques, consider how these tools can simplify your process and inspire your next culinary masterpiece. For more inspiration, explore our [healthy recipes](/recipes?category=Healthy) and [quick meals](/recipes?category=Quick) sections to make the most of your new kitchen companions.
         `
     }
-,
+    ,
     {
         slug: "smart-kitchen-gadgets-worth-the-investment",
         title: "Smart Kitchen Gadgets Worth the Investment: Tech That Actually Makes Cooking Easier",
         description: "Explore smart kitchen gadgets that are truly worth the investment, enhancing efficiency and enjoyment in your cooking endeavors.",
         category: "Kitchen Gear & Gadgets",
-        tags: ["Smart Kitchen","Cooking Gadgets","Kitchen Technology","Home Appliances","Cooking Tips"],
+        tags: ["Smart Kitchen", "Cooking Gadgets", "Kitchen Technology", "Home Appliances", "Cooking Tips"],
         author: "Kenji Yamamoto",
         publishedDate: "2025-12-10",
         readTime: 15,
@@ -656,13 +656,13 @@ Smart devices optimize energy use, potentially reducing consumption by up to 30%
 Investing in smart kitchen gadgets can transform your culinary experience, bringing convenience, precision, and a touch of modern elegance to your cooking routine. As technology continues to advance, the possibilities for enhancing home cooking are endless. Explore our [healthy recipes](/recipes?category=Healthy) to put your new gadgets to the test and enjoy the art of cooking with a technological twist.
         `
     }
-,
+    ,
     {
         slug: "30-dinners-under-5-per-serving-that-dont-taste-cheap",
         title: "30 Affordable Dinners Under $5 Per Serving That Taste Gourmet",
         description: "Explore 30 delicious dinners under $5 per serving that deliver gourmet flavors without breaking the bank.",
         category: "Budget-Friendly Eats",
-        tags: ["Budget-Friendly","Affordable Meals","Cheap Eats","Dinner Recipes","Gourmet Flavors"],
+        tags: ["Budget-Friendly", "Affordable Meals", "Cheap Eats", "Dinner Recipes", "Gourmet Flavors"],
         author: "Dr. Emily Foodsci",
         publishedDate: "2025-12-11",
         readTime: 15,
@@ -744,13 +744,13 @@ Plan your meals, make a shopping list, and avoid impulse buys. Use coupons and t
 Creating delicious meals on a budget is not only possible but also incredibly rewarding. With these 30 dinner ideas, your taste buds will be delighted, and your wallet will thank you. For more cost-effective recipes, explore our [healthy recipes](/recipes?category=Healthy) and [quick meals](/recipes?category=Quick) sections.
         `
     }
-,
+    ,
     {
         slug: "winter-squash-varieties-and-how-to-cook-each-one-perfectly",
         title: "The Ultimate Guide to Winter Squash Varieties and Perfect Cooking Techniques",
         description: "Discover the best winter squash varieties and master cooking each one for a delicious seasonal feast.",
         category: "Seasonal Spotlight",
-        tags: ["Winter Squash","Cooking Tips","Seasonal Vegetables","Healthy Eating","Culinary Guide"],
+        tags: ["Winter Squash", "Cooking Tips", "Seasonal Vegetables", "Healthy Eating", "Culinary Guide"],
         author: "Elena Rodriguez",
         publishedDate: "2025-12-11",
         readTime: 15,
@@ -824,17 +824,17 @@ Squash can be used in a variety of healthy dishes, from soups to salads. Try rep
 Winter squash is a diverse group of vegetables that can elevate your culinary repertoire with their rich flavors and nutritional benefits. Whether you’re roasting an acorn squash or crafting a butternut squash soup, these versatile ingredients are sure to delight. Embrace the season’s bounty and experiment with different varieties to discover new favorite dishes.
         `
     }
-,
+    ,
     {
         slug: "how-to-host-a-stress-free-dinner-party-timeline-and-tips",
         title: "The Ultimate Guide to Hosting a Stress-Free Dinner Party: Timeline and Tips",
         description: "Discover how to host a stress-free dinner party with our expert timeline and tips for a seamless entertaining experience.",
         category: "Entertaining & Hosting",
-        tags: ["Dinner Party","Hosting Tips","Stress-Free Entertaining","Party Planning","Timeline"],
+        tags: ["Dinner Party", "Hosting Tips", "Stress-Free Entertaining", "Party Planning", "Timeline"],
         author: "Kenji Yamamoto",
         publishedDate: "2025-12-11",
         readTime: 15,
-        featuredImage: "https://images.unsplash.com/photo-1476718406336-bb5a9690ee2b?w=800&q=80",
+        featuredImage: "https://images.unsplash.com/photo-1511795409834-ef04bbd61622?w=800&q=80",
         excerpt: "Hosting a dinner party doesn't have to be stressful. With the right preparation and mindset, you can create a memorable event that's enjoyable for both you and your guests. Our ultimate guide provides a comprehensive timeline and essential tips to ensure your dinner party is a success.",
         content: `
 # How to Host a Stress-Free Dinner Party: Timeline and Tips
