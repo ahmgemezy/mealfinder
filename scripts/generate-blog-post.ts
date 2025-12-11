@@ -181,7 +181,7 @@ async function readWithJina(url: string): Promise<string> {
         }
 
         const content = await response.text();
-        return content.slice(0, 5000); // Limit content length
+        return content.slice(0, 30000); // Increased content limit for depth
     } catch (error) {
         console.warn(`⚠️ Error reading ${url}: `, error);
         return "";
@@ -210,13 +210,15 @@ async function rewriteWithAI(
 
     console.log("🤖 Generating blog post with OpenAI...");
 
-    const systemPrompt = `You are a professional food and cooking blog writer for "Dish Shuffle", a recipe discovery app.
-Your writing style is:
-- **Authoritative & Professional**: Deeply knowledgeable, citing culinary science or history where appropriate.
-- **Warm & Engaging**: Accessible but not overly casual.
-- **Comprehensive & Exhaustive**: You write "Ultimate Guides" that cover every angle of a topic.
-- **Structured for Readability**: Use frequent ## and ### headers, lists, and formatting.
-- **SEO Optimized**: Naturally include relevant keywords.
+    const systemPrompt = `You are a professional, world-class food writer for "Dish Shuffle".
+Your goal is to write the MOST DEFINITIVE, VALUABLE, and COMPREHENSIVE resource on the internet for this topic.
+
+Your writing style must be:
+- **Deeply Expert**: Go beyond surface level. Explain the science, the history, and the "why".
+- **High Value**: Every paragraph must add specific value (tips, data, techniques). No fluff.
+- **Authoritative**: Write with conviction. Use data, comparisons, and expert consensus.
+- **Structured**: Use extensive H2s, H3s, bullet points, and markdown tables to break up dense information.
+- **Length**: Target 4000-5000 words. If you hit the token limit, prioritize density of information over word count.
 
 You must output a valid JSON object with these exact fields:
 {
@@ -224,37 +226,33 @@ You must output a valid JSON object with these exact fields:
   "title": "Compelling, SEO-optimized title",
   "description": "Meta description, max 160 chars",
   "tags": ["Tag1", "Tag2", "Tag3", "Tag4", "Tag5"],
-  "readTime": 15,
+  "readTime": 20,
   "featuredImage": "URL of the most relevant image from the provided list, or null if none match well",
   "excerpt": "Engaging 2-3 sentence summary",
-  "content": "Full markdown content. MUST BE AT LEAST 2500 WORDS. Use multiple h2 and h3 sections."
-} `;
+  "content": "Full markdown content. MUST BE EXTREMELY LONG AND DETAILED. Target 4000+ words."
+}`;
 
-    const userPrompt = `Write a definitive, high-quality, and extremely comprehensive blog post about: "${topic}"
+    const userPrompt = `Write the ultimate authority guide on: "${topic}"
 Category: ${category}
 
-Use the following research as inspiration (DO NOT copy directly - completely rewrite in your own words):
+Research Source Material (Synthesize this, but add your own expert knowledge and structure):
+${sourceContent.slice(0, 45000)}
 
-${sourceContent.slice(0, 12000)}
-
-Available Images (Choose the best one for 'featuredImage', or null):
+Available Images:
 ${JSON.stringify(availableImages, null, 2)}
 
-Requirements:
-1. **Length**: CONTENT MUST BE AT LEAST 2500 WORDS. Go into extreme detail.
-2. **Structure**: 
-   - Engaging Introduction (hook the reader).
-   - At least 6-8 main sections (##) with subsections (###).
-   - "Deep Dive" sections explaining the 'Why' and 'How'.
-   - Practical, step-by-step guides or tips.
-   - Troubleshooting or Common Mistakes section.
-   - FAQ section at the end.
-   - Conclusion.
-3. **Links**: Include 2-3 internal links to /recipes (e.g., [healthy recipes](/recipes?category=Healthy)).
-4. **Tone**: Professional, helpful, expert.
-5. **Originality**: 100% original phrasing. Do not copy sources.
+Requirements for "Real Added Value":
+1. **Extreme Depth**: Don't just say "cook the steak". Explain the Maillard reaction, internal temp charts, resting science, and pan selection.
+2. **Actionable Value**: Include troubleshooting guides ("If X happens, do Y"), pro tips, and mistakes to avoid.
+3. **Structure**: 
+   - Hook the reader immediately.
+   - Use at least 10-12 main H2 sections.
+   - Use Markdown Tables for comparisons (e.g., "Cast Iron vs. Stainless Steel", "Smoke Points of Oils").
+   - FAQ Section: Answer 5-7 specific questions.
+4. **Length**: Target 5000 words. Be verbose where it adds value, but concise in explanations.
+5. **Tone**: Educational, Encouraging, Expert.
 
-Output ONLY the JSON object, no markdown code blocks.`;
+Output ONLY the JSON object.`;
 
     try {
         const response = await fetch("https://api.openai.com/v1/chat/completions", {
