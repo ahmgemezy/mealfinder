@@ -152,7 +152,8 @@
             "safety": "Food Safety & Storage",
             "substitutions": "Ingredient Substitutions",
             "planning": "Meal Planning",
-            "platform": "Using Dish Shuffle"
+            "platform": "Using Dish Shuffle",
+            "health": "Health & Nutrition for Adults 40+"
         },
         "questions": {
             "howToBoilEgg": {
@@ -254,6 +255,122 @@
             "canIShareRecipes": {
                 "q": "Can I share recipes with friends?",
                 "a": "Yes! Every recipe page has a Share button that lets you share via Facebook, Twitter (X), WhatsApp, or copy the link to share anywhere. Share your favorite discoveries with friends and family!"
+            },
+            "weightGainAfter40": {
+                "q": "Why do I gain weight more easily after 40?",
+                "a": "Weight gain after 40 is often linked to hormonal fluctuations, lower insulin sensitivity, and age-related muscle loss (sarcopenia), which naturally lowers your metabolism. Stress and changes in sleep patterns can also contribute."
+            },
+            "dietaryChanges40": {
+                "q": "What are the most important dietary changes after 40?",
+                "a": "Focus on nutrient-dense foods: colorful fruits and vegetables, whole grains, lean proteins, and healthy fats. Limit processed foods, added sugars, and sodium. Hydration and calcium intake also become increasingly important."
+            },
+            "proteinNeeds40": {
+                "q": "How much protein do adults over 40 need?",
+                "a": "Experts recommend increasing protein intake to 1.0–1.2 grams per kg of body weight to maintain muscle mass. Aim for 20-30g of high-quality protein per meal from sources like lean meats, fish, eggs, dairy, or plant-based options."
+            },
+            "boneHealth": {
+                "q": "What nutrients are crucial for bone health?",
+                "a": "Calcium and Vitamin D are critical. Calcium needs increase to 1,200 mg/day after age 50. Vitamin D helps absorption. Magnesium and weight-bearing exercises are also vital for maintaining bone density."
+            },
+            "metabolismBoost": {
+                "q": "How can I boost my metabolism after 40?",
+                "a": "Prioritize strength training to build muscle (which burns more calories at rest), eat enough protein, stay hydrated with cold water, get adequate sleep, and don't skip breakfast to kickstart your day."
+            },
+            "intermittentFasting": {
+                "q": "Is intermittent fasting safe for over 40s?",
+                "a": "It can be beneficial for insulin sensitivity and inflammation, but consult a doctor first. Women should be cautious as strict fasting can impact hormones. Gentle approaches like 12:12 or 14:10 windows are often better starting points."
+            },
+            "cognitiveFoods": {
+                "q": "What foods help with brain health and memory?",
+                "a": "The MIND diet suggests leafy greens, berries (especially blueberries), nuts, fatty fish (rich in Omega-3s), olive oil, and whole grains. Reduce intake of red meats, butter, cheese, and fried foods."
+            },
+            "vitaminB12": {
+                "q": "Why is Vitamin B12 important as we age?",
+                "a": "Stomach acid decreases with age, reducing B12 absorption. Deficiency causes fatigue and cognitive issues. Sources include meat, fish, eggs, and fortified cereals. A supplement may be needed if you are over 50 or plant-based."
+            },
+            "adultAllergies": {
+                "q": "Can adults develop new food allergies?",
+                "a": "Yes, adult-onset allergies are possible, even to foods eaten for years. Common triggers involve shellfish, tree nuts, and certain fruits/veggies related to pollen allergies (Oral Allergy Syndrome)."
+            },
+            "allergyVsIntolerance": {
+                "q": "What is the difference between food allergy and intolerance?",
+                "a": "An allergy is an immune reaction (can be life-threatening) appearing quickly. An intolerance (like lactose) is a digestive issue causing bloating/discomfort usually hours after eating, but is not life-threatening."
+            },
+            "commonIntolerances": {
+                "q": "What are common food intolerances after 40?",
+                "a": "Lactose intolerance often increases with age as lactase enzyme production drops. Gluten sensitivity and sensitivity to FODMAPs (fermentable carbs) are also common. Keeping a food diary helps identify triggers."
+            },
+            "heartHealth40": {
+                "q": "Why is heart health critical after 40?",
+                "a": "Risk factors like stiffening arteries and plaque buildup naturally increase. High blood pressure and cholesterol often appear in this decade. It's the prime time to adopt heart-healthy habits to prevent future disease."
+            },
+            "protectHeart": {
+                "q": "How can I best protect my heart?",
+                "a": "Follow a Mediterranean-style diet, exercise for 150 minutes/week, manage stress, quit smoking, and keep regular tabs on your numbers: blood pressure, cholesterol, and blood sugar."
+            },
+            "digestiveIssues40": {
+                "q": "Why does digestion seem worse after 40?",
+                "a": "Digestion slows due to lower enzyme production, decreased stomach acid, and changes in the gut microbiome. Hormonal shifts (especially in menopause) and stress also directly impact gut function."
+            },
+            "improveGutHealth": {
+                "q": "How can I improve my gut health?",
+                "a": "Eat a diverse range of fiber-rich plants (30+ types per week), include fermented foods like yogurt/kimchi, stay hydrated, chew food thoroughly, and manage stress levels."
+            },
+            "supplements40": {
+                "q": "Do I need supplements after 40?",
+                "a": "A balanced diet is best, but many over 40 benefit from Vitamin D, B12, Calcium, Magnesium, or Omega-3s. Always consult a healthcare provider before starting any new supplement regimen."
+            },
+            "hydration40": {
+                "q": "Why is hydration important as we age?",
+                "a": "Our sense of thirst diminishes with age, increasing dehydration risk. Proper hydration supports digestion, joint health, cognitive function, and energy levels. Aim for water over sugary drinks."
+            },
+            "heartRiskFactors": {
+                "q": "What are the main heart disease risk factors?",
+                "a": "High blood pressure, high cholesterol, smoking, obesity, diabetes, and physical inactivity. Family history also plays a role, making screening even more important."
+            },
+            "agingHeart": {
+                "q": "How does the heart change with age?",
+                "a": "Blood vessels may become stiffer (raising blood pressure), and the heart muscle may thicken or pump slightly less efficiently during maximum exertion. Regular cardio helps maintain elasticity."
+            },
+            "heartWarningSigns": {
+                "q": "What are heart warning signs to watch for?",
+                "a": "Chest pain/tightness, shortness of breath, palpitations, unexplained fatigue, or swelling in ankles. Symptoms can be subtle, especially in women. Seek medical care for new symptoms."
+            },
+            "commonDidgestiveProbs": {
+                "q": "What are common digestive issues after 40?",
+                "a": "Acid reflux (GERD), bloating, gas, constipation, and diverticulosis become more common. Slower transit time in the colon can contribute to irregularity."
+            },
+            "gutHealthSigns": {
+                "q": "What signs indicate poor gut health?",
+                "a": "Frequent bloating, gas, heartburn, irregular bowel movements, or developing new sensitivities to foods you used to eat without issue can signal gut imbalances."
+            },
+            "foodSensitivities40": {
+                "q": "Can food sensitivities develop later in life?",
+                "a": "Yes, declining digestive enzymes (like lactase) or gut lining changes can lead to new sensitivities to dairy, gluten, or other foods in midlife."
+            },
+            "caloricNeeds40": {
+                "q": "Do my calorie needs change after 40?",
+                "a": "Yes, metabolic rate typically slows, so you may need fewer calories to maintain weight. Focus on nutrient quality over quantity—maximize vitamins/minerals per calorie."
+            },
+            "prioritizeFoods40": {
+                "q": "Which foods should I prioritize?",
+                "a": "Prioritize fiber (veg, fruit, beans), lean protein for muscle maintenance, and anti-inflammatory foods like fatty fish, olive oil, nuts, and berries."
+            },
+            "managingSugar": {
+                "q": "How can I better manage blood sugar?",
+                "a": "Pair carbs with protein and fat to slow absorption. Choose complex carbs (oats, quinoa) over simple sugars. Regular walking after meals significantly helps lower glucose spikes."
+            },
+            "oralAllergySyndrome": {
+                "q": "What is Oral Allergy Syndrome?",
+                "a": "It's when raw fruits/veggies cause an itchy mouth because their proteins resemble pollen you're allergic to like birch or ragweed. Cooking the food often destroys the protein and prevents reaction."
+            },
+            "suspectAllergy": {
+                "q": "What should I do if I suspect a food allergy?",
+                "a": "See an allergist for skin prick or blood testing. Don't self-diagnose, as true allergies can be dangerous. For intolerances, an elimination diet guided by a dietitian is the gold standard."
+            },
+            "manageCravings": {
+                "q": "How do I deal with food cravings?",
+                "a": "Cravings often signal irregular blood sugar, stress, or lack of sleep. ensuring protein at every meal, drinking water, and getting 7-8 hours of sleep can reduce them significantly."
             }
         }
     },
