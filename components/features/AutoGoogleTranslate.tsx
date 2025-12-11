@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import { usePathname } from "@/navigation";
+import Script from "next/script";
 
 interface AutoGoogleTranslateProps {
     locale: string;
@@ -27,15 +28,6 @@ export default function AutoGoogleTranslate({ locale }: AutoGoogleTranslateProps
         // Expose init function to global scope
         // @ts-expect-error - Extending window object
         window.googleTranslateElementInit = googleTranslateElementInit;
-
-        // Load Google Translate script if not already loaded
-        if (!document.getElementById("google-translate-script")) {
-            const script = document.createElement("script");
-            script.id = "google-translate-script";
-            script.src = "//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit";
-            script.async = true;
-            document.body.appendChild(script);
-        }
     }, []);
 
     useEffect(() => {
@@ -78,10 +70,16 @@ export default function AutoGoogleTranslate({ locale }: AutoGoogleTranslateProps
     }, [locale, pathname]);
 
     return (
-        <div
-            id="google_translate_element"
-            style={{ display: 'none' }} // Hide the widget UI
-            aria-hidden="true"
-        />
+        <>
+            <div
+                id="google_translate_element"
+                style={{ display: 'none' }} // Hide the widget UI
+                aria-hidden="true"
+            />
+            <Script
+                src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"
+                strategy="lazyOnload"
+            />
+        </>
     );
 }
