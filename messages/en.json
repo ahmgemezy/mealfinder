@@ -176,6 +176,66 @@
                 "q": "What's the difference between baking powder and baking soda?",
                 "a": "Baking soda is pure sodium bicarbonate and needs an acid (like buttermilk or lemon juice) to activate. Baking powder contains baking soda plus an acid, so it works on its own. They're not interchangeable - use what the recipe calls for."
             },
+            "essentialTools": {
+                "q": "What essential kitchen tools do I need to start?",
+                "a": "Start with a chef's knife, cutting board, measuring cups/spoons, a large pot, a saucepan, a skillet, and a baking sheet. These basics cover most recipes."
+            },
+            "readRecipe": {
+                "q": "How important is reading the recipe beforehand?",
+                "a": "Crucial! Read it twice to understand steps, timing, and ensure you have all ingredients. This prevents mid-cooking surprises."
+            },
+            "miseEnPlace": {
+                "q": "What is 'mise en place'?",
+                "a": "It means 'everything in its place'. Prep, chop, and measure all ingredients before you start cooking. It makes cooking stress-free and prevents burning food while you look for spices."
+            },
+            "pantryStaples": {
+                "q": "What should I stock in my pantry?",
+                "a": "Keep oils (olive, vegetable), vinegar, dried herbs/spices, salt, pepper, flour, sugar, rice, pasta, canned tomatoes, and beans on hand for easy meals."
+            },
+            "seasoningTips": {
+                "q": "How do I season food correctly?",
+                "a": "Season in layers throughout cooking, not just at the end. Taste as you go. Salt enhances flavor, while acid (lemon, vinegar) brightens dull dishes."
+            },
+            "preventSticking": {
+                "q": "How do I stop food from sticking to the pan?",
+                "a": "Preheat your pan properly before adding oil, then let the oil get hot before adding food. Don't overcrowd the pan, or food will steam instead of sear."
+            },
+            "checkMeatDoneness": {
+                "q": "How do I know when meat is cooked?",
+                "a": "The only safe way is using a digital meat thermometer. Color isn't reliable. Chicken should be 165°F, pork/steaks 145°F, and ground meat 160°F."
+            },
+            "saltPastaWater": {
+                "q": "Why salt pasta water?",
+                "a": "It's your only chance to flavor the pasta itself. It should taste salty like the sea. Never rinse pasta after cooking (unless for cold salad) as starch helps sauce stick."
+            },
+            "tenderizeMeat": {
+                "q": "How can I tenderize tough meat?",
+                "a": "Use a marinade with acid (vinegar, citrus, yogurt), pound it with a mallet, or cook it low and slow (braising/stewing) to break down fibers."
+            },
+            "bakingMeasure": {
+                "q": "How do I measure flour for baking?",
+                "a": "Don't scoop directly! Fluff the flour, spoon it into the cup, and level it off. Scooping packs it down, adding too much flour and making cakes dry."
+            },
+            "cookingMistakes": {
+                "q": "What's a common beginner cooking mistake?",
+                "a": "Overcrowding the pan—it lowers the temperature and steams food instead of browning it. Cook in batches if needed for better flavor."
+            },
+            "tastingFood": {
+                "q": "Why is tasting while cooking important?",
+                "a": "Ingredients vary (lemons vary in sourness, salt in strength). Tasting helps you balance flavors (add salt, acid, or sugar) before serving."
+            },
+            "knifeSkills": {
+                "q": "How can I improve my knife skills?",
+                "a": "Keep knives sharp (safer than dull ones!). Use the 'claw grip' with your holding hand to protect fingers. Start slow—speed comes with practice."
+            },
+            "restingSteak": {
+                "q": "Why rest steak before cutting?",
+                "a": "Resting allows juices to redistribute. Cutting immediately lets juices run out, leaving the meat dry. Rest for 5-10 minutes under foil."
+            },
+            "boilingVsSimmering": {
+                "q": "What's the difference between boil and simmer?",
+                "a": "Boiling is big, rapid bubbles (212°F) for pasta/potatoes. Simmering is gentle, small bubbles (185-205°F) for soups/stews to cook tenderly."
+            },
             "shouldWashChicken": {
                 "q": "Should I wash raw chicken before cooking?",
                 "a": "No, never wash raw chicken. Rinsing can spread harmful bacteria like salmonella to your sink, countertops, and other surfaces through water splashes. Cooking chicken to an internal temperature of 165°F will kill any bacteria safely."
@@ -196,6 +256,66 @@
                 "q": "Why should I rest meat after cooking?",
                 "a": "Resting allows muscle fibers to relax and juices to redistribute throughout the meat. If you cut immediately, juices run out onto the plate. Rest small cuts 5-10 minutes, larger roasts 15-20 minutes, tented loosely with foil."
             },
+            "handwashing": {
+                "q": "How should I wash hands for food safety?",
+                "a": "Wash with warm soapy water for at least 20 seconds before/after handling food, especially raw meat/eggs. Don't forget wrists and under fingernails."
+            },
+            "crossContamination": {
+                "q": "What is cross-contamination and how to prevent it?",
+                "a": "It's spreading bacteria from raw food to ready-to-eat food. Use separate cutting boards for meat and veg. Wash hands/tools immediately after touching raw meat."
+            },
+            "dangerZone": {
+                "q": "What is the food 'Danger Zone'?",
+                "a": "Bacteria grow rapidly between 40°F and 140°F. Never leave perishable food out for more than 2 hours (or 1 hour if it's over 90°F outside)."
+            },
+            "fridgeTemp": {
+                "q": "What temperature should my fridge/freezer be?",
+                "a": "Fridge strictly below 40°F (4°C) and freezer at 0°F (-18°C). Use an appliance thermometer to check, as dials can be inaccurate."
+            },
+            "thawingFood": {
+                "q": "What is the safest way to thaw frozen food?",
+                "a": "In the fridge overnight (safest), in cold water (change water every 30 mins), or microwave. Never thaw on the counter at room temperature."
+            },
+            "leftoverSafety": {
+                "q": "How long are leftovers good for?",
+                "a": "Generally 3-4 days in the fridge. Reheat to 165°F. If in doubt, throw it out. Label containers with dates to keep track."
+            },
+            "washingMeat": {
+                "q": "Should I wash raw chicken?",
+                "a": "NO. Washing spreads bacteria up to 3 feet via splashing water. Cooking to 165°F is the only way to kill bacteria safely."
+            },
+            "refreezing": {
+                "q": "Can I refreeze thawed food?",
+                "a": "If it was thawed in the fridge and kept cold (under 40°F), it's safe to refreeze, though texture may suffer. Do not refreeze if thawed on counter."
+            },
+            "safeTemps": {
+                "q": "What are safe internal cooking temperatures?",
+                "a": "Poultry 165°F, Ground Meat 160°F, Beef/Pork/Lamb Steaks & Roasts 145°F (+3 min rest), Fish 145°F. Use a thermometer."
+            },
+            "produceTech": {
+                "q": "How to clean fruits and vegetables?",
+                "a": "Rinse under running water just before eating/cooking. Scrub firm skins (melons, potatoes). Don't use soap. Dry with clean cloth/paper towel."
+            },
+            "useByVsBestBy": {
+                "q": "Use-By vs. Best-Before dates?",
+                "a": "'Use-By' is a safety deadline—don't eat after this. 'Best-Before' is about quality/flavor—likely safe but strictly past prime after date."
+            },
+            "fridgeStorage": {
+                "q": "Where should I store raw meat in the fridge?",
+                "a": "Bottom shelf, in a sealed container/tray. This prevents juices from dripping down onto fresh produce or ready-to-eat foods below."
+            },
+            "coolingFood": {
+                "q": "How fast should I refrigerate cooked food?",
+                "a": "Within 2 hours (1 hour if hot room). Divide large pots of soup/stew into shallow containers to help them cool down quickly."
+            },
+            "kitchenHygiene": {
+                "q": "How often should I clean kitchen sponges?",
+                "a": "Sponges harbor bacteria. Sanitize daily (microwave wet sponge 1 min or dishwasher) and replace frequently. Dishcloths should be washed in hot cycle."
+            },
+            "visualCues": {
+                "q": "Can I trust meat color for doneness?",
+                "a": "No. Burgers can turn brown before hitting 160°F. Pinkness doesn't always mean undercooked. Only a thermometer guarantees safety."
+            },
             "butterSaltedOrUnsalted": {
                 "q": "Should I use salted or unsalted butter for baking?",
                 "a": "Use unsalted butter for baking. It gives you complete control over the salt content in your recipe. Salted butter can vary in saltiness between brands, making it harder to achieve consistent results. Save salted butter for spreading and cooking."
@@ -215,6 +335,66 @@
             "eggSubstitutes": {
                 "q": "What can I use instead of eggs in baking?",
                 "a": "Common substitutes: 1/4 cup applesauce, 1/4 cup mashed banana, or 1 tablespoon ground flaxseed mixed with 3 tablespoons water (let sit 5 minutes) per egg. Commercial egg replacers also work well. Results vary by recipe."
+            },
+            "substitutionRules": {
+                "q": "General rule for substitutions?",
+                "a": "Consider moisture, sweetness, and structure. Limit to 1-2 swaps per recipe. Baking is chemistry, so it's less forgiving than cooking."
+            },
+            "buttermilkSub": {
+                "q": "Substitute for buttermilk?",
+                "a": "Add 1 tbsp lemon juice or white vinegar to 1 cup milk. Let sit 5-10 mins until curdled. Or use thinned plain yogurt."
+            },
+            "butterVsOil": {
+                "q": "Can I swap butter for oil?",
+                "a": "In baking: Yes (1:1), but butter adds flavor/fluffiness, oil makes it moist/dense. In cooking: Butter burns easily; oil has higher heat tolerance."
+            },
+            "glutenFreeFlour": {
+                "q": "Can I use GF flour cup-for-cup?",
+                "a": "Yes, if it's a '1-to-1' baking blend with xanthan gum. Substituting just rice/almond flour alone won't work for cakes/breads without binders."
+            },
+            "sugarTypes": {
+                "q": "Sub brown sugar for white?",
+                "a": "Yes (1:1). Brown sugar adds moisture and molasses flavor, making cookies chewier. White sugar makes them crisper."
+            },
+            "honeyVsSugar": {
+                "q": "Sub honey for sugar?",
+                "a": "Use 3/4 cup honey for 1 cup sugar. Reduce liquid in recipe by 1/4 cup and lower oven temp by 25°F as honey browns faster."
+            },
+            "breadcrumbsSub": {
+                "q": "No breadcrumbs?",
+                "a": "Use crushed cornflakes, crackers, pretzels, oats, or toast bread and blitz it. For gluten-free, use almond meal or GF oats."
+            },
+            "cornstarchSub": {
+                "q": "Substitute for cornstarch?",
+                "a": "For thickening: Use 2 tbsp flour for every 1 tbsp cornstarch (cook longer to remove raw flour taste). Or use arrowroot/potato starch 1:1."
+            },
+            "brothSub": {
+                "q": "No chicken/beef broth?",
+                "a": "Use bouillon cube + water, vegetable broth, or even water seasoned with soy sauce/herbs. Alcohol (wine/beer) can replace some liquid for flavor."
+            },
+            "freshVsDried": {
+                "q": "Ratio for fresh vs dried herbs?",
+                "a": "Dried is stronger. Use 1 tsp dried for every 1 tbsp fresh (1:3 ratio). Add dried early to rehydrate; fresh at the end."
+            },
+            "dairyFreeMilk": {
+                "q": "Best dairy-free milk for baking?",
+                "a": "Soy and Oat milk have protein/fat closest to dairy. Almond is thinner. Full-fat canned coconut milk is great for richness/creaminess."
+            },
+            "cheeseSub": {
+                "q": "Substituting cheeses?",
+                "a": "Match texture/melting. Mozzarella ↔ Provolone/Monterey Jack. Cheddar ↔ Colby/Gruyère. Soft cheeses don't swap well with hard aged ones."
+            },
+            "bakingChocolate": {
+                "q": "Sub for unsweetened chocolate?",
+                "a": "3 tbsp cocoa powder + 1 tbsp oil/butter per 1 oz unsweetened chocolate."
+            },
+            "lemonJuice": {
+                "q": "Sub for fresh lemon juice?",
+                "a": "Bottled lemon juice works but lacks zest oils. Vinegar can sub for acidity (in cooking). Orange/Lime works but changes flavor profile."
+            },
+            "yogurtSourCream": {
+                "q": "Sub yogurt for sour cream?",
+                "a": "Yes, Greek yogurt is a perfect 1:1 healthy substitute in dips, baking, and tacos. Regular yogurt is thinner."
             },
             "whatIsMealPlanning": {
                 "q": "What exactly is meal planning?",
@@ -255,6 +435,66 @@
             "canIShareRecipes": {
                 "q": "Can I share recipes with friends?",
                 "a": "Yes! Every recipe page has a Share button that lets you share via Facebook, Twitter (X), WhatsApp, or copy the link to share anywhere. Share your favorite discoveries with friends and family!"
+            },
+            "startMealPlanning": {
+                "q": "How do I start meal planning?",
+                "a": "Start small. Plan just 3-4 dinners for the week. Check your calendar for busy nights and choose easy meals for those. Make a grocery list based on your plan."
+            },
+            "benefitsMealPlan": {
+                "q": "Why meal plan?",
+                "a": "Saves money (less takeout/waste), saves time (fewer grocery trips), reduces daily stress ('what's for dinner?'), and helps you eat healthier."
+            },
+            "planningSchedule": {
+                "q": "How often should I plan?",
+                "a": "Weekly is best for most. Pick a day (e.g., Friday or Sunday) to plan and shop. Some do monthly, but weekly allows for schedule flexibility."
+            },
+            "pickyEaters": {
+                "q": "Meal planning for picky eaters?",
+                "a": "Involve them! Let kids pick 1 meal/week. Use 'deconstructed' meals (taco bar, bowls) so everyone customizes their own topping."
+            },
+            "saveMoneyGroceries": {
+                "q": "How to save money on groceries?",
+                "a": "Shop your pantry/freezer first. Plan meals around sales flyers. Make a list and STICK to it. Buy seasonal produce and bulk grains."
+            },
+            "mealPrepVsPlan": {
+                "q": "Diff between planning and prepping?",
+                "a": "Planning = deciding what to eat. Prepping = doing the work (chopping, cooking) in advance. You can plan without prepping, but prepping helps busy weeks."
+            },
+            "themeNights": {
+                "q": "What are Theme Nights?",
+                "a": "Assign themes to days: 'Meatless Monday', 'Taco Tuesday', 'Pasta Thursday'. It narrows choices and makes decision-making faster."
+            },
+            "handleLeftovers": {
+                "q": "Strategies for leftovers?",
+                "a": "Plan a 'Buffet Night' to clear the fridge. Or pack leftovers immediately for next day's lunch. Repurpose: Roast chicken → Tacos next day."
+            },
+            "backupMeals": {
+                "q": "What if I'm too tired to cook the plan?",
+                "a": "Keep 1-2 'Emergency Meals' (frozen pizza, pasta & jar sauce, eggs). Flexibility is key—swap days if needed. Don't guilt trip yourself."
+            },
+            "balancedPlan": {
+                "q": "How to ensure a balanced plan?",
+                "a": "Aim for variety. Check your week: Do we have fish? Veggie night? Red meat? Rotate proteins and make sure every dinner has a veggie side."
+            },
+            "shoppingTips": {
+                "q": "Grocery shopping tips?",
+                "a": "Never shop hungry! Organize your list by aisle (Produce, Dairy, Meat) to speed up the trip. Use click-and-collect to avoid impulse buys."
+            },
+            "batchCooking": {
+                "q": "What is batch cooking?",
+                "a": "Cooking 2x or 3x portions of a meal (chili, soup, casserole) and freezing the extra. It's 'cooking once, eating twice'—a huge time saver."
+            },
+            "familyInvolvement": {
+                "q": "How to get family involved?",
+                "a": "Ask for requests. Share the visual menu on the fridge. Let kids help prep simple things. When they help decide/cook, they eat better."
+            },
+            "fridgeFreezerLife": {
+                "q": "How long do prepped meals last?",
+                "a": "Fridge: 3-4 days max. Freezer: 2-3 months. Label everything! If you won't eat it by Thursday, freeze it on Monday."
+            },
+            "convenienceItems": {
+                "q": "Is it ok to use pre-cut veggies?",
+                "a": "Absolutely. If buying pre-chopped onions or rotisserie chicken means you cook at home instead of getting takeout, it's a win. Use shortcuts!"
             },
             "weightGainAfter40": {
                 "q": "Why do I gain weight more easily after 40?",
