@@ -280,8 +280,14 @@ Output ONLY the JSON object.`;
         const data = await response.json();
         const rawContent = data.choices?.[0]?.message?.content || "";
 
+        // Sanitize content (remove markdown code blocks if present)
+        const sanitizedContent = rawContent
+            .replace(/^```json\s*/, "")
+            .replace(/^```\s*/, "")
+            .replace(/\s*```$/, "");
+
         // Parse JSON response
-        const parsed = JSON.parse(rawContent);
+        const parsed = JSON.parse(sanitizedContent);
 
         // Get author (forced or random)
         const author = forcedAuthor || AUTHORS[Math.floor(Math.random() * AUTHORS.length)];
