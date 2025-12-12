@@ -21,31 +21,31 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     // Static routes - Main pages
     const staticRoutes: MetadataRoute.Sitemap = [
         {
-            url: baseUrl,
+            url: `${baseUrl}/en`,
             lastModified: new Date(),
             changeFrequency: "daily",
             priority: 1,
         },
         {
-            url: `${baseUrl}/surprise-me`,
+            url: `${baseUrl}/en/surprise-me`,
             lastModified: new Date(),
             changeFrequency: "daily",
             priority: 0.9,
         },
         {
-            url: `${baseUrl}/recipes`,
+            url: `${baseUrl}/en/recipes`,
             lastModified: new Date(),
             changeFrequency: "daily",
             priority: 0.8,
         },
         {
-            url: `${baseUrl}/blog`,
+            url: `${baseUrl}/en/blog`,
             lastModified: new Date(),
             changeFrequency: "daily",
             priority: 0.8,
         },
         {
-            url: `${baseUrl}/faq`,
+            url: `${baseUrl}/en/faq`,
             lastModified: new Date(),
             changeFrequency: "weekly",
             priority: 0.7,
@@ -55,19 +55,19 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     // Legal pages
     const legalRoutes: MetadataRoute.Sitemap = [
         {
-            url: `${baseUrl}/privacy-policy`,
+            url: `${baseUrl}/en/privacy-policy`,
             lastModified: new Date(),
             changeFrequency: "monthly",
             priority: 0.3,
         },
         {
-            url: `${baseUrl}/terms-of-service`,
+            url: `${baseUrl}/en/terms-of-service`,
             lastModified: new Date(),
             changeFrequency: "monthly",
             priority: 0.3,
         },
         {
-            url: `${baseUrl}/cookies-policy`,
+            url: `${baseUrl}/en/cookies-policy`,
             lastModified: new Date(),
             changeFrequency: "monthly",
             priority: 0.3,
@@ -76,7 +76,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
     // Dynamic routes for Categories
     const categoryRoutes: MetadataRoute.Sitemap = RECIPE_CATEGORIES.map((category) => ({
-        url: `${baseUrl}/recipes?category=${encodeURIComponent(category)}`,
+        url: `${baseUrl}/en/recipes?category=${encodeURIComponent(category)}`,
         lastModified: new Date(),
         changeFrequency: "weekly",
         priority: 0.7,
@@ -84,7 +84,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
     // Dynamic routes for Areas
     const areaRoutes: MetadataRoute.Sitemap = RECIPE_AREAS.map((area) => ({
-        url: `${baseUrl}/recipes?area=${encodeURIComponent(area)}`,
+        url: `${baseUrl}/en/recipes?area=${encodeURIComponent(area)}`,
         lastModified: new Date(),
         changeFrequency: "weekly",
         priority: 0.7,
@@ -108,7 +108,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
             recipeRoutes = recipes
                 .filter((recipe) => recipe.data?.name) // Only include recipes with a name
                 .map((recipe) => ({
-                    url: `${baseUrl}/recipes/${generateSlug(recipe.data.name, recipe.id)}`,
+                    url: `${baseUrl}/en/recipes/${generateSlug(recipe.data.name, recipe.id)}`,
                     lastModified: recipe.created_at ? new Date(recipe.created_at) : new Date(),
                     changeFrequency: "weekly" as const,
                     priority: 0.6,
