@@ -33,7 +33,7 @@ export async function searchRecipeVideo(recipeName: string): Promise<string | nu
             type: 'video',
             maxResults: '1',
             videoEmbeddable: 'true', // Only return embeddable videos
-            videoCategoryId: '26', // Category 26 is "Howto & Style"
+            // videoCategoryId: '26', // Removed to broaden search results
             relevanceLanguage: 'en',
             key: YOUTUBE_API_KEY,
         });
