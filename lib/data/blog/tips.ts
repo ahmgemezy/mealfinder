@@ -282,7 +282,7 @@ If it tastes bland, it's probably out of season. If it tastes like candy, nature
         author: "Dr. Emily Foodsci",
         publishedDate: "2025-12-10",
         readTime: 8,
-        featuredImage: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800&q=80",
+        featuredImage: "/blog/meal-prep-guide.png",
         excerpt: "Discover the art of meal prepping to save time, reduce waste, and eat healthier. Perfect for beginners!",
         content: `
 ## What is Meal Prepping?
@@ -920,13 +920,13 @@ Arrange seating to mix different groups of friends, and consider icebreaker acti
 Hosting a dinner party is a rewarding endeavor that, with proper planning and a positive mindset, can be virtually stress-free. By following this comprehensive guide, you can create an event that delights your guests and leaves you with cherished memories. Remember, the key to a successful dinner party lies in preparation, flexibility, and a genuine desire to connect with those around you. Happy hosting!
         `
     }
-,
+    ,
     {
         slug: "20-minute-weeknight-wonders-no-stress-dinners",
         title: "20-Minute Weeknight Wonders: No-Stress Dinners the Whole Family Loves",
         description: "Discover the ultimate guide to 20-minute dinners that are quick, healthy, and family-friendly.",
         category: "Quick & Easy",
-        tags: ["Quick Dinners","Easy Recipes","Family Meals","Healthy Cooking","Weeknight Wonders"],
+        tags: ["Quick Dinners", "Easy Recipes", "Family Meals", "Healthy Cooking", "Weeknight Wonders"],
         author: "Giulia Rossi",
         publishedDate: "2025-12-11",
         readTime: 20,
@@ -1054,13 +1054,13 @@ Certainly! Rice, quinoa, and gluten-free pastas are excellent bases for many 20-
 By mastering these strategies and embracing the art of quick cooking, you can transform weeknight dinners into joyful, stress-free experiences that the entire family will cherish.
         `
     }
-,
+    ,
     {
         slug: "5-ingredient-dinner-formula",
         title: "The 5-Ingredient Dinner Formula That Never Fails: A Complete Guide",
         description: "Master the art of quick and easy 5-ingredient dinners with these expert tips and recipes.",
         category: "Quick & Easy",
-        tags: ["Quick & Easy","5-Ingredient Meals","Dinner","Cooking Tips","Recipes"],
+        tags: ["Quick & Easy", "5-Ingredient Meals", "Dinner", "Cooking Tips", "Recipes"],
         author: "Chef Alex",
         publishedDate: "2025-12-11",
         readTime: 20,
@@ -1150,13 +1150,13 @@ Absolutely, just adjust cooking times accordingly to ensure everything is fully 
 The 5-ingredient dinner formula is a testament to the power of simplicity in the kitchen. By focusing on quality ingredients and mastering a few cooking techniques, you can create meals that are not only quick and easy but also delectable and satisfying. Embrace the art of minimalism in cooking, and transform your weeknight dinners into culinary delights. Happy cooking!
         `
     }
-,
+    ,
     {
         slug: "stretching-ground-beef-8-satisfying-meals-from-one-pound",
         title: "Stretching Ground Beef: 8 Satisfying Meals from One Pound",
         description: "Learn how to stretch 1 pound of ground beef into 8 budget-friendly meals with expert tips and techniques.",
         category: "Budget-Friendly Eats",
-        tags: ["Budget-Friendly","Ground Beef","Meal Planning","Cooking Tips","Frugal Recipes"],
+        tags: ["Budget-Friendly", "Ground Beef", "Meal Planning", "Cooking Tips", "Frugal Recipes"],
         author: "James Oliver",
         publishedDate: "2025-12-11",
         readTime: 20,
@@ -1293,13 +1293,13 @@ Add Worcestershire sauce, soy sauce, or a splash of vinegar to enhance the depth
 Stretching ground beef is not only a practical approach to managing a food budget but also a creative culinary endeavor. By incorporating various fillers, employing smart cooking techniques, and planning meals strategically, you can transform a single pound of ground beef into a week’s worth of diverse and delicious meals. These practices not only make economic sense but also promote a healthier and more balanced diet. Embrace these techniques to make the most out of your ingredients, ensuring that every meal is as satisfying as it is economical.
         `
     }
-,
+    ,
     {
         slug: "batch-cooking-vs-meal-prep",
         title: "Batch Cooking vs. Meal Prep: Finding Your Perfect Food Strategy",
         description: "Discover the ultimate guide to choosing between batch cooking and meal prep, tailored to match your lifestyle and culinary goals.",
         category: "Cooking Tips & Trends",
-        tags: ["Batch Cooking","Meal Prep","Cooking Tips","Food Strategy","Time Management"],
+        tags: ["Batch Cooking", "Meal Prep", "Cooking Tips", "Food Strategy", "Time Management"],
         author: "Marcus Chen",
         publishedDate: "2025-12-11",
         readTime: 20,
