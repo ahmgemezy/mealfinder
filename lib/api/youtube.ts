@@ -25,7 +25,8 @@ export async function searchRecipeVideo(recipeName: string): Promise<string | nu
 
     try {
         // Optimize search query for cooking tutorials
-        const searchQuery = `${recipeName} recipe cooking tutorial`;
+        // Simplified query to increase match rate
+        const searchQuery = `${recipeName} recipe`;
 
         const params = new URLSearchParams({
             part: 'snippet',

@@ -32,14 +32,17 @@ export default function RecipeVideo({ recipe }: RecipeVideoProps) {
                 setIsLoading(true);
                 try {
                     const foundVideoId = await searchRecipeVideo(recipe.name);
+                    console.log(`[RecipeVideo] Found video ID for "${recipe.name}":`, foundVideoId);
                     setVideoId(foundVideoId);
 
                     // Cache the found video URL to Supabase (fire and forget)
                     if (foundVideoId) {
                         updateRecipeYoutubeUrl(recipe.id, foundVideoId);
+                    } else {
+                        console.warn(`[RecipeVideo] No video found for "${recipe.name}"`);
                     }
                 } catch (error) {
-                    console.error('Error loading recipe video:', error);
+                    console.error('[RecipeVideo] Error loading recipe video:', error);
                     setVideoId(null);
                 } finally {
                     setIsLoading(false);
