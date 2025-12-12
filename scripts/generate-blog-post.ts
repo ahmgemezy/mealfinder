@@ -236,7 +236,7 @@ You must output a valid JSON object with these exact fields:
 Category: ${category}
 
 Research Source Material (Synthesize this, but add your own expert knowledge and structure):
-${sourceContent.slice(0, 45000)}
+${sourceContent.slice(0, 50000)}
 
 Available Images:
 ${JSON.stringify(availableImages, null, 2)}
@@ -244,13 +244,25 @@ ${JSON.stringify(availableImages, null, 2)}
 Requirements for "Real Added Value":
 1. **Extreme Depth**: Don't just say "cook the steak". Explain the Maillard reaction, internal temp charts, resting science, and pan selection.
 2. **Actionable Value**: Include troubleshooting guides ("If X happens, do Y"), pro tips, and mistakes to avoid.
-3. **Structure**: 
+3. **Smart Internal Linking**:
+   - You MUST insert links to internal recipe categories where relevant.
+   - Use the format: \`[Category Name Recipes](/recipes?category=CategoryName)\`.
+   - Examples: "Check out our [Chicken Recipes](/recipes?category=Chicken)" or "perfect for [Breakfast](/recipes?category=Breakfast)".
+4. **"Recommended Gear" Section (Affiliate)**:
+   - Based on the "Potential Products" provided in source material.
+   - List 3-5 specific tools/products.
+   - Format: \`[Product Name](amazon_link_from_source) - Why it's good.\`
+   - If no links provided, suggest generic top-tier tools.
+5. **FAQ Section (Crucial for SEO)**:
+   - Include a section at the end: "## Frequently Asked Questions".
+   - Answer 5-7 specific questions from the "Common Questions" source material.
+   - Answers must be concise (40-60 words).
+6. **Structure**: 
    - Hook the reader immediately.
-   - Use at least 10-12 main H2 sections.
-   - Use Markdown Tables for comparisons (e.g., "Cast Iron vs. Stainless Steel", "Smoke Points of Oils").
-   - FAQ Section: Answer 5-7 specific questions.
-4. **Length**: Target 5000 words. Be verbose where it adds value, but concise in explanations.
-5. **Tone**: Educational, Encouraging, Expert.
+   - at least 10-12 main H2 sections.
+   - Markdown Tables for comparisons.
+7. **Length**: Target 4000-5000 words.
+8. **Tone**: Educational, Encouraging, Expert.
 
 Output ONLY the JSON object.`;
 
@@ -491,6 +503,8 @@ async function main() {
     try {
         // Step 1: Search for content with JINA.ai
         const searchResults = await searchWithJina(args.topic);
+        const questionResults = await searchWithJina(`${args.topic} common questions`);
+        const productResults = await searchWithJina(`best ${args.topic} products amazon review`);
 
         if (searchResults.length === 0) {
             throw new Error("No search results found. Try a different topic.");
@@ -510,6 +524,14 @@ async function main() {
             const images = extractImagesFromMarkdown(fullContent || "");
             allImages.push(...images);
         }
+
+        // Add questions context
+        combinedContent += "\n\n## Common Questions (for FAQ):\n";
+        questionResults.slice(0, 5).forEach(q => combinedContent += `- ${q.title}\n`);
+
+        // Add product context
+        combinedContent += "\n\n## Potential Products (for Affiliate Section):\n";
+        productResults.slice(0, 5).forEach(p => combinedContent += `- ${p.title} (${p.url})\n`);
 
         console.log(`📸 Found ${allImages.length} images in sources.`);
 
