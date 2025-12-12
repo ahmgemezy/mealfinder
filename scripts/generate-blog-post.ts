@@ -98,6 +98,7 @@ interface GeneratedBlogPost {
     featuredImage: string;
     excerpt: string;
     content: string;
+    infographicPrompt?: string;
 }
 
 interface CLIArgs {
@@ -193,6 +194,55 @@ async function readWithJina(url: string): Promise<string> {
 // ============================================================================
 
 /**
+ * Generate an image using OpenAI DALL-E 3
+ */
+async function generateImageWithAI(prompt: string): Promise<Buffer | null> {
+    const apiKey = process.env.OPENAI_API_KEY;
+
+    if (!apiKey) {
+        console.warn("⚠️ No OpenAI API key found. Skipping image generation.");
+        return null;
+    }
+
+    console.log(`🎨 Generating infographic with DALL-E 3: "${prompt.slice(0, 50)}..."`);
+
+    try {
+        const response = await fetch("https://api.openai.com/v1/images/generations", {
+            method: "POST",
+            headers: {
+                "Authorization": `Bearer ${apiKey}`,
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                model: "dall-e-3",
+                prompt: `A professional, clean, modern infographic chart or cheat sheet about: ${prompt}. High resolution, flat vector style, readable text, soft colors.`,
+                n: 1,
+                size: "1024x1024",
+                response_format: "b64_json",
+            }),
+        });
+
+        if (!response.ok) {
+            const error = await response.json();
+            console.error(`❌ DALL-E error: ${JSON.stringify(error)}`);
+            return null;
+        }
+
+        const data = await response.json();
+        const b64Json = data.data?.[0]?.b64_json;
+
+        if (b64Json) {
+            return Buffer.from(b64Json, 'base64');
+        }
+
+        return null;
+    } catch (error) {
+        console.error("❌ Image generation failed:", error);
+        return null;
+    }
+}
+
+/**
  * Rewrite content using OpenAI GPT-4
  */
 async function rewriteWithAI(
@@ -227,7 +277,8 @@ You must output a valid JSON object with these exact fields:
   "description": "Meta description, max 160 chars",
   "tags": ["Tag1", "Tag2", "Tag3", "Tag4", "Tag5"],
   "readTime": 20,
-  "featuredImage": "URL of the most relevant image from the provided list, or null if none match well",
+  "featureImage": "URL...",
+  "infographicPrompt": "A detailed visual description for a 'Cheat Sheet' or 'Infographic' summarizing the key points of this article (e.g., 'Chart showing safe internal temperatures for meats' or 'Timeline of meal prep workflow').",
   "excerpt": "Engaging 2-3 sentence summary",
   "content": "Full markdown content. MUST BE EXTREMELY LONG AND DETAILED. Target 4000+ words."
 }`;
@@ -540,7 +591,36 @@ async function main() {
         if (args.author) console.log(`👤 Author: ${args.author}`);
         const blogPost = await rewriteWithAI(args.topic, args.category, combinedContent, allImages, args.author);
 
-        // Step 4: Output result
+        // Step 4: Generate Infographic (if prompt exists)
+        if (blogPost.infographicPrompt) {
+            const imageBuffer = await generateImageWithAI(blogPost.infographicPrompt);
+            if (imageBuffer) {
+                const infographicFilename = `${blogPost.slug}-infographic.png`;
+                const infographicPath = path.join(process.cwd(), 'public/blog', infographicFilename);
+
+                // Ensure directory exists
+                const dir = path.dirname(infographicPath);
+                if (!fs.existsSync(dir)) {
+                    fs.mkdirSync(dir, { recursive: true });
+                }
+
+                fs.writeFileSync(infographicPath, imageBuffer as any); // Cast to any to avoid type check issues with Buffer vs ArrayBuffer in this env
+                console.log(`✅ Infographic saved to public/blog/${infographicFilename}`);
+
+                // Insert into content
+                const infographicMarkdown = `\n\n![${blogPost.title} Infographic](/blog/${infographicFilename})\n*Above: A quick reference guide for ${blogPost.title}*\n\n`;
+
+                // Insert after first H2 or at the top
+                const firstH2 = blogPost.content.indexOf('##');
+                if (firstH2 !== -1) {
+                    blogPost.content = blogPost.content.slice(0, firstH2) + infographicMarkdown + blogPost.content.slice(firstH2);
+                } else {
+                    blogPost.content = infographicMarkdown + blogPost.content;
+                }
+            }
+        }
+
+        // Step 5: Output result
         console.log("\n=====================================");
         console.log("📄 GENERATED BLOG POST");
         console.log("=====================================\n");
