@@ -24,6 +24,8 @@
         "ingredients": "Ingrédients",
         "instructions": "Instructions",
         "youMightAlsoLike": "Vous aimerez peut-être aussi",
+        "shopIngredients": "Acheter les Ingrédients",
+        "shopIngredientsDesc": "Faites-vous livrer par Amazon",
         "loveThisRecipe": "Vous aimez cette recette ?",
         "saveToFavorites": "Enregistrez-la dans vos favoris pour ne jamais la perdre !",
         "viewFullRecipe": "Voir la recette complète",
@@ -278,14 +280,13 @@
             "tips": "Conseils & Tendances"
         },
         "readMore": "Lire la suite"
+    },
+    "NotFound": {
+        "title": "Recette Introuvable",
+        "description": "Oups ! On dirait que ce plat s'est échappé.",
+        "suggestion": "Ne vous inquiétez pas, nous avons plein d'autres délicieuses recettes qui vous attendent !",
+        "goHome": "Accueil",
+        "browseRecipes": "Parcourir les recettes",
+        "funTagline": "Même les meilleurs chefs perdent parfois une recette... 👨‍🍳"
     }
-},
-"NotFound": {
-    "title": "Recette Introuvable",
-    "description": "Oups ! On dirait que ce plat s'est échappé.",
-    "suggestion": "Ne vous inquiétez pas, nous avons plein d'autres délicieuses recettes qui vous attendent !",
-    "goHome": "Accueil",
-    "browseRecipes": "Parcourir les recettes",
-    "funTagline": "Même les meilleurs chefs perdent parfois une recette... 👨‍🍳"
-}
 }

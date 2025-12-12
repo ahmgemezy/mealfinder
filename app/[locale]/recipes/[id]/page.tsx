@@ -12,6 +12,7 @@ import { extractIdFromSlug } from "@/lib/utils/slugs";
 import { getTranslations } from "next-intl/server";
 import IngredientIcon from "@/components/recipes/IngredientIcon";
 import NutritionFacts from "@/components/recipes/NutritionFacts";
+import ShoppingList from "@/components/recipes/ShoppingList";
 
 export const dynamic = "force-dynamic";
 
@@ -327,6 +328,9 @@ export default async function RecipePage({ params }: RecipePageProps) {
                                                 </li>
                                             ))}
                                         </ul>
+
+                                        {/* Smart Shopping List */}
+                                        <ShoppingList ingredients={recipe.ingredients} />
                                     </div>
                                 </section>
 
