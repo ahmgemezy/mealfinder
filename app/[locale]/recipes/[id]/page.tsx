@@ -208,10 +208,12 @@ export default async function RecipePage({ params }: RecipePageProps) {
                         {recipe.thumbnail && (
                             <Image
                                 src={recipe.thumbnail}
-                                alt="Background"
+                                alt=""
                                 fill
                                 className="object-cover blur-3xl scale-110"
-                                priority
+                                sizes="100vw"
+                                quality={10}
+                                aria-hidden="true"
                             />
                         )}
                     </div>
