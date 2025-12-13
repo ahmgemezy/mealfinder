@@ -279,13 +279,13 @@ Cooking is about balancing the five tastes:
 Next time you cook, taste as you go. Ask yourself: "Does this need a lift?" Try a squeeze of lemon and simply observe the magic.
         `
     }
-,
+    ,
     {
         slug: "ultimate-guide-to-cast-iron-cooking-care-seasoning-recipes",
         title: "The Ultimate Guide to Cast Iron Cooking: Care, Seasoning, and Recipes",
         description: "Discover the secrets of cast iron cooking with our comprehensive guide on care, seasoning, and delicious recipes.",
         category: "Cooking Fundamentals",
-        tags: ["Cast Iron","Cooking","Care","Seasoning","Recipes"],
+        tags: ["Cast Iron", "Cooking", "Care", "Seasoning", "Recipes"],
         author: "Giulia Rossi",
         publishedDate: "2025-12-10",
         readTime: 15,
@@ -370,13 +370,13 @@ High smoke point oils like flaxseed and vegetable oils are ideal choices.
 Mastering the art of cast iron cooking is a rewarding endeavor that can enhance both the flavor and texture of your dishes. With proper care and seasoning, your cast iron cookware can become a cherished kitchen companion for years to come. Whether you're searing, baking, or grilling, these versatile pans offer endless possibilities for culinary creativity. Dive into our selection of [healthy recipes](/recipes?category=Healthy) and let your cast iron adventures begin.
         `
     }
-,
+    ,
     {
         slug: "how-to-build-flavor-layers-the-foundation-of-every-great-dish",
         title: "How to Build Flavor Layers: The Foundation of Every Great Dish",
         description: "Master the art of flavor layering to elevate your cooking with this comprehensive guide.",
         category: "Cooking Fundamentals",
-        tags: ["Flavor Layering","Culinary Techniques","Cooking Fundamentals","Recipe Enhancement","Kitchen Tips"],
+        tags: ["Flavor Layering", "Culinary Techniques", "Cooking Fundamentals", "Recipe Enhancement", "Kitchen Tips"],
         author: "Priya Patel",
         publishedDate: "2025-12-11",
         readTime: 15,
@@ -473,13 +473,13 @@ Mastering the art of flavor layering is a journey that elevates your cooking to 
 Discover more [healthy recipes](/recipes?category=Healthy) and explore the world of [culinary techniques](/recipes?category=Techniques) to continue your culinary journey.
         `
     }
-,
+    ,
     {
         slug: "complete-guide-to-plant-based-protein-sources-beyond-tofu",
         title: "The Complete Guide to Plant-Based Protein Sources Beyond Tofu",
         description: "Explore diverse plant-based proteins beyond tofu with this ultimate guide, perfect for vegans and vegetarians.",
         category: "Cooking Fundamentals",
-        tags: ["Plant-Based","Protein","Vegan","Vegetarian","Nutrition"],
+        tags: ["Plant-Based", "Protein", "Vegan", "Vegetarian", "Nutrition"],
         author: "Sophie Dubois",
         publishedDate: "2025-12-11",
         readTime: 15,
@@ -556,13 +556,13 @@ Plant proteins can be as effective if combined properly to ensure all essential 
 Exploring the rich variety of plant-based proteins beyond tofu opens up a world of culinary possibilities and health benefits. By incorporating diverse protein sources like seitan, legumes, quinoa, and more, vegans and vegetarians can enjoy a balanced, nutritious diet. Whether you’re a seasoned vegan or new to plant-based eating, this guide provides the tools you need to thrive. Discover more [plant-based recipes](/recipes?category=Plant-Based) to start your journey today.
         `
     }
-,
+    ,
     {
         slug: "diving-into-vietnamese-pho-from-bone-broth-to-perfect-bowl",
         title: "Diving into Vietnamese Pho: From Bone Broth to the Perfect Bowl",
         description: "Discover the history, secrets, and step-by-step guide to making the perfect Vietnamese Pho.",
         category: "Cooking Fundamentals",
-        tags: ["Vietnamese Cuisine","Pho","Cooking Guide","Bone Broth","Noodle Soup"],
+        tags: ["Vietnamese Cuisine", "Pho", "Cooking Guide", "Bone Broth", "Noodle Soup"],
         author: "Priya Patel",
         publishedDate: "2025-12-11",
         readTime: 15,
@@ -625,13 +625,13 @@ Yes, a vegetable-based broth with tofu or mushrooms can substitute for meat, off
 Pho is more than a dish; it's an experience that captures the essence of Vietnamese culture. Whether enjoyed on a bustling street in Hanoi or recreated at home, Pho is a culinary journey worth embarking on. For those eager to explore more Asian cuisines, check out our [healthy recipes](/recipes?category=Healthy) for further inspiration.
         `
     }
-,
+    ,
     {
         slug: "ancient-grains-explained-from-farro-to-freekeh",
         title: "Ancient Grains Explained: From Farro to Freekeh",
         description: "Explore the rich history, nutritional benefits, and culinary uses of ancient grains like farro and freekeh.",
         category: "Ingredient Deep Dive",
-        tags: ["Ancient Grains","Farro","Freekeh","Whole Grains","Healthy Eating"],
+        tags: ["Ancient Grains", "Farro", "Freekeh", "Whole Grains", "Healthy Eating"],
         author: "Priya Patel",
         publishedDate: "2025-12-11",
         readTime: 20,
@@ -722,13 +722,13 @@ Grains are composed of three main parts: the bran, germ, and endosperm. Whole gr
 Ancient grains like farro and freekeh are not only rich in history but also in nutrition and culinary potential. By understanding their unique qualities and how to cook them, you can elevate your meals and enjoy the myriad benefits they offer. Embrace these grains to add variety, flavor, and nutrition to your diet, while connecting with the culinary traditions of ancient civilizations.
         `
     }
-,
+    ,
     {
         slug: "citrus-beyond-lemon-cooking-with-yuzu-bergamot-and-meyer-lemons",
         title: "Citrus Beyond Lemon: Mastering Yuzu, Bergamot, and Meyer Lemons in Your Kitchen",
         description: "Explore the unique flavors and culinary uses of yuzu, bergamot, and Meyer lemons.",
         category: "Ingredient Deep Dive",
-        tags: ["Citrus","Yuzu","Bergamot","Meyer Lemons","Cooking"],
+        tags: ["Citrus", "Yuzu", "Bergamot", "Meyer Lemons", "Cooking"],
         author: "Elena Rodriguez",
         publishedDate: "2025-12-11",
         readTime: 20,
@@ -856,17 +856,17 @@ These fruits can often be found at specialty food stores, farmers' markets, or o
 By understanding and utilizing these exotic citrus fruits, you can bring a new dimension of flavor and sophistication to your cooking.
         `
     }
-,
+    ,
     {
         slug: "the-umami-pantry-ingredients-that-add-depth-to-every-dish",
         title: "The Umami Pantry: Ingredients That Add Depth to Every Dish",
         description: "Discover how umami-rich ingredients can transform your cooking with unparalleled depth and flavor.",
         category: "Ingredient Deep Dive",
-        tags: ["Umami","Cooking","Ingredients","Flavor","Pantry"],
+        tags: ["Umami", "Cooking", "Ingredients", "Flavor", "Pantry"],
         author: "James Oliver",
         publishedDate: "2025-12-12",
         readTime: 20,
-        featuredImage: "https://images.unsplash.com/photo-1432139555190-58524dae6a55?w=800&q=80",
+        featuredImage: "/blog/umami-pantry-ingredients.png",
         excerpt: "Unlock the secret to mouth-watering dishes with umami-rich pantry staples. Learn how these ingredients can add depth and flavor to your meals.",
         content: `
 # The Umami Pantry: Ingredients That Add Depth to Every Dish

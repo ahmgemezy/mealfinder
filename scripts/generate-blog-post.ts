@@ -360,10 +360,33 @@ Output ONLY the JSON object.`;
 
         // Select Image
         let selectedImage = parsed.featuredImage;
-        if (!selectedImage || selectedImage === "null" || !selectedImage.startsWith("http")) {
-            // Fallback to random fallback image
-            console.log("⚠️ No suitable image found by AI. Using fallback.");
-            selectedImage = FALLBACK_IMAGES[Math.floor(Math.random() * FALLBACK_IMAGES.length)];
+        const isValidRemoteImage = selectedImage && selectedImage !== "null" && selectedImage.startsWith("http");
+
+        if (!isValidRemoteImage) {
+            console.log("⚠️ No suitable remote image found. Generating unique image with AI...");
+
+            // Generate unique image
+            const imagePrompt = `Professional, high-end food photography of ${topic}. Photorealistic, delicious, soft lighting, 4k resolution.`;
+            const imageBuffer = await generateImageWithAI(imagePrompt);
+
+            if (imageBuffer) {
+                const imageFilename = `${parsed.slug}-featured.png`;
+                const imagePath = path.join(process.cwd(), 'public/blog', imageFilename);
+
+                // Ensure directory exists
+                const dir = path.dirname(imagePath);
+                if (!fs.existsSync(dir)) {
+                    fs.mkdirSync(dir, { recursive: true });
+                }
+
+                fs.writeFileSync(imagePath, imageBuffer as any);
+                console.log(`✅ Generated and saved unique featured image: public/blog/${imageFilename}`);
+
+                selectedImage = `/blog/${imageFilename}`;
+            } else {
+                console.log("⚠️ Failed to generate AI image. Using fallback.");
+                selectedImage = FALLBACK_IMAGES[Math.floor(Math.random() * FALLBACK_IMAGES.length)];
+            }
         }
 
         // Build complete blog post
