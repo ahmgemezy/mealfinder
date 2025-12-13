@@ -8,7 +8,7 @@ import RelatedPosts from "@/components/blog/RelatedPosts";
 import TableOfContents from "@/components/blog/TableOfContents";
 import ReadingProgress from "@/components/blog/ReadingProgress";
 import ShareButtons from "@/components/blog/ShareButtons";
-import { getRandomMealWithFilters, getRandomMeal } from "@/lib/api";
+import { getRandomMealWithFilters, getMultipleRandomMeals } from "@/lib/api";
 import TryThisRecipe from "@/components/blog/TryThisRecipe";
 
 type Props = {
@@ -87,9 +87,14 @@ export default async function BlogPostPage({ params }: Props) {
         suggestedRecipe = await getRandomMealWithFilters({ category: post.category });
     }
 
-    // 3. Fallback to completely random
+    // 3. Robust Fallback: Use getMultipleRandomMeals which checks local DB first
     if (!suggestedRecipe) {
-        suggestedRecipe = await getRandomMeal();
+        // getMultipleRandomMeals is more reliable than getRandomMeal because it prioritizes 
+        // high-quality recipes from our Supabase database before hitting external APIs.
+        const randomMeals = await getMultipleRandomMeals(1);
+        if (randomMeals.length > 0) {
+            suggestedRecipe = randomMeals[0];
+        }
     }
 
     // JSON-LD Structured Data
