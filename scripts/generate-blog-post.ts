@@ -8,13 +8,9 @@
  *   npx ts-node scripts/generate-blog-post.ts --topic "Italian pasta" --category "Cuisine Exploration" --output
  */
 
-import nextEnv from '@next/env';
+import 'dotenv/config';
 import * as fs from 'fs';
 import * as path from 'path';
-
-// Load environment variables from .env* files
-const { loadEnvConfig } = nextEnv;
-loadEnvConfig(process.cwd());
 
 // ============================================================================
 
