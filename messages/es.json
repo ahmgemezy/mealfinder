@@ -40,7 +40,8 @@
         "copied": "¡Copiado!",
         "shareOnFacebook": "Compartir en Facebook",
         "shareOnTwitter": "Compartir en X",
-        "shareOnWhatsApp": "Compartir en WhatsApp"
+        "shareOnWhatsApp": "Compartir en WhatsApp",
+        "kitchenGear": "Utensilios de cocina recomendados"
     },
     "Auth": {
         "signInTitle": "Iniciar Sesión",
