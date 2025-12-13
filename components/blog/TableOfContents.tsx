@@ -50,7 +50,7 @@ export default function TableOfContents() {
     if (headings.length === 0) return null;
 
     return (
-        <nav className="sticky top-24 p-6 bg-card rounded-xl border border-border">
+        <nav className="p-6 bg-card rounded-xl border border-border">
             <h4 className="font-bold mb-4">Table of Contents</h4>
             <ul className="space-y-2 text-sm">
                 {headings.map((heading) => (

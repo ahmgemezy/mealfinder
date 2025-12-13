@@ -13,7 +13,7 @@ export default function TryThisRecipe({ recipe }: TryThisRecipeProps) {
     if (!recipe) return null;
 
     return (
-        <div className="bg-card rounded-3xl p-6 md:p-8 shadow-soft border border-border/50 sticky top-24">
+        <div className="bg-card rounded-3xl p-6 md:p-8 shadow-soft border border-border/50">
             <div className="flex items-center gap-3 mb-6">
                 <span className="text-2xl">👨‍🍳</span>
                 <h3 className="font-display text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary-600 to-accent-600">
