@@ -1,11 +1,11 @@
 import { getAllPostsMetadata } from '@/lib/utils/blog-helpers';
 
 export async function GET() {
-    const posts = getAllPostsMetadata();
-    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://dishshuffle.com';
+  const posts = getAllPostsMetadata();
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://dishshuffle.com';
 
-    const rss = `<?xml version="1.0" encoding="UTF-8"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  const rss = `<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:media="http://search.yahoo.com/mrss/">
   <channel>
     <title>Dish Shuffle Blog</title>
     <link>${baseUrl}/blog</link>
@@ -18,16 +18,17 @@ export async function GET() {
       <link>${baseUrl}/en/blog/${post.slug}</link>
       <guid>${baseUrl}/en/blog/${post.slug}</guid>
       <pubDate>${new Date(post.publishedDate).toUTCString()}</pubDate>
-      <description><![CDATA[${post.excerpt}]]></description>
+      <description><![CDATA[<img src="${post.featuredImage}" alt="${post.title}" />${post.excerpt}]]></description>
       <category>${post.category}</category>
+      <media:content url="${post.featuredImage}" medium="image" />
     </item>`).join('')}
   </channel>
 </rss>`;
 
-    return new Response(rss, {
-        headers: {
-            'Content-Type': 'application/xml',
-            'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=7200',
-        },
-    });
+  return new Response(rss, {
+    headers: {
+      'Content-Type': 'application/xml',
+      'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=7200',
+    },
+  });
 }
