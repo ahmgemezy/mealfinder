@@ -44,7 +44,7 @@ function RecipesContent() {
     const [isLoading, setIsLoading] = useState(true);
     const [isLoadingMore, setIsLoadingMore] = useState(false);
     const [searchQuery, setSearchQuery] = useState(
-        searchParams.get("search") || ""
+        searchParams.get("search") || searchParams.get("q") || ""
     );
     const [selectedCategory, setSelectedCategory] = useState(
         searchParams.get("category") || ""

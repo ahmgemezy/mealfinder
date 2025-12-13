@@ -80,6 +80,10 @@ async function fetchRecipeFromSupabase(id: string): Promise<Recipe | null> {
 
 async function saveRecipeToSupabase(recipe: Recipe): Promise<void> {
     if (!isSupabaseConfigured()) return;
+    if (!recipe.id) {
+        console.warn("Attempted to save recipe to Supabase without ID:", recipe);
+        return;
+    }
 
     // Fire and forget with retry - use .then() to avoid blocking
     retryAsync(

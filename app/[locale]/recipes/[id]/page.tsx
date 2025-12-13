@@ -34,7 +34,7 @@ export async function generateMetadata({
         };
     }
 
-    const description = recipe.instructions
+    const description = (recipe.instructions || '')
         .replace(/\s+/g, ' ')
         .trim()
         .slice(0, 155) + "...";
@@ -105,7 +105,7 @@ export default async function RecipePage({ params }: RecipePageProps) {
         "@type": "Recipe",
         name: recipe.name,
         image: [recipe.thumbnail],
-        description: recipe.instructions.slice(0, 200).replace(/\s+/g, ' ').trim(),
+        description: (recipe.instructions || '').slice(0, 200).replace(/\s+/g, ' ').trim(),
         author: {
             "@type": "Organization",
             name: "Dish Shuffle",
@@ -345,7 +345,7 @@ export default async function RecipePage({ params }: RecipePageProps) {
                                     <div className="bg-card rounded-2xl p-8 shadow-soft">
                                         {(() => {
                                             // Process instructions and filter valid steps
-                                            const processedSteps = recipe.instructions
+                                            const processedSteps = (recipe.instructions || '')
                                                 // 1. Replace newlines with spaces to treat as a single block of text first
                                                 .replace(/\r\n|\r|\n/g, ' ')
                                                 // 2. Split by period followed by space, BUT ignore common abbreviations
