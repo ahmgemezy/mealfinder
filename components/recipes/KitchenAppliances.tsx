@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useMemo } from 'react';
+import Image from 'next/image';
 import { Recipe } from '@/lib/types/recipe';
 import { KITCHEN_APPLIANCES, GENERIC_APPLIANCES, Appliance } from '@/lib/appliances';
 import { useTranslations } from 'next-intl';
@@ -60,9 +61,14 @@ export default function KitchenAppliances({ recipe }: KitchenAppliancesProps) {
                         rel="noopener noreferrer"
                         className="flex flex-col items-center justify-center p-6 bg-card rounded-2xl border border-border/50 hover:border-primary-500 hover:shadow-lg transition-all group text-center"
                     >
-                        <span className="text-4xl mb-3 group-hover:scale-110 transition-transform duration-300">
-                            {appliance.icon}
-                        </span>
+                        <div className="relative w-24 h-24 mb-3 group-hover:scale-110 transition-transform duration-300">
+                            <Image
+                                src={appliance.image}
+                                alt={appliance.name}
+                                fill
+                                className="object-contain"
+                            />
+                        </div>
                         <h3 className="font-bold text-foreground mb-1 group-hover:text-primary-600 transition-colors">
                             {appliance.name}
                         </h3>
