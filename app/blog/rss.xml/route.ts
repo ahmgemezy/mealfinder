@@ -20,7 +20,7 @@ export async function GET() {
       <pubDate>${new Date(post.publishedDate).toUTCString()}</pubDate>
       <description><![CDATA[<img src="${post.featuredImage}" alt="${post.title}" />${post.excerpt}]]></description>
       <category>${post.category}</category>
-      <media:content url="${post.featuredImage}" medium="image" />
+      <media:content url="${post.featuredImage?.replace(/&/g, '&amp;')}" medium="image" />
     </item>`).join('')}
   </channel>
 </rss>`;
