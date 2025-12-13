@@ -7,26 +7,26 @@ import BlogCard from "./BlogCard";
 
 interface BlogFilterProps {
     posts: BlogPostMetadata[];
-    tags: string[];
+    categories: readonly string[];
     locale: string;
 }
 
-export default function BlogFilter({ posts, tags, locale }: BlogFilterProps) {
-    const [selectedTag, setSelectedTag] = useState<string | null>(null);
+export default function BlogFilter({ posts, categories, locale }: BlogFilterProps) {
+    const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
     const router = useRouter();
 
     const searchParams = useSearchParams();
     const searchQuery = searchParams.get('search')?.toLowerCase() || '';
 
-    // Filter posts by selected tag and search query
+    // Filter posts by selected category and search query
     const filteredPosts = posts.filter(post => {
-        const matchesTag = selectedTag ? post.tags.includes(selectedTag) : true;
+        const matchesCategory = selectedCategory ? post.category === selectedCategory : true;
         const matchesSearch = searchQuery
             ? post.title.toLowerCase().includes(searchQuery) ||
             post.excerpt.toLowerCase().includes(searchQuery) ||
             post.description.toLowerCase().includes(searchQuery)
             : true;
-        return matchesTag && matchesSearch;
+        return matchesCategory && matchesSearch;
     });
 
     // Sort by date (newest first)
@@ -34,30 +34,30 @@ export default function BlogFilter({ posts, tags, locale }: BlogFilterProps) {
         (a, b) => new Date(b.publishedDate).getTime() - new Date(a.publishedDate).getTime()
     );
 
-    const handleTagClick = (tag: string) => {
-        setSelectedTag(selectedTag === tag ? null : tag);
+    const handleCategoryClick = (category: string) => {
+        setSelectedCategory(selectedCategory === category ? null : category);
     };
 
     return (
         <>
-            {/* Featured Tags */}
+            {/* Featured Categories */}
             <div className="flex flex-wrap justify-center gap-2 mb-12">
-                {tags.slice(0, 12).map(tag => (
+                {categories.map(category => (
                     <button
-                        key={tag}
-                        onClick={() => handleTagClick(tag)}
-                        className={`px-3 py-1 text-sm rounded-full transition-colors cursor-pointer ${selectedTag === tag
-                            ? "bg-primary-600 text-white"
-                            : "bg-muted/50 hover:bg-muted text-muted-foreground hover:text-foreground"
+                        key={category}
+                        onClick={() => handleCategoryClick(category)}
+                        className={`px-4 py-2 text-sm font-medium rounded-full transition-all cursor-pointer ${selectedCategory === category
+                            ? "bg-primary-600 text-white shadow-md transform scale-105"
+                            : "bg-white dark:bg-card border border-border hover:border-primary-500 hover:text-primary-500 text-muted-foreground"
                             }`}
                     >
-                        #{tag}
+                        {category}
                     </button>
                 ))}
-                {selectedTag && (
+                {selectedCategory && (
                     <button
-                        onClick={() => setSelectedTag(null)}
-                        className="px-3 py-1 text-sm rounded-full bg-red-100 text-red-700 hover:bg-red-200 transition-colors cursor-pointer"
+                        onClick={() => setSelectedCategory(null)}
+                        className="px-4 py-2 text-sm font-medium rounded-full bg-red-50 text-red-600 hover:bg-red-100 border border-red-100 transition-colors cursor-pointer"
                     >
                         Clear
                     </button>
@@ -65,9 +65,9 @@ export default function BlogFilter({ posts, tags, locale }: BlogFilterProps) {
             </div>
 
             {/* Results info */}
-            {selectedTag && (
+            {selectedCategory && (
                 <p className="text-center text-muted-foreground mb-8">
-                    Showing {sortedPosts.length} post{sortedPosts.length !== 1 ? "s" : ""} tagged with <span className="font-semibold text-foreground">#{selectedTag}</span>
+                    Showing {sortedPosts.length} post{sortedPosts.length !== 1 ? "s" : ""} in <span className="font-semibold text-foreground">{selectedCategory}</span>
                 </p>
             )}
 
@@ -88,11 +88,11 @@ export default function BlogFilter({ posts, tags, locale }: BlogFilterProps) {
                     <p className="text-muted-foreground">
                         {searchQuery
                             ? `No posts found matching "${searchQuery}"`
-                            : "No posts found for this tag."}
+                            : "No posts found for this category."}
                     </p>
                     <button
                         onClick={() => {
-                            setSelectedTag(null);
+                            setSelectedCategory(null);
                             if (searchQuery) {
                                 router.push(`/${locale}/blog`);
                             }

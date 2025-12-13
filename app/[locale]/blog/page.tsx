@@ -1,6 +1,7 @@
 import { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
-import { getAllPostsMetadata, getAllTags } from "@/lib/utils/blog-helpers";
+import { BLOG_CATEGORIES } from "@/lib/types/blog";
+import { getAllPostsMetadata } from "@/lib/utils/blog-helpers";
 import BlogFilter from "@/components/blog/BlogFilter";
 import BlogSearch from "@/components/blog/BlogSearch";
 
@@ -34,7 +35,6 @@ export default async function BlogPage({
     const { locale } = await params;
     const t = await getTranslations({ locale, namespace: "Blog" });
     const posts = getAllPostsMetadata();
-    const tags = getAllTags();
 
     return (
         <div className="container mx-auto px-4 py-12 md:py-20 max-w-7xl">
@@ -50,7 +50,7 @@ export default async function BlogPage({
 
             {/* Blog Filter and Grid */}
             <BlogSearch locale={locale} />
-            <BlogFilter posts={posts} tags={tags} locale={locale} />
+            <BlogFilter posts={posts} categories={BLOG_CATEGORIES} locale={locale} />
         </div>
     );
 }
