@@ -13,6 +13,7 @@ import { getTranslations } from "next-intl/server";
 import IngredientIcon from "@/components/recipes/IngredientIcon";
 import NutritionFacts from "@/components/recipes/NutritionFacts";
 import ShoppingList from "@/components/recipes/ShoppingList";
+import KitchenAppliances from "@/components/recipes/KitchenAppliances";
 
 export const dynamic = "force-dynamic";
 
@@ -452,6 +453,10 @@ export default async function RecipePage({ params }: RecipePageProps) {
                             </div>
                         </div>
                     </div>
+                </div>
+                {/* Kitchen Appliances */}
+                <div className="container mx-auto px-4 mt-12">
+                    <KitchenAppliances recipe={recipe} />
                 </div>
 
                 {/* Related Recipes */}
