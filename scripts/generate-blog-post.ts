@@ -362,28 +362,16 @@ Output ONLY the JSON object.`;
         const isValidRemoteImage = selectedImage && selectedImage !== "null" && selectedImage.startsWith("http");
 
         if (!isValidRemoteImage) {
-            console.log("⚠️ No suitable remote image found. Generating unique image with AI...");
+            console.log("⚠️ No valid featured image in generated content. Attempting to use source images...");
 
-            // Generate unique image
-            const imagePrompt = `Professional, high-end food photography of ${topic}. Photorealistic, delicious, soft lighting, 4k resolution.`;
-            const imageBuffer = await generateImageWithAI(imagePrompt);
+            // Try to find a valid image in the available images list
+            const validSourceImage = availableImages.find(img => img.startsWith("http"));
 
-            if (imageBuffer) {
-                const imageFilename = `${parsed.slug}-featured.png`;
-                const imagePath = path.join(process.cwd(), 'public/blog', imageFilename);
-
-                // Ensure directory exists
-                const dir = path.dirname(imagePath);
-                if (!fs.existsSync(dir)) {
-                    fs.mkdirSync(dir, { recursive: true });
-                }
-
-                fs.writeFileSync(imagePath, imageBuffer as any);
-                console.log(`✅ Generated and saved unique featured image: public/blog/${imageFilename}`);
-
-                selectedImage = `/blog/${imageFilename}`;
+            if (validSourceImage) {
+                console.log("✅ Using image from source content.");
+                selectedImage = validSourceImage;
             } else {
-                console.log("⚠️ Failed to generate AI image. Using fallback.");
+                console.log("⚠️ No valid source images found. Using fallback.");
                 selectedImage = FALLBACK_IMAGES[Math.floor(Math.random() * FALLBACK_IMAGES.length)];
             }
         }

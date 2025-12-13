@@ -1852,17 +1852,17 @@ Brush the crust with egg wash before baking, and pre-bake the bottom crust sligh
 With this guide, you’re set to host a stress-free, delicious Christmas dinner that will impress your guests and leave you with cherished memories. Enjoy the festive season and the joy that good food brings!
         `
     }
-,
+    ,
     {
         slug: "christmas-kitchen-sos-solutions-for-common-holiday-cooking-disasters",
         title: "Christmas Kitchen SOS: Expert Solutions for Common Holiday Cooking Disasters",
         description: "Overcome holiday cooking disasters with expert tips and solutions. Salvage your Christmas dinner with these proven techniques.",
         category: "Cooking Tips & Trends",
-        tags: ["Cooking Tips","Holiday Cooking","Christmas","Culinary Solutions","Kitchen Disasters"],
+        tags: ["Cooking Tips", "Holiday Cooking", "Christmas", "Culinary Solutions", "Kitchen Disasters"],
         author: "James Oliver",
         publishedDate: "2025-12-13",
         readTime: 20,
-        featuredImage: "/blog/christmas-kitchen-sos-solutions-for-common-holiday-cooking-disasters-featured.png",
+        featuredImage: "https://images.unsplash.com/photo-1576867757603-05b29d84972c?w=800&q=80",
         excerpt: "Facing a holiday cooking disaster? This guide offers expert solutions to common Christmas kitchen mishaps, ensuring your festive feast is saved.",
         content: `
 # Christmas Kitchen SOS: Expert Solutions for Common Holiday Cooking Disasters
