@@ -184,15 +184,18 @@ export default async function BlogPostPage({ params }: Props) {
                             tags={post.tags}
                         />
                     </div>
+
+                    {/* Mobile Recipe Suggestion */}
+                    <div className="mt-12 lg:hidden">
+                        {suggestedRecipe && <TryThisRecipe recipe={suggestedRecipe} />}
+                    </div>
                 </div>
 
                 {/* Sidebar (Related Posts & TOC) */}
                 <div className="hidden lg:block">
                     <div className="sticky top-24 space-y-8">
-                        <div className="sticky top-24 space-y-8">
-                            <TableOfContents />
-                            {suggestedRecipe && <TryThisRecipe recipe={suggestedRecipe} />}
-                        </div>
+                        <TableOfContents />
+                        {suggestedRecipe && <TryThisRecipe recipe={suggestedRecipe} />}
                     </div>
                 </div>
             </div>
