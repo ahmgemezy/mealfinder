@@ -161,7 +161,8 @@
             "safety": "Seguridad Alimentaria y Almacenamiento",
             "substitutions": "Sustituciones de Ingredientes",
             "planning": "Planificación de Comidas",
-            "platform": "Usar Dish Shuffle"
+            "platform": "Usar Dish Shuffle",
+            "health": "Salud y Nutrición para Adultos Mayores de 40"
         },
         "questions": {
             "howToBoilEgg": {
@@ -263,6 +264,362 @@
             "canIShareRecipes": {
                 "q": "¿Puedo compartir recetas con amigos?",
                 "a": "¡Sí! Cada página de receta tiene un botón Compartir que te permite compartir a través de Facebook, Twitter (X), WhatsApp o copiar el enlace para compartir en cualquier lugar. ¡Comparte tus descubrimientos favoritos con amigos y familiares!"
+            },
+            "essentialTools": {
+                "q": "¿Qué herramientas de cocina esenciales necesito para empezar?",
+                "a": "Empieza con un cuchillo de chef, una tabla de cortar, tazas/cucharas medidoras, una olla grande, una cacerola, una sartén y una bandeja para hornear. Estos básicos cubren la mayoría de las recetas."
+            },
+            "readRecipe": {
+                "q": "¿Qué tan importante es leer la receta de antemano?",
+                "a": "¡Crucial! Léela dos veces para entender los pasos, el tiempo y asegurarte de tener todos los ingredientes. Esto evita sorpresas a mitad de la cocción."
+            },
+            "miseEnPlace": {
+                "q": "¿Qué es 'mise en place'?",
+                "a": "Significa 'todo en su lugar'. Prepara, pica y mide todos los ingredientes antes de empezar a cocinar. Hace que cocinar sea libre de estrés y evita quemar la comida mientras buscas especias."
+            },
+            "pantryStaples": {
+                "q": "¿Qué debería tener en mi despensa?",
+                "a": "Mantén aceites (oliva, vegetal), vinagre, hierbas/especias secas, sal, pimienta, harina, azúcar, arroz, pasta, tomates enlatados y frijoles a mano para comidas fáciles."
+            },
+            "seasoningTips": {
+                "q": "¿Cómo sazonar la comida correctamente?",
+                "a": "Sazona en capas durante toda la cocción, no solo al final. Prueba a medida que avanzas. La sal realza el sabor, mientras que el ácido (limón, vinagre) ilumina los platos apagados."
+            },
+            "preventSticking": {
+                "q": "¿Cómo evito que la comida se pegue a la sartén?",
+                "a": "Precalienta tu sartén correctamente antes de añadir aceite, luego deja que el aceite se caliente antes de añadir la comida. No llenes demasiado la sartén, o la comida se cocinará al vapor en lugar de dorarse."
+            },
+            "checkMeatDoneness": {
+                "q": "¿Cómo sé cuándo la carne está cocida?",
+                "a": "La única forma segura es usar un termómetro digital para carne. El color no es fiable. El pollo debe estar a 74°C, cerdo/filetes a 63°C, y carne molida a 71°C."
+            },
+            "saltPastaWater": {
+                "q": "¿Por qué salar el agua de la pasta?",
+                "a": "Es tu única oportunidad de dar sabor a la pasta en sí. Debe saber salada como el mar. Nunca enjuagues la pasta después de cocinarla (a menos que sea para ensalada fría) ya que el almidón ayuda a que la salsa se adhiera."
+            },
+            "tenderizeMeat": {
+                "q": "¿Cómo puedo ablandar la carne dura?",
+                "a": "Usa una marinada con ácido (vinagre, cítricos, yogur), golpéala con un mazo, o cocínala a fuego lento y prolongado (estofado) para romper las fibras."
+            },
+            "bakingMeasure": {
+                "q": "¿Cómo mido la harina para hornear?",
+                "a": "¡No la recojas directamente! Ahueca la harina, sírvela con cuchara en la taza y nivélala. Recogerla directamente la compacta, añadiendo demasiada harina y haciendo los pasteles secos."
+            },
+            "cookingMistakes": {
+                "q": "¿Cuál es un error común de cocina para principiantes?",
+                "a": "Sobrecargar la sartén: baja la temperatura y cocina la comida al vapor en lugar de dorarla. Cocina en lotes si es necesario para un mejor sabor."
+            },
+            "tastingFood": {
+                "q": "¿Por qué es importante probar mientras se cocina?",
+                "a": "Los ingredientes varían (les limones varían en acidez, la sal en fuerza). Probar te ayuda a equilibrar los sabores (añadir sal, ácido o azúcar) antes de servir."
+            },
+            "knifeSkills": {
+                "q": "¿Cómo puedo mejorar mis habilidades con el cuchillo?",
+                "a": "Mantén los cuchillos afilados (¡más seguros que los desafilados!). Usa el 'agarre de garra' con tu mano que sostiene para proteger los dedos. Empieza despacio, la velocidad llega con la práctica."
+            },
+            "restingSteak": {
+                "q": "¿Por qué dejar reposar el filete antes de cortarlo?",
+                "a": "El reposo permite que los jugos se redistribuyan. Cortar inmediatamente deja que los jugos se salgan, dejando la carne seca. Deja reposar 5-10 minutos bajo papel de aluminio."
+            },
+            "boilingVsSimmering": {
+                "q": "¿Cuál es la diferencia entre hervir y cocinar a fuego lento?",
+                "a": "Hervir son burbujas grandes y rápidas (100°C) para pasta/papas. Cocinar a fuego lento son burbujas suaves y pequeñas (85-95°C) para sopas/guisos para cocinar tiernamente."
+            },
+            "handwashing": {
+                "q": "¿Cómo debo lavarme las manos para la seguridad alimentaria?",
+                "a": "Lávate con agua tibia y jabón durante al menos 20 segundos antes/después de manipular alimentos, especialmente carne cruda/huevos. No olvides las muñecas y debajo de las uñas."
+            },
+            "crossContamination": {
+                "q": "¿Qué es la contaminación cruzada y cómo prevenirla?",
+                "a": "Es propagar bacterias de alimentos crudos a alimentos listos para comer. Usa tablas de cortar separadas para carne y verduras. Lávate las manos y herramientas inmediatamente después de tocar carne cruda."
+            },
+            "dangerZone": {
+                "q": "¿Qué es la 'Zona de Peligro' de los alimentos?",
+                "a": "Las bacterias crecen rápidamente entre 4°C y 60°C. Nunca dejes alimentos perecederos fuera por más de 2 horas (o 1 hora si hace más de 32°C afuera)."
+            },
+            "fridgeTemp": {
+                "q": "¿A qué temperatura debe estar mi refrigerador/congelador?",
+                "a": "Refrigerador estrictamente por debajo de 4°C y congelador a -18°C. Usa un termómetro de electrodomésticos para verificar, ya que los diales pueden ser inexactos."
+            },
+            "thawingFood": {
+                "q": "¿Cuál es la forma más segura de descongelar alimentos congelados?",
+                "a": "En el refrigerador durante la noche (lo más seguro), en agua fría (cambiar el agua cada 30 min), o en el microondas. Nunca descongeles en el mostrador a temperatura ambiente."
+            },
+            "leftoverSafety": {
+                "q": "¿Cuánto tiempo duran las sobras?",
+                "a": "Generalmente 3-4 días en el refrigerador. Recalienta a 74°C. Si tienes dudas, tíralo. Etiqueta los recipientes con fechas para llevar un registro."
+            },
+            "washingMeat": {
+                "q": "¿Debo lavar el pollo crudo?",
+                "a": "NO. Lavar propaga bacterias hasta 1 metro a través de salpicaduras de agua. Cocinar a 74°C es la única forma de matar bacterias de manera segura."
+            },
+            "refreezing": {
+                "q": "¿Puedo volver a congelar alimentos descongelados?",
+                "a": "Si se descongeló en el refrigerador y se mantuvo frío (menos de 4°C), es seguro volver a congelar, aunque la textura puede sufrir. No vuelvas a congelar si se descongeló en el mostrador."
+            },
+            "safeTemps": {
+                "q": "¿Cuáles son las temperaturas internas de cocción seguras?",
+                "a": "Aves 74°C, Carne Molida 71°C, Filetes y Asados de Res/Cerdo/Cordero 63°C (+3 min de reposo), Pescado 63°C. Usa un termómetro."
+            },
+            "produceTech": {
+                "q": "¿Cómo limpiar frutas y verduras?",
+                "a": "Enjuaga bajo agua corriente justo antes de comer/cocinar. Frota las pieles firmes (melones, papas). No uses jabón. Seca con un paño limpio o toalla de papel."
+            },
+            "useByVsBestBy": {
+                "q": "¿Fechas de Caducidad vs Consumo Preferente?",
+                "a": "'Caducidad' es una fecha límite de seguridad—no comer después de esta. 'Consumo Preferente' es sobre calidad/sabor—probablemente seguro pero estrictamente pasado su mejor momento después de la fecha."
+            },
+            "fridgeStorage": {
+                "q": "¿Dónde debo guardar la carne cruda en el refrigerador?",
+                "a": "Estante inferior, en un recipiente/bandeja sellada. Esto evita que los jugos goteen sobre productos frescos o alimentos listos para comer debajo."
+            },
+            "coolingFood": {
+                "q": "¿Qué tan rápido debo refrigerar la comida cocida?",
+                "a": "Dentro de 2 horas (1 hora si la habitación es calurosa). Divide ollas grandes de sopa/estofado en recipientes poco profundos para ayudar a que se enfríen rápidamente."
+            },
+            "kitchenHygiene": {
+                "q": "¿Con qué frecuencia debo limpiar las esponjas de cocina?",
+                "a": "Las esponjas albergan bacterias. Desinfecta diariamente (microondas esponja húmeda 1 min o lavavajillas) y reemplaza frecuentemente. Los paños de cocina deben lavarse en ciclo caliente."
+            },
+            "visualCues": {
+                "q": "¿Puedo confiar en el color de la carne para la cocción?",
+                "a": "No. Las hamburguesas pueden volverse marrones antes de llegar a 71°C. El color rosado no siempre significa poco cocido. Solo un termómetro garantiza la seguridad."
+            },
+            "substitutionRules": {
+                "q": "¿Regla general para sustituciones?",
+                "a": "Considera humedad, dulzura y estructura. Limita a 1-2 cambios por receta. La repostería es química, por lo que es menos indulgente que la cocina."
+            },
+            "buttermilkSub": {
+                "q": "¿Sustituto para el suero de leche (buttermilk)?",
+                "a": "Añade 1 cda de jugo de limón o vinagre blanco a 1 taza de leche. Deja reposar 5-10 min hasta que se corte. O usa yogur natural diluido."
+            },
+            "butterVsOil": {
+                "q": "¿Puedo cambiar mantequilla por aceite?",
+                "a": "En repostería: Sí (1:1), pero la mantequilla añade sabor/esponjosidad, el aceite lo hace húmedo/denso. En cocina: La mantequilla se quema fácilmente; el aceite tiene mayor tolerancia al calor."
+            },
+            "glutenFreeFlour": {
+                "q": "¿Puedo usar harina sin gluten taza por taza?",
+                "a": "Sí, si es una mezcla de repostería '1 a 1' con goma xantana. Sustituir solo con harina de arroz/almendra no funcionará para pasteles/panes sin aglutinantes."
+            },
+            "sugarTypes": {
+                "q": "¿Sustituir azúcar morena por blanca?",
+                "a": "Sí (1:1). El azúcar morena añade humedad y sabor a melaza, haciendo las galletas más masticables. El azúcar blanca las hace más crujientes."
+            },
+            "honeyVsSugar": {
+                "q": "¿Sustituir azúcar por miel?",
+                "a": "Usa 3/4 taza de miel por 1 taza de azúcar. Reduce el líquido en la receta en 1/4 taza y baja la temperatura del horno 15°C ya que la miel se dora más rápido."
+            },
+            "breadcrumbsSub": {
+                "q": "¿Sin pan rallado?",
+                "a": "Usa copos de maíz triturados, galletas, pretzels, avena o pan tostado y tritúralo. Para sin gluten, usa harina de almendra o avena SG."
+            },
+            "cornstarchSub": {
+                "q": "¿Sustituto para la fécula de maíz?",
+                "a": "Para espesar: Usa 2 cdas de harina por cada 1 cda de fécula (cocina más tiempo para quitar el sabor a harina cruda). O usa arrurruz/fécula de papa 1:1."
+            },
+            "brothSub": {
+                "q": "¿Sin caldo de pollo/res?",
+                "a": "Usa cubo de caldo + agua, caldo de verduras, o incluso agua sazonada con salsa de soja/hierbas. El alcohol (vino/cerveza) puede reemplazar algo de líquido para dar sabor."
+            },
+            "freshVsDried": {
+                "q": "¿Proporción de hierbas frescas vs secas?",
+                "a": "Las secas son más fuertes. Usa 1 cdta seca por cada 1 cda fresca (proporción 1:3). Añade las secas temprano para rehidratar; las frescas al final."
+            },
+            "dairyFreeMilk": {
+                "q": "¿Mejor leche sin lácteos para hornear?",
+                "a": "La leche de soja y avena tienen proteínas/grasas más cercanas a los lácteos. La almendra es más ligera. La leche de coco enlatada con toda su grasa es excelente para riqueza/cremosidad."
+            },
+            "cheeseSub": {
+                "q": "¿Sustituir quesos?",
+                "a": "Combina textura/derretido. Mozzarella ↔ Provolone/Monterey Jack. Cheddar ↔ Colby/Gruyere. Los quesos blandos no se intercambian bien con los duros añejos."
+            },
+            "bakingChocolate": {
+                "q": "¿Sustituto para chocolate sin azúcar?",
+                "a": "3 cdas de cacao en polvo + 1 cda de aceite/mantequilla por cada 30g de chocolate sin azúcar."
+            },
+            "lemonJuice": {
+                "q": "¿Sustituto para jugo de limón fresco?",
+                "a": "El jugo de limón embotellado funciona pero le faltan los aceites de la cáscara. El vinagre puede sustituir la acidez (en cocina). Naranja/Lima funcionan pero cambian el perfil de sabor."
+            },
+            "yogurtSourCream": {
+                "q": "¿Sustituir crema agria por yogur?",
+                "a": "Sí, el yogur griego es un sustituto saludable perfecto 1:1 en salsas, repostería y tacos. El yogur regular es más líquido."
+            },
+            "startMealPlanning": {
+                "q": "¿Cómo empiezo a planificar las comidas?",
+                "a": "Empieza poco a poco. Planifica solo 3-4 cenas para la semana. Revisa tu calendario para las noches ocupadas y elige comidas fáciles para esas. Haz una lista de compras basada en tu plan."
+            },
+            "benefitsMealPlan": {
+                "q": "¿Por qué planificar las comidas?",
+                "a": "Ahorra dinero (menos comida para llevar/desperdicio), ahorra tiempo (menos viajes al supermercado), reduce el estrés diario ('¿qué hay para cenar?'), y te ayuda a comer más saludable."
+            },
+            "planningSchedule": {
+                "q": "¿Con qué frecuencia debo planificar?",
+                "a": "Semanalmente es lo mejor para la mayoría. Elige un día (ej. viernes o domingo) para planificar y comprar. Algunos lo hacen mensualmente, pero semanalmente permite flexibilidad de horario."
+            },
+            "pickyEaters": {
+                "q": "¿Planificación de comidas para quisquillosos?",
+                "a": "¡Involúcralos! Deja que los niños elijan 1 comida/semana. Usa comidas 'deconstruidas' (barra de tacos, bowls) para que cada uno personalice su propia cobertura."
+            },
+            "saveMoneyGroceries": {
+                "q": "¿Cómo ahorrar dinero en el supermercado?",
+                "a": "Compra en tu despensa/congelador primero. Planifica comidas alrededor de los folletos de ofertas. Haz una lista y APÉGATE a ella. Compra productos de temporada y granos a granel."
+            },
+            "mealPrepVsPlan": {
+                "q": "¿Diferencia entre planificar y preparar?",
+                "a": "Planificar = decidir qué comer. Preparar = hacer el trabajo (cortar, cocinar) por adelantado. Puedes planificar sin preparar, pero preparar ayuda en semanas ocupadas."
+            },
+            "themeNights": {
+                "q": "¿Qué son las Noches Temáticas?",
+                "a": "Asigna temas a los días: 'Lunes sin carne', 'Martes de Tacos', 'Jueves de Pasta'. Reduce las opciones y hace que la toma de decisiones sea más rápida."
+            },
+            "handleLeftovers": {
+                "q": "¿Estrategias para las sobras?",
+                "a": "Planifica una 'Noche de Buffet' para vaciar el refrigerador. O empaca las sobras inmediatamente para el almuerzo del día siguiente. Reutiliza: Pollo asado → Tacos al día siguiente."
+            },
+            "backupMeals": {
+                "q": "¿Qué pasa si estoy demasiado cansado para cocinar el plan?",
+                "a": "Mantén 1-2 'Comidas de Emergencia' (pizza congelada, pasta y salsa en frasco, huevos). La flexibilidad es clave—cambia los días si es necesario. No te sientas culpable."
+            },
+            "balancedPlan": {
+                "q": "¿Cómo asegurar un plan equilibrado?",
+                "a": "Busca variedad. Revisa tu semana: ¿Tenemos pescado? ¿Noche vegetariana? ¿Carne roja? Alterna proteínas y asegúrate de que cada cena tenga una guarnición de verduras."
+            },
+            "shoppingTips": {
+                "q": "¿Consejos para comprar comestibles?",
+                "a": "¡Nunca compres con hambre! Organiza tu lista por pasillo (Frutas y Verduras, Lácteos, Carne) para acelerar el viaje. Usa la compra en línea para evitar compras impulsivas."
+            },
+            "batchCooking": {
+                "q": "¿Qué es cocinar por lotes?",
+                "a": "Cocinar 2x o 3x porciones de una comida (chili, sopa, guiso) y congelar el extra. Es 'cocinar una vez, comer dos veces'—un gran ahorro de tiempo."
+            },
+            "familyInvolvement": {
+                "q": "¿Cómo involucrar a la familia?",
+                "a": "Pide sugerencias. Comparte el menú visual en el refrigerador. Deja que los niños ayuden a preparar cosas simples. Cuando ayudan a decidir/cocinar, comen mejor."
+            },
+            "fridgeFreezerLife": {
+                "q": "¿Cuánto tiempo duran las comidas preparadas?",
+                "a": "Refrigerador: 3-4 días máx. Congelador: 2-3 meses. ¡Etiqueta todo! Si no lo vas a comer para el jueves, congélalo el lunes."
+            },
+            "convenienceItems": {
+                "q": "¿Está bien usar verduras precortadas?",
+                "a": "Absolutamente. Si comprar cebollas picadas o pollo asado significa que cocinas en casa en lugar de pedir comida para llevar, es una victoria. ¡Usa atajos!"
+            },
+            "weightGainAfter40": {
+                "q": "¿Por qué gano peso con más facilidad después de los 40?",
+                "a": "El aumento de peso después de los 40 a menudo está relacionado con fluctuaciones hormonales, menor sensibilidad a la insulina y pérdida muscular relacionada con la edad (sarcopenia), lo que naturalmente reduce tu metabolismo. El estrés y los cambios en el sueño también pueden contribuir."
+            },
+            "dietaryChanges40": {
+                "q": "¿Cuáles son los cambios dietéticos más importantes después de los 40?",
+                "a": "Concéntrate en alimentos densos en nutrientes: frutas y verduras coloridas, granos enteros, proteínas magras y grasas saludables. Limita alimentos procesados, azúcares añadidos y sodio. La hidratación y la ingesta de calcio se vuelven cada vez más importantes."
+            },
+            "proteinNeeds40": {
+                "q": "¿Cuánta proteína necesitan los adultos mayores de 40?",
+                "a": "Los expertos recomiendan aumentar la ingesta de proteínas a 1.0–1.2 gramos por kg de peso corporal para mantener la masa muscular. Apunta a 20-30g de proteína de alta calidad por comida (carnes magras, pescado, huevos, lácteos u opciones vegetales)."
+            },
+            "boneHealth": {
+                "q": "¿Qué nutrientes son cruciales para la salud ósea?",
+                "a": "El calcio y la vitamina D son críticos. Las necesidades de calcio aumentan a 1,200 mg/día después de los 50. La vitamina D ayuda a la absorción. El magnesio y los ejercicios de soporte de peso también son vitales para mantener la densidad ósea."
+            },
+            "metabolismBoost": {
+                "q": "¿Cómo puedo acelerar mi metabolismo después de los 40?",
+                "a": "Prioriza el entrenamiento de fuerza para desarrollar músculo (que quema más calorías en reposo), come suficiente proteína, mantente hidratado con agua fría, duerme lo suficiente y no te saltes el desayuno para arrancar tu día."
+            },
+            "intermittentFasting": {
+                "q": "¿Es seguro el ayuno intermitente para mayores de 40?",
+                "a": "Puede ser beneficioso para la sensibilidad a la insulina y la inflamación, pero consulta a un médico primero. Las mujeres deben tener precaución ya que el ayuno estricto puede impactar las hormonas. Enfoques suaves como ventanas de 12:12 o 14:10 son mejores puntos de partida."
+            },
+            "cognitiveFoods": {
+                "q": "¿Qué alimentos ayudan a la salud cerebral y la memoria?",
+                "a": "La dieta MIND sugiere verduras de hoja verde, bayas (especialmente arándanos), nueces, pescado graso (rico en Omega-3), aceite de oliva y granos enteros. Reduce la carne roja, mantequilla, queso y alimentos fritos."
+            },
+            "vitaminB12": {
+                "q": "¿Por qué es importante la vitamina B12 al envejecer?",
+                "a": "El ácido estomacal disminuye con la edad, reduciendo la absorción de B12. La deficiencia causa fatiga y problemas cognitivos. Fuentes incluyen carne, pescado, huevos y cereales fortificados. Un suplemento puede ser necesario si eres mayor de 50 o vegano."
+            },
+            "adultAllergies": {
+                "q": "¿Pueden los adultos desarrollar nuevas alergias alimentarias?",
+                "a": "Sí, las alergias de aparición en adultos son posibles, incluso a alimentos consumidos durante años. Los desencadenantes comunes incluyen mariscos, frutos secos y ciertas frutas/verduras relacionadas con alergias al polen (Síndrome de Alergia Oral)."
+            },
+            "allergyVsIntolerance": {
+                "q": "¿Cuál es la diferencia entre alergia e intolerancia alimentaria?",
+                "a": "Una alergia es una reacción inmune (puede ser mortal) que aparece rápidamente. Una intolerancia (como la lactosa) es un problema digestivo que causa hinchazón/malestar generalmente horas después de comer, pero no es mortal."
+            },
+            "commonIntolerances": {
+                "q": "¿Cuáles son las intolerancias alimentarias comunes después de los 40?",
+                "a": "La intolerancia a la lactosa a menudo aumenta con la edad ya que la producción de enzima lactasa cae. La sensibilidad al gluten y a los FODMAPs (carbohidratos fermentables) también son comunes. Llevar un diario de alimentos ayuda a identificar desencadenantes."
+            },
+            "heartHealth40": {
+                "q": "¿Por qué es crítica la salud cardíaca después de los 40?",
+                "a": "Los factores de riesgo como el endurecimiento de las arterias y la acumulación de placa aumentan naturalmente. La hipertensión y el colesterol alto a menudo aparecen en esta década. Es el momento ideal para adoptar hábitos saludables para el corazón."
+            },
+            "protectHeart": {
+                "q": "¿Cómo puedo proteger mejor mi corazón?",
+                "a": "Sigue una dieta estilo mediterráneo, haz ejercicio 150 min/semana, maneja el estrés, deja de fumar y vigila tus números: presión arterial, colesterol y azúcar en sangre."
+            },
+            "digestiveIssues40": {
+                "q": "¿Por qué la digestión parece peor después de los 40?",
+                "a": "La digestión se ralentiza debido a menor producción de enzimas, menos ácido estomacal y cambios en el microbioma intestinal. Los cambios hormonales (especialmente menopausia) y el estrés también afectan la función intestinal."
+            },
+            "improveGutHealth": {
+                "q": "¿Cómo puedo mejorar mi salud intestinal?",
+                "a": "Come una diversidad de plantas ricas en fibra (30+ tipos por semana), incluye alimentos fermentados como yogur/kimchi, mantente hidratado, mastica bien y maneja el estrés."
+            },
+            "supplements40": {
+                "q": "¿Necesito suplementos después de los 40?",
+                "a": "Una dieta equilibrada es lo mejor, pero muchos mayores de 40 se benefician de Vitamina D, B12, Calcio, Magnesio u Omega-3. Consulta siempre a un profesional de la salud antes de empezar un régimen de suplementos."
+            },
+            "hydration40": {
+                "q": "¿Por qué es importante la hidratación al envejecer?",
+                "a": "Nuestra sensación de sed disminuye con la edad, aumentando el riesgo de deshidratación. La hidratación adecuada apoya la digestión, salud de las articulaciones, función cognitiva y niveles de energía. Prefiere agua sobre bebidas azucaradas."
+            },
+            "heartRiskFactors": {
+                "q": "¿Cuáles son los principales factores de riesgo de enfermedad cardíaca?",
+                "a": "Hipertensión, colesterol alto, tabaquismo, obesidad, diabetes e inactividad física. La historia familiar también juega un papel, haciendo que el cribado sea aún más importante."
+            },
+            "agingHeart": {
+                "q": "¿Cómo cambia el corazón con la edad?",
+                "a": "Los vasos sanguíneos pueden volverse más rígidos (elevando la presión), y el músculo cardíaco puede engrosarse o bombear un poco menos eficientemente durante el esfuerzo máximo. El cardio regular ayuda a mantener la elasticidad."
+            },
+            "heartWarningSigns": {
+                "q": "¿Qué señales de advertencia cardíaca vigilar?",
+                "a": "Dolor/opresión en el pecho, falta de aire, palpitaciones, fatiga inexplicable o hinchazón en tobillos. Los síntomas pueden ser sutiles, especialmente en mujeres. Busca atención médica para síntomas nuevos."
+            },
+            "commonDidgestiveProbs": {
+                "q": "¿Cuáles son los problemas digestivos comunes después de los 40?",
+                "a": "El reflujo ácido (ERGE), hinchazón, gases, estreñimiento y diverticulosis se vuelven más comunes. El tránsito más lento en el colon puede contribuir a la irregularidad."
+            },
+            "gutHealthSigns": {
+                "q": "¿Qué signos indican mala salud intestinal?",
+                "a": "Hinchazón frecuente, gases, acidez, evacuaciones irregulares o desarrollar nuevas sensibilidades a alimentos que solías comer sin problema pueden señalar desequilibrios intestinales."
+            },
+            "foodSensitivities40": {
+                "q": "¿Pueden desarrollarse sensibilidades alimentarias más tarde?",
+                "a": "Sí, la disminución de enzimas digestivas (como la lactasa) o cambios en el revestimiento intestinal pueden llevar a nuevas sensibilidades a lácteos, gluten u otros alimentos en la mediana edad."
+            },
+            "caloricNeeds40": {
+                "q": "¿Cambian mis necesidades calóricas después de los 40?",
+                "a": "Sí, la tasa metabólica típicamente disminuye, por lo que podrías necesitar menos calorías para mantener el peso. Enfócate en la calidad de los nutrientes sobre la cantidad—maximiza vitaminas/minerales por caloría."
+            },
+            "prioritizeFoods40": {
+                "q": "¿Qué alimentos debo priorizar?",
+                "a": "Prioriza fibra (verduras, frutas, frijoles), proteína magra para mantenimiento muscular y alimentos antiinflamatorios como pescado graso, aceite de oliva, nueces y bayas."
+            },
+            "managingSugar": {
+                "q": "¿Cómo puedo manejar mejor el azúcar en sangre?",
+                "a": "Combina carbohidratos con proteína y grasa para ralentizar la absorción. Elige carbohidratos complejos (avena, quinua) sobre azúcares simples. Caminar regularmente después de las comidas ayuda significativamente a bajar los picos de glucosa."
+            },
+            "oralAllergySyndrome": {
+                "q": "¿Qué es el Síndrome de Alergia Oral?",
+                "a": "Es cuando frutas/verduras crudas causan picazón en la boca porque sus proteínas se parecen al polen al que eres alérgico (abedul, ambrosía). Cocinar el alimento a menudo destruye la proteína y previene la reacción."
+            },
+            "suspectAllergy": {
+                "q": "¿Qué debo hacer si sospecho una alergia alimentaria?",
+                "a": "Consulta a un alergólogo para pruebas cutáneas o sanguíneas. No te autodiagnostiques, ya que las alergias verdaderas pueden ser peligrosas. Para intolerancias, una dieta de eliminación guiada por un dietista es el estándar de oro."
+            },
+            "manageCravings": {
+                "q": "¿Cómo lidio con los antojos de comida?",
+                "a": "Los antojos a menudo señalan azúcar en sangre irregular, estrés o falta de sueño. Asegurar proteína en cada comida, beber agua y dormir 7-8 horas puede reducirlos significativamente."
             }
         }
     },

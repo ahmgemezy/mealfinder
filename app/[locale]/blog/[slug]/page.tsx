@@ -8,6 +8,8 @@ import RelatedPosts from "@/components/blog/RelatedPosts";
 import TableOfContents from "@/components/blog/TableOfContents";
 import ReadingProgress from "@/components/blog/ReadingProgress";
 import ShareButtons from "@/components/blog/ShareButtons";
+import { getRandomMealWithFilters, getRandomMeal } from "@/lib/api";
+import TryThisRecipe from "@/components/blog/TryThisRecipe";
 
 type Props = {
     params: Promise<{ locale: string; slug: string }>;
@@ -71,6 +73,24 @@ export default async function BlogPostPage({ params }: Props) {
         month: 'long',
         day: 'numeric'
     });
+
+    // Try to find a relevant recipe based on post tags
+    let suggestedRecipe = null;
+
+    // 1. Try first tag
+    if (post.tags[0]) {
+        suggestedRecipe = await getRandomMealWithFilters({ search: post.tags[0] });
+    }
+
+    // 2. Try category if no tag match
+    if (!suggestedRecipe && post.category) {
+        suggestedRecipe = await getRandomMealWithFilters({ category: post.category });
+    }
+
+    // 3. Fallback to completely random
+    if (!suggestedRecipe) {
+        suggestedRecipe = await getRandomMeal();
+    }
 
     // JSON-LD Structured Data
     const jsonLd = {
@@ -169,7 +189,10 @@ export default async function BlogPostPage({ params }: Props) {
                 {/* Sidebar (Related Posts & TOC) */}
                 <div className="hidden lg:block">
                     <div className="sticky top-24 space-y-8">
-                        <TableOfContents />
+                        <div className="sticky top-24 space-y-8">
+                            <TableOfContents />
+                            {suggestedRecipe && <TryThisRecipe recipe={suggestedRecipe} />}
+                        </div>
                     </div>
                 </div>
             </div>

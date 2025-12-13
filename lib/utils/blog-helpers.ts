@@ -77,6 +77,51 @@ export function getRelatedPosts(currentSlug: string, limit: number = 3): BlogPos
 }
 
 /**
+ * Get related posts based on tags (for Recipe pages)
+ * Returns posts that share the most tags with the input list
+ */
+export function getRelatedPostsByTags(tags: string[], limit: number = 3): BlogPost[] {
+    if (!tags || tags.length === 0) return [];
+
+    const normalizedTags = tags.map(t => t.toLowerCase());
+
+    const scoredPosts = blogPosts
+        .map(post => {
+            let score = 0;
+            const postTags = post.tags.map(t => t.toLowerCase());
+
+            // Count overlapping tags
+            const matches = postTags.filter(tag =>
+                normalizedTags.some(inputTag => inputTag.includes(tag) || tag.includes(inputTag))
+            );
+
+            // Also check if category matches any tag
+            if (normalizedTags.some(t => t === post.category.toLowerCase())) {
+                matches.push(post.category);
+            }
+
+            score = matches.length;
+            return { post, score };
+        })
+        .filter(item => item.score > 0)
+        .sort((a, b) => b.score - a.score)
+        .slice(0, limit)
+        .map(item => item.post);
+
+    // If we don't have enough matches, fill with recent posts
+    if (scoredPosts.length < limit) {
+        const existingIds = new Set(scoredPosts.map(p => p.slug));
+        const fillerPosts = blogPosts
+            .filter(p => !existingIds.has(p.slug))
+            .slice(0, limit - scoredPosts.length);
+
+        return [...scoredPosts, ...fillerPosts];
+    }
+
+    return scoredPosts;
+}
+
+/**
  * Calculate read time based on word count
  * Average reading speed: 200 words per minute
  */

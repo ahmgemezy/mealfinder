@@ -14,6 +14,8 @@ import IngredientIcon from "@/components/recipes/IngredientIcon";
 import NutritionFacts from "@/components/recipes/NutritionFacts";
 import ShoppingList from "@/components/recipes/ShoppingList";
 import KitchenAppliances from "@/components/recipes/KitchenAppliances";
+import RelatedArticles from "@/components/recipes/RelatedArticles";
+import { getRelatedPostsByTags } from "@/lib/utils/blog-helpers";
 
 export const dynamic = "force-dynamic";
 
@@ -98,6 +100,15 @@ export default async function RecipePage({ params }: RecipePageProps) {
 
     // Get related recipes for the "You might also like" section
     const relatedRecipes = await getRelatedRecipes(recipe.category, recipe.id, 3);
+
+    // Get related blog posts based on recipe tags/category
+    // We combine category, area, and first 5 tags to matching
+    const contextTags = [
+        recipe.category,
+        recipe.area,
+        ...recipe.tags.slice(0, 5)
+    ].filter(Boolean);
+    const relatedArticles = getRelatedPostsByTags(contextTags, 3);
 
     // JSON-LD structured data for SEO - Enhanced for Google Rich Results
     // Addresses all Google Search Console warnings: nutrition, aggregateRating, video, prepTime, keywords
@@ -473,6 +484,11 @@ export default async function RecipePage({ params }: RecipePageProps) {
                             </div>
                         </div>
                     </section>
+                )}
+
+                {/* Related Blog Articles */}
+                {relatedArticles.length > 0 && (
+                    <RelatedArticles posts={relatedArticles} />
                 )}
             </article>
         </>
