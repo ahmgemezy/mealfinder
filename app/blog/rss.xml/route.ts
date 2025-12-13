@@ -19,7 +19,7 @@ export async function GET() {
       <guid>${baseUrl}/en/blog/${post.slug}</guid>
       <pubDate>${new Date(post.publishedDate).toUTCString()}</pubDate>
       <description><![CDATA[<img src="${post.featuredImage}" alt="${post.title}" />${post.excerpt}]]></description>
-      <category>${post.category}</category>
+      <category>${post.category?.replace(/&/g, '&amp;')}</category>
       <media:content url="${post.featuredImage?.replace(/&/g, '&amp;')}" medium="image" />
     </item>`).join('')}
   </channel>
