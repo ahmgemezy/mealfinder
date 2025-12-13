@@ -8,11 +8,12 @@
  *   npx ts-node scripts/generate-blog-post.ts --topic "Italian pasta" --category "Cuisine Exploration" --output
  */
 
-import { loadEnvConfig } from '@next/env';
+import nextEnv from '@next/env';
 import * as fs from 'fs';
 import * as path from 'path';
 
 // Load environment variables from .env* files
+const { loadEnvConfig } = nextEnv;
 loadEnvConfig(process.cwd());
 
 // ============================================================================
@@ -186,6 +187,81 @@ async function readWithJina(url: string): Promise<string> {
     } catch (error) {
         console.warn(`⚠️ Error reading ${url}: `, error);
         return "";
+    }
+}
+
+/**
+ * Search for images using JINA.ai Search API
+ * Returns validated image URLs for the given topic
+ */
+async function searchImagesWithJina(topic: string): Promise<string[]> {
+    const apiKey = process.env.JINA_API_KEY;
+
+    const headers: Record<string, string> = {
+        Accept: "application/json",
+    };
+
+    if (apiKey) {
+        headers["Authorization"] = `Bearer ${apiKey}`;
+    }
+
+    const query = `${topic} food photography high quality`;
+    const url = `${JINA_SEARCH_URL}${encodeURIComponent(query)}`;
+
+    console.log(`🔍 Searching JINA.ai for images: "${query}"...`);
+
+    try {
+        const response = await fetch(url, { headers });
+
+        if (!response.ok) {
+            console.warn(`⚠️ JINA image search failed: ${response.status}`);
+            return [];
+        }
+
+        const data = await response.json();
+        const results = data.data || [];
+
+        // Extract image URLs from search results
+        const imageUrls: string[] = [];
+
+        for (const result of results.slice(0, 10)) {
+            // Check if result URL is an image
+            const resultUrl = result.url || "";
+            if (/\.(jpg|jpeg|png|webp)(\?|$)/i.test(resultUrl)) {
+                imageUrls.push(resultUrl.split("?")[0]); // Remove query params
+            }
+
+            // Also extract images from content (if any)
+            const content = result.content || "";
+            const imgMatches = content.match(/https?:\/\/[^\s"')]+\.(jpg|jpeg|png|webp)/gi) || [];
+            for (const imgUrl of imgMatches.slice(0, 3)) {
+                const cleanUrl = imgUrl.split("?")[0];
+                if (!imageUrls.includes(cleanUrl)) {
+                    imageUrls.push(cleanUrl);
+                }
+            }
+        }
+
+        // Validate URLs are accessible (check first 5)
+        const validatedUrls: string[] = [];
+        for (const imgUrl of imageUrls.slice(0, 5)) {
+            try {
+                const checkResponse = await fetch(imgUrl, { method: "HEAD" });
+                if (checkResponse.ok) {
+                    validatedUrls.push(imgUrl);
+                    console.log(`  ✅ Valid image: ${imgUrl.slice(0, 60)}...`);
+                    if (validatedUrls.length >= 3) break; // Stop after 3 valid
+                }
+            } catch {
+                // Skip invalid URLs silently
+            }
+        }
+
+        console.log(`📸 Found ${validatedUrls.length} valid images from JINA`);
+        return validatedUrls;
+    } catch (error) {
+        console.error("❌ JINA image search error:", error);
+        return [];
     }
 }
 
@@ -364,15 +440,50 @@ Output ONLY the JSON object.`;
         if (!isValidRemoteImage) {
             console.log("⚠️ No valid featured image in generated content. Attempting to use source images...");
 
-            // Try to find a valid image in the available images list
-            const validSourceImage = availableImages.find(img => img.startsWith("http"));
+            // Blocklist of invalid image domains (social media CDNs, tracking, placeholders, etc.)
+            const BLOCKED_DOMAINS = [
+                "fbcdn.net", "facebook.com", "instagram.com", "twitter.com", "twimg.com",
+                "pinterest.com", "gravatar.com", "wp.com/latex", "googleusercontent.com",
+                "gstatic.com", "placeholder", "icon", "logo", "avatar",
+                // Tracking and analytics
+                "bluecava.com", "graph.", "sync.", "pixel", "beacon", "track",
+                "analytics", "ad.", "ads.", "doubleclick", "googlesyndication",
+                // Common bad patterns
+                "1x1", "spacer", "blank", "clear", "empty", "loading", "spinner"
+            ];
+
+            // Blocked filename patterns (tracking pixels, tiny images)
+            const BLOCKED_FILENAMES = /\/(ds|px|pixel|track|beacon|spacer|blank|clear|1x1|loading)\./i;
+
+            // Valid image extensions
+            const VALID_EXTENSIONS = /\.(jpg|jpeg|png|webp)(\?|$)/i;
+
+            // Filter available images for valid food photography
+            const validSourceImage = availableImages.find(img => {
+                if (!img.startsWith("http")) return false;
+                if (!VALID_EXTENSIONS.test(img)) return false;
+                if (BLOCKED_FILENAMES.test(img)) return false;
+                const lowerImg = img.toLowerCase();
+                return !BLOCKED_DOMAINS.some(domain => lowerImg.includes(domain));
+            });
 
             if (validSourceImage) {
                 console.log("✅ Using image from source content.");
-                selectedImage = validSourceImage;
+                selectedImage = validSourceImage.split("?")[0]; // Remove query params
             } else {
-                console.log("⚠️ No valid source images found. Using fallback.");
-                selectedImage = FALLBACK_IMAGES[Math.floor(Math.random() * FALLBACK_IMAGES.length)];
+                // Try JINA image search as primary fallback
+                console.log("⚠️ No valid source images. Searching JINA for topic-related images...");
+                const jinaImages = await searchImagesWithJina(topic);
+
+                if (jinaImages.length > 0) {
+                    console.log("✅ Using image from JINA search.");
+                    selectedImage = jinaImages[0];
+                } else {
+                    // Final fallback: clean Unsplash URLs (no query params)
+                    console.log("⚠️ JINA search returned no images. Using Unsplash fallback.");
+                    const fallback = FALLBACK_IMAGES[Math.floor(Math.random() * FALLBACK_IMAGES.length)];
+                    selectedImage = fallback.split("?")[0]; // Remove query params
+                }
             }
         }
 
