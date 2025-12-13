@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef, useCallback, useTransition } from "react";
 import { getRandomMeal } from "@/lib/api";
 import { Recipe } from "@/lib/types/recipe";
 import Button from "@/components/ui/Button";
@@ -16,7 +16,7 @@ export default function SurpriseMeModal() {
     const { isOpen, closeModal } = useSurpriseMe();
     const router = useRouter();
     const { addToast } = useToast();
-    const [isNavigating, setIsNavigating] = useState(false);
+    const [isPending, startTransition] = useTransition();
     const [recipe, setRecipe] = useState<Recipe | null>(null);
     const [isLoading, setIsLoading] = useState(false);
     const abortControllerRef = useRef<AbortController | null>(null);
@@ -58,7 +58,6 @@ export default function SurpriseMeModal() {
 
     useEffect(() => {
         if (isOpen) {
-            setIsNavigating(false);
             // Reset recipe when modal opens to prevent stale data
             setRecipe(null);
             fetchRandomMeal();
@@ -202,14 +201,15 @@ export default function SurpriseMeModal() {
                         variant="outline"
                         onClick={() => {
                             if (recipe) {
-                                setIsNavigating(true);
-                                router.push(getRecipeUrl(recipe.name, recipe.id));
+                                startTransition(() => {
+                                    router.push(getRecipeUrl(recipe.name, recipe.id));
+                                });
                             }
                         }}
                         className="w-full sm:w-auto"
-                        isLoading={isNavigating}
+                        isLoading={isPending}
                     >
-                        {!isNavigating && (
+                        {!isPending && (
                             <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                             </svg>
