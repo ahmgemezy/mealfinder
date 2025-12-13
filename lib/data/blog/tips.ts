@@ -1862,7 +1862,7 @@ With this guide, you’re set to host a stress-free, delicious Christmas dinner 
         author: "James Oliver",
         publishedDate: "2025-12-13",
         readTime: 20,
-        featuredImage: "https://images.unsplash.com/photo-1576867757603-05b29d84972c?w=800&q=80",
+        featuredImage: "https://images.unsplash.com/photo-1576867757603-05b29d84972c",
         excerpt: "Facing a holiday cooking disaster? This guide offers expert solutions to common Christmas kitchen mishaps, ensuring your festive feast is saved.",
         content: `
 # Christmas Kitchen SOS: Expert Solutions for Common Holiday Cooking Disasters
