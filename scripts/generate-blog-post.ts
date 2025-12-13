@@ -8,7 +8,6 @@
  *   npx ts-node scripts/generate-blog-post.ts --topic "Italian pasta" --category "Cuisine Exploration" --output
  */
 
-import 'dotenv/config';
 import * as fs from 'fs';
 import * as path from 'path';
 
