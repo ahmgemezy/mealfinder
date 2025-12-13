@@ -1421,13 +1421,13 @@ Try a large pot of chili or a versatile tomato sauce that can be used in multipl
 Whether you prefer the creative freedom of batch cooking or the structured efficiency of meal prep, finding the strategy that aligns with your lifestyle can enhance both your culinary satisfaction and time management. Experiment with both to discover your perfect food strategy.
         `
     }
-,
+    ,
     {
         slug: "is-an-air-fryer-worth-it-review",
         title: "Is an Air Fryer Worth It? An Honest Review After 6 Months of Daily Use",
         description: "In-depth review on whether an air fryer is worth the investment after extensive daily use.",
         category: "Kitchen Gear & Gadgets",
-        tags: ["Air Fryer","Kitchen Gadgets","Cooking Tips","Healthy Cooking","Appliance Review"],
+        tags: ["Air Fryer", "Kitchen Gadgets", "Cooking Tips", "Healthy Cooking", "Appliance Review"],
         author: "Priya Patel",
         publishedDate: "2025-12-12",
         readTime: 20,
@@ -1526,13 +1526,13 @@ They can if fatty foods are cooked at high temperatures without proper cleaning.
 Explore our [Dinner Recipes](/recipes?category=Dinner) to make the most of your air fryer!
         `
     }
-,
+    ,
     {
         slug: "art-of-grazing-table",
         title: "The Art of the Grazing Table: Abundant Spreads Made Simple",
         description: "Master the art of creating stunning grazing tables with our comprehensive guide. Perfect for any event.",
         category: "Entertaining & Hosting",
-        tags: ["Grazing Tables","Entertaining","Hosting","Food Art","Charcuterie"],
+        tags: ["Grazing Tables", "Entertaining", "Hosting", "Food Art", "Charcuterie"],
         author: "Marcus Chen",
         publishedDate: "2025-12-12",
         readTime: 20,
@@ -1681,13 +1681,13 @@ Key components include a variety of cheeses, cured meats, fresh and dried fruits
 Use cake stands, wooden blocks, or stacked items to create different levels, adding visual interest and making the table more engaging.
         `
     }
-,
+    ,
     {
         slug: "christmas-week-game-plan-daily-prep-schedule",
         title: "Christmas Week Game Plan: Your Daily Prep Schedule from Today to December 25",
         description: "Master Christmas with a day-by-day preparation guide to ensure a stress-free holiday season.",
         category: "Entertaining & Hosting",
-        tags: ["Christmas","Holiday Planning","Entertaining","Hosting","Family"],
+        tags: ["Christmas", "Holiday Planning", "Entertaining", "Hosting", "Family"],
         author: "Dr. Emily Foodsci",
         publishedDate: "2025-12-13",
         readTime: 20,
@@ -1737,11 +1737,11 @@ Christmas can be both a magical and overwhelming time, especially if you're the 
 - **Tips**: Assign someone to manage gift distribution and cleanup.
 
 ## Recommended Gear
-- [High-Quality Chef's Knife](https://www.amazon.com) - Essential for efficient meal prep.
-- [Heavy-Duty Mixing Bowls](https://www.amazon.com) - Necessary for mixing and serving.
-- [Digital Meat Thermometer](https://www.amazon.com) - Ensures perfect cooking temperatures.
-- [Durable Baking Sheets](https://www.amazon.com) - Ideal for baking and roasting.
-- [Multi-Use Slow Cooker](https://www.amazon.com) - Helpful for make-ahead meals.
+- [High-Quality Chef's Knife](https://www.amazon.com/s?k=high+quality+chef+knife) - Essential for efficient meal prep.
+- [Heavy-Duty Mixing Bowls](https://www.amazon.com/s?k=heavy+duty+mixing+bowls) - Necessary for mixing and serving.
+- [Digital Meat Thermometer](https://www.amazon.com/s?k=digital+meat+thermometer) - Ensures perfect cooking temperatures.
+- [Durable Baking Sheets](https://www.amazon.com/s?k=durable+baking+sheets) - Ideal for baking and roasting.
+- [Multi-Use Slow Cooker](https://www.amazon.com/s?k=slow+cooker) - Helpful for make-ahead meals.
 
 ## Frequently Asked Questions
 
@@ -1769,13 +1769,13 @@ Absolutely, combining both can save time and reduce stress, allowing you to focu
 By following this detailed schedule, you can ensure a seamless and joyful Christmas celebration, turning potential chaos into cherished memories.
         `
     }
-,
+    ,
     {
         slug: "still-havent-planned-christmas-dinner-complete-3-course-menu",
         title: "Still Haven't Planned Christmas Dinner? Here's Your Complete 3-Course Menu",
         description: "Craft a perfect last-minute Christmas dinner with our essential 3-course menu guide.",
         category: "Quick & Easy",
-        tags: ["Christmas","Dinner","Recipes","3-Course","Easy"],
+        tags: ["Christmas", "Dinner", "Recipes", "3-Course", "Easy"],
         author: "Priya Patel",
         publishedDate: "2025-12-13",
         readTime: 20,

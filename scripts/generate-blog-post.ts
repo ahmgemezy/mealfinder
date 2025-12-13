@@ -299,11 +299,10 @@ Requirements for "Real Added Value":
    - You MUST insert links to internal recipe categories where relevant.
    - Use the format: \`[Category Name Recipes](/recipes?category=CategoryName)\`.
    - Examples: "Check out our [Chicken Recipes](/recipes?category=Chicken)" or "perfect for [Breakfast](/recipes?category=Breakfast)".
-4. **"Recommended Gear" Section (Affiliate)**:
-   - Based on the "Potential Products" provided in source material.
    - List 3-5 specific tools/products.
    - Format: \`[Product Name](amazon_link_from_source) - Why it's good.\`
-   - If no links provided, suggest generic top-tier tools.
+   - **CRITICAL**: If no specific link is provided in the source, you MUST generate an Amazon Search URL: \`https://www.amazon.com/s?k=Product+Name\`.
+   - **NEVER** use the generic homepage \`https://www.amazon.com\` or \`https://amazon.com\` as a standalone link. Links must direct to a product or a search page.
 5. **FAQ Section (Crucial for SEO)**:
    - Include a section at the end: "## Frequently Asked Questions".
    - Answer 5-7 specific questions from the "Common Questions" source material.
