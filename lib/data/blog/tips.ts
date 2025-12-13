@@ -1853,17 +1853,17 @@ With this guide, you’re set to host a stress-free, delicious Christmas dinner 
         `
     }
 
-,
+    ,
     {
         slug: "no-fail-christmas-side-dishes",
         title: "7 No-Fail Christmas Side Dishes You Can Prep This Weekend",
         description: "Discover easy, make-ahead Christmas side dishes that ensure a stress-free holiday meal.",
         category: "Quick & Easy",
-        tags: ["Christmas","Holiday Cooking","Side Dishes","Make-Ahead","Easy Recipes"],
+        tags: ["Christmas", "Holiday Cooking", "Side Dishes", "Make-Ahead", "Easy Recipes"],
         author: "Elena Rodriguez",
         publishedDate: "2025-12-13",
         readTime: 20,
-        featuredImage: "https://www.youtube.com/watch?v=YH3wDjTOpRY",
+        featuredImage: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd",
         excerpt: "Simplify your holiday cooking with these 7 no-fail Christmas side dishes that you can prepare in advance. From casseroles to roasted veggies, these recipes are designed to minimize stress and maximize flavor.",
         content: `
 ## Introduction
