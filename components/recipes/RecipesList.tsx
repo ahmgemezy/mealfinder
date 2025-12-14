@@ -49,6 +49,7 @@ function RecipesContent() {
     const currentPage = parseInt(searchParams.get("page") || "1", 10);
 
     const [recipes, setRecipes] = useState<Recipe[]>([]);
+    const [totalItems, setTotalItems] = useState(0); // Track total count for pagination
     const [isLoading, setIsLoading] = useState(true);
     const [categories, setCategories] = useState<string[]>([]);
     const [areas, setAreas] = useState<string[]>([]);
@@ -140,6 +141,8 @@ function RecipesContent() {
             // If the API supported offset natively for everything, we'd pass offset.
             // Here we slice the full result set.
             const totalRecipes = uniqueRecipes.length;
+            setTotalItems(totalRecipes); // Store total count
+
             const startIndex = (currentPage - 1) * RECIPES_PER_PAGE;
             const endIndex = startIndex + RECIPES_PER_PAGE;
 
@@ -368,25 +371,92 @@ function RecipesContent() {
                         </div>
 
                         {/* Standard Pagination Configured for Bots */}
-                        <div className="mt-12 flex justify-center gap-4">
-                            {currentPage > 1 && (
-                                <Link
-                                    href={getPageLink(currentPage - 1)}
-                                    className="px-6 py-3 bg-card border border-border rounded-xl hover:bg-accent transition-colors font-bold"
-                                >
-                                    ← Previous
-                                </Link>
-                            )}
-                            {/* Simple Next button - purely existence proof for now as we don't know total pages efficiently from MealDB sometimes */}
-                            {recipes.length === RECIPES_PER_PAGE && (
-                                <Link
-                                    href={getPageLink(currentPage + 1)}
-                                    className="px-6 py-3 bg-card border border-border rounded-xl hover:bg-accent transition-colors font-bold"
-                                >
-                                    Next →
-                                </Link>
-                            )}
-                        </div>
+                        {totalItems > RECIPES_PER_PAGE && (
+                            <div className="mt-12 flex justify-center flex-wrap gap-2">
+                                {/* Previous Button */}
+                                {currentPage > 1 && (
+                                    <Link
+                                        href={getPageLink(currentPage - 1)}
+                                        className="px-4 py-2 bg-card border border-border rounded-lg hover:bg-accent transition-colors font-medium flex items-center"
+                                        aria-label={t('previousPage')}
+                                    >
+                                        ←
+                                    </Link>
+                                )}
+
+                                {/* Numbered Pages */}
+                                {(() => {
+                                    const totalPages = Math.ceil(totalItems / RECIPES_PER_PAGE);
+                                    const windowSize = 5; // Show 5 numbers at a time
+                                    const range: (number | string)[] = [];
+
+                                    if (totalPages <= windowSize + 2) {
+                                        // Show all pages if total is small
+                                        for (let i = 1; i <= totalPages; i++) range.push(i);
+                                    } else {
+                                        // Complex logic for sliding window
+                                        const leftSiblingIndex = Math.max(currentPage - 1, 1);
+                                        const rightSiblingIndex = Math.min(currentPage + 1, totalPages);
+                                        const shouldShowLeftDots = leftSiblingIndex > 2;
+                                        const shouldShowRightDots = rightSiblingIndex < totalPages - 2;
+
+                                        if (!shouldShowLeftDots && shouldShowRightDots) {
+                                            const leftItemCount = 3 + 2 * 1;
+                                            for (let i = 1; i <= leftItemCount; i++) range.push(i);
+                                            range.push('...');
+                                            range.push(totalPages);
+                                        } else if (shouldShowLeftDots && !shouldShowRightDots) {
+                                            const rightItemCount = 3 + 2 * 1;
+                                            range.push(1);
+                                            range.push('...');
+                                            for (let i = totalPages - rightItemCount + 1; i <= totalPages; i++) range.push(i);
+                                        } else {
+                                            range.push(1);
+                                            range.push('...');
+                                            for (let i = leftSiblingIndex; i <= rightSiblingIndex; i++) range.push(i);
+                                            range.push('...');
+                                            range.push(totalPages);
+                                        }
+                                    }
+
+                                    return range.map((page, index) => {
+                                        if (page === '...') {
+                                            return (
+                                                <span key={`dots-${index}`} className="px-4 py-2 text-muted-foreground">
+                                                    ...
+                                                </span>
+                                            );
+                                        }
+                                        const pageNum = page as number;
+                                        const isActive = pageNum === currentPage;
+                                        return (
+                                            <Link
+                                                key={pageNum}
+                                                href={getPageLink(pageNum)}
+                                                className={`px-4 py-2 rounded-lg border transition-colors font-medium ${isActive
+                                                        ? 'bg-primary-600 text-white border-primary-600'
+                                                        : 'bg-card border-border hover:bg-accent'
+                                                    }`}
+                                                aria-current={isActive ? 'page' : undefined}
+                                            >
+                                                {pageNum}
+                                            </Link>
+                                        );
+                                    });
+                                })()}
+
+                                {/* Next Button */}
+                                {currentPage < Math.ceil(totalItems / RECIPES_PER_PAGE) && (
+                                    <Link
+                                        href={getPageLink(currentPage + 1)}
+                                        className="px-4 py-2 bg-card border border-border rounded-lg hover:bg-accent transition-colors font-medium flex items-center"
+                                        aria-label={t('nextPage')}
+                                    >
+                                        →
+                                    </Link>
+                                )}
+                            </div>
+                        )}
                     </>
                 ) : (
                     <div className="text-center py-16">
