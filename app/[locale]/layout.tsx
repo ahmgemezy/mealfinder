@@ -41,6 +41,19 @@ const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://dishshuffle.com";
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params;
 
+  // Base alternates that apply to all pages
+  // Next.js will automatically merge these with page-specific metadata
+  // and handle the path concatenation
+  const alternates = {
+    canonical: `${baseUrl}/${locale}`,
+    languages: {
+      'en': `${baseUrl}/en`,
+      'fr': `${baseUrl}/fr`,
+      'es': `${baseUrl}/es`,
+      'x-default': `${baseUrl}/en`,
+    },
+  };
+
   return {
     title: {
       default: "Dish Shuffle - Discover Your Next Meal",
@@ -74,7 +87,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
       description:
         "Discover delicious recipes from around the world. Get random meal suggestions and find your next favorite dish.",
       images: ["/og-image.jpg"],
-      creator: "@whattoeat",
+      creator: "@dishshuffle",
     },
     robots: {
       index: true,
@@ -87,14 +100,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
         "max-snippet": -1,
       },
     },
-    alternates: {
-      canonical: `${baseUrl}/${locale}`,
-      languages: {
-        en: `${baseUrl}/en`,
-        fr: `${baseUrl}/fr`,
-        es: `${baseUrl}/es`,
-      },
-    },
+    alternates,
     manifest: "/site.webmanifest",
     other: {
       "google-adsense-account": "ca-pub-2393924023690242",

@@ -17,139 +17,136 @@ function generateSlug(name: string, id: string): string {
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     // Use custom site URL or production domain as fallback
     const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://dishshuffle.com";
+    const locales = ['en', 'fr', 'es'];
 
-    // Static routes - Main pages
-    const staticRoutes: MetadataRoute.Sitemap = [
-        {
-            url: `${baseUrl}/en`,
-            lastModified: new Date(),
-            changeFrequency: "daily",
-            priority: 1,
-        },
-        {
-            url: `${baseUrl}/en/surprise-me`,
-            lastModified: new Date(),
-            changeFrequency: "daily",
-            priority: 0.9,
-        },
-        {
-            url: `${baseUrl}/en/recipes`,
-            lastModified: new Date(),
-            changeFrequency: "daily",
-            priority: 0.8,
-        },
-        {
-            url: `${baseUrl}/en/blog`,
-            lastModified: new Date(),
-            changeFrequency: "daily",
-            priority: 0.8,
-        },
-        {
-            url: `${baseUrl}/en/faq`,
-            lastModified: new Date(),
-            changeFrequency: "weekly",
-            priority: 0.7,
-        },
+    const allRoutes: MetadataRoute.Sitemap = [];
+
+    // Helper to add routes for all locales
+    const addMultilingualRoute = (path: string, priority: number, changeFrequency: "daily" | "weekly" | "monthly") => {
+        locales.forEach(locale => {
+            allRoutes.push({
+                url: `${baseUrl}/${locale}${path}`,
+                lastModified: new Date(),
+                changeFrequency,
+                priority,
+                alternates: {
+                    languages: {
+                        en: `${baseUrl}/en${path}`,
+                        fr: `${baseUrl}/fr${path}`,
+                        es: `${baseUrl}/es${path}`,
+                    }
+                }
+            });
+        });
+    };
+
+    // 1. Static Routes
+    const staticPaths = [
+        { path: '', priority: 1, freq: 'daily' },
+        { path: '/surprise-me', priority: 0.9, freq: 'daily' },
+        { path: '/recipes', priority: 0.8, freq: 'daily' },
+        { path: '/blog', priority: 0.8, freq: 'daily' },
+        { path: '/faq', priority: 0.7, freq: 'weekly' },
+        { path: '/privacy-policy', priority: 0.3, freq: 'monthly' },
+        { path: '/terms-of-service', priority: 0.3, freq: 'monthly' },
+        { path: '/cookies-policy', priority: 0.3, freq: 'monthly' },
     ];
 
-    // Legal pages
-    const legalRoutes: MetadataRoute.Sitemap = [
-        {
-            url: `${baseUrl}/en/privacy-policy`,
-            lastModified: new Date(),
-            changeFrequency: "monthly",
-            priority: 0.3,
-        },
-        {
-            url: `${baseUrl}/en/terms-of-service`,
-            lastModified: new Date(),
-            changeFrequency: "monthly",
-            priority: 0.3,
-        },
-        {
-            url: `${baseUrl}/en/cookies-policy`,
-            lastModified: new Date(),
-            changeFrequency: "monthly",
-            priority: 0.3,
-        },
-    ];
+    staticPaths.forEach(({ path, priority, freq }) => {
+        addMultilingualRoute(path, priority, freq as any);
+    });
 
-    // Dynamic routes for Categories
-    const categoryRoutes: MetadataRoute.Sitemap = RECIPE_CATEGORIES.map((category) => ({
-        url: `${baseUrl}/en/recipes?category=${encodeURIComponent(category)}`,
-        lastModified: new Date(),
-        changeFrequency: "weekly",
-        priority: 0.7,
-    }));
+    // 2. Dynamic Routes: Categories & Areas
+    RECIPE_CATEGORIES.forEach((category) => {
+        const path = `/recipes?category=${encodeURIComponent(category)}`;
+        // Note: Query params are tricky with canonicals/sitemaps but included here for discovery
+        // Ideally should be static pages like /recipes/category/[name]
+        locales.forEach(locale => {
+            allRoutes.push({
+                url: `${baseUrl}/${locale}${path}`,
+                lastModified: new Date(),
+                changeFrequency: 'weekly',
+                priority: 0.7,
+            });
+        });
+    });
 
-    // Dynamic routes for Areas
-    const areaRoutes: MetadataRoute.Sitemap = RECIPE_AREAS.map((area) => ({
-        url: `${baseUrl}/en/recipes?area=${encodeURIComponent(area)}`,
-        lastModified: new Date(),
-        changeFrequency: "weekly",
-        priority: 0.7,
-    }));
+    RECIPE_AREAS.forEach((area) => {
+        const path = `/recipes?area=${encodeURIComponent(area)}`;
+        locales.forEach(locale => {
+            allRoutes.push({
+                url: `${baseUrl}/${locale}${path}`,
+                lastModified: new Date(),
+                changeFrequency: 'weekly',
+                priority: 0.7,
+            });
+        });
+    });
 
-    // Individual recipe pages from Supabase
-    let recipeRoutes: MetadataRoute.Sitemap = [];
+    // 3. Blog Posts
+    const blogPosts = getAllPostsMetadata();
+    blogPosts.forEach((post) => {
+        locales.forEach(locale => {
+            allRoutes.push({
+                url: `${baseUrl}/${locale}/blog/${post.slug}`,
+                lastModified: new Date(post.publishedDate),
+                changeFrequency: 'monthly',
+                priority: 0.7,
+                alternates: {
+                    languages: {
+                        en: `${baseUrl}/en/blog/${post.slug}`,
+                        fr: `${baseUrl}/fr/blog/${post.slug}`,
+                        es: `${baseUrl}/es/blog/${post.slug}`,
+                    }
+                }
+            });
+        });
+    });
 
+    // 4. Recipes
     try {
-        // Fetch all recipes from Supabase (up to 10,000)
-        // Note: The recipes table stores name inside a 'data' JSONB column
+        // Fetch all recipes from Supabase (limit increased to 50k)
+        console.log("Sitemap: Fetching recipes...");
         const { data: recipes, error } = await supabase
             .from('recipes')
-            .select('id, data, created_at')
-            .limit(10000); // Increased from default 1000
+            // Fetch only the name from the JSONB column to save memory
+            // 'data->name' extracts just the name field maintaining the structure { data: { name: "..." } }
+            .select('id, data->name, created_at')
+            .limit(50000);
 
         if (error) {
             console.error("Supabase error fetching recipes for sitemap:", error);
         } else if (recipes && recipes.length > 0) {
-            console.log(`Sitemap: Found ${recipes.length} recipes in Supabase`);
-            recipeRoutes = recipes
-                .filter((recipe) => recipe.data?.name) // Only include recipes with a name
-                .map((recipe) => ({
-                    url: `${baseUrl}/en/recipes/${generateSlug(recipe.data.name, recipe.id)}`,
-                    lastModified: recipe.created_at ? new Date(recipe.created_at) : new Date(),
-                    changeFrequency: "weekly" as const,
-                    priority: 0.6,
-                }));
-        } else {
-            console.log("Sitemap: No recipes found in Supabase");
+            console.log(`Sitemap: Found ${recipes.length} recipes`);
+
+            recipes.forEach((recipe) => {
+                // When selecting 'data->name', Supabase returns it as 'name' property
+                const name = recipe.name as string;
+                if (!name) return;
+
+                const slug = generateSlug(name, recipe.id);
+
+                locales.forEach(locale => {
+                    allRoutes.push({
+                        url: `${baseUrl}/${locale}/recipes/${slug}`,
+                        lastModified: recipe.created_at ? new Date(recipe.created_at) : new Date(),
+                        changeFrequency: 'weekly',
+                        priority: 0.6,
+                        alternates: {
+                            languages: {
+                                en: `${baseUrl}/en/recipes/${slug}`,
+                                fr: `${baseUrl}/fr/recipes/${slug}`,
+                                es: `${baseUrl}/es/recipes/${slug}`,
+                            }
+                        }
+                    });
+                });
+            });
         }
     } catch (error) {
         console.error("Error fetching recipes for sitemap:", error);
     }
 
-    // Blog post routes
-    const blogPosts = getAllPostsMetadata();
-    const blogUrls = blogPosts.map((post) => ({
-        url: `${baseUrl}/en/blog/${post.slug}`,
-        lastModified: new Date(post.publishedDate),
-        changeFrequency: "monthly" as const,
-        priority: 0.7,
-        alternates: {
-            languages: {
-                en: `${baseUrl}/en/blog/${post.slug}`,
-                fr: `${baseUrl}/fr/blog/${post.slug}`,
-                es: `${baseUrl}/es/blog/${post.slug}`,
-            },
-        },
-    }));
-
-    // Add blog index page
-    const blogIndex = {
-        url: `${baseUrl}/en/blog`,
-        lastModified: new Date(),
-        changeFrequency: "weekly" as const,
-        priority: 0.8,
-        alternates: {
-            languages: {
-                en: `${baseUrl}/en/blog`,
-                fr: `${baseUrl}/fr/blog`,
-                es: `${baseUrl}/es/blog`,
-            },
-        },
-    };
-
-    return [...staticRoutes, ...legalRoutes, ...categoryRoutes, ...areaRoutes, ...recipeRoutes, blogIndex, ...blogUrls];
+    console.log(`Sitemap: Generated ${allRoutes.length} URLs`);
+    return allRoutes;
 }

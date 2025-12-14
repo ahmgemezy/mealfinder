@@ -17,7 +17,35 @@ import KitchenAppliances from "@/components/recipes/KitchenAppliances";
 import RelatedArticles from "@/components/recipes/RelatedArticles";
 import { getRelatedPostsByTags } from "@/lib/utils/blog-helpers";
 
-export const dynamic = "force-dynamic";
+import { supabase } from "@/lib/supabase";
+
+export const dynamic = "force-static";
+export const revalidate = 86400; // Revalidate daily
+
+export async function generateStaticParams() {
+    const { data: recipes } = await supabase
+        .from('recipes')
+        .select('id, data')
+        .limit(10000);
+
+    if (!recipes) return [];
+
+    const locales = ['en', 'fr', 'es'];
+    const params = [];
+
+    for (const recipe of recipes) {
+        if (!recipe.data?.name) continue;
+
+        // Generate slug (must match generateSlug in sitemap logic)
+        const slug = `${recipe.data.name.toLowerCase().replace(/[^a-z0-9\s-]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-').trim()}-${recipe.id}`;
+
+        for (const locale of locales) {
+            params.push({ id: slug, locale });
+        }
+    }
+
+    return params;
+}
 
 interface RecipePageProps {
     params: Promise<{ id: string; locale: string }>;
@@ -37,10 +65,13 @@ export async function generateMetadata({
         };
     }
 
-    const description = (recipe.instructions || '')
-        .replace(/\s+/g, ' ')
-        .trim()
-        .slice(0, 155) + "...";
+    // CTR-Optimized Description
+    const prepTime = recipe.readyInMinutes ? `${recipe.readyInMinutes} min` : '';
+    const category = recipe.category || 'Delicious';
+    const area = recipe.area || 'International';
+
+    // "Learn how to make Spaghetti Carbonara. Italian Main Course dish ready in 45 min. Perfect for dinner..."
+    const description = `Learn how to make ${recipe.name}. ${area} ${category} dish${prepTime ? ` ready in ${prepTime}` : ''}. Perfect for your next meal! ${recipe.instructions ? recipe.instructions.slice(0, 50) : ''}...`.replace(/\s+/g, ' ').trim().slice(0, 155);
 
     const recipeUrl = `https://dishshuffle.com/${locale}/recipes/${slug}`;
     const imageUrl = recipe.thumbnail || 'https://dishshuffle.com/logo-final.png';
