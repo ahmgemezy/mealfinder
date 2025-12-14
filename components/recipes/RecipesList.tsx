@@ -361,10 +361,32 @@ function RecipesContent() {
 
                 {/* Results */}
                 {isLoading ? (
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                        {Array.from({ length: 8 }).map((_, i) => (
-                            <RecipeCardSkeleton key={i} />
-                        ))}
+                    <div className="space-y-8">
+                        <div className="flex flex-col items-center justify-center gap-4 py-12 animate-in fade-in duration-500">
+                            <div className="relative">
+                                {/* Steam Animation */}
+                                <div className="absolute -top-6 left-1/2 -translate-x-1/2 flex gap-1.5 opacity-70">
+                                    <div className="w-1.5 h-3 bg-primary-400 rounded-full animate-bounce [animation-delay:-0.3s]"></div>
+                                    <div className="w-1.5 h-5 bg-primary-400 rounded-full animate-bounce [animation-delay:-0.15s]"></div>
+                                    <div className="w-1.5 h-3 bg-primary-400 rounded-full animate-bounce [animation-delay:-0.4s]"></div>
+                                </div>
+                                {/* Bouncing Pot */}
+                                <div className="text-6xl animate-bounce [animation-duration:2s]">
+                                    🍲
+                                </div>
+                            </div>
+                            <div className="text-center space-y-2">
+                                <p className="text-xl font-display font-bold text-primary-600 dark:text-primary-400 animate-pulse">
+                                    {t('preparingRecipes')}
+                                </p>
+                                <p className="text-muted-foreground font-medium">{t('justAMoment')}</p>
+                            </div>
+                        </div>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 opacity-50">
+                            {Array.from({ length: 8 }).map((_, i) => (
+                                <RecipeCardSkeleton key={i} />
+                            ))}
+                        </div>
                     </div>
                 ) : recipes.length > 0 ? (
                     <>
