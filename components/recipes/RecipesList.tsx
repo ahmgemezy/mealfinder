@@ -141,14 +141,22 @@ function RecipesContent() {
             // If the API supported offset natively for everything, we'd pass offset.
             // Here we slice the full result set.
             const totalRecipes = uniqueRecipes.length;
-            setTotalItems(totalRecipes); // Store total count
-
-            const startIndex = (currentPage - 1) * RECIPES_PER_PAGE;
-            const endIndex = startIndex + RECIPES_PER_PAGE;
 
             // If it's random/default, we just show what we fetched (API returns limited count)
             // If it's a search/filter, we slice
             const isRandom = !searchQuery && !selectedCategory && !selectedArea && !selectedDiet;
+
+            if (isRandom) {
+                // For random Browse mode, we want to allow endless Next clicks
+                // So we pretend we have many items to force pagination to show
+                setTotalItems(10000);
+            } else {
+                setTotalItems(totalRecipes);
+            }
+
+            const startIndex = (currentPage - 1) * RECIPES_PER_PAGE;
+            const endIndex = startIndex + RECIPES_PER_PAGE;
+
             const paginatedRecipes = isRandom ? uniqueRecipes : uniqueRecipes.slice(startIndex, endIndex);
 
             setRecipes(paginatedRecipes);
@@ -434,8 +442,8 @@ function RecipesContent() {
                                                 key={pageNum}
                                                 href={getPageLink(pageNum)}
                                                 className={`px-4 py-2 rounded-lg border transition-colors font-medium ${isActive
-                                                        ? 'bg-primary-600 text-white border-primary-600'
-                                                        : 'bg-card border-border hover:bg-accent'
+                                                    ? 'bg-primary-600 text-white border-primary-600'
+                                                    : 'bg-card border-border hover:bg-accent'
                                                     }`}
                                                 aria-current={isActive ? 'page' : undefined}
                                             >

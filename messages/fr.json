@@ -116,7 +116,9 @@
         "noInstructionsAvailable": "Les instructions ne sont pas disponibles pour cette recette.",
         "viewOriginalRecipe": "Voir la recette originale",
         "videoTutorial": "Tutoriel vidéo",
-        "youMightAlsoLike": "Vous pourriez aussi aimer"
+        "youMightAlsoLike": "Vous pourriez aussi aimer",
+        "previousPage": "Page précédente",
+        "nextPage": "Page suivante"
     },
     "Favorites": {
         "title": "Vos Favoris",
