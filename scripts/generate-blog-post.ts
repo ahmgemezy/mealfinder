@@ -533,7 +533,7 @@ function saveBlogPost(post: GeneratedBlogPost): string {
     const filePath = path.join(process.cwd(), 'lib/data/blog', filename);
 
     // Read file
-    let content = fs.readFileSync(filePath, 'utf-8');
+    const content = fs.readFileSync(filePath, 'utf-8');
 
     // Find the end of the array
     const lastBracketIndex = content.lastIndexOf('];');
@@ -720,7 +720,7 @@ async function main() {
                     fs.mkdirSync(dir, { recursive: true });
                 }
 
-                fs.writeFileSync(infographicPath, imageBuffer as any); // Cast to any to avoid type check issues with Buffer vs ArrayBuffer in this env
+                fs.writeFileSync(infographicPath, imageBuffer);
                 console.log(`✅ Infographic saved to public/blog/${infographicFilename}`);
 
                 // Insert into content

@@ -181,10 +181,9 @@ async function fetchFromMealDB<T>(
         });
         clearTimeout(timeoutId);
 
-        if (response.status === 429 && retries > 0) {
-            // Rate limited, wait and retry
-            await wait(backoff);
-            return fetchFromMealDB<T>(endpoint, params, options, retries - 1, backoff * 2);
+        if (response.status === 429) {
+            console.warn("MealDB API rate limit hit. Skipping retry to fail fast.");
+            throw new Error("MealDB API rate limit exceeded");
         }
 
         if (!response.ok) {
@@ -560,7 +559,13 @@ export async function getRandomRecipesFromSupabase(count: number, excludeIds: st
 /**
  * Get recipes from Supabase with filters
  */
-export async function getRecipesFromSupabase(category?: string, area?: string, diet?: string): Promise<Recipe[]> {
+export async function getRecipesFromSupabase(
+    category?: string,
+    area?: string,
+    diet?: string,
+    offset: number = 0,
+    limit: number = 20
+): Promise<Recipe[]> {
     if (!isSupabaseConfigured()) return [];
 
     try {
@@ -584,18 +589,22 @@ export async function getRecipesFromSupabase(category?: string, area?: string, d
         if (diet) {
             // Tags is an array in the JSON. Use contains operator for arrays
             // We check for both the exact diet string and a lowercase version to be safe
-            // Using .or() with the containment operator (cs)
+            // Using .or() with the containment operator (cs) for JSONB requires JSON array syntax []
             const dietLower = diet.toLowerCase();
             const dietProper = diet.charAt(0).toUpperCase() + diet.slice(1).toLowerCase();
 
+            // JSON stringify the array values to ensure correct JSON syntax (e.g. ["Paleo"])
+            const dietArr = JSON.stringify([diet]);
+            const dietLowerArr = JSON.stringify([dietLower]);
+            const dietProperArr = JSON.stringify([dietProper]);
+
             // Construct filter string for .or()
             // This checks if tags contains [diet] OR [dietLower] OR [dietProper]
-            // Note: This assumes diet doesn't contain commas or special chars that break the syntax
-            query = query.or(`data->tags.cs.{${diet}},data->tags.cs.{${dietLower}},data->tags.cs.{${dietProper}}`);
+            query = query.or(`data->tags.cs.${dietArr},data->tags.cs.${dietLowerArr},data->tags.cs.${dietProperArr}`);
         }
 
-        // Limit to reasonable amount, but high enough to be useful
-        query = query.limit(100);
+        // Apply pagination
+        query = query.range(offset, offset + limit - 1);
 
         const { data, error } = await query;
 
@@ -605,6 +614,52 @@ export async function getRecipesFromSupabase(category?: string, area?: string, d
     } catch (error) {
         console.error("Error fetching filtered recipes from Supabase:", error);
         return [];
+    }
+}
+
+/**
+ * Get count of recipes from Supabase with filters
+ */
+export async function countRecipesInSupabase(
+    category?: string,
+    area?: string,
+    diet?: string
+): Promise<number> {
+    if (!isSupabaseConfigured()) return 0;
+
+    try {
+        let query = supabase
+            .from('recipes')
+            .select('id', { count: 'exact', head: true });
+
+        if (category) {
+            query = query.eq('data->>category', category);
+        }
+
+        if (area) {
+            query = query.eq('data->>area', area);
+        }
+
+        if (diet) {
+            const dietLower = diet.toLowerCase();
+            const dietProper = diet.charAt(0).toUpperCase() + diet.slice(1).toLowerCase();
+            const dietArr = JSON.stringify([diet]);
+            const dietLowerArr = JSON.stringify([dietLower]);
+            const dietProperArr = JSON.stringify([dietProper]);
+            query = query.or(`data->tags.cs.${dietArr},data->tags.cs.${dietLowerArr},data->tags.cs.${dietProperArr}`);
+        }
+
+        const { count, error } = await query;
+
+        if (error) {
+            console.error("Error counting filtered recipes in Supabase:", error);
+            return 0;
+        }
+
+        return count || 0;
+    } catch (error) {
+        console.error("Error counting filtered recipes in Supabase:", error);
+        return 0;
     }
 }
 
@@ -686,6 +741,21 @@ export async function getRandomRecipeFromSupabaseWithFilters(filters: MealFilter
  */
 export async function getRelatedRecipes(category: string, currentId: string, count: number = 3): Promise<Recipe[]> {
     try {
+        // 1. Try Supabase first
+        // Reuse the existing getRecipesFromSupabase function to fetch by category
+        const dbRecipes = await getRecipesFromSupabase(category);
+
+        if (dbRecipes.length > 0) {
+            const validDbRecipes = dbRecipes.filter(r => r.id !== currentId);
+
+            if (validDbRecipes.length >= count) {
+                // Shuffle and return
+                const shuffled = [...validDbRecipes].sort(() => 0.5 - Math.random());
+                return shuffled.slice(0, count);
+            }
+        }
+
+        // 2. Fallback to API if DB doesn't have enough
         // Fetch all meals in the category
         const data = await fetchFromMealDB<MealDBResponse>("filter.php", { c: category });
 

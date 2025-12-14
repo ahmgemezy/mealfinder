@@ -134,10 +134,11 @@ export async function updateRecipeYoutubeUrl(
             return;
         }
 
-        // Update the recipe with the YouTube URL
+        // Update the recipe with the YouTube URL and current timestamp
         const updatedRecipe: Recipe = {
             ...(existingData.data as Recipe),
             youtube: youtubeUrl,
+            videoLastChecked: new Date().toISOString(),
         };
 
         // Save back to Supabase
@@ -157,6 +158,41 @@ export async function updateRecipeYoutubeUrl(
         devLog.log(`Cached YouTube video for recipe ${recipeId}: ${youtubeUrl}`);
     } catch (error) {
         console.error('Error caching YouTube video:', error);
+    }
+}
+
+/**
+ * Update the last checked timestamp for a recipe's video
+ * Call this when a video is confirmed to be valid to reset the 30-day timer
+ */
+export async function touchRecipeVideoTimestamp(recipeId: string): Promise<void> {
+    if (!isSupabaseConfigured()) return;
+
+    try {
+        const { data: existingData, error: fetchError } = await supabase
+            .from('recipes')
+            .select('data')
+            .eq('id', recipeId)
+            .single();
+
+        if (fetchError || !existingData) return;
+
+        const updatedRecipe: Recipe = {
+            ...(existingData.data as Recipe),
+            videoLastChecked: new Date().toISOString(),
+        };
+
+        await supabase
+            .from('recipes')
+            .upsert({
+                id: recipeId,
+                data: updatedRecipe,
+                created_at: new Date().toISOString(), // Keeping created_at current for cache freshness if needed
+            }, { onConflict: 'id' });
+
+        devLog.log(`Updated video check timestamp for recipe ${recipeId}`);
+    } catch (error) {
+        console.error('Error touching video timestamp:', error);
     }
 }
 /**

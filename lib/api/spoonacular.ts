@@ -194,11 +194,9 @@ async function fetchFromSpoonacular<T>(
         });
         clearTimeout(timeoutId);
 
-        if (response.status === 429 && retries > 0) {
-            // Rate limited, wait and retry
-            console.warn("Spoonacular rate limit hit, retrying...");
-            await wait(backoff);
-            return fetchFromSpoonacular<T>(endpoint, params, skipCache, retries - 1, backoff * 2);
+        if (response.status === 429) {
+            console.warn("Spoonacular rate limit hit. Skipping retry to fail fast.");
+            throw new Error("Spoonacular API rate limit exceeded");
         }
 
         if (response.status === 402) {
@@ -622,5 +620,44 @@ export async function getSimilarRecipes(id: string, count: number = 3): Promise<
     } catch (error) {
         console.error("Error fetching similar recipes from Spoonacular:", error);
         return [];
+    }
+}
+/**
+ * Generic wrapper for complexSearch to support unified filtering
+ * Allows passing arbitrary params like type, cuisine, diet combined
+ */
+export async function searchRecipesWrapper(params: Record<string, string>): Promise<PaginatedResult> {
+    try {
+        const offset = parseInt(params.offset || '0', 10);
+
+        // First, get recipe IDs from complexSearch
+        const data = await fetchFromSpoonacular<SpoonacularSearchResponse>(
+            "recipes/complexSearch",
+            params
+        );
+
+        if (!data.results || data.results.length === 0) {
+            return { recipes: [], totalResults: data.totalResults || 0, hasMore: false, offset };
+        }
+
+        // Fetch full details for each recipe (includes instructions)
+        const recipePromises = data.results.map(result =>
+            getRecipeById(result.id.toString())
+        );
+
+        const recipes = await Promise.all(recipePromises);
+        const validRecipes = recipes.filter((recipe): recipe is Recipe => recipe !== null);
+
+        const hasMore = offset + data.results.length < data.totalResults;
+
+        return {
+            recipes: validRecipes,
+            totalResults: data.totalResults,
+            hasMore,
+            offset,
+        };
+    } catch (error) {
+        console.error("Error in searchRecipesWrapper:", error);
+        return { recipes: [], totalResults: 0, hasMore: false, offset: 0 };
     }
 }

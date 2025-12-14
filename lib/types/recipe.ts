@@ -24,6 +24,7 @@ export interface Recipe {
     carbs?: number;
     fat?: number;
     apiSource?: 'mealdb' | 'spoonacular'; // Track which API provided the data
+    videoLastChecked?: string; // ISO date string of last validation
 }
 
 // Raw API response from TheMealDB

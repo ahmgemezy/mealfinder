@@ -9,6 +9,7 @@ import RecipeCard from "@/components/ui/RecipeCard";
 import RecipeActions from "@/components/recipes/RecipeActions";
 import RecipeVideo from "@/components/recipes/RecipeVideo";
 import { extractIdFromSlug } from "@/lib/utils/slugs";
+import { extractYouTubeVideoId } from "@/lib/api/youtube";
 import { getTranslations } from "next-intl/server";
 import IngredientIcon from "@/components/recipes/IngredientIcon";
 import NutritionFacts from "@/components/recipes/NutritionFacts";
@@ -213,18 +214,29 @@ export default async function RecipePage({ params }: RecipePageProps) {
             worstRating: "1"
         },
         // Video - include if youtube link is available
-        ...(recipe.youtube && recipe.youtube.includes('youtube') && {
-            video: {
-                "@type": "VideoObject",
-                name: `How to make ${recipe.name}`,
-                description: `Video tutorial for cooking ${recipe.name}`,
-                thumbnailUrl: recipe.thumbnail,
-                contentUrl: recipe.youtube,
-                embedUrl: recipe.youtube.replace('watch?v=', 'embed/'),
-                uploadDate: new Date().toISOString().split('T')[0],
-                duration: recipe.readyInMinutes ? `PT${recipe.readyInMinutes}M` : "PT10M"
-            }
-        })
+        // Video - include if youtube link is available
+        ...(() => {
+            const videoId = recipe.youtube ? extractYouTubeVideoId(recipe.youtube) : null;
+            if (!videoId) return {};
+
+            return {
+                video: {
+                    "@type": "VideoObject",
+                    name: `How to make ${recipe.name}`,
+                    description: `Video tutorial for cooking ${recipe.name}. Detailed walkthrough.`,
+                    thumbnailUrl: [
+                        `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`,
+                        `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`,
+                        recipe.thumbnail
+                    ],
+                    contentUrl: `https://www.youtube.com/watch?v=${videoId}`,
+                    embedUrl: `https://www.youtube.com/embed/${videoId}`,
+                    // Stable date to ensure consistent indexing signals
+                    uploadDate: "2024-01-01T12:00:00+00:00",
+                    duration: recipe.readyInMinutes ? `PT${recipe.readyInMinutes}M` : "PT10M"
+                }
+            };
+        })()
     };
 
     return (

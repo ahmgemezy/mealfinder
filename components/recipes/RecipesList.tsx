@@ -93,6 +93,8 @@ function RecipesContent() {
         // Clear recipes to show skeleton
         setRecipes([]);
 
+        let serverSideTotal = 0; // Initialize for server-side paginated results
+
         try {
             let fetchedRecipes: Recipe[] = [];
 
@@ -104,21 +106,23 @@ function RecipesContent() {
             if (searchQuery) {
                 // Search takes priority
                 fetchedRecipes = await searchMeals(searchQuery);
-            } else if (selectedDiet) {
-                // Diet filter (Spoonacular-specific)
-                fetchedRecipes = await filterByDiet(selectedDiet);
-            } else if (selectedCategory && selectedArea) {
-                // Combined filter
-                fetchedRecipes = await filterByMultiple(selectedCategory, selectedArea);
-            } else if (selectedCategory) {
-                // Filter by category only
-                fetchedRecipes = await filterByCategory(selectedCategory);
-            } else if (selectedArea) {
-                // Filter by area only
-                fetchedRecipes = await filterByArea(selectedArea);
+            } else if (selectedDiet || selectedCategory || selectedArea) {
+                // Unified Filter (Category / Area / Diet) - SERVER SIDE PAGINATION
+                // This handles any combination of filters with proper intersection logic (AND)
+                const offset = (currentPage - 1) * RECIPES_PER_PAGE;
+
+                // Pass all possible filters
+                const result = await filterByMultiple(
+                    selectedCategory || undefined,
+                    selectedArea || undefined,
+                    selectedDiet || undefined,
+                    offset
+                );
+
+                fetchedRecipes = result.recipes;
+                serverSideTotal = result.totalCount;
             } else {
                 // Default: fetch initial batch of random recipes
-                // Random recipes don't panic on page number, but for consistency we just fetch new randoms
                 fetchedRecipes = await getMultipleRandomMeals(RECIPES_PER_PAGE);
             }
 
@@ -137,27 +141,29 @@ function RecipesContent() {
                 }
             });
 
-            // Handle Client-Side Pagination for APIs that return full lists (MealDB)
-            // If the API supported offset natively for everything, we'd pass offset.
-            // Here we slice the full result set.
-            const totalRecipes = uniqueRecipes.length;
-
-            // If it's random/default, we just show what we fetched (API returns limited count)
-            // If it's a search/filter, we slice
+            // Handle Pagination
             const isRandom = !searchQuery && !selectedCategory && !selectedArea && !selectedDiet;
+            // Diet is now server-side paginated too
+            const isServerSidePaginated = !!selectedDiet;
 
-            if (isRandom) {
+            if (isServerSidePaginated) {
+                // Use the real count from the API/DB
+                setTotalItems(serverSideTotal);
+            } else if (isRandom) {
                 // For random Browse mode, we want to allow endless Next clicks
-                // So we pretend we have many items to force pagination to show
                 setTotalItems(10000);
             } else {
-                setTotalItems(totalRecipes);
+                setTotalItems(uniqueRecipes.length);
             }
 
             const startIndex = (currentPage - 1) * RECIPES_PER_PAGE;
             const endIndex = startIndex + RECIPES_PER_PAGE;
 
-            const paginatedRecipes = isRandom ? uniqueRecipes : uniqueRecipes.slice(startIndex, endIndex);
+            // If server side paginated (Diet/Random), the fetched result IS the page. Don't slice.
+            // If client side (Category/Area/Search), we slice.
+            const paginatedRecipes = (isRandom || isServerSidePaginated)
+                ? uniqueRecipes
+                : uniqueRecipes.slice(startIndex, endIndex);
 
             setRecipes(paginatedRecipes);
 
@@ -390,9 +396,24 @@ function RecipesContent() {
                     </div>
                 ) : recipes.length > 0 ? (
                     <>
-                        <div className="mb-6 text-muted-foreground">
-                            {/* Note: Total count is not easily available with current API slicing method for all filters perfectly without extra call */}
-                            {recipes.length === RECIPES_PER_PAGE && "Showing page " + currentPage}
+                        <div className="mb-6 flex items-center justify-between">
+                            <h2 className="text-2xl font-display font-bold">
+                                {hasActiveFilters
+                                    ? t('resultsCount', { count: totalItems, defaultValue: `Found ${totalItems} recipes` })
+                                    : t('latestRecipes', { defaultValue: 'Latest Recipes' })}
+                            </h2>
+                            <div className="text-muted-foreground">
+                                {hasActiveFilters && totalItems > RECIPES_PER_PAGE && (
+                                    <span>
+                                        {t('showingRange', {
+                                            start: (currentPage - 1) * RECIPES_PER_PAGE + 1,
+                                            end: Math.min(currentPage * RECIPES_PER_PAGE, totalItems),
+                                            total: totalItems,
+                                            defaultValue: `Showing ${(currentPage - 1) * RECIPES_PER_PAGE + 1}-${Math.min(currentPage * RECIPES_PER_PAGE, totalItems)} of ${totalItems}`
+                                        })}
+                                    </span>
+                                )}
+                            </div>
                         </div>
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                             {recipes.map((recipe) => (

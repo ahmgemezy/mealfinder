@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { Recipe } from '@/lib/types/recipe';
-import { searchRecipeVideo, extractYouTubeVideoId, updateRecipeYoutubeUrl, checkVideoStatus } from '@/lib/api/youtube';
+import { searchRecipeVideo, extractYouTubeVideoId, updateRecipeYoutubeUrl, checkVideoStatus, touchRecipeVideoTimestamp } from '@/lib/api/youtube';
 import { useTranslations } from 'next-intl';
 
 interface RecipeVideoProps {
@@ -24,27 +24,59 @@ export default function RecipeVideo({ recipe }: RecipeVideoProps) {
             if (recipe.youtube) {
                 const existingVideoId = extractYouTubeVideoId(recipe.youtube);
                 if (existingVideoId) {
-                    // Verify if the video is still valid/public
-                    const isValid = await checkVideoStatus(existingVideoId);
-                    if (isValid) {
+                    // Check if we need to revalidate (every 30 days)
+                    const lastChecked = recipe.videoLastChecked ? new Date(recipe.videoLastChecked).getTime() : 0;
+                    const thirtyDaysMs = 30 * 24 * 60 * 60 * 1000;
+                    const isStale = Date.now() - lastChecked > thirtyDaysMs;
+
+                    if (isStale) {
+                        // Video hasn't been checked in 30 days, verify it
+                        console.log(`[RecipeVideo] Verifying stale video for "${recipe.name}" (last checked: ${recipe.videoLastChecked || 'never'})`);
+                        try {
+                            const isValid = await checkVideoStatus(existingVideoId);
+
+                            if (isValid) {
+                                // Video is still good, just update the timestamp
+                                touchRecipeVideoTimestamp(recipe.id);
+                                setVideoId(existingVideoId);
+                                setSearchAttempted(true);
+                                return;
+                            } else {
+                                // Video is dead, we need a replacement
+                                console.warn(`[RecipeVideo] Video ${existingVideoId} is unavailable. Searching for replacement...`);
+                                needsReplacement = true;
+                            }
+                        } catch (err) {
+                            console.error("[RecipeVideo] Error checking video status:", err);
+                            // If check fails (e.g. quota), trust existing for now? 
+                            // Or fail safe? Let's trust it if we can't verify, to avoid breaking links on network blip
+                            // But if quota is dead, maybe better to show it?
+                            // No, if quota is dead, we can't search either. So defaulting to existing is safest.
+                            setVideoId(existingVideoId);
+                            setSearchAttempted(true);
+                            return;
+                        }
+                    } else {
+                        // Video was checked recently, trust it (Zero API cost)
+                        // console.log(`[RecipeVideo] Trusting cached video for "${recipe.name}"`);
                         setVideoId(existingVideoId);
                         setSearchAttempted(true);
-                        return; // Existing video is good
-                    } else {
-                        console.warn(`[RecipeVideo] Video ${existingVideoId} is unavailable. Searching for replacement...`);
-                        needsReplacement = true;
+                        return;
                     }
                 }
+            } else {
+                console.log(`[RecipeVideo] No YouTube URL for "${recipe.name}". Will attempt search.`);
             }
 
             // 2. If no video exists OR existing one is broken, search for one
             if (!searchAttempted || needsReplacement) {
                 setIsLoading(true);
                 try {
+                    console.log(`[RecipeVideo] Searching for video: "${recipe.name}"`);
                     const foundVideoId = await searchRecipeVideo(recipe.name);
 
                     if (foundVideoId) {
-                        console.log(`[RecipeVideo] Found ${needsReplacement ? 'replacement' : 'new'} video ID for "${recipe.name}":`, foundVideoId);
+                        console.log(`[RecipeVideo] Found video ID for "${recipe.name}":`, foundVideoId);
                         setVideoId(foundVideoId);
                         // Cache the found video URL to Supabase (Healing/Caching)
                         updateRecipeYoutubeUrl(recipe.id, foundVideoId);

@@ -309,14 +309,19 @@ export async function filterByCategory(category: string): Promise<Recipe[]> {
 
         // 2. TheMealDB
         if (provider === 'hybrid' || provider === 'mealdb') {
-            const mealdbRecipes = await mealdb.filterByCategory(category);
-            mealdbRecipes.forEach(r => {
-                if (!seenIds.has(r.id)) {
-                    results.push(r);
-                    seenIds.add(r.id);
-                    seenNames.add(r.name.toLowerCase());
-                }
-            });
+            // Optimization: If we have enough results from DB, skip API to save quota
+            if (results.length < 12) {
+                const mealdbRecipes = await mealdb.filterByCategory(category);
+                mealdbRecipes.forEach(r => {
+                    if (!seenIds.has(r.id)) {
+                        results.push(r);
+                        seenIds.add(r.id);
+                        seenNames.add(r.name.toLowerCase());
+                    }
+                });
+            } else {
+                devLog.log(`Skipping MealDB API for category '${category}' as we have enough results from DB`);
+            }
         }
 
         // 3. Spoonacular (if hybrid or spoonacular)
@@ -347,15 +352,56 @@ export async function loadMoreCategoryResults(
     existingIds: string[]
 ): Promise<{ recipes: Recipe[]; hasMore: boolean }> {
     const provider = getProvider();
+    const PAGE_SIZE = 12;
+    const recipes: Recipe[] = [];
 
     try {
-        if (provider === 'spoonacular' || provider === 'hybrid') {
-            const result = await spoonacular.filterByCategory(category, offset);
-            const seenIds = new Set(existingIds);
-            const newRecipes = result.recipes.filter(r => !seenIds.has(r.id));
-            return { recipes: newRecipes, hasMore: result.hasMore };
+        // 1. Try Supabase first (Always)
+        if (provider === 'hybrid' || provider === 'mealdb' || provider === 'spoonacular') {
+            try {
+                // Fetch next page from Supabase
+                const dbRecipes = await mealdb.getRecipesFromSupabase(category, undefined, undefined, offset, PAGE_SIZE);
+
+                // Filter out any that strictly exist already
+                const seenIds = new Set(existingIds);
+                dbRecipes.forEach(r => {
+                    if (!seenIds.has(r.id)) {
+                        recipes.push(r);
+                        seenIds.add(r.id);
+                    }
+                });
+            } catch (error) {
+                console.error("Database loadMore failed:", error);
+            }
         }
-        return { recipes: [], hasMore: false };
+
+        // 2. If we filled the page, return
+        if (recipes.length >= PAGE_SIZE) {
+            return { recipes, hasMore: true }; // Optimistic
+        }
+
+        // 3. Fallback to API (Spoonacular) if applicable
+        // Only Spoonacular effectively supports offset-based pagination in this codebase
+        if (provider === 'spoonacular' || provider === 'hybrid') {
+            const needed = PAGE_SIZE - recipes.length;
+            // We fetch with original offset? 
+            // If we fetched 12 from DB (offset 0), and returned 5.
+            // Client asks for offset 5? No, client asks for Page 2 (offset 12).
+            // If DB returned 5 recipes for offset 12... it means DB is ending.
+            // We should fetch from API using offset. But API offset logic must align.
+            // Simplified: Just fetch from API using the same offset, and dedupe.
+
+            const result = await spoonacular.filterByCategory(category, offset);
+            const seenIds = new Set([...existingIds, ...recipes.map(r => r.id)]);
+            const newRecipes = result.recipes.filter(r => !seenIds.has(r.id));
+
+            return {
+                recipes: [...recipes, ...newRecipes],
+                hasMore: result.hasMore
+            };
+        }
+
+        return { recipes, hasMore: recipes.length === PAGE_SIZE };
     } catch (error) {
         console.error("Error loading more category results:", error);
         return { recipes: [], hasMore: false };
@@ -396,14 +442,19 @@ export async function filterByArea(area: string): Promise<Recipe[]> {
 
         // 2. TheMealDB
         if (provider === 'hybrid' || provider === 'mealdb') {
-            const mealdbRecipes = await mealdb.filterByArea(area);
-            mealdbRecipes.forEach(r => {
-                if (!seenIds.has(r.id)) {
-                    results.push(r);
-                    seenIds.add(r.id);
-                    seenNames.add(r.name.toLowerCase());
-                }
-            });
+            // Optimization: If we have enough results from DB, skip API to save quota
+            if (results.length < 12) {
+                const mealdbRecipes = await mealdb.filterByArea(area);
+                mealdbRecipes.forEach(r => {
+                    if (!seenIds.has(r.id)) {
+                        results.push(r);
+                        seenIds.add(r.id);
+                        seenNames.add(r.name.toLowerCase());
+                    }
+                });
+            } else {
+                devLog.log(`Skipping MealDB API for area '${area}' as we have enough results from DB`);
+            }
         }
 
         // 3. Spoonacular
@@ -452,18 +503,23 @@ export async function loadMoreAreaResults(
 /**
  * Filter by diet (Spoonacular-specific)
  */
-export async function filterByDiet(diet: string): Promise<Recipe[]> {
+export async function filterByDiet(diet: string, offset: number = 0): Promise<{ recipes: Recipe[]; totalCount: number }> {
     const provider = getProvider();
     const results: Recipe[] = [];
     const seenIds = new Set<string>();
+    const PAGE_SIZE = 24; // Match UI
+    let totalCount = 0;
 
     try {
-        // 1. Database first (check tags array)
+        // 1. Database first
         if (provider === 'hybrid' || provider === 'mealdb') {
             try {
-                const dbRecipes = await mealdb.getRecipesFromSupabase(undefined, undefined, diet);
+                // Get accurate count first
+                totalCount = await mealdb.countRecipesInSupabase(undefined, undefined, diet);
+
+                // Fetch valid page from Supabase
+                const dbRecipes = await mealdb.getRecipesFromSupabase(undefined, undefined, diet, offset, PAGE_SIZE);
                 if (dbRecipes.length > 0) {
-                    devLog.log(`Found ${dbRecipes.length} recipes for diet '${diet}' in Supabase`);
                     dbRecipes.forEach(r => {
                         if (!seenIds.has(r.id)) {
                             results.push(r);
@@ -476,27 +532,47 @@ export async function filterByDiet(diet: string): Promise<Recipe[]> {
             }
         }
 
-        // 2. Spoonacular API
+        // 2. Spoonacular API (Fallback)
+        // If we didn't fill the page from DB, try API
+        // Logic: If DB returned a full page, we are good. If not, maybe we need API?
+        // Simple strategy: If DB result is empty or small, and we are allowed to check API, check API for *this specific offset*.
+        // This might overlap or leave gaps if DB and API are out of sync, but it's maximizing data availability.
+
         if (provider === 'hybrid' || provider === 'spoonacular') {
-            // If we already have enough results from DB, we might want to skip API to save quota
-            // For now, we'll fetch from API only if we have fewer than 12 results
-            if (results.length < 12) {
-                const spoonResult = await spoonacular.filterByDiet(diet);
-                spoonResult.recipes.forEach(r => {
-                    if (!seenIds.has(r.id)) {
-                        results.push(r);
-                        seenIds.add(r.id);
+            const hasEnough = results.length >= PAGE_SIZE;
+
+            // If we don't have enough results locally for this page, OR if we want to get the true total count from API
+            // (If local count says 5, but API has 100, we should probably know that for pagination)
+            // But fetching API just for count is expensive (quota).
+            // We only fetch API if we need data (page is incomplete).
+
+            if (!hasEnough) {
+                try {
+                    const spoonResult = await spoonacular.filterByDiet(diet, offset);
+
+                    // Update total count from API if it's larger (API is authority)
+                    if (spoonResult.totalResults > totalCount) {
+                        totalCount = spoonResult.totalResults;
                     }
-                });
+
+                    spoonResult.recipes.forEach(r => {
+                        if (!seenIds.has(r.id)) {
+                            results.push(r);
+                            seenIds.add(r.id);
+                        }
+                    });
+                } catch (spoonError) {
+                    console.warn(`Spoonacular diet filter failed (using DB results only): ${spoonError}`);
+                }
             } else {
-                devLog.log(`Skipping Spoonacular API for diet '${diet}' as we have enough results from DB`);
+                devLog.log(`Skipping Spoonacular API for diet '${diet}' (offset ${offset}) as we have enough results from DB`);
             }
         }
 
-        return results;
+        return { recipes: results, totalCount };
     } catch (error) {
         console.error("Error in filterByDiet:", error);
-        return results;
+        return { recipes: results, totalCount };
     }
 }
 
@@ -527,69 +603,86 @@ export async function loadMoreDietResults(
 /**
  * Filter meals by multiple criteria (Category + Area)
  */
-export async function filterByMultiple(category?: string, area?: string): Promise<Recipe[]> {
+/**
+ * Filter meals by multiple criteria (Category + Area + Diet)
+ * Acts as the unified filter function with pagination
+ */
+export async function filterByMultiple(
+    category?: string,
+    area?: string,
+    diet?: string,
+    offset: number = 0
+): Promise<{ recipes: Recipe[]; totalCount: number }> {
     const provider = getProvider();
     const results: Recipe[] = [];
     const seenIds = new Set<string>();
-    const seenNames = new Set<string>();
+    const PAGE_SIZE = 24; // Standardize page size
+    let totalCount = 0;
 
     try {
-        // 1. Database
+        // 1. Database (Supabase) - Checks for exact intersection of filters
         if (provider === 'hybrid' || provider === 'mealdb') {
             try {
-                const dbRecipes = await mealdb.getRecipesFromSupabase(category, area);
+                // Get count from DB
+                totalCount = await mealdb.countRecipesInSupabase(category, area, diet);
+
+                // Get page from DB
+                const dbRecipes = await mealdb.getRecipesFromSupabase(category, area, diet, offset, PAGE_SIZE);
                 dbRecipes.forEach(r => {
                     if (!seenIds.has(r.id)) {
                         results.push(r);
                         seenIds.add(r.id);
-                        seenNames.add(r.name.toLowerCase());
                     }
                 });
             } catch (error) {
-                console.error("Database filter failed:", error);
+                console.error("Database unified filter failed:", error);
             }
         }
 
-        // 2. TheMealDB
-        if (provider === 'hybrid' || provider === 'mealdb') {
-            const mealdbRecipes = await mealdb.filterByMultiple(category, area);
-            mealdbRecipes.forEach(r => {
-                if (!seenIds.has(r.id)) {
-                    results.push(r);
-                    seenIds.add(r.id);
-                    seenNames.add(r.name.toLowerCase());
-                }
-            });
-        }
-
-        // 3. Spoonacular
+        // 2. Spoonacular (Fallback or Supplement)
+        // If we don't have enough results from DB, check API if allowed
         if (provider === 'hybrid' || provider === 'spoonacular') {
-            // Spoonacular supports complex filtering
-            let spoonResult: spoonacular.PaginatedResult | null = null;
-            if (category) spoonResult = await spoonacular.filterByCategory(category);
-            else if (area) spoonResult = await spoonacular.filterByArea(area);
+            const hasEnough = results.length >= PAGE_SIZE;
 
-            if (spoonResult) {
-                let spoonRecipes = spoonResult.recipes;
-                // If both, we need to filter locally
-                if (category && area) {
-                    spoonRecipes = spoonRecipes.filter(r => r.area === area);
-                }
+            // Simple logic: If we didn't fill the page, fetch from Spoonacular
+            if (!hasEnough) {
+                // Map MealDB/Spoonacular params
+                const params: any = {
+                    number: PAGE_SIZE.toString(),
+                    offset: offset.toString(),
+                };
+                if (category) params.type = category.toLowerCase();
+                if (area) params.cuisine = area;
+                if (diet) params.diet = diet.toLowerCase();
 
-                spoonRecipes.forEach(r => {
-                    if (!seenIds.has(r.id)) {
-                        results.push(r);
-                        seenIds.add(r.id);
-                        seenNames.add(r.name.toLowerCase());
+                try {
+                    const spoonResult = await spoonacular.searchRecipesWrapper(params);
+
+                    // Update total count if API has more
+                    if (spoonResult.totalResults > totalCount) {
+                        totalCount = spoonResult.totalResults;
                     }
-                });
+
+                    spoonResult.recipes.forEach(r => {
+                        if (!seenIds.has(r.id)) {
+                            results.push(r);
+                            seenIds.add(r.id);
+                        }
+                    });
+
+                } catch (error) {
+                    // Log but don't fail if API fails (we might have some DB results)
+                    console.warn("Spoonacular unified filter failed:", error);
+                }
+            } else {
+                devLog.log("Skipping Spoonacular API for unified filter (DB has enough results)");
             }
         }
 
-        return results;
+        return { recipes: results, totalCount };
     } catch (error) {
         console.error("Error in filterByMultiple:", error);
-        return results;
+        return { recipes: results, totalCount };
     }
 }
 
