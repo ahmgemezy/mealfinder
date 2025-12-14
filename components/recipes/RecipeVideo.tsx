@@ -54,6 +54,9 @@ export default function RecipeVideo({ recipe }: RecipeVideoProps) {
         loadVideo();
     }, [recipe.id, recipe.youtube, recipe.name, searchAttempted]);
 
+    // Optimized Video Player (Facade Pattern)
+    const [isPlaying, setIsPlaying] = useState(false);
+
     // Don't render anything if loading or no video found
     if (isLoading) {
         return (
@@ -65,7 +68,7 @@ export default function RecipeVideo({ recipe }: RecipeVideoProps) {
                     <div className="aspect-video flex items-center justify-center bg-muted">
                         <div className="text-center space-y-3">
                             <div className="w-12 h-12 border-4 border-primary-500 border-t-transparent rounded-full animate-spin mx-auto"></div>
-                            <p className="text-muted-foreground">Searching for video tutorial...</p>
+                            <p className="text-muted-foreground">{t('videoTutorial')}</p>
                         </div>
                     </div>
                 </div>
@@ -85,14 +88,40 @@ export default function RecipeVideo({ recipe }: RecipeVideoProps) {
                 {t('videoTutorial')}
             </h2>
             <div className="bg-card rounded-2xl overflow-hidden shadow-soft">
-                <div className="aspect-video">
-                    <iframe
-                        src={`https://www.youtube.com/embed/${videoId}`}
-                        title={`${recipe.name} video tutorial`}
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                        allowFullScreen
-                        className="w-full h-full"
-                    />
+                <div className="aspect-video relative group">
+                    {isPlaying ? (
+                        <iframe
+                            src={`https://www.youtube.com/embed/${videoId}?autoplay=1`}
+                            title={`${recipe.name} video tutorial`}
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowFullScreen
+                            className="w-full h-full"
+                        />
+                    ) : (
+                        <button
+                            onClick={() => setIsPlaying(true)}
+                            className="w-full h-full relative cursor-pointer block"
+                            aria-label={`Play video for ${recipe.name}`}
+                        >
+                            {/* Thumbnail */}
+                            <img
+                                src={`https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`}
+                                alt={recipe.name}
+                                className="w-full h-full object-cover"
+                                loading="lazy"
+                            />
+
+                            {/* Overlay */}
+                            <div className="absolute inset-0 bg-black/30 group-hover:bg-black/40 transition-colors flex items-center justify-center">
+                                {/* Play Button */}
+                                <div className="w-20 h-20 rounded-full bg-red-600 text-white flex items-center justify-center shadow-2xl transform group-hover:scale-110 transition-transform">
+                                    <svg className="w-10 h-10 ml-1" fill="currentColor" viewBox="0 0 24 24">
+                                        <path d="M8 5v14l11-7z" />
+                                    </svg>
+                                </div>
+                            </div>
+                        </button>
+                    )}
                 </div>
             </div>
         </section>
