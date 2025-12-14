@@ -159,3 +159,48 @@ export async function updateRecipeYoutubeUrl(
         console.error('Error caching YouTube video:', error);
     }
 }
+/**
+ * Check if a YouTube video is valid, public, and embeddable
+ * @param videoId - The YouTube video ID to check
+ * @returns true if video is valid and playable, false otherwise
+ */
+export async function checkVideoStatus(videoId: string): Promise<boolean> {
+    // Return true (assume valid) if API key is not configured to avoid breaking UI
+    if (!YOUTUBE_API_KEY) {
+        return true;
+    }
+
+    try {
+        const params = new URLSearchParams({
+            part: 'status,contentDetails',
+            id: videoId,
+            key: YOUTUBE_API_KEY,
+        });
+
+        const response = await fetch(`${YOUTUBE_API_BASE_URL}/videos?${params.toString()}`);
+
+        if (!response.ok) {
+            console.error(`YouTube API error checking video status: ${response.status}`);
+            return false; // Fail safe
+        }
+
+        const data = await response.json();
+
+        if (!data.items || data.items.length === 0) {
+            return false; // Video not found (deleted/private)
+        }
+
+        const item = data.items[0];
+        const status = item.status;
+
+        // Check if playable
+        if (status.uploadStatus !== 'processed') return false;
+        if (status.privacyStatus !== 'public') return false;
+        if (status.embeddable === false) return false;
+
+        return true;
+    } catch (error) {
+        console.error(`Error checking video status for ${videoId}:`, error);
+        return false;
+    }
+}

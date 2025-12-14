@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { Recipe } from '@/lib/types/recipe';
-import { searchRecipeVideo, extractYouTubeVideoId, updateRecipeYoutubeUrl } from '@/lib/api/youtube';
+import { searchRecipeVideo, extractYouTubeVideoId, updateRecipeYoutubeUrl, checkVideoStatus } from '@/lib/api/youtube';
 import { useTranslations } from 'next-intl';
 
 interface RecipeVideoProps {
@@ -17,29 +17,40 @@ export default function RecipeVideo({ recipe }: RecipeVideoProps) {
 
     useEffect(() => {
         async function loadVideo() {
-            // First, check if recipe already has a YouTube video
+            let currentVideoId: string | null = null;
+            let needsReplacement = false;
+
+            // 1. Check if recipe already has a linked YouTube video
             if (recipe.youtube) {
                 const existingVideoId = extractYouTubeVideoId(recipe.youtube);
                 if (existingVideoId) {
-                    setVideoId(existingVideoId);
-                    setSearchAttempted(true);
-                    return;
+                    // Verify if the video is still valid/public
+                    const isValid = await checkVideoStatus(existingVideoId);
+                    if (isValid) {
+                        setVideoId(existingVideoId);
+                        setSearchAttempted(true);
+                        return; // Existing video is good
+                    } else {
+                        console.warn(`[RecipeVideo] Video ${existingVideoId} is unavailable. Searching for replacement...`);
+                        needsReplacement = true;
+                    }
                 }
             }
 
-            // If no video exists, search for one
-            if (!searchAttempted) {
+            // 2. If no video exists OR existing one is broken, search for one
+            if (!searchAttempted || needsReplacement) {
                 setIsLoading(true);
                 try {
                     const foundVideoId = await searchRecipeVideo(recipe.name);
-                    console.log(`[RecipeVideo] Found video ID for "${recipe.name}":`, foundVideoId);
-                    setVideoId(foundVideoId);
 
-                    // Cache the found video URL to Supabase (fire and forget)
                     if (foundVideoId) {
+                        console.log(`[RecipeVideo] Found ${needsReplacement ? 'replacement' : 'new'} video ID for "${recipe.name}":`, foundVideoId);
+                        setVideoId(foundVideoId);
+                        // Cache the found video URL to Supabase (Healing/Caching)
                         updateRecipeYoutubeUrl(recipe.id, foundVideoId);
                     } else {
                         console.warn(`[RecipeVideo] No video found for "${recipe.name}"`);
+                        setVideoId(null);
                     }
                 } catch (error) {
                     console.error('[RecipeVideo] Error loading recipe video:', error);
