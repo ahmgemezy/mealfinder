@@ -141,7 +141,9 @@
         "cookiePolicy": "Política de Cookies",
         "termsOfService": "Términos de Servicio",
         "rightsReserved": "Todos los derechos reservados.",
-        "providedBy": "Datos de recetas proporcionados por"
+        "providedBy": "Datos de recetas proporcionados por",
+        "about": "Sobre nosotros",
+        "contact": "Contáctanos"
     },
     "SurpriseMe": {
         "title": "¡Sorpréndeme!",

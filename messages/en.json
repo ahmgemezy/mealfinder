@@ -135,7 +135,9 @@
         "cookiePolicy": "Cookie Policy",
         "termsOfService": "Terms of Service",
         "rightsReserved": "All rights reserved.",
-        "providedBy": "Recipe data provided by"
+        "providedBy": "Recipe data provided by",
+        "about": "About Us",
+        "contact": "Contact Us"
     },
     "SurpriseMe": {
         "title": "Surprise Me!",

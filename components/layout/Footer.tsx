@@ -46,6 +46,22 @@ export default function Footer() {
                             </li>
                             <li>
                                 <Link
+                                    href="/about"
+                                    className="text-muted-foreground hover:text-primary-500 transition-colors"
+                                >
+                                    {t('about')}
+                                </Link>
+                            </li>
+                            <li>
+                                <Link
+                                    href="/contact"
+                                    className="text-muted-foreground hover:text-primary-500 transition-colors"
+                                >
+                                    {t('contact')}
+                                </Link>
+                            </li>
+                            <li>
+                                <Link
                                     href="/surprise-me"
                                     className="text-muted-foreground hover:text-primary-500 transition-colors"
                                 >
