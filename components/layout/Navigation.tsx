@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, startTransition } from "react";
 import { Link, usePathname } from "@/navigation"; // Use localized navigation
 import { useSurpriseMe } from "@/lib/contexts/SurpriseMeContext";
 import { useFavorites } from "@/lib/hooks/useFavorites";
@@ -70,6 +70,12 @@ export default function Navigation() {
     return pathname.startsWith(href);
   };
 
+  const handleOpenModal = () => {
+    startTransition(() => {
+      openModal();
+    });
+  };
+
   return (
     <>
       {/* Desktop & Mobile Navigation */}
@@ -103,17 +109,16 @@ export default function Navigation() {
                       openAuthModal();
                     }
                   }}
-                  className={`px-5 py-2.5 rounded-full font-medium text-sm transition-all duration-300 ${
-                    isActive(item.href)
+                  className={`px-5 py-2.5 rounded-full font-medium text-sm transition-all duration-300 ${isActive(item.href)
                       ? "bg-primary-50 text-primary-700 shadow-sm ring-1 ring-primary-200"
                       : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
-                  }`}
+                    }`}
                 >
                   {item.label}
                 </Link>
               ))}
               <button
-                onClick={openModal}
+                onClick={handleOpenModal}
                 aria-label="Get random recipe suggestion"
                 className="px-5 py-2.5 rounded-full font-medium text-sm text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-all duration-300"
               >
@@ -275,11 +280,10 @@ export default function Navigation() {
                     openAuthModal();
                   }
                 }}
-                className={`flex flex-col items-center justify-center gap-1 px-4 py-2 rounded-xl transition-all duration-300 ${
-                  active
+                className={`flex flex-col items-center justify-center gap-1 px-4 py-2 rounded-xl transition-all duration-300 ${active
                     ? "text-primary-500 scale-105"
                     : "text-muted-foreground hover:text-foreground"
-                }`}
+                  }`}
               >
                 <Icon
                   className={`w-6 h-6 ${active ? "fill-current" : "stroke-current"}`}
@@ -291,7 +295,7 @@ export default function Navigation() {
             );
           })}
           <button
-            onClick={openModal}
+            onClick={handleOpenModal}
             aria-label="Get random recipe suggestion"
             className="flex flex-col items-center justify-center gap-1 px-4 py-2 rounded-xl transition-all duration-300 text-muted-foreground hover:text-foreground"
           >
