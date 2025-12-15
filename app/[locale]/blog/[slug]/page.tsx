@@ -17,6 +17,7 @@ type Props = {
 
 // Force dynamic rendering to avoid DYNAMIC_SERVER_USAGE error with getTranslations
 export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
     const { slug } = await params;
