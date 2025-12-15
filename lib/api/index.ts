@@ -332,9 +332,9 @@ export async function filterByCategory(category: string): Promise<Recipe[]> {
           }
         });
       } else {
-        devLog.log(
+        /* devLog.log(
           `Skipping MealDB API for category '${category}' as we have enough results from DB`
-        );
+        ); */
       }
     }
 
@@ -477,9 +477,9 @@ export async function filterByArea(area: string): Promise<Recipe[]> {
           }
         });
       } else {
-        devLog.log(
+        /* devLog.log(
           `Skipping MealDB API for area '${area}' as we have enough results from DB`
-        );
+        ); */
       }
     }
 
@@ -606,9 +606,9 @@ export async function filterByDiet(
           );
         }
       } else {
-        devLog.log(
+        /* devLog.log(
           `Skipping Spoonacular API for diet '${diet}' (offset ${offset}) as we have enough results from DB`
-        );
+        ); */
       }
     }
 
@@ -723,9 +723,9 @@ export async function filterByMultiple(
           console.warn("Spoonacular unified filter failed:", error);
         }
       } else {
-        devLog.log(
+        /* devLog.log(
           "Skipping Spoonacular API for unified filter (DB has enough results)"
-        );
+        ); */
       }
     }
 
@@ -830,7 +830,7 @@ export async function getMultipleRandomMeals(
           excludeIds
         );
         if (dbRecipes.length > 0) {
-          devLog.log(`Fetched ${dbRecipes.length} recipes from Supabase`);
+          // devLog.log(`Fetched ${dbRecipes.length} recipes from Supabase`);
           results.push(...dbRecipes);
         }
       } catch (error) {
@@ -898,9 +898,9 @@ export async function getRelatedRecipes(
       let results = await mealdb.getRelatedRecipes(category, currentId, count);
       if (results.length >= count) return results;
 
-      devLog.log(
+      /* devLog.log(
         "TheMealDB related recipes returned insufficient results, trying Spoonacular..."
-      );
+      ); */
 
       try {
         // Try to get similar recipes from Spoonacular if ID is numeric (Spoonacular ID)
