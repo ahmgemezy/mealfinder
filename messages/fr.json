@@ -102,6 +102,7 @@
         "activeFilters": "Filtres actifs :",
         "searchPrefix": "Recherche :",
         "clearAll": "Tout effacer",
+        "resultsCount": "{count} recette{count, plural, =1 {} other {s}} trouvée{count, plural, =1 {} other {s}}",
         "foundRecipes": "{count} recette{count, plural, =1 {} other {s}} trouvée{count, plural, =1 {} other {s}}",
         "noRecipes": "Aucune recette trouvée",
         "noRecipesDesc": "Essayez d'ajuster votre recherche ou vos filtres",
