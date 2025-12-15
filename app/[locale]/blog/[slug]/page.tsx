@@ -2,7 +2,6 @@ import { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getPostBySlug, getRelatedPosts } from "@/lib/utils/blog-helpers";
 import BlogContent from "@/components/blog/BlogContent";
 import RelatedPosts from "@/components/blog/RelatedPosts";
 import TableOfContents from "@/components/blog/TableOfContents";
@@ -10,6 +9,7 @@ import ReadingProgress from "@/components/blog/ReadingProgress";
 import ShareButtons from "@/components/blog/ShareButtons";
 import { getRandomMealWithFilters, getMultipleRandomMeals } from "@/lib/api";
 import TryThisRecipe from "@/components/blog/TryThisRecipe";
+import { supabase } from "@/lib/supabase";
 
 type Props = {
     params: Promise<{ locale: string; slug: string }>;
@@ -20,7 +20,13 @@ export const dynamic = 'force-dynamic';
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
     const { slug } = await params;
-    const post = getPostBySlug(slug);
+
+    // Fetch post from Supabase
+    const { data: post } = await supabase
+        .from('blog_posts')
+        .select('*')
+        .eq('slug', slug)
+        .single();
 
     if (!post) {
         return {
@@ -30,19 +36,19 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
     return {
         title: `${post.title} | Dish Shuffle`,
-        description: post.description,
+        description: post.excerpt,
         openGraph: {
             title: post.title,
-            description: post.description,
+            description: post.excerpt,
             type: "article",
-            publishedTime: post.publishedDate,
-            modifiedTime: post.publishedDate, // or updatedDate if available
+            publishedTime: post.published_date,
+            modifiedTime: post.updated_at,
             authors: [post.author],
             section: post.category,
             tags: post.tags,
             images: [
                 {
-                    url: post.featuredImage,
+                    url: post.featured_image,
                     width: 1200,
                     height: 630,
                     alt: post.title,
@@ -52,8 +58,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
         twitter: {
             card: "summary_large_image",
             title: post.title,
-            description: post.description,
-            images: [post.featuredImage],
+            description: post.excerpt,
+            images: [post.featured_image],
         },
     };
 }
@@ -61,14 +67,40 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function BlogPostPage({ params }: Props) {
     const { slug } = await params;
     const { locale } = await params; // Keeping locale for now as it is used in Links
-    const post = getPostBySlug(slug);
+
+    // Fetch post from Supabase
+    const { data: post } = await supabase
+        .from('blog_posts')
+        .select('*')
+        .eq('slug', slug)
+        .single();
 
     if (!post) {
         notFound();
     }
 
-    const relatedPosts = getRelatedPosts(slug);
-    const formattedDate = new Date(post.publishedDate).toLocaleDateString(locale, {
+    // Fetch Related Posts from Supabase (same category, exclude current)
+    const { data: relatedPostsData } = await supabase
+        .from('blog_posts')
+        .select('*')
+        .eq('category', post.category)
+        .neq('slug', slug)
+        .limit(3);
+
+    // Map DB posts to component format
+    const relatedPosts = (relatedPostsData || []).map(p => ({
+        slug: p.slug,
+        title: p.title,
+        description: p.excerpt,
+        category: p.category,
+        tags: p.tags || [],
+        readTime: p.read_time,
+        featuredImage: p.featured_image,
+        excerpt: p.excerpt,
+        publishedDate: p.published_date
+    }));
+
+    const formattedDate = new Date(post.published_date).toLocaleDateString(locale, {
         year: 'numeric',
         month: 'long',
         day: 'numeric'
@@ -78,7 +110,7 @@ export default async function BlogPostPage({ params }: Props) {
     let suggestedRecipe = null;
 
     // 1. Try first tag
-    if (post.tags[0]) {
+    if (post.tags && post.tags[0]) {
         suggestedRecipe = await getRandomMealWithFilters({ search: post.tags[0] });
     }
 
@@ -102,14 +134,14 @@ export default async function BlogPostPage({ params }: Props) {
         "@context": "https://schema.org",
         "@type": "BlogPosting",
         headline: post.title,
-        image: [post.featuredImage], // In a real app, this should be a full URL
-        datePublished: post.publishedDate,
-        dateModified: post.publishedDate,
+        image: [post.featured_image], // In a real app, this should be a full URL
+        datePublished: post.published_date,
+        dateModified: post.updated_at,
         author: [{
             "@type": "Person",
             name: post.author,
         }],
-        description: post.description,
+        description: post.excerpt,
         articleBody: post.content, // Strip markdown or use description for brevity? Full body is fine for schema.
     };
 
@@ -131,7 +163,7 @@ export default async function BlogPostPage({ params }: Props) {
                         </span>
                         <span className="text-muted-foreground">•</span>
                         <span className="text-muted-foreground text-sm font-medium">
-                            {post.readTime} min read
+                            {post.read_time} min read
                         </span>
                     </div>
 
@@ -142,7 +174,7 @@ export default async function BlogPostPage({ params }: Props) {
                     <div className="flex items-center justify-center gap-2 text-muted-foreground">
                         <span className="font-medium text-foreground">{post.author}</span>
                         <span>•</span>
-                        <time dateTime={post.publishedDate}>{formattedDate}</time>
+                        <time dateTime={post.published_date}>{formattedDate}</time>
                     </div>
                 </div>
             </div>
@@ -151,7 +183,7 @@ export default async function BlogPostPage({ params }: Props) {
             <div className="container mx-auto px-4 max-w-5xl -mt-8 mb-12 relative z-10">
                 <div className="relative aspect-[21/9] w-full rounded-2xl overflow-hidden shadow-2xl border border-border/50">
                     <Image
-                        src={post.featuredImage}
+                        src={post.featured_image}
                         alt={post.title}
                         fill
                         priority
@@ -168,7 +200,7 @@ export default async function BlogPostPage({ params }: Props) {
 
                     {/* Tags */}
                     <div className="mt-12 pt-8 border-t border-border flex flex-wrap gap-2">
-                        {post.tags.map(tag => (
+                        {post.tags.map((tag: string) => (
                             <Link
                                 key={tag}
                                 href={`/${locale}/blog?tag=${tag}`} // Assuming we might add filtering later

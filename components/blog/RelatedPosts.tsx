@@ -1,11 +1,11 @@
 "use client";
 
-import { BlogPost } from "@/lib/types/blog";
+import { BlogPostMetadata } from "@/lib/types/blog";
 import Link from "next/link";
 import Image from "next/image";
 
 interface RelatedPostsProps {
-  posts: BlogPost[];
+  posts: BlogPostMetadata[];
   locale: string;
 }
 

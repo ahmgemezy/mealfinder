@@ -21,8 +21,6 @@ on:
           - "Seasonal Spotlight"
           - "Kitchen Gear & Gadgets"
           - "Entertaining & Hosting"
-          - "Kitchen Gear & Gadgets"
-          - "Entertaining & Hosting"
           - "Ingredient Deep Dive"
       author:
         description: 'Author Name (Optional)'
@@ -52,13 +50,7 @@ jobs:
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           JINA_API_KEY: ${{ secrets.JINA_API_KEY }}
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
         run: |
           npx tsx scripts/generate-blog-post.ts --topic "${{ inputs.topic }}" --category "${{ inputs.category }}" --author "${{ inputs.author }}"
-
-      - name: Commit and Push
-        run: |
-          git config --global user.name "Dish Shuffle Bot"
-          git config --global user.email "bot@dishshuffle.com"
-          git add lib/data/blog/*.ts
-          git commit -m "content: new blog post '${{ inputs.topic }}'"
-          git push

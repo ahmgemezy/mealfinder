@@ -32,24 +32,25 @@
     "tailwind-merge": "^3.4.0"
   },
   "devDependencies": {
-    "@tailwindcss/postcss": "^4",
     "@playwright/test": "^1.51.1",
+    "@tailwindcss/postcss": "^4",
+    "@testing-library/jest-dom": "^6.0.0",
+    "@testing-library/react": "^16.0.0",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "@testing-library/jest-dom": "^6.0.0",
-    "@testing-library/react": "^16.0.0",
     "@vitejs/plugin-react": "^5.0.0",
-    "jsdom": "^22.0.0",
-    "vitest": "^1.1.4",
     "baseline-browser-mapping": "^2.8.32",
+    "dotenv": "^17.2.3",
     "eslint": "^9",
     "eslint-config-next": "16.0.7",
+    "jsdom": "^22.0.0",
     "openai": "^4.73.0",
     "sharp": "^0.34.5",
     "tailwindcss": "^4",
     "ts-node": "^10.9.2",
     "tsx": "^4.21.0",
-    "typescript": "^5"
+    "typescript": "^5",
+    "vitest": "^1.1.4"
   }
 }

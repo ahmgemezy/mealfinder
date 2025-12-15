@@ -1,9 +1,9 @@
 import { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 import { BLOG_CATEGORIES } from "@/lib/types/blog";
-import { getAllPostsMetadata } from "@/lib/utils/blog-helpers";
 import BlogFilter from "@/components/blog/BlogFilter";
 import BlogSearch from "@/components/blog/BlogSearch";
+import { supabase } from "@/lib/supabase";
 
 export const dynamic = "force-dynamic";
 
@@ -38,7 +38,29 @@ export default async function BlogPage({
 }) {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "Blog" });
-  const posts = getAllPostsMetadata();
+
+  // Fetch posts from Supabase
+  const { data: dbPosts, error } = await supabase
+    .from('blog_posts')
+    .select('*')
+    .order('published_date', { ascending: false });
+
+  if (error) {
+    console.error("Error fetching blog posts:", error);
+  }
+
+  // Map DB result to BlogPostMetadata
+  const posts = (dbPosts || []).map(post => ({
+    slug: post.slug,
+    title: post.title,
+    description: post.excerpt, // map excerpt to description for metadata
+    category: post.category,
+    tags: post.tags || [],
+    readTime: post.read_time,
+    featuredImage: post.featured_image,
+    excerpt: post.excerpt,
+    publishedDate: post.published_date,
+  }));
 
   return (
     <div className="container mx-auto px-4 py-12 md:py-20 max-w-7xl">

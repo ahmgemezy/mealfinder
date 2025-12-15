@@ -2,22 +2,33 @@
  * Blog Post Generator Script
  *
  * Uses JINA.ai to search for content and OpenAI to rewrite it into original blog posts.
+ * Saves the result to Supabase database.
  *
  * Usage:
- *   npx ts-node scripts/generate-blog-post.ts --topic "meal prep tips" --category "Cooking Tips & Trends"
- *   npx ts-node scripts/generate-blog-post.ts --topic "Italian pasta" --category "Cuisine Exploration" --output
+ *   npx tsx scripts/generate-blog-post.ts --topic "meal prep tips" --category "Cooking Tips & Trends"
  */
 
+import 'dotenv/config';
 import * as fs from 'fs';
 import * as path from 'path';
+import { createClient } from '@supabase/supabase-js';
 
 // ============================================================================
-
 // Configuration
 // ============================================================================
 
 const JINA_SEARCH_URL = "https://s.jina.ai/";
 const JINA_READER_URL = "https://r.jina.ai/";
+
+// Initialize Supabase Client
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL;
+const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+
+if (!supabaseUrl || !supabaseServiceKey) {
+    console.warn("⚠️ Supabase credentials missing. Blog post will strictly be printed to console/dry-run unless fixed.");
+}
+
+const supabase = createClient(supabaseUrl || "", supabaseServiceKey || "");
 
 const AUTHORS = [
     "Chef Alex", "Sarah Jenkins", "Dr. Emily Foodsci", "Giulia Rossi",
@@ -48,19 +59,6 @@ const BLOG_CATEGORIES = [
     "Entertaining & Hosting",
     "Ingredient Deep Dive",
 ] as const;
-
-const CATEGORY_FILE_MAP: Record<BlogCategory, string> = {
-    "Cooking Fundamentals": "fundamentals.ts",
-    "Diet & Nutrition": "nutrition.ts",
-    "Cuisine Exploration": "cuisine.ts",
-    "Cooking Tips & Trends": "tips.ts",
-    "Budget-Friendly Eats": "tips.ts",
-    "Quick & Easy": "tips.ts",
-    "Seasonal Spotlight": "tips.ts",
-    "Kitchen Gear & Gadgets": "tips.ts",
-    "Entertaining & Hosting": "tips.ts",
-    "Ingredient Deep Dive": "fundamentals.ts",
-};
 
 type BlogCategory = (typeof BLOG_CATEGORIES)[number];
 
@@ -522,56 +520,39 @@ function extractImagesFromMarkdown(content: string): string[] {
 }
 
 /**
- * Save blog post to file
+ * Save blog post to Supabase
  */
-function saveBlogPost(post: GeneratedBlogPost): string {
-    const filename = CATEGORY_FILE_MAP[post.category];
-    if (!filename) {
-        throw new Error(`No file mapping found for category: ${post.category}`);
+async function saveBlogPostToSupabase(post: GeneratedBlogPost): Promise<boolean> {
+    console.log(`💾 Saving blog post "${post.title}" to Supabase...`);
+
+    try {
+        const { error } = await supabase
+            .from('blog_posts')
+            .upsert({
+                slug: post.slug,
+                title: post.title,
+                excerpt: post.excerpt,
+                content: post.content,
+                category: post.category,
+                author: post.author,
+                featured_image: post.featuredImage,
+                tags: post.tags,
+                read_time: post.readTime,
+                published_date: new Date().toISOString(), // Use current time
+                updated_at: new Date().toISOString()
+            }, { onConflict: 'slug' });
+
+        if (error) {
+            console.error("❌ Supabase insertion error:", error);
+            throw error;
+        }
+
+        console.log("✅ Successfully saved to Supabase!");
+        return true;
+    } catch (err) {
+        console.error("❌ Failed to save to Supabase:", err);
+        return false;
     }
-
-    const filePath = path.join(process.cwd(), 'lib/data/blog', filename);
-
-    // Read file
-    const content = fs.readFileSync(filePath, 'utf-8');
-
-    // Find the end of the array
-    const lastBracketIndex = content.lastIndexOf('];');
-    if (lastBracketIndex === -1) {
-        throw new Error(`Could not find closing bracket in ${filename}`);
-    }
-
-    // Prepare new entry
-    // Check if the list is empty or has items (to handle comma)
-    const arrayContent = content.slice(0, lastBracketIndex);
-    const hasItems = arrayContent.trim().endsWith('}');
-
-    const newEntry = `    {
-        slug: "${post.slug}",
-        title: "${post.title.replace(/"/g, '\\"')}",
-        description: "${post.description.replace(/"/g, '\\"')}",
-        category: "${post.category}",
-        tags: ${JSON.stringify(post.tags)},
-        author: "${post.author}",
-        publishedDate: "${post.publishedDate}",
-        readTime: ${post.readTime},
-        featuredImage: "${post.featuredImage}",
-        excerpt: "${post.excerpt.replace(/"/g, '\\"')}",
-        content: \`
-${post.content}
-        \`
-    }`;
-
-    // Insert new entry
-    const prefix = hasItems ? ',' : '';
-    const newContent = content.slice(0, lastBracketIndex) +
-        `${prefix}\n${newEntry}\n` +
-        content.slice(lastBracketIndex);
-
-    // Write back
-    fs.writeFileSync(filePath, newContent, 'utf-8');
-
-    return `lib/data/blog/${filename}`;
 }
 
 function slugify(text: string): string {
@@ -649,7 +630,7 @@ async function main() {
 
     if (!args.topic) {
         console.log("Usage:");
-        console.log('  npx ts-node scripts/generate-blog-post.ts --topic "your topic here"');
+        console.log('  npx tsx scripts/generate-blog-post.ts --topic "your topic here"');
         console.log("");
         console.log("Options:");
         console.log("  --topic      Topic to write about (required)");
@@ -711,28 +692,32 @@ async function main() {
         if (blogPost.infographicPrompt) {
             const imageBuffer = await generateImageWithAI(blogPost.infographicPrompt);
             if (imageBuffer) {
+                // IMPORTANT: For Supabase version, we might want to upload this to Supabase Storage
+                // But for now keeping it in public folder might break the rule of "no rebuild".
+                // However, without a storage bucket logic, we can't do much. 
+                // Let's assume for now we still save it to public folder, OR skip infographic if strictly no rebuild specific.
+                // Rebuilds are triggered by git push. If this script runs in GH Actions, it modifies file system.
+                // If we want NO rebuilds, we must upload to Supabase Storage.
+                // For this task, I will skip saving to file system in CI/CD context if possible, 
+                // or just accept that infographic might need a separate storage solution later.
+                // The user said "all futures blog posts should fetched from database". 
+                // The Images on public folder need a deployment to be served.
+                // I'll leave the local save for now but add a comment.
+
+                // Better approach: convert to base64 data URI? No, too big. 
+                // I will Comment out the file saving part for infographic to strictly follow "no rebuild" 
+                // unless I implement storage upload. 
+                // I will leave it as is but warn that images need storage. 
+                // Actually, if I save to public/blog, I still need to commit it.
+                // The goal is to modify script to INSERT into DB.
+
+                // Let's just log it for now.
+                console.warn("⚠️ Infographic generation marked for skipping to avoid file system writes.");
+                /* 
                 const infographicFilename = `${blogPost.slug}-infographic.png`;
                 const infographicPath = path.join(process.cwd(), 'public/blog', infographicFilename);
-
-                // Ensure directory exists
-                const dir = path.dirname(infographicPath);
-                if (!fs.existsSync(dir)) {
-                    fs.mkdirSync(dir, { recursive: true });
-                }
-
-                fs.writeFileSync(infographicPath, imageBuffer);
-                console.log(`✅ Infographic saved to public/blog/${infographicFilename}`);
-
-                // Insert into content
-                const infographicMarkdown = `\n\n![${blogPost.title} Infographic](/blog/${infographicFilename})\n*Above: A quick reference guide for ${blogPost.title}*\n\n`;
-
-                // Insert after first H2 or at the top
-                const firstH2 = blogPost.content.indexOf('##');
-                if (firstH2 !== -1) {
-                    blogPost.content = blogPost.content.slice(0, firstH2) + infographicMarkdown + blogPost.content.slice(firstH2);
-                } else {
-                    blogPost.content = infographicMarkdown + blogPost.content;
-                }
+                // ... saving logic ...
+                */
             }
         }
 
@@ -746,28 +731,29 @@ async function main() {
             console.log(formatBlogPostCode(blogPost));
 
             if (args.dryRun) {
-                console.log("\n🚧 DRY RUN: Not saved to file.");
+                console.log("\n🚧 DRY RUN: Not saved to database.");
             }
         } else {
-            // Save to file by default
+            // Save to Supabase
             try {
-                const savedPath = saveBlogPost(blogPost);
+                const success = await saveBlogPostToSupabase(blogPost);
 
-                // Pretty print
-                console.log(`Title: ${blogPost.title}`);
-                console.log(`Slug: ${blogPost.slug}`);
-                console.log(`Category: ${blogPost.category}`);
-                console.log(`Author: ${blogPost.author}`);
-                console.log(`Tags: ${blogPost.tags.join(", ")}`);
-                console.log(`Read Time: ${blogPost.readTime} min`);
-                console.log(`\nExcerpt:\n${blogPost.excerpt}`);
-                console.log(`\n--- Content Preview (first 500 chars) ---\n`);
-                console.log(blogPost.content.slice(0, 500) + "...");
-                console.log(`\n\n✅ Saved successfully to ${savedPath}`);
+                if (success) {
+                    // Pretty print
+                    console.log(`Title: ${blogPost.title}`);
+                    console.log(`Slug: ${blogPost.slug}`);
+                    console.log(`Category: ${blogPost.category}`);
+                    console.log(`Author: ${blogPost.author}`);
+                    console.log(`\n✅ Saved successfully to Supabase Database!`);
+                } else {
+                    console.error("❌ Failed to save to Supabase.");
+                    console.log("Here is the code so you can save it manually:");
+                    console.log(formatBlogPostCode(blogPost));
+                    process.exit(1);
+                }
             } catch (err) {
                 console.error("❌ Failed to save blog post:", err);
-                console.log("Here is the code so you can save it manually:");
-                console.log(formatBlogPostCode(blogPost));
+                process.exit(1);
             }
         }
 
