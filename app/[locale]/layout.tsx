@@ -121,6 +121,10 @@ export default async function RootLayout({
   validateEnvVars();
 
   const { locale } = await params;
+
+  // Enable static rendering
+  // unstable_setRequestLocale(locale);
+
   const messages = await getMessages();
 
   return (
@@ -183,7 +187,7 @@ export default async function RootLayout({
         />
       </head>
       <body className={`${inter.variable} ${playfair.variable} ${geistMono.variable} antialiased`} suppressHydrationWarning>
-        <NextIntlClientProvider messages={messages}>
+        <NextIntlClientProvider messages={messages} locale={locale}>
           <ToastProvider>
             <SurpriseMeProvider>
               <FavoritesProvider>
