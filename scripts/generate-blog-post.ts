@@ -233,10 +233,12 @@ Requirements:
 1.  **Structure**:
     -   Introduction (Hook + Value Prop)
     -   12-15 Content Body Sections (H2s)
+    -   **Recommended Gear / Ingredients** (Dedicated Section for Affiliate Links)
     -   FAQ Section (mandatory)
     -   Conclusion
 2.  **Depth**: Each section description must be detailed enough to guide a writer to write 500-700 words.
 3.  **Flow**: Ensure logical progression (History -> Science -> How-To -> Advanced -> Troubleshooting).
+4.  **Monetization**: Identify specific sections where products (tools/ingredients) should be recommended.
 `;
 
     const userPrompt = `Topic: "${topic}"
@@ -282,16 +284,21 @@ Guidelines:
 3.  **Density**: Use markdown bullet points, bold text for emphasis, and tables where appropriate.
 4.  **Tone**: Authoritative, scientific yet accessible (Serious Eats style).
 5.  **Context**: Ensure you flow smoothly from the previous thought (provided in context).
+6.  **MONETIZATION (CRITICAL)**:
+    - If you mention a specific tool or ingredient, you MUST provide an Amazon Search Link.
+    - Format: [Product Name](https://www.amazon.com/s?k=Product+Name)
+    - Example: "For best results, use a [Cast Iron Skillet](https://www.amazon.com/s?k=Lodge+Cast+Iron+Skillet)."
+    - Do NOT make up fake direct ASIN links. Use the search URL format.
 `;
 
     const userPrompt = `
 SECTION TO WRITE: "${section.heading}"
-INSTRUCTIONS: ${section.description}
+    INSTRUCTIONS: ${section.description}
 
-PREVIOUS CONTEXT (Last 300 words written):
-"...${previousContext.slice(-1000)}..."
+PREVIOUS CONTEXT(Last 300 words written):
+    "...${previousContext.slice(-1000)}..."
 
-SOURCE MATERIAL (Use for facts/data):
+SOURCE MATERIAL(Use for facts / data):
 ${sourceMaterial.slice(0, 15000)}
 
 Start writing the markdown content for this section now.`;
@@ -322,18 +329,18 @@ async function generateLongFormPost(
     let wordCount = 0;
 
     for (const [index, section] of outline.sections.entries()) {
-        console.log(`\n[${index + 1}/${outline.sections.length}] Processing: ${section.heading}`);
+        console.log(`\n[${index + 1}/${outline.sections.length}]Processing: ${section.heading} `);
 
         let sectionContent = await writeSection(topic, section, fullContent, sourceMaterial);
 
         // Add H2 header if missing (AI sometimes skips it if prompted to "start directly")
         if (!sectionContent.trim().startsWith("#")) {
-            sectionContent = `## ${section.heading}\n\n${sectionContent}`;
+            sectionContent = `## ${section.heading} \n\n${sectionContent} `;
         }
 
-        fullContent += `\n\n${sectionContent}`;
+        fullContent += `\n\n${sectionContent} `;
         wordCount += sectionContent.split(/\s+/).length;
-        console.log(`   > Added ~${sectionContent.split(/\s+/).length} words. Total: ${wordCount}`);
+        console.log(`   > Added ~${sectionContent.split(/\s+/).length} words.Total: ${wordCount} `);
     }
 
     // 3. Assemble
@@ -426,6 +433,7 @@ async function main() {
         // 1. Research
         const searchResults = await searchWithJina(args.topic);
         const faqResults = await searchWithJina(`${args.topic} questions`);
+        const productResults = await searchWithJina(`best ${args.topic} products tools amazon review`);
 
         let combinedSource = "";
         let images: string[] = [];
@@ -433,10 +441,13 @@ async function main() {
         console.log("📖 Reading sources...");
         for (const res of searchResults.slice(0, 3)) {
             const text = await readWithJina(res.url);
-            combinedSource += `\nSOURCE: ${res.title}\n${text}\n`;
+            combinedSource += `\nSOURCE: ${res.title} \n${text} \n`;
         }
         for (const faq of faqResults.slice(0, 3)) {
-            combinedSource += `\nFAQ CONTEXT: ${faq.title}\n${faq.description}\n`;
+            combinedSource += `\nFAQ CONTEXT: ${faq.title} \n${faq.description} \n`;
+        }
+        for (const prod of productResults.slice(0, 5)) {
+            combinedSource += `\nPRODUCT RECOMMENDATION: ${prod.title} \n${prod.description} \n`;
         }
 
         const jinaImages = await searchImagesWithJina(args.topic);
@@ -449,8 +460,8 @@ async function main() {
         // 3. Output
         if (args.dryRun || args.output) {
             console.log("\n🚧 DRY RUN / OUTPUT MODE");
-            console.log(`Title: ${post.title}`);
-            console.log(`Words: ${post.content.split(/\s+/).length}`);
+            console.log(`Title: ${post.title} `);
+            console.log(`Words: ${post.content.split(/\s+/).length} `);
             if (args.output) console.log(post.content);
         } else {
             await saveBlogPostToSupabase(post);
