@@ -94,24 +94,36 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   });
 
   // 3. Blog Posts
-  const blogPosts = getAllPostsMetadata();
-  blogPosts.forEach((post) => {
-    locales.forEach((locale) => {
-      allRoutes.push({
-        url: `${baseUrl}/${locale}/blog/${post.slug}`,
-        lastModified: new Date(post.publishedDate),
-        changeFrequency: "monthly",
-        priority: 0.7,
-        alternates: {
-          languages: {
-            en: `${baseUrl}/en/blog/${post.slug}`,
-            fr: `${baseUrl}/fr/blog/${post.slug}`,
-            es: `${baseUrl}/es/blog/${post.slug}`,
-          },
-        },
+  try {
+    const { data: blogPosts, error: blogError } = await supabase
+      .from('blog_posts')
+      .select('slug, published_date, updated_at')
+      .eq('published', true);
+
+    if (blogError) {
+      console.error("Error fetching blog posts for sitemap:", blogError);
+    } else if (blogPosts && blogPosts.length > 0) {
+      blogPosts.forEach((post) => {
+        locales.forEach((locale) => {
+          allRoutes.push({
+            url: `${baseUrl}/${locale}/blog/${post.slug}`,
+            lastModified: new Date(post.updated_at || post.published_date),
+            changeFrequency: "monthly",
+            priority: 0.7,
+            alternates: {
+              languages: {
+                en: `${baseUrl}/en/blog/${post.slug}`,
+                fr: `${baseUrl}/fr/blog/${post.slug}`,
+                es: `${baseUrl}/es/blog/${post.slug}`,
+              },
+            },
+          });
+        });
       });
-    });
-  });
+    }
+  } catch (error) {
+    console.error("Error in blog post sitemap generation:", error);
+  }
 
   // 4. Recipes
   try {
