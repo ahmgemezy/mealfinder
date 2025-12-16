@@ -1,17 +1,25 @@
 /**
- * Blog Post Generator Script
+ * Blog Post Generator Script (Long Form)
  *
- * Uses JINA.ai to search for content and OpenAI to rewrite it into original blog posts.
- * Saves the result to Supabase database.
+ * Strategy:
+ * 1. Research (JINA.ai)
+ * 2. Architect (Outline Generation) - 15-20 sections
+ * 3. Write (Recursive Section Expansion) - 500+ words per section
+ * 4. Assemble & Optimize
  *
- * Usage:
- *   npx tsx scripts/generate-blog-post.ts --topic "meal prep tips" --category "Cooking Tips & Trends"
+ * Target: 7500+ words of high-quality, SEO-optimized content.
  */
 
 import 'dotenv/config';
 import * as fs from 'fs';
 import * as path from 'path';
-import { createClient } from '@supabase/supabase-js';
+import { createClient, SupabaseClient } from '@supabase/supabase-js';
+import dotenv from 'dotenv';
+
+// Load .env.local if it exists (for local development keys)
+if (fs.existsSync('.env.local')) {
+    dotenv.config({ path: '.env.local', override: true });
+}
 
 // ============================================================================
 // Configuration
@@ -24,11 +32,17 @@ const JINA_READER_URL = "https://r.jina.ai/";
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL;
 const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
-if (!supabaseUrl || !supabaseServiceKey) {
-    console.warn("⚠️ Supabase credentials missing. Blog post will strictly be printed to console/dry-run unless fixed.");
-}
+let supabase: SupabaseClient | null = null;
 
-const supabase = createClient(supabaseUrl || "", supabaseServiceKey || "");
+if (supabaseUrl && supabaseUrl.startsWith('http') && supabaseServiceKey) {
+    try {
+        supabase = createClient(supabaseUrl, supabaseServiceKey);
+    } catch (e) {
+        console.warn("⚠️ Failed to initialize Supabase client:", e);
+    }
+} else {
+    console.warn("⚠️ Supabase credentials missing or invalid. Database operations will fail.");
+}
 
 const AUTHORS = [
     "Chef Alex", "Sarah Jenkins", "Dr. Emily Foodsci", "Giulia Rossi",
@@ -37,14 +51,10 @@ const AUTHORS = [
 ];
 
 const FALLBACK_IMAGES = [
-    "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800&q=80", // Generic food
-    "https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?w=800&q=80", // Salad/Fresh
-    "https://images.unsplash.com/photo-1498837167922-ddd27525d352?w=800&q=80", // Veggies/Prep
-    "https://images.unsplash.com/photo-1432139555190-58524dae6a55?w=800&q=80", // Meat/Steak
-    "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=800&q=80", // Bowl/Healthy
-    "https://images.unsplash.com/photo-1476718406336-bb5a9690ee2b?w=800&q=80", // Soup/Warm
-    "https://images.unsplash.com/photo-1493770348161-369560ae357d?w=800&q=80", // Breakfast/Eggs
-    "https://images.unsplash.com/photo-1473093295043-cdd812d0e601?w=800&q=80", // Pasta/Italian
+    "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800&q=80",
+    "https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?w=800&q=80",
+    "https://images.unsplash.com/photo-1498837167922-ddd27525d352?w=800&q=80",
+    "https://images.unsplash.com/photo-1432139555190-58524dae6a55?w=800&q=80",
 ];
 
 const BLOG_CATEGORIES = [
@@ -73,11 +83,20 @@ interface JinaSearchResult {
     description?: string;
 }
 
-interface JinaAPIItem {
-    title?: string;
-    url?: string;
-    content?: string;
-    description?: string;
+interface OutlineSection {
+    heading: string;
+    description: string;
+    estimatedWords: number;
+}
+
+interface BlogPostOutline {
+    slug: string;
+    title: string;
+    description: string; // Meta description
+    tags: string[];
+    excerpt: string;
+    sections: OutlineSection[];
+    infographicPrompt: string;
 }
 
 interface GeneratedBlogPost {
@@ -92,7 +111,6 @@ interface GeneratedBlogPost {
     featuredImage: string;
     excerpt: string;
     content: string;
-    infographicPrompt?: string;
 }
 
 interface CLIArgs {
@@ -104,427 +122,250 @@ interface CLIArgs {
 }
 
 // ============================================================================
-// JINA.ai Integration
+// Logic
 // ============================================================================
 
-/**
- * Search for content using JINA.ai Search API
- */
 async function searchWithJina(query: string): Promise<JinaSearchResult[]> {
     const apiKey = process.env.JINA_API_KEY;
-
-    const headers: Record<string, string> = {
-        Accept: "application/json",
-    };
-
-    if (apiKey) {
-        headers["Authorization"] = `Bearer ${apiKey} `;
-    }
-
-    const url = `${JINA_SEARCH_URL}${encodeURIComponent(query)} `;
+    const headers: Record<string, string> = { Accept: "application/json" };
+    if (apiKey) headers["Authorization"] = `Bearer ${apiKey}`;
 
     console.log(`🔍 Searching JINA.ai for: "${query}"...`);
-
     try {
-        const response = await fetch(url, { headers });
-
-        if (!response.ok) {
-            throw new Error(`JINA search failed: ${response.status} ${response.statusText} `);
-        }
-
+        const response = await fetch(`${JINA_SEARCH_URL}${encodeURIComponent(query)}`, { headers });
+        if (!response.ok) throw new Error(`JINA search failed: ${response.status}`);
         const data = await response.json();
-
-        // JINA returns results in data array
-        const results: JinaSearchResult[] = (data.data || []).slice(0, 5).map((item: JinaAPIItem) => ({
+        return (data.data || []).slice(0, 5).map((item: any) => ({
             title: item.title || "",
             url: item.url || "",
             content: item.content || "",
             description: item.description || "",
         }));
-
-        console.log(`✅ Found ${results.length} results`);
-        return results;
     } catch (error) {
         console.error("❌ JINA search error:", error);
-        throw error;
-    }
-}
-
-/**
- * Read full content from a URL using JINA.ai Reader API
- */
-async function readWithJina(url: string): Promise<string> {
-    const apiKey = process.env.JINA_API_KEY;
-
-    const headers: Record<string, string> = {
-        Accept: "text/plain",
-        "x-with-generated-alt": "true",
-    };
-
-    if (apiKey) {
-        headers["Authorization"] = `Bearer ${apiKey} `;
-    }
-
-    const readerUrl = `${JINA_READER_URL}${url} `;
-
-    try {
-        const response = await fetch(readerUrl, { headers });
-
-        if (!response.ok) {
-            console.warn(`⚠️ Could not read ${url}: ${response.status} `);
-            return "";
-        }
-
-        const content = await response.text();
-        return content.slice(0, 30000); // Increased content limit for depth
-    } catch (error) {
-        console.warn(`⚠️ Error reading ${url}: `, error);
-        return "";
-    }
-}
-
-/**
- * Search for images using JINA.ai Search API
- * Returns validated image URLs for the given topic
- */
-async function searchImagesWithJina(topic: string): Promise<string[]> {
-    const apiKey = process.env.JINA_API_KEY;
-
-    const headers: Record<string, string> = {
-        Accept: "application/json",
-    };
-
-    if (apiKey) {
-        headers["Authorization"] = `Bearer ${apiKey}`;
-    }
-
-    const query = `${topic} food photography high quality`;
-    const url = `${JINA_SEARCH_URL}${encodeURIComponent(query)}`;
-
-    console.log(`🔍 Searching JINA.ai for images: "${query}"...`);
-
-    try {
-        const response = await fetch(url, { headers });
-
-        if (!response.ok) {
-            console.warn(`⚠️ JINA image search failed: ${response.status}`);
-            return [];
-        }
-
-        const data = await response.json();
-        const results = data.data || [];
-
-        // Extract image URLs from search results
-        const imageUrls: string[] = [];
-
-        for (const result of results.slice(0, 10)) {
-            // Check if result URL is an image
-            const resultUrl = result.url || "";
-            if (/\.(jpg|jpeg|png|webp)(\?|$)/i.test(resultUrl)) {
-                imageUrls.push(resultUrl.split("?")[0]); // Remove query params
-            }
-
-            // Also extract images from content (if any)
-            const content = result.content || "";
-            const imgMatches = content.match(/https?:\/\/[^\s"')]+\.(jpg|jpeg|png|webp)/gi) || [];
-            for (const imgUrl of imgMatches.slice(0, 3)) {
-                const cleanUrl = imgUrl.split("?")[0];
-                if (!imageUrls.includes(cleanUrl)) {
-                    imageUrls.push(cleanUrl);
-                }
-            }
-        }
-
-        // Validate URLs are accessible (check first 5)
-        const validatedUrls: string[] = [];
-        for (const imgUrl of imageUrls.slice(0, 5)) {
-            try {
-                const checkResponse = await fetch(imgUrl, { method: "HEAD" });
-                if (checkResponse.ok) {
-                    validatedUrls.push(imgUrl);
-                    console.log(`  ✅ Valid image: ${imgUrl.slice(0, 60)}...`);
-                    if (validatedUrls.length >= 3) break; // Stop after 3 valid
-                }
-            } catch {
-                // Skip invalid URLs silently
-            }
-        }
-
-        console.log(`📸 Found ${validatedUrls.length} valid images from JINA`);
-        return validatedUrls;
-    } catch (error) {
-        console.error("❌ JINA image search error:", error);
         return [];
     }
 }
 
-// ============================================================================
-// OpenAI Integration
-// ============================================================================
-
-/**
- * Generate an image using OpenAI DALL-E 3
- */
-async function generateImageWithAI(prompt: string): Promise<Buffer | null> {
-    const apiKey = process.env.OPENAI_API_KEY;
-
-    if (!apiKey) {
-        console.warn("⚠️ No OpenAI API key found. Skipping image generation.");
-        return null;
-    }
-
-    console.log(`🎨 Generating infographic with DALL-E 3: "${prompt.slice(0, 50)}..."`);
-
+async function readWithJina(url: string): Promise<string> {
+    const apiKey = process.env.JINA_API_KEY;
+    const headers: Record<string, string> = { Accept: "text/plain", "x-with-generated-alt": "true" };
+    if (apiKey) headers["Authorization"] = `Bearer ${apiKey}`;
     try {
-        const response = await fetch("https://api.openai.com/v1/images/generations", {
-            method: "POST",
-            headers: {
-                "Authorization": `Bearer ${apiKey}`,
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                model: "dall-e-3",
-                prompt: `A professional, clean, modern infographic chart or cheat sheet about: ${prompt}. High resolution, flat vector style, readable text, soft colors.`,
-                n: 1,
-                size: "1024x1024",
-                response_format: "b64_json",
-            }),
-        });
-
-        if (!response.ok) {
-            const error = await response.json();
-            console.error(`❌ DALL-E error: ${JSON.stringify(error)}`);
-            return null;
-        }
-
-        const data = await response.json();
-        const b64Json = data.data?.[0]?.b64_json;
-
-        if (b64Json) {
-            return Buffer.from(b64Json, 'base64');
-        }
-
-        return null;
-    } catch (error) {
-        console.error("❌ Image generation failed:", error);
-        return null;
+        const response = await fetch(`${JINA_READER_URL}${url}`, { headers });
+        if (!response.ok) return "";
+        return (await response.text()).slice(0, 30000);
+    } catch {
+        return "";
     }
 }
 
-/**
- * Rewrite content using OpenAI GPT-4
- */
-async function rewriteWithAI(
+// Reuse image search from previous version
+async function searchImagesWithJina(topic: string): Promise<string[]> {
+    const apiKey = process.env.JINA_API_KEY;
+    const headers: Record<string, string> = { Accept: "application/json" };
+    if (apiKey) headers["Authorization"] = `Bearer ${apiKey}`;
+
+    try {
+        const response = await fetch(`${JINA_SEARCH_URL}${encodeURIComponent(topic + " food photography")}`, { headers });
+        if (!response.ok) return [];
+        const data = await response.json();
+        return (data.data || [])
+            .map((item: any) => item.url)
+            .filter((url: string) => /\.(jpg|jpeg|png|webp)(\?|$)/i.test(url))
+            .slice(0, 5);
+    } catch {
+        return [];
+    }
+}
+
+async function openaiChat(messages: any[], model = "gpt-4o", maxTokens = 4096) {
+    const apiKey = process.env.OPENAI_API_KEY;
+    if (!apiKey) throw new Error("OPENAI_API_KEY is required.");
+
+    const response = await fetch("https://api.openai.com/v1/chat/completions", {
+        method: "POST",
+        headers: {
+            Authorization: `Bearer ${apiKey}`,
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            model,
+            messages,
+            temperature: 0.7,
+            max_tokens: maxTokens,
+        }),
+    });
+
+    if (!response.ok) throw new Error(`OpenAI API error: ${response.statusText}`);
+    const data = await response.json();
+    return data.choices?.[0]?.message?.content || "";
+}
+
+// ----------------------------------------------------------------------------
+// Step 1: Generate Outline
+// ----------------------------------------------------------------------------
+async function generateOutline(topic: string, sourceMaterial: string): Promise<BlogPostOutline> {
+    console.log("🏗️  Step 1: Architecting Outline...");
+
+    const systemPrompt = `You are the Editor-in-Chief of "Dish Shuffle". 
+You are designing the structure for a MASSIVE, 7500-word authority article.
+Your goal is to break this topic down into at least 15-20 discrete, high-value sections.
+
+Output strictly JSON with this schema:
+{
+  "slug": "url-slug",
+  "title": "A Click-Worthy, SEO-Optimized Title",
+  "description": "Meta description (150 chars)",
+  "tags": ["Tag1", "Tag2"],
+  "excerpt": "Engaging summary.",
+  "infographicPrompt": "Visual description for a summary chart.",
+  "sections": [
+    { 
+      "heading": "Section H2 Title", 
+      "description": "Exact instructions for what to write here. Be specific about data, examples, or tips to include.", 
+      "estimatedWords": 600 
+    }
+  ]
+}
+
+Requirements:
+1.  **Structure**:
+    -   Introduction (Hook + Value Prop)
+    -   12-15 Content Body Sections (H2s)
+    -   FAQ Section (mandatory)
+    -   Conclusion
+2.  **Depth**: Each section description must be detailed enough to guide a writer to write 500-700 words.
+3.  **Flow**: Ensure logical progression (History -> Science -> How-To -> Advanced -> Troubleshooting).
+`;
+
+    const userPrompt = `Topic: "${topic}"
+Source Material Preview:
+${sourceMaterial.slice(0, 10000)}
+
+Create the Master Outline for a 7500-word article.`;
+
+    const raw = await openaiChat([
+        { role: "system", content: systemPrompt },
+        { role: "user", content: userPrompt }
+    ]);
+
+    try {
+        const sanitized = raw.replace(/```json|```/g, "").trim();
+        return JSON.parse(sanitized);
+    } catch (e) {
+        console.error("Failed to parse outline JSON", raw);
+        throw e;
+    }
+}
+
+// ----------------------------------------------------------------------------
+// Step 2: Write Single Section
+// ----------------------------------------------------------------------------
+async function writeSection(
+    topic: string,
+    section: OutlineSection,
+    previousContext: string,
+    sourceMaterial: string
+): Promise<string> {
+    console.log(`✍️  Writing Section: "${section.heading}"...`);
+
+    const systemPrompt = `You are a specialized senior food writer.
+You are writing ONE specific section of a massive 7500-word guide on "${topic}".
+
+Your Task: Write the content for the section "${section.heading}".
+Target Length: ${section.estimatedWords} words (Minimum 500).
+
+Guidelines:
+1.  **NO Intro/Outro**: Start directly with the content. Do not say "In this section...".
+2.  **H3 usage**: Use H3s to break up the text further.
+3.  **Density**: Use markdown bullet points, bold text for emphasis, and tables where appropriate.
+4.  **Tone**: Authoritative, scientific yet accessible (Serious Eats style).
+5.  **Context**: Ensure you flow smoothly from the previous thought (provided in context).
+`;
+
+    const userPrompt = `
+SECTION TO WRITE: "${section.heading}"
+INSTRUCTIONS: ${section.description}
+
+PREVIOUS CONTEXT (Last 300 words written):
+"...${previousContext.slice(-1000)}..."
+
+SOURCE MATERIAL (Use for facts/data):
+${sourceMaterial.slice(0, 15000)}
+
+Start writing the markdown content for this section now.`;
+
+    return await openaiChat([
+        { role: "system", content: systemPrompt },
+        { role: "user", content: userPrompt }
+    ], "gpt-4o", 2048); // High token limit for response
+}
+
+// ----------------------------------------------------------------------------
+// Main Orchestrator
+// ----------------------------------------------------------------------------
+async function generateLongFormPost(
     topic: string,
     category: BlogCategory,
-    sourceContent: string,
-    availableImages: string[],
-    forcedAuthor?: string
+    sourceMaterial: string,
+    author: string,
+    availableImages: string[]
 ): Promise<GeneratedBlogPost> {
-    const apiKey = process.env.OPENAI_API_KEY;
 
-    if (!apiKey) {
-        throw new Error("OPENAI_API_KEY is required. Set it in your .env file.");
-    }
+    // 1. Generate Outline
+    const outline = await generateOutline(topic, sourceMaterial);
+    console.log(`PLAN: ${outline.sections.length} sections, Target ~${outline.sections.reduce((a, b) => a + b.estimatedWords, 0)} words.`);
 
-    console.log("🤖 Generating blog post with OpenAI...");
+    // 2. Loop and Write
+    let fullContent = "";
+    let wordCount = 0;
 
-    const systemPrompt = `You are a professional, world-class food writer for "Dish Shuffle".
-Your goal is to write the MOST DEFINITIVE, VALUABLE, and COMPREHENSIVE resource on the internet for this topic.
+    for (const [index, section] of outline.sections.entries()) {
+        console.log(`\n[${index + 1}/${outline.sections.length}] Processing: ${section.heading}`);
 
-Your writing style must be:
-- **Deeply Expert**: Go beyond surface level. Explain the science, the history, and the "why".
-- **High Value**: Every paragraph must add specific value (tips, data, techniques). No fluff.
-- **Authoritative**: Write with conviction. Use data, comparisons, and expert consensus.
-- **Structured**: Use extensive H2s, H3s, bullet points, and markdown tables to break up dense information.
-- **Length**: Target 4000-5000 words. If you hit the token limit, prioritize density of information over word count.
+        let sectionContent = await writeSection(topic, section, fullContent, sourceMaterial);
 
-You must output a valid JSON object with these exact fields:
-{
-  "slug": "kebab-case-url-slug",
-  "title": "Compelling, SEO-optimized title",
-  "description": "Meta description, max 160 chars",
-  "tags": ["Tag1", "Tag2", "Tag3", "Tag4", "Tag5"],
-  "readTime": 20,
-  "featureImage": "URL...",
-  "infographicPrompt": "A detailed visual description for a 'Cheat Sheet' or 'Infographic' summarizing the key points of this article (e.g., 'Chart showing safe internal temperatures for meats' or 'Timeline of meal prep workflow').",
-  "excerpt": "Engaging 2-3 sentence summary",
-  "content": "Full markdown content. MUST BE EXTREMELY LONG AND DETAILED. Target 4000+ words."
-}`;
-
-    const userPrompt = `Write the ultimate authority guide on: "${topic}"
-Category: ${category}
-
-Research Source Material (Synthesize this, but add your own expert knowledge and structure):
-${sourceContent.slice(0, 50000)}
-
-Available Images:
-${JSON.stringify(availableImages, null, 2)}
-
-Requirements for "Real Added Value":
-1. **Extreme Depth**: Don't just say "cook the steak". Explain the Maillard reaction, internal temp charts, resting science, and pan selection.
-2. **Actionable Value**: Include troubleshooting guides ("If X happens, do Y"), pro tips, and mistakes to avoid.
-3. **Smart Internal Linking**:
-   - You MUST insert links to internal recipe categories where relevant.
-   - Use the format: \`[Category Name Recipes](/recipes?category=CategoryName)\`.
-   - Examples: "Check out our [Chicken Recipes](/recipes?category=Chicken)" or "perfect for [Breakfast](/recipes?category=Breakfast)".
-   - List 3-5 specific tools/products.
-   - Format: \`[Product Name](amazon_link_from_source) - Why it's good.\`
-   - **CRITICAL**: If no specific link is provided in the source, you MUST generate an Amazon Search URL: \`https://www.amazon.com/s?k=Product+Name\`.
-   - **NEVER** use the generic homepage \`https://www.amazon.com\` or \`https://amazon.com\` as a standalone link. Links must direct to a product or a search page.
-5. **FAQ Section (Crucial for SEO)**:
-   - Include a section at the end: "## Frequently Asked Questions".
-   - Answer 5-7 specific questions from the "Common Questions" source material.
-   - Answers must be concise (40-60 words).
-6. **Structure**: 
-   - Hook the reader immediately.
-   - at least 10-12 main H2 sections.
-   - Markdown Tables for comparisons.
-7. **Length**: Target 4000-5000 words.
-8. **Tone**: Educational, Encouraging, Expert.
-
-Output ONLY the JSON object.`;
-
-    try {
-        const response = await fetch("https://api.openai.com/v1/chat/completions", {
-            method: "POST",
-            headers: {
-                Authorization: `Bearer ${apiKey}`,
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                model: "gpt-4o",
-                messages: [
-                    { role: "system", content: systemPrompt },
-                    { role: "user", content: userPrompt },
-                ],
-                temperature: 0.7,
-                max_tokens: 4096, // Max output tokens for gpt-4o
-            }),
-        });
-
-        if (!response.ok) {
-            const error = await response.json();
-            throw new Error(`OpenAI API error: ${JSON.stringify(error)} `);
+        // Add H2 header if missing (AI sometimes skips it if prompted to "start directly")
+        if (!sectionContent.trim().startsWith("#")) {
+            sectionContent = `## ${section.heading}\n\n${sectionContent}`;
         }
 
-        const data = await response.json();
-        const rawContent = data.choices?.[0]?.message?.content || "";
-
-        // Sanitize content (remove markdown code blocks if present)
-        const sanitizedContent = rawContent
-            .replace(/^```json\s*/, "")
-            .replace(/^```\s*/, "")
-            .replace(/\s*```$/, "");
-
-        // Parse JSON response
-        const parsed = JSON.parse(sanitizedContent);
-
-        // Get author (forced or random)
-        const author = forcedAuthor || AUTHORS[Math.floor(Math.random() * AUTHORS.length)];
-
-        // Get today's date
-        const today = new Date().toISOString().split("T")[0];
-
-        // Select Image
-        let selectedImage = parsed.featuredImage;
-        const isValidRemoteImage = selectedImage && selectedImage !== "null" && selectedImage.startsWith("http");
-
-        if (!isValidRemoteImage) {
-            console.log("⚠️ No valid featured image in generated content. Attempting to use source images...");
-
-            // Blocklist of invalid image domains (social media CDNs, tracking, placeholders, etc.)
-            const BLOCKED_DOMAINS = [
-                "fbcdn.net", "facebook.com", "instagram.com", "twitter.com", "twimg.com",
-                "pinterest.com", "gravatar.com", "wp.com/latex", "googleusercontent.com",
-                "gstatic.com", "placeholder", "icon", "logo", "avatar",
-                // Tracking and analytics
-                "bluecava.com", "graph.", "sync.", "pixel", "beacon", "track",
-                "analytics", "ad.", "ads.", "doubleclick", "googlesyndication",
-                // Common bad patterns
-                "1x1", "spacer", "blank", "clear", "empty", "loading", "spinner"
-            ];
-
-            // Blocked filename patterns (tracking pixels, tiny images)
-            const BLOCKED_FILENAMES = /\/(ds|px|pixel|track|beacon|spacer|blank|clear|1x1|loading)\./i;
-
-            // Valid image extensions
-            const VALID_EXTENSIONS = /\.(jpg|jpeg|png|webp)(\?|$)/i;
-
-            // Filter available images for valid food photography
-            const validSourceImage = availableImages.find(img => {
-                if (!img.startsWith("http")) return false;
-                if (!VALID_EXTENSIONS.test(img)) return false;
-                if (BLOCKED_FILENAMES.test(img)) return false;
-                const lowerImg = img.toLowerCase();
-                return !BLOCKED_DOMAINS.some(domain => lowerImg.includes(domain));
-            });
-
-            if (validSourceImage) {
-                console.log("✅ Using image from source content.");
-                selectedImage = validSourceImage.split("?")[0]; // Remove query params
-            } else {
-                // Try JINA image search as primary fallback
-                console.log("⚠️ No valid source images. Searching JINA for topic-related images...");
-                const jinaImages = await searchImagesWithJina(topic);
-
-                if (jinaImages.length > 0) {
-                    console.log("✅ Using image from JINA search.");
-                    selectedImage = jinaImages[0];
-                } else {
-                    // Final fallback: clean Unsplash URLs (no query params)
-                    console.log("⚠️ JINA search returned no images. Using Unsplash fallback.");
-                    const fallback = FALLBACK_IMAGES[Math.floor(Math.random() * FALLBACK_IMAGES.length)];
-                    selectedImage = fallback.split("?")[0]; // Remove query params
-                }
-            }
-        }
-
-        // Build complete blog post
-        const blogPost: GeneratedBlogPost = {
-            slug: parsed.slug || slugify(topic),
-            title: parsed.title || topic,
-            description: parsed.description || "",
-            category: category,
-            tags: parsed.tags || [],
-            author: author,
-            publishedDate: today,
-            readTime: parsed.readTime || 8,
-            featuredImage: selectedImage,
-            excerpt: parsed.excerpt || "",
-            content: parsed.content || "",
-        };
-
-        console.log("✅ Blog post generated successfully!");
-        return blogPost;
-    } catch (error) {
-        console.error("❌ OpenAI error:", error);
-        throw error;
+        fullContent += `\n\n${sectionContent}`;
+        wordCount += sectionContent.split(/\s+/).length;
+        console.log(`   > Added ~${sectionContent.split(/\s+/).length} words. Total: ${wordCount}`);
     }
+
+    // 3. Assemble
+    // Select Image
+    const featuredImage = availableImages.length > 0 ? availableImages[0] : FALLBACK_IMAGES[0];
+
+    return {
+        slug: outline.slug,
+        title: outline.title,
+        description: outline.description,
+        excerpt: outline.excerpt,
+        tags: outline.tags,
+        category,
+        author,
+        publishedDate: new Date().toISOString(),
+        readTime: Math.ceil(wordCount / 200), // ~200 wpm
+        featuredImage, // Simplification for now
+        content: fullContent.trim()
+    };
 }
 
 // ============================================================================
-// Utility Functions
+// Database & Utils
 // ============================================================================
 
-function extractImagesFromMarkdown(content: string): string[] {
-    const imageRegex = /!\[.*?\]\((.*?)\)/g;
-    const images: string[] = [];
-    let match;
-    while ((match = imageRegex.exec(content)) !== null) {
-        if (match[1] && match[1].startsWith("http")) {
-            images.push(match[1]);
-        }
-    }
-    return images;
-}
-
-/**
- * Save blog post to Supabase
- */
 async function saveBlogPostToSupabase(post: GeneratedBlogPost): Promise<boolean> {
-    console.log(`💾 Saving blog post "${post.title}" to Supabase...`);
+    if (!supabase) {
+        console.error("❌ Supabase client is not initialized. Cannot save.");
+        return false;
+    }
 
+    console.log(`💾 Saving blog post "${post.title}" to Supabase...`);
     try {
         const { error } = await supabase
             .from('blog_posts')
@@ -538,228 +379,84 @@ async function saveBlogPostToSupabase(post: GeneratedBlogPost): Promise<boolean>
                 featured_image: post.featuredImage,
                 tags: post.tags,
                 read_time: post.readTime,
-                published_date: new Date().toISOString(), // Use current time
+                published_date: new Date().toISOString(),
                 updated_at: new Date().toISOString()
             }, { onConflict: 'slug' });
 
-        if (error) {
-            console.error("❌ Supabase insertion error:", error);
-            throw error;
-        }
-
-        console.log("✅ Successfully saved to Supabase!");
+        if (error) throw error;
+        console.log("✅ Saved to Supabase!");
         return true;
     } catch (err) {
-        console.error("❌ Failed to save to Supabase:", err);
+        console.error("❌ Failed to save:", err);
         return false;
     }
 }
 
-function slugify(text: string): string {
-    return text
-        .toLowerCase()
-        .replace(/[^\w\s-]/g, "")
-        .replace(/\s+/g, "-")
-        .replace(/-+/g, "-")
-        .trim();
-}
-
 function parseArgs(): CLIArgs {
     const args = process.argv.slice(2);
-    const result: CLIArgs = {
-        topic: "",
-        category: "Cooking Fundamentals",
-        output: false,
-        dryRun: false,
-    };
+    const result: CLIArgs = { topic: "", category: "Cooking Fundamentals", output: false, dryRun: false };
 
     for (let i = 0; i < args.length; i++) {
-        if (args[i] === "--topic" && args[i + 1]) {
-            result.topic = args[i + 1];
-            i++;
-        } else if (args[i] === "--category" && args[i + 1]) {
-            const cat = args[i + 1] as BlogCategory;
-            if (BLOG_CATEGORIES.includes(cat)) {
-                result.category = cat;
-            } else {
-                console.warn(`⚠️ Invalid category "${cat}". Using default.`);
-                console.log(`Valid categories: ${BLOG_CATEGORIES.join(", ")}`);
-            }
-            i++;
-        } else if (args[i] === "--author" && args[i + 1]) {
-            result.author = args[i + 1];
-            i++;
-        } else if (args[i] === "--output") {
-            result.output = true;
-        } else if (args[i] === "--dry-run") {
-            result.dryRun = true;
+        if (args[i] === "--topic" && args[i + 1]) { result.topic = args[++i]; }
+        else if (args[i] === "--category" && args[i + 1]) {
+            const cat = args[++i] as BlogCategory;
+            if (BLOG_CATEGORIES.includes(cat)) result.category = cat;
         }
+        else if (args[i] === "--author" && args[++i]) { result.author = args[i]; }
+        else if (args[i] === "--output") { result.output = true; }
+        else if (args[i] === "--dry-run") { result.dryRun = true; }
     }
-
     return result;
 }
 
-function formatBlogPostCode(post: GeneratedBlogPost): string {
-    return `    {
-        slug: "${post.slug}",
-        title: "${post.title.replace(/"/g, '\\"')}",
-        description: "${post.description.replace(/"/g, '\\"')}",
-        category: "${post.category}",
-        tags: ${JSON.stringify(post.tags)},
-        author: "${post.author}",
-        publishedDate: "${post.publishedDate}",
-        readTime: ${post.readTime},
-        featuredImage: "${post.featuredImage}",
-        excerpt: "${post.excerpt.replace(/"/g, '\\"')}",
-        content: \`
-${post.content}
-        \`
-    }`;
-}
-
 // ============================================================================
-// Main
+// Execution
 // ============================================================================
 
 async function main() {
-    console.log("\n🍽️  Dish Shuffle Blog Post Generator\n");
-    console.log("=====================================\n");
-
-    // Parse CLI arguments
+    console.log("\n🚀 Dish Shuffle Long-Form Generator\n");
     const args = parseArgs();
 
     if (!args.topic) {
-        console.log("Usage:");
-        console.log('  npx tsx scripts/generate-blog-post.ts --topic "your topic here"');
-        console.log("");
-        console.log("Options:");
-        console.log("  --topic      Topic to write about (required)");
-        console.log("  --category   Blog category (default: Cooking Fundamentals)");
-        console.log("  --author     Specific author name (optional)");
-        console.log("  --output     Output code ready to paste (optional)");
-        console.log("  --dry-run    Generate but do not save to file (optional)");
-        console.log("");
-        console.log("Categories:");
-        BLOG_CATEGORIES.forEach((cat) => console.log(`  - ${cat}`));
-        console.log("");
+        console.log("Usage: npx tsx scripts/generate-blog-post.ts --topic \"Top 10 Italian Cheeses\"");
         process.exit(1);
     }
 
-    console.log(`📝 Topic: ${args.topic}`);
-    console.log(`📂 Category: ${args.category}\n`);
-
     try {
-        // Step 1: Search for content with JINA.ai
+        // 1. Research
         const searchResults = await searchWithJina(args.topic);
-        const questionResults = await searchWithJina(`${args.topic} common questions`);
-        const productResults = await searchWithJina(`best ${args.topic} products amazon review`);
+        const faqResults = await searchWithJina(`${args.topic} questions`);
 
-        if (searchResults.length === 0) {
-            throw new Error("No search results found. Try a different topic.");
+        let combinedSource = "";
+        let images: string[] = [];
+
+        console.log("📖 Reading sources...");
+        for (const res of searchResults.slice(0, 3)) {
+            const text = await readWithJina(res.url);
+            combinedSource += `\nSOURCE: ${res.title}\n${text}\n`;
+        }
+        for (const faq of faqResults.slice(0, 3)) {
+            combinedSource += `\nFAQ CONTEXT: ${faq.title}\n${faq.description}\n`;
         }
 
-        // Step 2: Gather content from top results
-        console.log("\n📖 Reading source articles...");
-        let combinedContent = "";
-        const allImages: string[] = [];
+        const jinaImages = await searchImagesWithJina(args.topic);
+        images.push(...jinaImages);
 
-        for (const result of searchResults.slice(0, 3)) {
-            console.log(`  - ${result.title}`);
-            const fullContent = await readWithJina(result.url);
-            combinedContent += `\n\n## Source: ${result.title}\n${fullContent || result.content}`;
+        // 2. Generate
+        const author = args.author || AUTHORS[Math.floor(Math.random() * AUTHORS.length)];
+        const post = await generateLongFormPost(args.topic, args.category, combinedSource, author, images);
 
-            // Extract images
-            const images = extractImagesFromMarkdown(fullContent || "");
-            allImages.push(...images);
-        }
-
-        // Add questions context
-        combinedContent += "\n\n## Common Questions (for FAQ):\n";
-        questionResults.slice(0, 5).forEach(q => combinedContent += `- ${q.title}\n`);
-
-        // Add product context
-        combinedContent += "\n\n## Potential Products (for Affiliate Section):\n";
-        productResults.slice(0, 5).forEach(p => combinedContent += `- ${p.title} (${p.url})\n`);
-
-        console.log(`📸 Found ${allImages.length} images in sources.`);
-
-        // Step 3: Generate blog post with AI
-        console.log("");
-        if (args.author) console.log(`👤 Author: ${args.author}`);
-        const blogPost = await rewriteWithAI(args.topic, args.category, combinedContent, allImages, args.author);
-
-        // Step 4: Generate Infographic (if prompt exists)
-        if (blogPost.infographicPrompt) {
-            const imageBuffer = await generateImageWithAI(blogPost.infographicPrompt);
-            if (imageBuffer) {
-                // IMPORTANT: For Supabase version, we might want to upload this to Supabase Storage
-                // But for now keeping it in public folder might break the rule of "no rebuild".
-                // However, without a storage bucket logic, we can't do much. 
-                // Let's assume for now we still save it to public folder, OR skip infographic if strictly no rebuild specific.
-                // Rebuilds are triggered by git push. If this script runs in GH Actions, it modifies file system.
-                // If we want NO rebuilds, we must upload to Supabase Storage.
-                // For this task, I will skip saving to file system in CI/CD context if possible, 
-                // or just accept that infographic might need a separate storage solution later.
-                // The user said "all futures blog posts should fetched from database". 
-                // The Images on public folder need a deployment to be served.
-                // I'll leave the local save for now but add a comment.
-
-                // Better approach: convert to base64 data URI? No, too big. 
-                // I will Comment out the file saving part for infographic to strictly follow "no rebuild" 
-                // unless I implement storage upload. 
-                // I will leave it as is but warn that images need storage. 
-                // Actually, if I save to public/blog, I still need to commit it.
-                // The goal is to modify script to INSERT into DB.
-
-                // Let's just log it for now.
-                console.warn("⚠️ Infographic generation marked for skipping to avoid file system writes.");
-                /* 
-                const infographicFilename = `${blogPost.slug}-infographic.png`;
-                const infographicPath = path.join(process.cwd(), 'public/blog', infographicFilename);
-                // ... saving logic ...
-                */
-            }
-        }
-
-        // Step 5: Output result
-        console.log("\n=====================================");
-        console.log("📄 GENERATED BLOG POST");
-        console.log("=====================================\n");
-
-        if (args.output || args.dryRun) {
-            // Output as code ready to paste
-            console.log(formatBlogPostCode(blogPost));
-
-            if (args.dryRun) {
-                console.log("\n🚧 DRY RUN: Not saved to database.");
-            }
+        // 3. Output
+        if (args.dryRun || args.output) {
+            console.log("\n🚧 DRY RUN / OUTPUT MODE");
+            console.log(`Title: ${post.title}`);
+            console.log(`Words: ${post.content.split(/\s+/).length}`);
+            if (args.output) console.log(post.content);
         } else {
-            // Save to Supabase
-            try {
-                const success = await saveBlogPostToSupabase(blogPost);
-
-                if (success) {
-                    // Pretty print
-                    console.log(`Title: ${blogPost.title}`);
-                    console.log(`Slug: ${blogPost.slug}`);
-                    console.log(`Category: ${blogPost.category}`);
-                    console.log(`Author: ${blogPost.author}`);
-                    console.log(`\n✅ Saved successfully to Supabase Database!`);
-                } else {
-                    console.error("❌ Failed to save to Supabase.");
-                    console.log("Here is the code so you can save it manually:");
-                    console.log(formatBlogPostCode(blogPost));
-                    process.exit(1);
-                }
-            } catch (err) {
-                console.error("❌ Failed to save blog post:", err);
-                process.exit(1);
-            }
+            await saveBlogPostToSupabase(post);
         }
-
-        console.log("\n✅ Done!\n");
-    } catch (error) {
-        console.error("\n❌ Error:", error);
+    } catch (e) {
+        console.error("FATAL ERROR:", e);
         process.exit(1);
     }
 }
