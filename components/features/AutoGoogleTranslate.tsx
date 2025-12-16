@@ -52,12 +52,14 @@ export default function AutoGoogleTranslate({ locale }: AutoGoogleTranslateProps
         const topDomain = domain.split('.').slice(-2).join('.');
 
         if (locale === 'en') {
-            // If we are in English, we want to DISABLE Google Translate
-            // We do this by clearing the 'googtrans' cookie
-            deleteCookie('googtrans');
-            deleteCookie('googtrans', domain);
-            deleteCookie('googtrans', `.${domain}`);
-            if (domain !== topDomain) deleteCookie('googtrans', `.${topDomain}`);
+            // If we are in English, we want to FORCE English.
+            // Simply deleting the cookie isn't enough because the widget might persist state.
+            // Setting it to /en/en explicitly tells Google Translate "Translate from English to English" (i.e. do nothing).
+            const cookieValue = '/en/en';
+            setCookie('googtrans', cookieValue);
+            setCookie('googtrans', cookieValue, domain);
+            setCookie('googtrans', cookieValue, `.${domain}`);
+            if (domain !== topDomain) setCookie('googtrans', cookieValue, `.${topDomain}`);
         } else {
             // If we are in another language, FORCE Google Translate
             // Format: /source_lang/target_lang
