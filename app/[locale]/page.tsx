@@ -6,20 +6,11 @@ import { Suspense } from "react";
 import HeroSection from "@/components/sections/HeroSection";
 import CTASection from "@/components/sections/CTASection";
 import { getTranslations } from "next-intl/server";
-import { unstable_noStore as noStore } from 'next/cache';
-import { headers } from 'next/headers';
 
-// Force dynamic rendering and disable all caching
-export const dynamic = 'force-dynamic';
-export const revalidate = 0;
+// Enable Incremental Static Regeneration (ISR)
+export const revalidate = 3600; // Revalidate every hour
 
 export default async function HomePage() {
-  // Force dynamic rendering
-  noStore();
-
-  // Read headers to ensure this is treated as a dynamic request
-  await headers();
-
   const t = await getTranslations('Home');
 
   // Generate a unique key for each request to force React to re-render
@@ -177,9 +168,6 @@ function FeatureCard({
 }
 
 async function FeaturedRecipes() {
-  // Disable caching for this component
-  noStore();
-
   const recipes = await getMultipleRandomMeals(9);
 
   if (recipes.length === 0) {
