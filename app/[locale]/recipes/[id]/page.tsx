@@ -17,6 +17,8 @@ import ShoppingList from "@/components/recipes/ShoppingList";
 import KitchenAppliances from "@/components/recipes/KitchenAppliances";
 import RelatedArticles from "@/components/recipes/RelatedArticles";
 import { getRelatedPostsByTags } from "@/lib/utils/blog-helpers";
+import RecipeFAQ from "@/components/recipes/RecipeFAQ";
+import { getRecipeSEO } from "@/lib/services/seo-enricher";
 
 import { supabase } from "@/lib/supabase";
 
@@ -143,6 +145,9 @@ export default async function RecipePage({ params }: RecipePageProps) {
   // Get related recipes for the "You might also like" section
   const relatedRecipes = await getRelatedRecipes(recipe.category, recipe.id, 3);
 
+  // Get SEO enrichment (FAQ, meta description, etc.)
+  const seoEnrichment = await getRecipeSEO(recipe);
+
   // Get related blog posts based on recipe tags/category
   // We combine category, area, and first 5 tags to matching
   const contextTags = [
@@ -261,12 +266,32 @@ export default async function RecipePage({ params }: RecipePageProps) {
     })(),
   };
 
+  // FAQ Schema for SEO (if enrichment available)
+  const faqSchema = seoEnrichment?.faq?.length ? {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": seoEnrichment.faq.map((item) => ({
+      "@type": "Question",
+      "name": item.question,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": item.answer,
+      },
+    })),
+  } : null;
+
   return (
     <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
+      {faqSchema && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+        />
+      )}
 
       <div className="container mx-auto px-4 pt-8">
         <Breadcrumb
@@ -605,6 +630,11 @@ export default async function RecipePage({ params }: RecipePageProps) {
         {/* Related Blog Articles */}
         {relatedArticles.length > 0 && (
           <RelatedArticles posts={relatedArticles} />
+        )}
+
+        {/* FAQ Section (SEO) */}
+        {seoEnrichment?.faq && seoEnrichment.faq.length > 0 && (
+          <RecipeFAQ questions={seoEnrichment.faq} recipeName={recipe.name} />
         )}
       </article>
     </>

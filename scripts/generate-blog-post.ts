@@ -135,6 +135,7 @@ async function searchWithJina(query: string): Promise<JinaSearchResult[]> {
         const response = await fetch(`${JINA_SEARCH_URL}${encodeURIComponent(query)}`, { headers });
         if (!response.ok) throw new Error(`JINA search failed: ${response.status}`);
         const data = await response.json();
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         return (data.data || []).slice(0, 5).map((item: any) => ({
             title: item.title || "",
             url: item.url || "",
@@ -171,6 +172,7 @@ async function searchImagesWithJina(topic: string): Promise<string[]> {
         if (!response.ok) return [];
         const data = await response.json();
         return (data.data || [])
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             .map((item: any) => item.url)
             .filter((url: string) => /\.(jpg|jpeg|png|webp)(\?|$)/i.test(url))
             .slice(0, 5);
@@ -179,6 +181,7 @@ async function searchImagesWithJina(topic: string): Promise<string[]> {
     }
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 async function openaiChat(messages: any[], model = "gpt-4o", maxTokens = 4096) {
     const apiKey = process.env.OPENAI_API_KEY;
     if (!apiKey) throw new Error("OPENAI_API_KEY is required.");
@@ -436,7 +439,7 @@ async function main() {
         const productResults = await searchWithJina(`best ${args.topic} products tools amazon review`);
 
         let combinedSource = "";
-        let images: string[] = [];
+        const images: string[] = [];
 
         console.log("📖 Reading sources...");
         for (const res of searchResults.slice(0, 3)) {
