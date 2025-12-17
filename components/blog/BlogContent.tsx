@@ -1,6 +1,7 @@
 "use client";
 
 import remarkGfm from 'remark-gfm';
+import rehypeSlug from 'rehype-slug';
 import Markdown from 'react-markdown';
 import Link from 'next/link';
 
@@ -14,6 +15,7 @@ export default function BlogContent({ content }: BlogContentProps) {
         <article className="prose prose-lg dark:prose-invert max-w-none prose-headings:font-display prose-headings:font-bold prose-h1:text-2xl md:prose-h1:text-3xl prose-h2:text-xl md:prose-h2:text-2xl prose-h3:text-lg md:prose-h3:text-xl prose-a:text-primary-600 hover:prose-a:text-primary-700 prose-img:rounded-xl">
             <Markdown
                 remarkPlugins={[remarkGfm]}
+                rehypePlugins={[rehypeSlug]}
                 components={{
                     // Custom link component to handle internal vs external links
                     a: ({ href, children }) => {
@@ -33,15 +35,9 @@ export default function BlogContent({ content }: BlogContentProps) {
                             </a>
                         );
                     },
-                    // Add IDs to headings for table of contents (future proofing)
-                    h2: ({ children }) => {
-                        const id = children?.toString().toLowerCase().replace(/[^\w]+/g, '-');
-                        return <h2 id={id} className="scroll-mt-24">{children}</h2>;
-                    },
-                    h3: ({ children }) => {
-                        const id = children?.toString().toLowerCase().replace(/[^\w]+/g, '-');
-                        return <h3 id={id} className="scroll-mt-24">{children}</h3>;
-                    }
+                    // styled headings (ids are now handled by rehype-slug)
+                    h2: ({ node, ...props }) => <h2 className="scroll-mt-24" {...props} />,
+                    h3: ({ node, ...props }) => <h3 className="scroll-mt-24" {...props} />
                 }}
             >
                 {content}
