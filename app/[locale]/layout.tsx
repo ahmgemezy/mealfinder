@@ -198,15 +198,15 @@ export default async function RootLayout({
                   <CookieConsent />
                   <SurpriseMeModal />
                   <AutoGoogleTranslate locale={locale} />
-                  <SpeedInsights />
-                  <Analytics />
                 </div>
                 <ToastContainer />
+                <SpeedInsights />
+                <Analytics />
               </FavoritesProvider>
             </SurpriseMeProvider>
           </ToastProvider>
         </NextIntlClientProvider>
       </body>
-    </html >
+    </html>
   );
 }
