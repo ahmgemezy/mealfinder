@@ -330,7 +330,6 @@ export default async function RecipePage({ params }: RecipePageProps) {
                 {/* Tags/Badges */}
                 <div
                   className="flex flex-wrap justify-center md:justify-start gap-3"
-                  translate="yes"
                 >
                   {recipe.area && recipe.area.trim() !== "" && (
                     <Link
@@ -388,7 +387,6 @@ export default async function RecipePage({ params }: RecipePageProps) {
                 {/* Title */}
                 <h1
                   className="font-display text-4xl md:text-6xl lg:text-7xl font-bold text-white leading-tight drop-shadow-lg"
-                  translate="yes"
                 >
                   {recipe.name}
                 </h1>
@@ -431,7 +429,6 @@ export default async function RecipePage({ params }: RecipePageProps) {
                   <div className="bg-card rounded-3xl p-4 md:p-8 shadow-soft border border-border/50">
                     <ul
                       className="grid grid-cols-2 gap-3 md:gap-4"
-                      translate="yes"
                     >
                       {recipe.ingredients.map((ingredient, index) => (
                         <li
@@ -558,7 +555,7 @@ export default async function RecipePage({ params }: RecipePageProps) {
 
                       // Render normal instructions
                       return (
-                        <div className="space-y-8 relative" translate="yes">
+                        <div className="space-y-8 relative">
                           {/* Vertical connecting line */}
                           <div className="absolute left-6 top-6 bottom-6 w-0.5 bg-linear-to-b from-primary-200 via-primary-300 to-primary-200 opacity-30" />
 
