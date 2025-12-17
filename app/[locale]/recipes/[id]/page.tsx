@@ -89,7 +89,7 @@ export async function generateMetadata({
   const imageUrl = recipe.thumbnail || "https://dishshuffle.com/logo-final.png";
 
   return {
-    title: `${recipe.name} Recipe | Dish Shuffle`,
+    title: `${recipe.name} Recipe`,
     description,
     openGraph: {
       title:

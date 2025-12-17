@@ -11,7 +11,7 @@ import CookieConsent from "@/components/legal/CookieConsent";
 import { SurpriseMeProvider } from "@/lib/contexts/SurpriseMeContext";
 import SurpriseMeModal from "@/components/features/SurpriseMeModal";
 import { NextIntlClientProvider } from 'next-intl';
-import { getMessages } from 'next-intl/server';
+import { getMessages, setRequestLocale } from 'next-intl/server';
 import { ToastProvider } from "@/lib/contexts/ToastContext";
 import { ToastContainer } from "@/components/ui/Toast";
 import { validateEnvVars } from '@/lib/env-validator';
@@ -123,7 +123,8 @@ export default async function RootLayout({
   const { locale } = await params;
 
   // Enable static rendering
-  // unstable_setRequestLocale(locale);
+  // Enable static rendering
+  setRequestLocale(locale);
 
   const messages = await getMessages();
 
