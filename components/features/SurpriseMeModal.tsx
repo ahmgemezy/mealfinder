@@ -126,8 +126,8 @@ export default function SurpriseMeModal() {
             </div>
           ) : recipe ? (
             <div
-              className="grid grid-cols-1 md:grid-cols-[300px_1fr] gap-6"
-              translate="yes"
+              key={recipe.id}
+              className="grid grid-cols-1 md:grid-cols-[300px_1fr] gap-6 notranslate"
             >
               {/* Image - Left Side */}
               <div className="relative w-full h-64 md:h-auto md:min-h-[400px] rounded-2xl overflow-hidden shrink-0">
