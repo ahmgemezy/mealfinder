@@ -12,7 +12,7 @@ interface BlogContentProps {
 
 export default function BlogContent({ content }: BlogContentProps) {
     return (
-        <article className="prose prose-lg dark:prose-invert max-w-none prose-headings:font-display prose-headings:font-bold prose-h1:text-2xl md:prose-h1:text-3xl prose-h2:text-xl md:prose-h2:text-2xl prose-h3:text-lg md:prose-h3:text-xl prose-a:text-primary-600 hover:prose-a:text-primary-700 prose-img:rounded-xl">
+        <article className="prose prose-lg dark:prose-invert max-w-none prose-headings:font-display prose-headings:font-bold prose-h1:text-2xl md:prose-h1:text-3xl prose-h2:text-xl md:prose-h2:text-2xl prose-h3:text-lg md:prose-h3:text-xl prose-a:text-primary-600 hover:prose-a:text-primary-700 prose-img:rounded-xl overflow-x-hidden">
             <Markdown
                 remarkPlugins={[remarkGfm]}
                 rehypePlugins={[rehypeSlug]}

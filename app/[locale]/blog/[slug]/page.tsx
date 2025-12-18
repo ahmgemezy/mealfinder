@@ -157,7 +157,7 @@ export default async function BlogPostPage({ params }: Props) {
 
             {/* Hero Header */}
             <div className="bg-muted/30 border-b border-border/50 pt-12 pb-16 md:pt-20 md:pb-24">
-                <div className="container mx-auto px-4 max-w-4xl text-center">
+                <div className="w-[90vw] mx-auto md:w-auto md:container md:px-4 max-w-4xl text-center">
                     <div className="flex items-center justify-center gap-3 mb-6">
                         <span className="px-3 py-1 text-sm font-semibold bg-primary-100 text-primary-700 dark:bg-primary-900/30 dark:text-primary-300 rounded-full">
                             {post.category}
@@ -181,7 +181,7 @@ export default async function BlogPostPage({ params }: Props) {
             </div>
 
             {/* Featured Image */}
-            <div className="container mx-auto px-4 max-w-5xl -mt-8 mb-12 relative z-10">
+            <div className="w-[90vw] mx-auto md:w-auto md:container md:px-4 max-w-5xl -mt-8 mb-12 relative z-10">
                 <div className="relative aspect-[21/9] w-full rounded-2xl overflow-hidden shadow-2xl border border-border/50">
                     <Image
                         src={post.featured_image}
@@ -195,7 +195,7 @@ export default async function BlogPostPage({ params }: Props) {
             </div>
 
             {/* Main Content */}
-            <div className="container mx-auto px-4 grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-12 max-w-6xl">
+            <div className="w-[90vw] mx-auto md:w-auto md:container md:px-4 grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-12 max-w-6xl">
                 <div className="max-w-3xl mx-auto lg:mx-0">
                     <BlogContent content={post.content} />
 
