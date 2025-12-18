@@ -72,6 +72,43 @@ const BLOG_CATEGORIES = [
 
 type BlogCategory = (typeof BLOG_CATEGORIES)[number];
 
+// Category-specific word targets (+30% from original baselines, matched to search intent)
+const CATEGORY_CONFIG: Record<BlogCategory, { targetWords: number; sectionCount: number; focusNote: string }> = {
+    "Quick & Easy": { targetWords: 1500, sectionCount: 6, focusNote: "Focus on efficiency, shortcuts, and time-saving hacks. Readers want fast answers." },
+    "Cooking Tips & Trends": { targetWords: 2000, sectionCount: 8, focusNote: "Blend practical advice with trending techniques. Include 'Chef Hacks'." },
+    "Budget-Friendly Eats": { targetWords: 2200, sectionCount: 10, focusNote: "Emphasize cost breakdowns, meal prep, and smart shopping tips." },
+    "Cooking Fundamentals": { targetWords: 3000, sectionCount: 12, focusNote: "Be comprehensive. Explain the 'why' (science, Maillard reaction, emulsification)." },
+    "Ingredient Deep Dive": { targetWords: 3500, sectionCount: 14, focusNote: "Cover history, varieties, storage, cooking methods, and substitutions." },
+    "Kitchen Gear & Gadgets": { targetWords: 2600, sectionCount: 10, focusNote: "Heavy on product comparisons. MUST include Amazon affiliate links." },
+    "Entertaining & Hosting": { targetWords: 2600, sectionCount: 10, focusNote: "Focus on planning, presentation, and crowd-pleasers." },
+    "Seasonal Spotlight": { targetWords: 2600, sectionCount: 10, focusNote: "Focus on evergreen seasonal concepts (spring produce, winter warmers), not specific holidays." },
+    "Diet & Nutrition": { targetWords: 2500, sectionCount: 10, focusNote: "Be authoritative but accessible. Cite nutritional benefits without medical claims." },
+    "Cuisine Exploration": { targetWords: 2800, sectionCount: 12, focusNote: "Cultural context is key. Include history, regional variations, and authentic techniques." },
+};
+
+// Fetch random recipe slugs from Supabase for internal linking
+async function getInternalRecipeLinks(count: number = 5): Promise<string[]> {
+    if (!supabase) return [];
+    try {
+        const { data } = await supabase
+            .from('recipes')
+            .select('id, data')
+            .limit(count * 2); // Fetch more to have variety
+
+        if (!data || data.length === 0) return [];
+
+        // Shuffle and pick 'count' recipes
+        const shuffled = data.sort(() => Math.random() - 0.5).slice(0, count);
+        return shuffled.map(r => {
+            const name = r.data?.name || 'Recipe';
+            const slug = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+            return `[${name}](/recipes/${slug}-${r.id})`;
+        });
+    } catch {
+        return [];
+    }
+}
+
 // ============================================================================
 // Types
 // ============================================================================
@@ -208,12 +245,23 @@ async function openaiChat(messages: any[], model = "gpt-4o", maxTokens = 4096) {
 // ----------------------------------------------------------------------------
 // Step 1: Generate Outline
 // ----------------------------------------------------------------------------
-async function generateOutline(topic: string, sourceMaterial: string): Promise<BlogPostOutline> {
+async function generateOutline(
+    topic: string,
+    sourceMaterial: string,
+    category: BlogCategory,
+    internalLinks: string[]
+): Promise<BlogPostOutline> {
     console.log("🏗️  Step 1: Architecting Outline...");
 
-    const systemPrompt = `You are the Editor-in-Chief of "Dish Shuffle". 
-You are designing the structure for a MASSIVE, 7500-word authority article.
-Your goal is to break this topic down into at least 15-20 discrete, high-value sections.
+    const config = CATEGORY_CONFIG[category];
+    const wordsPerSection = Math.ceil(config.targetWords / config.sectionCount);
+
+    const systemPrompt = `You are the Editor-in-Chief of "Dish Shuffle", a premium culinary discovery platform.
+You are designing the structure for a ${config.targetWords}-word authority article in the "${category}" category.
+
+**CATEGORY FOCUS**: ${config.focusNote}
+
+Your goal is to break this topic down into ${config.sectionCount} discrete, high-value sections.
 
 Output strictly JSON with this schema:
 {
@@ -227,7 +275,7 @@ Output strictly JSON with this schema:
     { 
       "heading": "Section H2 Title", 
       "description": "Exact instructions for what to write here. Be specific about data, examples, or tips to include.", 
-      "estimatedWords": 600 
+      "estimatedWords": ${wordsPerSection}
     }
   ]
 }
@@ -235,20 +283,27 @@ Output strictly JSON with this schema:
 Requirements:
 1.  **Structure**:
     -   Introduction (Hook + Value Prop)
-    -   12-15 Content Body Sections (H2s)
+    -   ${config.sectionCount - 4} Content Body Sections (H2s)
     -   **Recommended Gear / Ingredients** (Dedicated Section for Affiliate Links)
-    -   FAQ Section (mandatory)
+    -   FAQ Section (mandatory - at least 5 questions)
     -   Conclusion
-2.  **Depth**: Each section description must be detailed enough to guide a writer to write 500-700 words.
+2.  **Depth**: Each section must be detailed enough to guide a writer to produce ${wordsPerSection} words.
 3.  **Flow**: Ensure logical progression (History -> Science -> How-To -> Advanced -> Troubleshooting).
-4.  **Monetization**: Identify specific sections where products (tools/ingredients) should be recommended.
+4.  **EEAT (Experience-Expertise-Authority-Trust)**: 
+    -   At least 2 sections must include instructions for "In our Dish Shuffle test kitchen..." anecdotes.
+    -   At least 1 section must reference scientific concepts (Maillard reaction, emulsification, etc.).
+5.  **Monetization**: At least 2 sections must recommend specific tools/ingredients with Amazon links.
+6.  **Reader Value**: EVERY section must include a "💡 Pro Tip" or "🔥 Chef's Hack" callout.
+7.  **Internal Linking**: Naturally incorporate these recipe links where relevant:
+    ${internalLinks.join(', ')}
 `;
 
     const userPrompt = `Topic: "${topic}"
+Category: "${category}"
 Source Material Preview:
 ${sourceMaterial.slice(0, 10000)}
 
-Create the Master Outline for a 7500-word article.`;
+Create the Master Outline for a ${config.targetWords}-word article.`;
 
     const raw = await openaiChat([
         { role: "system", content: systemPrompt },
@@ -275,33 +330,47 @@ async function writeSection(
 ): Promise<string> {
     console.log(`✍️  Writing Section: "${section.heading}"...`);
 
-    const systemPrompt = `You are a specialized senior food writer.
-You are writing ONE specific section of a massive 7500-word guide on "${topic}".
+    const systemPrompt = `You are a specialized senior food writer for "Dish Shuffle", a premium culinary platform.
+You are writing ONE specific section of an authority guide on "${topic}".
 
 Your Task: Write the content for the section "${section.heading}".
-Target Length: ${section.estimatedWords} words (Minimum 500).
+Target Length: ${section.estimatedWords} words (Minimum ${Math.max(300, section.estimatedWords - 100)}).
 
-Guidelines:
-1.  **NO Intro/Outro**: Start directly with the content. Do not say "In this section...".
-2.  **H3 usage**: Use H3s to break up the text further.
-3.  **Density**: Use markdown bullet points, bold text for emphasis, and tables where appropriate.
-4.  **Tone**: Authoritative, scientific yet accessible (Serious Eats style).
-5.  **Context**: Ensure you flow smoothly from the previous thought (provided in context).
-6.  **MONETIZATION (CRITICAL)**:
-    - If you mention a specific tool or ingredient, you MUST provide an Amazon Search Link.
-    - Format: [Product Name](https://www.amazon.com/s?k=Product+Name)
-    - Example: "For best results, use a [Cast Iron Skillet](https://www.amazon.com/s?k=Lodge+Cast+Iron+Skillet)."
-    - Do NOT make up fake direct ASIN links. Use the search URL format.
+**CRITICAL FORMATTING RULES (for Mobile Readability)**:
+1.  **Short Paragraphs**: Maximum 3 sentences per paragraph. No walls of text.
+2.  **H3 Subheadings**: Use H3s every 200-300 words to break up content.
+3.  **Bold Key Terms**: Highlight important words to aid scanning.
+4.  **Bullet Points**: Use lists for steps or multi-item information.
+
+**CONTENT QUALITY RULES (for EEAT & SEO)**:
+1.  **First-Hand Experience**: Include phrases like "In the Dish Shuffle test kitchen, we found that..." or "After testing 5 methods...".
+2.  **Scientific Authority**: Where applicable, reference concepts (Maillard reaction, emulsification, collagen breakdown) to demonstrate expertise.
+3.  **Pro Tip Callout**: You MUST include at least ONE of these callouts:
+    \`\`\`
+    > **💡 Pro Tip:** [Your actionable advice here.]
+    \`\`\`
+    OR
+    \`\`\`
+    > **🔥 Chef's Hack:** [Your insider secret here.]
+    \`\`\`
+4.  **Tone**: Authoritative, scientific yet accessible (Serious Eats / NYT Cooking style).
+5.  **Flow**: Ensure smooth transition from the previous section (context provided below).
+
+**MONETIZATION (CRITICAL)**:
+- If you mention a specific tool or ingredient, you MUST provide an Amazon Search Link.
+- Format: [Product Name](https://www.amazon.com/s?k=Product+Name&tag=dishshuffle-20)
+- Example: "For best results, use a [Lodge Cast Iron Skillet](https://www.amazon.com/s?k=Lodge+Cast+Iron+Skillet&tag=dishshuffle-20)."
+- Do NOT make up fake direct ASIN links. Use the search URL format.
 `;
 
     const userPrompt = `
 SECTION TO WRITE: "${section.heading}"
-    INSTRUCTIONS: ${section.description}
+INSTRUCTIONS: ${section.description}
 
-PREVIOUS CONTEXT(Last 300 words written):
-    "...${previousContext.slice(-1000)}..."
+PREVIOUS CONTEXT (Last 500 words written):
+"...${previousContext.slice(-1500)}..."
 
-SOURCE MATERIAL(Use for facts / data):
+SOURCE MATERIAL (Use for facts / data):
 ${sourceMaterial.slice(0, 15000)}
 
 Start writing the markdown content for this section now.`;
@@ -309,7 +378,7 @@ Start writing the markdown content for this section now.`;
     return await openaiChat([
         { role: "system", content: systemPrompt },
         { role: "user", content: userPrompt }
-    ], "gpt-4o", 2048); // High token limit for response
+    ], "gpt-4o", 2048);
 }
 
 // ----------------------------------------------------------------------------
@@ -323,9 +392,15 @@ async function generateLongFormPost(
     availableImages: string[]
 ): Promise<GeneratedBlogPost> {
 
-    // 1. Generate Outline
-    const outline = await generateOutline(topic, sourceMaterial);
-    console.log(`PLAN: ${outline.sections.length} sections, Target ~${outline.sections.reduce((a, b) => a + b.estimatedWords, 0)} words.`);
+    // 0. Fetch internal recipe links for SEO
+    console.log("🔗 Fetching internal recipe links...");
+    const internalLinks = await getInternalRecipeLinks(5);
+    console.log(`   Found ${internalLinks.length} recipes for internal linking.`);
+
+    // 1. Generate Outline (with category config)
+    const config = CATEGORY_CONFIG[category];
+    const outline = await generateOutline(topic, sourceMaterial, category, internalLinks);
+    console.log(`PLAN: ${outline.sections.length} sections, Target ~${config.targetWords} words.`);
 
     // 2. Loop and Write
     let fullContent = "";
