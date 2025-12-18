@@ -87,7 +87,7 @@ const CATEGORY_CONFIG: Record<BlogCategory, { targetWords: number; sectionCount:
 };
 
 // Fetch random recipe slugs from Supabase for internal linking
-async function getInternalRecipeLinks(count: number = 5): Promise<string[]> {
+async function getInternalRecipeLinks(count: number = 8): Promise<string[]> {
     if (!supabase) return [];
     try {
         const { data } = await supabase
@@ -334,7 +334,7 @@ Requirements:
 4.  **EEAT (Experience-Expertise-Authority-Trust)**: 
     -   At least 2 sections must include instructions for "In our Dish Shuffle test kitchen..." anecdotes.
     -   At least 1 section must reference scientific concepts (Maillard reaction, emulsification, etc.).
-5.  **Monetization**: At least 2 sections must recommend specific tools/ingredients with Amazon links.
+5.  **Monetization**: Recommend highly relevant tools/ingredients. Target 10-12 TOTAL Amazon links for the entire article. DO NOT SPAM.
 6.  **Reader Value**: EVERY section must include a "💡 Pro Tip" or "🔥 Chef's Hack" callout.
 7.  **Internal Linking**: Naturally incorporate these recipe links where relevant:
     ${internalLinks.join(', ')}
@@ -398,11 +398,12 @@ Target Length: ${section.estimatedWords} words (Minimum ${Math.max(300, section.
 4.  **Tone**: Authoritative, scientific yet accessible (Serious Eats / NYT Cooking style).
 5.  **Flow**: Ensure smooth transition from the previous section (context provided below).
 
-**MONETIZATION (CRITICAL)**:
-- If you mention a specific tool or ingredient, you MUST provide an Amazon Search Link.
+**MONETIZATION (RESTRICTED - QUALITY OVER QUANTITY)**:
+- Include Amazon Search Links ONLY for specific, high-value recommendations.
+- **LIMIT**: Maximum 1-2 links per section. Do not spam.
+- **CRITICAL**: NEVER use direct product links (like /dp/B00... or /gp/product/...). They break. ONLY use SEARCH links.
 - Format: [Product Name](https://www.amazon.com/s?k=Product+Name&tag=dishshuffle-20)
 - Example: "For best results, use a [Lodge Cast Iron Skillet](https://www.amazon.com/s?k=Lodge+Cast+Iron+Skillet&tag=dishshuffle-20)."
-- Do NOT make up fake direct ASIN links. Use the search URL format.
 `;
 
     const userPrompt = `
@@ -436,7 +437,7 @@ async function generateLongFormPost(
 
     // 0. Fetch internal recipe links for SEO
     console.log("🔗 Fetching internal recipe links...");
-    const internalLinks = await getInternalRecipeLinks(5);
+    const internalLinks = await getInternalRecipeLinks(8);
     console.log(`   Found ${internalLinks.length} recipes for internal linking.`);
 
     // 1. Generate Outline (with category config)
