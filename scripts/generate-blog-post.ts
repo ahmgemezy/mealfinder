@@ -426,9 +426,18 @@ Target Length: ${section.estimatedWords} words (Minimum ${Math.max(300, section.
 - Format: [Product Name](https://www.amazon.com/s?k=Product+Name&tag=dishshuffle-20)
 - Example: "For best results, use a [Lodge Cast Iron Skillet](https://www.amazon.com/s?k=Lodge+Cast+Iron+Skillet&tag=dishshuffle-20)."
 
+**INTERNAL LINKING RULES**:
+- When mentioning related recipes, you MUST format them as proper Markdown links.
+- **BAD**: "Try our shrimp rolls (/recipes/shrimp-rolls-123)"
+- **GOOD**: "Try our [Shrimp & Crab Egg Rolls](/recipes/shrimp-rolls-123)"
+- Use the exact paths provided in the context.
+
 **FORBIDDEN CONTENT**:
 - Do NOT mention "downloading a PDF", "grabbing our guide", or "printable versions". These do not exist.
 - Do NOT refer to "our test kitchen" unless citing a specific known fact.
+
+**FACTUAL GROUNDING (CRITICAL)**:
+- Use provided SOURCE MATERIAL as truth. Do not invent specific numbers/dates.
 
 **FACTUAL GROUNDING (CRITICAL)**:
 1.  **Source Truth**: You are provided with "SOURCE MATERIAL". Use this as your primary source of truth for specific facts, numbers, dates, and scientific details.
@@ -448,10 +457,18 @@ ${sourceMaterial.slice(0, 15000)}
 
 Start writing the markdown content for this section now.`;
 
-    return await openaiChat([
+    const rawOutput = await openaiChat([
         { role: "system", content: systemPrompt },
         { role: "user", content: userPrompt }
     ], "gpt-5-mini", 16000);
+
+    // CLEANING: Strip prompt leaks from headers and content
+    return rawOutput
+        .replace(/\(Affiliate Picks.*?\)/gi, "")
+        .replace(/\(10[-–]12 Amazon Links\)/gi, "")
+        .replace(/Did I mention.*?/gi, "")
+        .replace(/In our test kitchen/gi, "In professional kitchens") // Soften the claim
+        .trim();
 }
 
 // ----------------------------------------------------------------------------
