@@ -198,22 +198,46 @@ async function readWithJina(url: string): Promise<string> {
     }
 }
 
-// Reuse image search from previous version
-async function searchImagesWithJina(topic: string): Promise<string[]> {
-    const apiKey = process.env.JINA_API_KEY;
-    const headers: Record<string, string> = { Accept: "application/json" };
-    if (apiKey) headers["Authorization"] = `Bearer ${apiKey}`;
+// ============================================================================
+// Image Logic
+// ============================================================================
+
+async function getVisualSearchTerms(topic: string): Promise<string[]> {
+    const systemPrompt = "You are a visual research assistant. Generate 3 distinct, artistic search queries (2-4 words each) to find high-quality food photography on Unsplash for the given topic. Focus on lighting, composition, and mood (e.g. 'rustic pizza dough flour', 'dark moody food photography pizza', 'chef kneading dough hands'). Output strictly a JSON array of strings.";
+    const userPrompt = `Topic: "${topic}"`;
 
     try {
-        const response = await fetch(`${JINA_SEARCH_URL}${encodeURIComponent(topic + " food photography")}`, { headers });
+        const raw = await openaiChat([
+            { role: "system", content: systemPrompt },
+            { role: "user", content: userPrompt }
+        ], "gpt-5-mini", 1000);
+        const sanitized = raw.replace(/```json|```/g, "").trim();
+        return JSON.parse(sanitized);
+    } catch {
+        return [`${topic} food`, `${topic} aesthetic`, `${topic} ingredients`];
+    }
+}
+
+async function searchImagesWithUnsplash(query: string): Promise<string[]> {
+    const accessKey = process.env.UNSPLASH_ACCESS_KEY;
+    if (!accessKey) {
+        console.warn("⚠️  Missing UNSPLASH_ACCESS_KEY. Skipping Unsplash search.");
+        return [];
+    }
+
+    try {
+        const response = await fetch(
+            `https://api.unsplash.com/search/photos?query=${encodeURIComponent(query)}&per_page=3&orientation=landscape`,
+            { headers: { Authorization: `Client-ID ${accessKey}` } }
+        );
+
         if (!response.ok) return [];
         const data = await response.json();
-        return (data.data || [])
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            .map((item: any) => item.url)
-            .filter((url: string) => /\.(jpg|jpeg|png|webp)(\?|$)/i.test(url))
-            .slice(0, 5);
-    } catch {
+
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        return data.results.map((img: any) => `${img.urls.raw}&w=1200&q=80`);
+    } catch (e) {
+        console.error("❌ Unsplash API Error:", e);
         return [];
     }
 }
@@ -572,15 +596,27 @@ async function main() {
                 combinedSource += `\nPRODUCT RECOMMENDATION: ${prod.title} \n${prod.description} \n`;
             }
 
-            const jinaImages = await searchImagesWithJina(args.topic);
-            images.push(...jinaImages);
-
         } catch (error) {
             console.warn(`⚠️ Research failed: ${(error as any).message}. Using OpenAI Fallback.`);
             combinedSource = await simulateResearchWithOpenAI(args.topic);
             if (!combinedSource) {
                 throw new Error("Both Jina and OpenAI Fallback failed to provide source material.");
             }
+        }
+
+        // 1b. Unsplash Image Search (ALWAYS RUN)
+        console.log("📸 Generating visual search terms & fetching from Unsplash...");
+        try {
+            const visualTerms = await getVisualSearchTerms(args.topic);
+            console.log(`   Terms: ${visualTerms.join(", ")}`);
+
+            for (const term of visualTerms) {
+                const unsplashImages = await searchImagesWithUnsplash(term);
+                images.push(...unsplashImages);
+            }
+            console.log(`   Found ${images.length} images.`);
+        } catch (err) {
+            console.error("⚠️ Unsplash fetch failed:", err);
         }
 
         // 2. Generate
