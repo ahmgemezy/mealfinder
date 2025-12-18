@@ -429,6 +429,11 @@ Target Length: ${section.estimatedWords} words (Minimum ${Math.max(300, section.
 **FORBIDDEN CONTENT**:
 - Do NOT mention "downloading a PDF", "grabbing our guide", or "printable versions". These do not exist.
 - Do NOT refer to "our test kitchen" unless citing a specific known fact.
+
+**FACTUAL GROUNDING (CRITICAL)**:
+1.  **Source Truth**: You are provided with "SOURCE MATERIAL". Use this as your primary source of truth for specific facts, numbers, dates, and scientific details.
+2.  **No Invention**: If the source material does not contain a specific detail (like a specific temperature or year), do NOT invent one. Generalize instead (e.g., say "high heat" instead of "450°F" if not verified).
+3.  **Cross-Check**: If your internal knowledge conflicts heavily with the Source Material, defer to the Source Material or mention the variability.
 `;
 
     const userPrompt = `
