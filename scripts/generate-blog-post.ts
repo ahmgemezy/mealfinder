@@ -203,7 +203,7 @@ async function readWithJina(url: string): Promise<string> {
 // ============================================================================
 
 async function getVisualSearchTerms(topic: string): Promise<string[]> {
-    const systemPrompt = "You are a visual research assistant. Generate 3 distinct, artistic search queries (2-4 words each) to find high-quality food photography on Unsplash for the given topic. Focus on lighting, composition, and mood (e.g. 'rustic pizza dough flour', 'dark moody food photography pizza', 'chef kneading dough hands'). Output strictly a JSON array of strings.";
+    const systemPrompt = "You are a visual research assistant. Generate 3 distinct search keywords (MAX 1-2 words each) to find high-quality images on Unsplash for the given topic. Output strictly a JSON array of strings. Example: for 'Pizza Dough', output ['Pizza', 'Dough', 'Flour']. Avoid long phrases.";
     const userPrompt = `Topic: "${topic}"`;
 
     try {
@@ -214,7 +214,8 @@ async function getVisualSearchTerms(topic: string): Promise<string[]> {
         const sanitized = raw.replace(/```json|```/g, "").trim();
         return JSON.parse(sanitized);
     } catch {
-        return [`${topic} food`, `${topic} aesthetic`, `${topic} ingredients`];
+        // Fallback: simple split or just the topic
+        return [topic, topic.split(" ")[0], "Food"];
     }
 }
 
