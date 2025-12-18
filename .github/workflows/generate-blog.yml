@@ -52,5 +52,6 @@ jobs:
           JINA_API_KEY: ${{ secrets.JINA_API_KEY }}
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          UNSPLASH_ACCESS_KEY: ${{ secrets.UNSPLASH_ACCESS_KEY }}
         run: |
           npx tsx scripts/generate-blog-post.ts --topic "${{ inputs.topic }}" --category "${{ inputs.category }}" --author "${{ inputs.author }}"
