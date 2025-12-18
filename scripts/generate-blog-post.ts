@@ -341,7 +341,7 @@ Output strictly JSON with this schema:
   "sections": [
     { 
       "heading": "Section H2 Title", 
-      "description": "Exact instructions for what to write here. Be specific about data, examples, or tips to include.", 
+      "description": "Exact instructions for what to write here. Be specific about data, examples, or tips to include. DO NOT include parenthetical constraints (like 'Affiliate Picks') in the heading name itself.", 
       "estimatedWords": ${wordsPerSection}
     }
   ]
@@ -425,6 +425,10 @@ Target Length: ${section.estimatedWords} words (Minimum ${Math.max(300, section.
 - **CRITICAL**: NEVER use direct product links (like /dp/B00... or /gp/product/...). They break. ONLY use SEARCH links.
 - Format: [Product Name](https://www.amazon.com/s?k=Product+Name&tag=dishshuffle-20)
 - Example: "For best results, use a [Lodge Cast Iron Skillet](https://www.amazon.com/s?k=Lodge+Cast+Iron+Skillet&tag=dishshuffle-20)."
+
+**FORBIDDEN CONTENT**:
+- Do NOT mention "downloading a PDF", "grabbing our guide", or "printable versions". These do not exist.
+- Do NOT refer to "our test kitchen" unless citing a specific known fact.
 `;
 
     const userPrompt = `
