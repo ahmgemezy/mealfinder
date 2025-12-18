@@ -112,10 +112,9 @@ async function openaiChat(
             "Content-Type": "application/json",
         },
         body: JSON.stringify({
-            model: "gpt-4o-mini",
+            model: "gpt-5-mini",
             messages,
-            temperature: 0.7,
-            max_tokens: maxTokens,
+            max_completion_tokens: maxTokens,
         }),
     });
 
@@ -145,6 +144,7 @@ Ingredients: ${recipe.ingredients.map((i) => i.name).join(", ")}
 Source Research:
 ${sourceContent.slice(0, 5000)}
 
+If the Source Research is limited or empty, rely on your INTERIOR CULINARY KNOWLEDGE to generate the FAQs.
 Generate 5-7 frequently asked questions that people search for about this recipe.
 Focus on:
 - Common cooking questions ("How long to cook...", "Can I make ahead...")
@@ -180,11 +180,13 @@ async function generateMetaDescription(
     sourceContent: string
 ): Promise<string> {
     const prompt = `Create a compelling meta description for this recipe page.
-
+    
 Recipe: ${recipe.name}
 Category: ${recipe.category || "Main Course"}
 Cuisine: ${recipe.area || "International"}
 Cook Time: ${recipe.readyInMinutes || 30} minutes
+
+If Source Research is unavailable, use your expert culinary knowledge to write the description.
 
 Requirements:
 - Maximum 155 characters
@@ -254,6 +256,8 @@ Cuisine: ${recipe.area}
 
 Research:
 ${sourceContent.slice(0, 3000)}
+
+If Research is empty, use your knowledge of world cuisines.
 
 Focus on origin, tradition, or interesting cultural fact. Keep it under 100 words.
 Output ONLY the snippet, no quotes.`;
@@ -360,14 +364,40 @@ export async function enrichRecipeSEO(
     // 2. Research with JINA
     console.log(`🔍 Enriching SEO for: ${recipe.name}`);
 
-    const searchQuery = `${recipe.name} ${recipe.area || ""} recipe FAQ cooking tips`;
-    const searchResults = await searchWithJina(searchQuery);
-
-    // Compile source content
     let sourceContent = "";
-    for (const result of searchResults.slice(0, 2)) {
-        const content = await readWithJina(result.url);
-        sourceContent += `\n${result.title}\n${content}\n`;
+    let fallbackReason = "";
+
+    try {
+        const searchQuery = `${recipe.name} ${recipe.area || ""} recipe FAQ cooking tips`;
+        const searchResults = await searchWithJina(searchQuery);
+
+        if (searchResults.length === 0) {
+            fallbackReason = "No Jina search results found.";
+            throw new Error(fallbackReason);
+        }
+
+        // Compile source content
+        for (const result of searchResults.slice(0, 2)) {
+            const content = await readWithJina(result.url);
+            sourceContent += `\n${result.title}\n${content}\n`;
+        }
+        if (sourceContent.trim().length < 100) { // Arbitrary threshold for "limited" content
+            fallbackReason = "Limited Jina source content retrieved.";
+            throw new Error(fallbackReason);
+        }
+    } catch (error) {
+        const errorMessage = (error as any).message;
+        console.warn(`⚠️ SEO Research failed for ${recipe.name}: ${errorMessage}. Switching to OpenAI Knowledge Fallback.`);
+        // Enhanced fallback source context
+        sourceContent = `
+FALLBACK MODE: EXTERNAL SEARCH UNAVAILABLE. Reason: ${fallbackReason || errorMessage}
+Detailed Recipe Data:
+Name: ${recipe.name}
+Category: ${recipe.category}
+Cuisine: ${recipe.area}
+Ingredients: ${recipe.ingredients.map(i => i.name).join(', ')}
+Instructions: ${recipe.instructions || 'Standard preparation method'}
+        `.trim();
     }
 
     // 3. Generate enrichments in parallel

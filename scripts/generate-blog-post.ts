@@ -219,7 +219,7 @@ async function searchImagesWithJina(topic: string): Promise<string[]> {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-async function openaiChat(messages: any[], model = "gpt-4o", maxTokens = 4096) {
+async function openaiChat(messages: any[], model = "gpt-5", maxTokens = 25000) {
     const apiKey = process.env.OPENAI_API_KEY;
     if (!apiKey) throw new Error("OPENAI_API_KEY is required.");
 
@@ -232,14 +232,56 @@ async function openaiChat(messages: any[], model = "gpt-4o", maxTokens = 4096) {
         body: JSON.stringify({
             model,
             messages,
-            temperature: 0.7,
-            max_tokens: maxTokens,
+            max_completion_tokens: maxTokens,
         }),
+        signal: AbortSignal.timeout(600000), // 10 minutes timeout for deep reasoning
     });
 
-    if (!response.ok) throw new Error(`OpenAI API error: ${response.statusText}`);
+    if (!response.ok) {
+        const errorBody = await response.text();
+        console.error(`❌ OpenAI API Error (${response.status} ${response.statusText}):`, errorBody);
+        throw new Error(`OpenAI API error: ${response.status} ${response.statusText}`);
+    }
     const data = await response.json();
-    return data.choices?.[0]?.message?.content || "";
+    const content = data.choices?.[0]?.message?.content;
+    if (!content) {
+        console.error("❌ OpenAI Response missing content:", JSON.stringify(data, null, 2));
+        return "";
+    }
+    return content;
+}
+
+/**
+ * Fallback: Simulate research using OpenAI's internal knowledge base
+ * This is used when Jina.ai search fails (e.g. 402 Payment Required).
+ */
+async function simulateResearchWithOpenAI(topic: string): Promise<string> {
+    console.log(`⚠️  Jina Search failed. Switching to OpenAI Knowledge Base for research on: "${topic}"...`);
+
+    const systemPrompt = `You are a research assistant for a culinary blog. 
+The user needs a comprehensive research briefing on the topic: "${topic}".
+Since external search is unavailable, you must synthesize a detailed research document from your internal knowledge.
+
+Include the following sections:
+1.  **History & Origins**: Cultural background, evolution of the dish/ingredient.
+2.  **Scientific Principles**: Chemical reactions (Maillard, gluten development, etc.), cooking physics.
+3.  **Key Culinary Facts**: Varieties, seasonality, best practices.
+4.  **Common FAQs**: 5-7 questions and detailed answers.
+5.  **Product Trends**: Popular tools/brands associated with this topic (for valid recommendations).
+
+Format the output as a structured text document. Be factually accurate and detailed.`;
+
+    const userPrompt = `Generate research material for: "${topic}"`;
+
+    try {
+        return await openaiChat([
+            { role: "system", content: systemPrompt },
+            { role: "user", content: userPrompt }
+        ], "gpt-5", 25000); // High token limit for detailed research
+    } catch (e) {
+        console.error("❌ Critical: OpenAI simulation also failed.", e);
+        return "";
+    }
 }
 
 // ----------------------------------------------------------------------------
@@ -378,7 +420,7 @@ Start writing the markdown content for this section now.`;
     return await openaiChat([
         { role: "system", content: systemPrompt },
         { role: "user", content: userPrompt }
-    ], "gpt-4o", 2048);
+    ], "gpt-5", 16000);
 }
 
 // ----------------------------------------------------------------------------
@@ -509,27 +551,40 @@ async function main() {
 
     try {
         // 1. Research
-        const searchResults = await searchWithJina(args.topic);
-        const faqResults = await searchWithJina(`${args.topic} questions`);
-        const productResults = await searchWithJina(`best ${args.topic} products tools amazon review`);
-
         let combinedSource = "";
         const images: string[] = [];
 
-        console.log("📖 Reading sources...");
-        for (const res of searchResults.slice(0, 3)) {
-            const text = await readWithJina(res.url);
-            combinedSource += `\nSOURCE: ${res.title} \n${text} \n`;
-        }
-        for (const faq of faqResults.slice(0, 3)) {
-            combinedSource += `\nFAQ CONTEXT: ${faq.title} \n${faq.description} \n`;
-        }
-        for (const prod of productResults.slice(0, 5)) {
-            combinedSource += `\nPRODUCT RECOMMENDATION: ${prod.title} \n${prod.description} \n`;
-        }
+        try {
+            console.log("🔍 Attempting JINA.ai search...");
+            const searchResults = await searchWithJina(args.topic);
+            const faqResults = await searchWithJina(`${args.topic} questions`);
+            const productResults = await searchWithJina(`best ${args.topic} products tools amazon review`);
 
-        const jinaImages = await searchImagesWithJina(args.topic);
-        images.push(...jinaImages);
+            // Check if we actually got results (Jina might return empty array silently or throw)
+            if (searchResults.length === 0) throw new Error("No Jina results found (likely API issue)");
+
+            console.log("📖 Reading sources...");
+            for (const res of searchResults.slice(0, 3)) {
+                const text = await readWithJina(res.url);
+                combinedSource += `\nSOURCE: ${res.title} \n${text} \n`;
+            }
+            for (const faq of faqResults.slice(0, 3)) {
+                combinedSource += `\nFAQ CONTEXT: ${faq.title} \n${faq.description} \n`;
+            }
+            for (const prod of productResults.slice(0, 5)) {
+                combinedSource += `\nPRODUCT RECOMMENDATION: ${prod.title} \n${prod.description} \n`;
+            }
+
+            const jinaImages = await searchImagesWithJina(args.topic);
+            images.push(...jinaImages);
+
+        } catch (error) {
+            console.warn(`⚠️ Research failed: ${(error as any).message}. Using OpenAI Fallback.`);
+            combinedSource = await simulateResearchWithOpenAI(args.topic);
+            if (!combinedSource) {
+                throw new Error("Both Jina and OpenAI Fallback failed to provide source material.");
+            }
+        }
 
         // 2. Generate
         const author = args.author || AUTHORS[Math.floor(Math.random() * AUTHORS.length)];
