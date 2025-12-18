@@ -74,16 +74,16 @@ type BlogCategory = (typeof BLOG_CATEGORIES)[number];
 
 // Category-specific word targets (+30% from original baselines, matched to search intent)
 const CATEGORY_CONFIG: Record<BlogCategory, { targetWords: number; sectionCount: number; focusNote: string }> = {
-    "Quick & Easy": { targetWords: 1500, sectionCount: 6, focusNote: "Focus on efficiency, shortcuts, and time-saving hacks. Readers want fast answers." },
-    "Cooking Tips & Trends": { targetWords: 2000, sectionCount: 8, focusNote: "Blend practical advice with trending techniques. Include 'Chef Hacks'." },
-    "Budget-Friendly Eats": { targetWords: 2200, sectionCount: 10, focusNote: "Emphasize cost breakdowns, meal prep, and smart shopping tips." },
-    "Cooking Fundamentals": { targetWords: 3000, sectionCount: 12, focusNote: "Be comprehensive. Explain the 'why' (science, Maillard reaction, emulsification)." },
-    "Ingredient Deep Dive": { targetWords: 3500, sectionCount: 14, focusNote: "Cover history, varieties, storage, cooking methods, and substitutions." },
-    "Kitchen Gear & Gadgets": { targetWords: 2600, sectionCount: 10, focusNote: "Heavy on product comparisons. MUST include Amazon affiliate links." },
-    "Entertaining & Hosting": { targetWords: 2600, sectionCount: 10, focusNote: "Focus on planning, presentation, and crowd-pleasers." },
-    "Seasonal Spotlight": { targetWords: 2600, sectionCount: 10, focusNote: "Focus on evergreen seasonal concepts (spring produce, winter warmers), not specific holidays." },
-    "Diet & Nutrition": { targetWords: 2500, sectionCount: 10, focusNote: "Be authoritative but accessible. Cite nutritional benefits without medical claims." },
-    "Cuisine Exploration": { targetWords: 2800, sectionCount: 12, focusNote: "Cultural context is key. Include history, regional variations, and authentic techniques." },
+    "Quick & Easy": { targetWords: 1125, sectionCount: 6, focusNote: "Focus on efficiency, shortcuts, and time-saving hacks. Readers want fast answers." },
+    "Cooking Tips & Trends": { targetWords: 1500, sectionCount: 8, focusNote: "Blend practical advice with trending techniques. Include 'Chef Hacks'." },
+    "Budget-Friendly Eats": { targetWords: 1650, sectionCount: 10, focusNote: "Emphasize cost breakdowns, meal prep, and smart shopping tips." },
+    "Cooking Fundamentals": { targetWords: 2250, sectionCount: 12, focusNote: "Be comprehensive. Explain the 'why' (science, Maillard reaction, emulsification)." },
+    "Ingredient Deep Dive": { targetWords: 2625, sectionCount: 14, focusNote: "Cover history, varieties, storage, cooking methods, and substitutions." },
+    "Kitchen Gear & Gadgets": { targetWords: 1950, sectionCount: 10, focusNote: "Heavy on product comparisons. MUST include Amazon affiliate links." },
+    "Entertaining & Hosting": { targetWords: 1950, sectionCount: 10, focusNote: "Focus on planning, presentation, and crowd-pleasers." },
+    "Seasonal Spotlight": { targetWords: 1950, sectionCount: 10, focusNote: "Focus on evergreen seasonal concepts (spring produce, winter warmers), not specific holidays." },
+    "Diet & Nutrition": { targetWords: 1875, sectionCount: 10, focusNote: "Be authoritative but accessible. Cite nutritional benefits without medical claims." },
+    "Cuisine Exploration": { targetWords: 2100, sectionCount: 12, focusNote: "Cultural context is key. Include history, regional variations, and authentic techniques." },
 };
 
 // Fetch random recipe slugs from Supabase for internal linking
@@ -219,7 +219,7 @@ async function searchImagesWithJina(topic: string): Promise<string[]> {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-async function openaiChat(messages: any[], model = "gpt-5", maxTokens = 25000) {
+async function openaiChat(messages: any[], model = "gpt-5-mini", maxTokens = 25000) {
     const apiKey = process.env.OPENAI_API_KEY;
     if (!apiKey) throw new Error("OPENAI_API_KEY is required.");
 
@@ -277,7 +277,7 @@ Format the output as a structured text document. Be factually accurate and detai
         return await openaiChat([
             { role: "system", content: systemPrompt },
             { role: "user", content: userPrompt }
-        ], "gpt-5", 25000); // High token limit for detailed research
+        ], "gpt-5-mini", 25000); // High token limit for detailed research
     } catch (e) {
         console.error("❌ Critical: OpenAI simulation also failed.", e);
         return "";
@@ -332,10 +332,10 @@ Requirements:
 2.  **Depth**: Each section must be detailed enough to guide a writer to produce ${wordsPerSection} words.
 3.  **Flow**: Ensure logical progression (History -> Science -> How-To -> Advanced -> Troubleshooting).
 4.  **EEAT (Experience-Expertise-Authority-Trust)**: 
-    -   At least 2 sections must include instructions for "In our Dish Shuffle test kitchen..." anecdotes.
-    -   At least 1 section must reference scientific concepts (Maillard reaction, emulsification, etc.).
+    -   Demonstrate expertise naturally through deep knowledge and practical advice.
+    -   Avoid forced phrases like "In our test kitchen". Instead, write as an expert sharing hard-earned wisdom.
 5.  **Monetization**: Recommend highly relevant tools/ingredients. Target 10-12 TOTAL Amazon links for the entire article. DO NOT SPAM.
-6.  **Reader Value**: EVERY section must include a "💡 Pro Tip" or "🔥 Chef's Hack" callout.
+6.  **Reader Value**: Include "💡 Pro Tip" callouts ONLY where they add genuine value. Do not force them into every section.
 7.  **Internal Linking**: Naturally incorporate these recipe links where relevant:
     ${internalLinks.join(', ')}
 `;
@@ -385,15 +385,11 @@ Target Length: ${section.estimatedWords} words (Minimum ${Math.max(300, section.
 4.  **Bullet Points**: Use lists for steps or multi-item information.
 
 **CONTENT QUALITY RULES (for EEAT & SEO)**:
-1.  **First-Hand Experience**: Include phrases like "In the Dish Shuffle test kitchen, we found that..." or "After testing 5 methods...".
-2.  **Scientific Authority**: Where applicable, reference concepts (Maillard reaction, emulsification, collagen breakdown) to demonstrate expertise.
-3.  **Pro Tip Callout**: You MUST include at least ONE of these callouts:
+1.  **Natural Voice**: Write in a conversational, authoritative tone (like Serious Eats or Bon Appétit). Avoid robotic transitions.
+2.  **Contextual Expertise**: Explain the "why" behind techniques (e.g., why brown butter tastes nutty) naturally, without forcing scientific jargon unless necessary.
+3.  **Pro Tip Callout**: OPTIONAL. Include one ONLY if you have a specific, actionable tip that isn't obvious text.
     \`\`\`
     > **💡 Pro Tip:** [Your actionable advice here.]
-    \`\`\`
-    OR
-    \`\`\`
-    > **🔥 Chef's Hack:** [Your insider secret here.]
     \`\`\`
 4.  **Tone**: Authoritative, scientific yet accessible (Serious Eats / NYT Cooking style).
 5.  **Flow**: Ensure smooth transition from the previous section (context provided below).
@@ -421,7 +417,7 @@ Start writing the markdown content for this section now.`;
     return await openaiChat([
         { role: "system", content: systemPrompt },
         { role: "user", content: userPrompt }
-    ], "gpt-5", 16000);
+    ], "gpt-5-mini", 16000);
 }
 
 // ----------------------------------------------------------------------------
