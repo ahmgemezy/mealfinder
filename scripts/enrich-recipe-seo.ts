@@ -87,33 +87,22 @@ async function main() {
     } else {
         console.log(`📊 Fetching up to ${args.limit} recipes...`);
 
-        // Get recipes that haven't been enriched yet
-        const { data: allRecipes } = await supabase
-            .from('recipes')
-            .select('id, data')
-            .limit(args.limit * 2); // Fetch more to filter
+        // Use RPC to efficiently find unenriched recipes
+        const { data: unenriched, error } = await supabase
+            .rpc('get_unenriched_recipes', { limit_count: args.limit });
 
-        if (!allRecipes || allRecipes.length === 0) {
-            console.log('❌ No recipes found');
-            process.exit(0);
+        if (error) {
+            console.error('❌ Error fetching unenriched recipes via RPC:', error.message);
+            console.error('👉 Have you applied the migration "supabase/migrations/20250118_get_unenriched_recipes.sql"?');
+            process.exit(1);
         }
 
-        // Check which ones are already enriched
-        const { data: enriched } = await supabase
-            .from('recipe_seo_enrichments')
-            .select('recipe_id');
-
-        const enrichedIds = new Set(enriched?.map(e => e.recipe_id) || []);
-
-        // Prioritize unenriched recipes
-        const unenriched = allRecipes.filter(r => !enrichedIds.has(r.id));
-        recipesToEnrich = unenriched.slice(0, args.limit);
-
-        if (recipesToEnrich.length === 0) {
+        if (!unenriched || unenriched.length === 0) {
             console.log('✅ All recipes already enriched! Use --recipe-id to refresh specific recipe.');
             process.exit(0);
         }
 
+        recipesToEnrich = unenriched;
         console.log(`🎯 Found ${recipesToEnrich.length} unenriched recipes`);
     }
 
