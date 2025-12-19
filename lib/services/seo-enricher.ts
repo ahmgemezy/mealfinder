@@ -19,9 +19,6 @@ import { Recipe } from "@/lib/types/recipe";
 // Configuration
 // ============================================================================
 
-const JINA_SEARCH_URL = "https://s.jina.ai/";
-const JINA_READER_URL = "https://r.jina.ai/";
-
 // Initialize Supabase client for caching
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
@@ -46,54 +43,6 @@ export interface SEOEnrichment {
     enrichedAt: string;
 }
 
-interface JinaSearchResult {
-    title: string;
-    url: string;
-    content: string;
-    description?: string;
-}
-
-// ============================================================================
-// JINA.ai API Functions
-// ============================================================================
-
-async function searchWithJina(query: string): Promise<JinaSearchResult[]> {
-    const apiKey = process.env.JINA_API_KEY;
-    const headers: Record<string, string> = { Accept: "application/json" };
-    if (apiKey) headers["Authorization"] = `Bearer ${apiKey}`;
-
-    try {
-        const response = await fetch(
-            `${JINA_SEARCH_URL}${encodeURIComponent(query)}`,
-            { headers }
-        );
-        if (!response.ok) return [];
-        const data = await response.json();
-        return (data.data || []).slice(0, 5).map((item: Record<string, unknown>) => ({
-            title: (item.title as string) || "",
-            url: (item.url as string) || "",
-            content: (item.content as string) || "",
-            description: (item.description as string) || "",
-        }));
-    } catch {
-        return [];
-    }
-}
-
-async function readWithJina(url: string): Promise<string> {
-    const apiKey = process.env.JINA_API_KEY;
-    const headers: Record<string, string> = { Accept: "text/plain" };
-    if (apiKey) headers["Authorization"] = `Bearer ${apiKey}`;
-
-    try {
-        const response = await fetch(`${JINA_READER_URL}${url}`, { headers });
-        if (!response.ok) return "";
-        return (await response.text()).slice(0, 15000);
-    } catch {
-        return "";
-    }
-}
-
 // ============================================================================
 // OpenAI Integration for Processing
 // ============================================================================
@@ -112,7 +61,7 @@ async function openaiChat(
             "Content-Type": "application/json",
         },
         body: JSON.stringify({
-            model: "gpt-5-mini",
+            model: "gpt-5",
             messages,
             max_completion_tokens: maxTokens,
         }),
@@ -130,31 +79,29 @@ async function openaiChat(
 /**
  * Generate FAQ questions and answers for a recipe
  */
-async function generateFAQ(
-    recipe: Recipe,
-    sourceContent: string
-): Promise<FAQItem[]> {
+async function generateFAQ(recipe: Recipe): Promise<FAQItem[]> {
     const prompt = `You are an SEO expert creating FAQ schema content for a recipe page.
 
-Recipe: ${recipe.name}
+STRICT SOURCE OF TRUTH:
+You must generate FAQs based ONLY on the following recipe data and your internal culinary knowledge of the *general* dish type.
+DO NOT hallucinatory details (e.g. don't say "cooks in 10 mins" if the recipe says 30).
+
+Recipe Data:
+Name: ${recipe.name}
 Category: ${recipe.category || "General"}
 Cuisine: ${recipe.area || "International"}
 Ingredients: ${recipe.ingredients.map((i) => i.name).join(", ")}
+Instructions: ${recipe.instructions?.substring(0, 5000) || "Follow standard preparation."}
 
-Source Research:
-${sourceContent.slice(0, 5000)}
-
-If the Source Research is limited or empty, rely on your INTERIOR CULINARY KNOWLEDGE to generate the FAQs.
-Generate 5-7 frequently asked questions that people search for about this recipe.
+Generate 5-7 frequently asked questions.
 Focus on:
-- Common cooking questions ("How long to cook...", "Can I make ahead...")
-- Storage questions ("How to store...", "How long does it last...")
-- Technique questions ("Why does my... fail", "How to avoid...")
-- Variation questions ("Can I use... instead")
+- Common cooking questions (based on the actual steps provided)
+- Ingredient substitutions (logical ones based on the ingredients list)
+- Storage & Reheating (general culinary best practices for this dish type)
 
 Output as JSON array:
 [
-  { "question": "How long does X keep in the fridge?", "answer": "Up to 3 days..." }
+  { "question": "Question?", "answer": "Answer" }
 ]
 
 Keep answers concise (50-100 words). Be helpful and accurate.`;
@@ -175,30 +122,26 @@ Keep answers concise (50-100 words). Be helpful and accurate.`;
 /**
  * Generate CTR-optimized meta description
  */
-async function generateMetaDescription(
-    recipe: Recipe,
-    sourceContent: string
-): Promise<string> {
+async function generateMetaDescription(recipe: Recipe): Promise<string> {
     const prompt = `Create a compelling meta description for this recipe page.
     
 Recipe: ${recipe.name}
 Category: ${recipe.category || "Main Course"}
 Cuisine: ${recipe.area || "International"}
-Cook Time: ${recipe.readyInMinutes || 30} minutes
-
-If Source Research is unavailable, use your expert culinary knowledge to write the description.
+Cook Time: ${recipe.readyInMinutes || "N/A"} minutes
+Ingredients Overview: ${recipe.ingredients.slice(0, 5).map(i => i.name).join(", ")}...
 
 Requirements:
-- Maximum 155 characters
-- Include primary keyword (recipe name)
-- Add time if available
-- Create urgency or interest
-- Include a call-to-action vibe
+- ACURRACY: Must reflect the actual recipe details above.
+- Maximum 155 characters.
+- Include primary keyword (recipe name).
+- Add time if available.
+- Create urgency or interest.
 
-Examples of great meta descriptions:
-"Learn how to make Spaghetti Carbonara in 30 minutes. Classic Italian recipe with creamy egg sauce. Perfect for weeknight dinners!"
+Example:
+"Learn how to make ${recipe.name} in ${recipe.readyInMinutes || 30} minutes. A delicious ${recipe.area || "homemade"} ${recipe.category || "dish"} perfect for dinner!"
 
-Output ONLY the meta description, no quotes or explanation.`;
+Output ONLY the meta description, no quotes.`;
 
     try {
         const response = await openaiChat([
@@ -241,10 +184,7 @@ async function generateKeywords(recipe: Recipe): Promise<string[]> {
 /**
  * Generate cultural context snippet
  */
-async function generateCulturalSnippet(
-    recipe: Recipe,
-    sourceContent: string
-): Promise<string> {
+async function generateCulturalSnippet(recipe: Recipe): Promise<string> {
     if (!recipe.area || recipe.area.trim() === "") {
         return "";
     }
@@ -254,13 +194,9 @@ async function generateCulturalSnippet(
 Recipe: ${recipe.name}
 Cuisine: ${recipe.area}
 
-Research:
-${sourceContent.slice(0, 3000)}
-
-If Research is empty, use your knowledge of world cuisines.
-
-Focus on origin, tradition, or interesting cultural fact. Keep it under 100 words.
-Output ONLY the snippet, no quotes.`;
+Using your internal expert knowledge of world cuisines, write about the origin or tradition of this dish.
+If the dish is generic, focus on the key ingredients' role in that cuisine.
+Keep it under 100 words. Output ONLY the snippet.`;
 
     try {
         const response = await openaiChat([{ role: "user", content: prompt }]);
@@ -361,51 +297,15 @@ export async function enrichRecipeSEO(
         return cached;
     }
 
-    // 2. Research with JINA
-    console.log(`🔍 Enriching SEO for: ${recipe.name}`);
-
-    let sourceContent = "";
-    let fallbackReason = "";
-
-    try {
-        const searchQuery = `${recipe.name} ${recipe.area || ""} recipe FAQ cooking tips`;
-        const searchResults = await searchWithJina(searchQuery);
-
-        if (searchResults.length === 0) {
-            fallbackReason = "No Jina search results found.";
-            throw new Error(fallbackReason);
-        }
-
-        // Compile source content
-        for (const result of searchResults.slice(0, 2)) {
-            const content = await readWithJina(result.url);
-            sourceContent += `\n${result.title}\n${content}\n`;
-        }
-        if (sourceContent.trim().length < 100) { // Arbitrary threshold for "limited" content
-            fallbackReason = "Limited Jina source content retrieved.";
-            throw new Error(fallbackReason);
-        }
-    } catch (error) {
-        const errorMessage = (error as any).message;
-        console.warn(`⚠️ SEO Research failed for ${recipe.name}: ${errorMessage}. Switching to OpenAI Knowledge Fallback.`);
-        // Enhanced fallback source context
-        sourceContent = `
-FALLBACK MODE: EXTERNAL SEARCH UNAVAILABLE. Reason: ${fallbackReason || errorMessage}
-Detailed Recipe Data:
-Name: ${recipe.name}
-Category: ${recipe.category}
-Cuisine: ${recipe.area}
-Ingredients: ${recipe.ingredients.map(i => i.name).join(', ')}
-Instructions: ${recipe.instructions || 'Standard preparation method'}
-        `.trim();
-    }
+    // 2. Generate enrichments purely from Recipe Data (No External Search)
+    console.log(`🔍 Enriching SEO for: ${recipe.name} (Source: Internal Recipe Data Only)`);
 
     // 3. Generate enrichments in parallel
     const [faq, metaDescription, keywords, culturalSnippet] = await Promise.all([
-        generateFAQ(recipe, sourceContent),
-        generateMetaDescription(recipe, sourceContent),
+        generateFAQ(recipe),
+        generateMetaDescription(recipe),
         generateKeywords(recipe),
-        generateCulturalSnippet(recipe, sourceContent),
+        generateCulturalSnippet(recipe),
     ]);
 
     const enrichment: SEOEnrichment = {

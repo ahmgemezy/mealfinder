@@ -210,7 +210,7 @@ async function getVisualSearchTerms(topic: string): Promise<string[]> {
         const raw = await openaiChat([
             { role: "system", content: systemPrompt },
             { role: "user", content: userPrompt }
-        ], "gpt-4o", 1000);
+        ], "gpt-5", 1000);
         const sanitized = raw.replace(/```json|```/g, "").trim();
         return JSON.parse(sanitized);
     } catch {
@@ -244,7 +244,7 @@ async function searchImagesWithUnsplash(query: string): Promise<string[]> {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-async function openaiChat(messages: any[], model = "gpt-4o", maxTokens = 16000) {
+async function openaiChat(messages: any[], model = "gpt-5", maxTokens = 16000) {
     const apiKey = process.env.OPENAI_API_KEY;
     if (!apiKey) throw new Error("OPENAI_API_KEY is required.");
 
@@ -302,7 +302,7 @@ Format the output as a structured text document. Be factually accurate and detai
         return await openaiChat([
             { role: "system", content: systemPrompt },
             { role: "user", content: userPrompt }
-        ], "gpt-4o", 16000); // High token limit for detailed research
+        ], "gpt-5", 16000); // High token limit for detailed research
     } catch (e) {
         console.error("❌ Critical: OpenAI simulation also failed.", e);
         return "";
@@ -464,7 +464,7 @@ Start writing the markdown content for this section now.`;
     const rawOutput = await openaiChat([
         { role: "system", content: systemPrompt },
         { role: "user", content: userPrompt }
-    ], "gpt-4o", 12000);
+    ], "gpt-5", 12000);
 
     // CLEANING: Strip prompt leaks from headers and content
     return rawOutput
