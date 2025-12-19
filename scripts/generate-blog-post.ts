@@ -326,6 +326,8 @@ async function generateOutline(
     const systemPrompt = `You are the Editor-in-Chief of "Dish Shuffle", a premium culinary discovery platform.
 You are designing the structure for a ${config.targetWords}-word authority article in the "${category}" category.
 
+**PRIORITY**: Quality and Depth are far more important than speed. Take your time to design a logical, high-impact structure.
+
 **CATEGORY FOCUS**: ${config.focusNote}
 
 Your goal is to break this topic down into ${config.sectionCount} discrete, high-value sections.
@@ -399,6 +401,8 @@ async function writeSection(
 
     const systemPrompt = `You are a specialized senior food writer for "Dish Shuffle", a premium culinary platform.
 You are writing ONE specific section of an authority guide on "${topic}".
+
+**MINDSET**: Do not rush. Think deeply about the reader's needs. Quality, accuracy, and engaging prose are your only metrics. Rankability (SEO) depends on depth and value, not fluff.
 
 Your Task: Write the content for the section "${section.heading}".
 Target Length: ${section.estimatedWords} words (Minimum ${Math.max(300, section.estimatedWords - 100)}).
