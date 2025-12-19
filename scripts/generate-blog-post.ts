@@ -74,16 +74,16 @@ type BlogCategory = (typeof BLOG_CATEGORIES)[number];
 
 // Category-specific word targets (+30% from original baselines, matched to search intent)
 const CATEGORY_CONFIG: Record<BlogCategory, { targetWords: number; sectionCount: number; focusNote: string }> = {
-    "Quick & Easy": { targetWords: 1125, sectionCount: 6, focusNote: "Focus on efficiency, shortcuts, and time-saving hacks. Readers want fast answers." },
-    "Cooking Tips & Trends": { targetWords: 1500, sectionCount: 8, focusNote: "Blend practical advice with trending techniques. Include 'Chef Hacks'." },
-    "Budget-Friendly Eats": { targetWords: 1650, sectionCount: 10, focusNote: "Emphasize cost breakdowns, meal prep, and smart shopping tips." },
-    "Cooking Fundamentals": { targetWords: 2250, sectionCount: 12, focusNote: "Be comprehensive. Explain the 'why' (science, Maillard reaction, emulsification)." },
-    "Ingredient Deep Dive": { targetWords: 2625, sectionCount: 14, focusNote: "Cover history, varieties, storage, cooking methods, and substitutions." },
-    "Kitchen Gear & Gadgets": { targetWords: 1950, sectionCount: 10, focusNote: "Heavy on product comparisons. MUST include Amazon affiliate links." },
-    "Entertaining & Hosting": { targetWords: 1950, sectionCount: 10, focusNote: "Focus on planning, presentation, and crowd-pleasers." },
-    "Seasonal Spotlight": { targetWords: 1950, sectionCount: 10, focusNote: "Focus on evergreen seasonal concepts (spring produce, winter warmers), not specific holidays." },
-    "Diet & Nutrition": { targetWords: 1875, sectionCount: 10, focusNote: "Be authoritative but accessible. Cite nutritional benefits without medical claims." },
-    "Cuisine Exploration": { targetWords: 2100, sectionCount: 12, focusNote: "Cultural context is key. Include history, regional variations, and authentic techniques." },
+    "Quick & Easy": { targetWords: 1125, sectionCount: 3, focusNote: "Focus on efficiency, shortcuts, and time-saving hacks. Readers want fast answers." },
+    "Cooking Tips & Trends": { targetWords: 1500, sectionCount: 4, focusNote: "Blend practical advice with trending techniques. Include 'Chef Hacks'." },
+    "Budget-Friendly Eats": { targetWords: 1650, sectionCount: 5, focusNote: "Emphasize cost breakdowns, meal prep, and smart shopping tips." },
+    "Cooking Fundamentals": { targetWords: 2250, sectionCount: 6, focusNote: "Be comprehensive. Explain the 'why' (science, Maillard reaction, emulsification)." },
+    "Ingredient Deep Dive": { targetWords: 2625, sectionCount: 7, focusNote: "Cover history, varieties, storage, cooking methods, and substitutions." },
+    "Kitchen Gear & Gadgets": { targetWords: 1950, sectionCount: 5, focusNote: "Heavy on product comparisons. MUST include Amazon affiliate links." },
+    "Entertaining & Hosting": { targetWords: 1950, sectionCount: 5, focusNote: "Focus on planning, presentation, and crowd-pleasers." },
+    "Seasonal Spotlight": { targetWords: 1950, sectionCount: 5, focusNote: "Focus on evergreen seasonal concepts (spring produce, winter warmers), not specific holidays." },
+    "Diet & Nutrition": { targetWords: 1875, sectionCount: 5, focusNote: "Be authoritative but accessible. Cite nutritional benefits without medical claims." },
+    "Cuisine Exploration": { targetWords: 2100, sectionCount: 6, focusNote: "Cultural context is key. Include history, regional variations, and authentic techniques." },
 };
 
 // Fetch random recipe slugs from Supabase for internal linking
@@ -232,13 +232,21 @@ async function searchImagesWithUnsplash(query: string): Promise<string[]> {
             { headers: { Authorization: `Client-ID ${accessKey}` } }
         );
 
-        if (!response.ok) return [];
+        if (!response.ok) {
+            const errText = await response.text();
+            console.error(`❌ Unsplash API Error (${response.status}): ${errText}`);
+            return [];
+        }
+
         const data = await response.json();
+        if (data.results.length === 0) {
+            console.log(`⚠️  Unsplash returned 0 results for query: "${query}"`);
+        }
 
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         return data.results.map((img: any) => `${img.urls.raw}&w=1200&q=80`);
     } catch (e) {
-        console.error("❌ Unsplash API Error:", e);
+        console.error("❌ Unsplash Network/Parse Error:", e);
         return [];
     }
 }
@@ -435,7 +443,8 @@ You are writing ONE specific section of an authority guide on "${topic}".
 **MINDSET**: Do not rush. Think deeply about the reader's needs. Quality, accuracy, and engaging prose are your only metrics. Rankability (SEO) depends on depth and value, not fluff.
 
 Your Task: Write the content for the section "${section.heading}".
-Target Length: ${section.estimatedWords} words (Minimum ${Math.max(300, section.estimatedWords - 100)}).
+Target Length: ${section.estimatedWords} words (Minimum ${Math.max(250, section.estimatedWords - 100)}).
+STRICT LIMIT: Do not exceed ${section.estimatedWords + 150} words. Be concise and high-value.
 
 **CRITICAL FORMATTING RULES (for Mobile Readability)**:
 1.  **Short Paragraphs**: Maximum 3 sentences per paragraph. No walls of text.
