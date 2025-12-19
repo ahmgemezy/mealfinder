@@ -210,7 +210,7 @@ async function getVisualSearchTerms(topic: string): Promise<string[]> {
         const raw = await openaiChat([
             { role: "system", content: systemPrompt },
             { role: "user", content: userPrompt }
-        ], "gpt-5-mini", 1000);
+        ], "gpt-4o", 1000);
         const sanitized = raw.replace(/```json|```/g, "").trim();
         return JSON.parse(sanitized);
     } catch {
@@ -244,7 +244,7 @@ async function searchImagesWithUnsplash(query: string): Promise<string[]> {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-async function openaiChat(messages: any[], model = "gpt-5-mini", maxTokens = 25000) {
+async function openaiChat(messages: any[], model = "gpt-4o", maxTokens = 16000) {
     const apiKey = process.env.OPENAI_API_KEY;
     if (!apiKey) throw new Error("OPENAI_API_KEY is required.");
 
@@ -302,7 +302,7 @@ Format the output as a structured text document. Be factually accurate and detai
         return await openaiChat([
             { role: "system", content: systemPrompt },
             { role: "user", content: userPrompt }
-        ], "gpt-5-mini", 25000); // High token limit for detailed research
+        ], "gpt-4o", 16000); // High token limit for detailed research
     } catch (e) {
         console.error("❌ Critical: OpenAI simulation also failed.", e);
         return "";
@@ -352,8 +352,7 @@ Output strictly JSON with this schema:
 Requirements:
 1.  **Structure**:
     -   Introduction (Hook + Value Prop)
-    -   ${config.sectionCount - 4} Content Body Sections (H2s)
-    -   **Recommended Gear / Ingredients** (Dedicated Section for Affiliate Links)
+    -   ${config.sectionCount - 3} Content Body Sections (H2s)
     -   FAQ Section (mandatory - at least 5 questions)
     -   Conclusion
 2.  **Depth**: Each section must be detailed enough to guide a writer to produce ${wordsPerSection} words.
@@ -429,6 +428,7 @@ Target Length: ${section.estimatedWords} words (Minimum ${Math.max(300, section.
 - **CRITICAL**: NEVER use direct product links (like /dp/B00... or /gp/product/...). They break. ONLY use SEARCH links.
 - Format: [Product Name](https://www.amazon.com/s?k=Product+Name&tag=dishshuffle-20)
 - Example: "For best results, use a [Lodge Cast Iron Skillet](https://www.amazon.com/s?k=Lodge+Cast+Iron+Skillet&tag=dishshuffle-20)."
+- **DO NOT** output "Anchor text:" or "Link:" labels. Just integrate the link naturally into the sentence.
 
 **INTERNAL LINKING RULES**:
 - When mentioning related recipes, you MUST format them as proper Markdown links.
@@ -464,13 +464,16 @@ Start writing the markdown content for this section now.`;
     const rawOutput = await openaiChat([
         { role: "system", content: systemPrompt },
         { role: "user", content: userPrompt }
-    ], "gpt-5-mini", 16000);
+    ], "gpt-4o", 12000);
 
     // CLEANING: Strip prompt leaks from headers and content
     return rawOutput
         .replace(/\(Affiliate Picks.*?\)/gi, "")
         .replace(/\(10[-–]12 Amazon Links\)/gi, "")
+        .replace(/Anchor text:.*?(?=\n|$)/gi, "") // Remove "Anchor text: ..." lines
         .replace(/Did I mention.*?/gi, "")
+        .replace(/Placement & linking guidance/gi, "")
+        .replace(/Please add a short affiliate disclosure/gi, "")
         .replace(/In our test kitchen/gi, "In professional kitchens") // Soften the claim
         .trim();
 }
@@ -505,9 +508,12 @@ async function generateLongFormPost(
 
         let sectionContent = await writeSection(topic, section, fullContent, sourceMaterial);
 
+        // Clean the heading just in case the AI leaked instructions into it
+        const cleanHeading = section.heading.replace(/\(.*?\)/g, "").trim();
+
         // Add H2 header if missing (AI sometimes skips it if prompted to "start directly")
         if (!sectionContent.trim().startsWith("#")) {
-            sectionContent = `## ${section.heading} \n\n${sectionContent} `;
+            sectionContent = `## ${cleanHeading} \n\n${sectionContent} `;
         }
 
         fullContent += `\n\n${sectionContent} `;
