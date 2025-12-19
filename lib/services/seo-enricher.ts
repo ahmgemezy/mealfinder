@@ -19,6 +19,9 @@ import { Recipe } from "@/lib/types/recipe";
 // Configuration
 // ============================================================================
 
+const JINA_SEARCH_URL = "https://s.jina.ai/";
+const JINA_READER_URL = "https://r.jina.ai/";
+
 // Initialize Supabase client for caching
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
@@ -41,6 +44,54 @@ export interface SEOEnrichment {
     relatedRecipes: string[];
     relatedBlogPosts: string[];
     enrichedAt: string;
+}
+
+interface JinaSearchResult {
+    title: string;
+    url: string;
+    content: string;
+    description?: string;
+}
+
+// ============================================================================
+// JINA.ai API Functions
+// ============================================================================
+
+async function searchWithJina(query: string): Promise<JinaSearchResult[]> {
+    const apiKey = process.env.JINA_API_KEY;
+    const headers: Record<string, string> = { Accept: "application/json" };
+    if (apiKey) headers["Authorization"] = `Bearer ${apiKey}`;
+
+    try {
+        const response = await fetch(
+            `${JINA_SEARCH_URL}${encodeURIComponent(query)}`,
+            { headers }
+        );
+        if (!response.ok) return [];
+        const data = await response.json();
+        return (data.data || []).slice(0, 3).map((item: Record<string, unknown>) => ({
+            title: (item.title as string) || "",
+            url: (item.url as string) || "",
+            content: (item.content as string) || "",
+            description: (item.description as string) || "",
+        }));
+    } catch {
+        return [];
+    }
+}
+
+async function readWithJina(url: string): Promise<string> {
+    const apiKey = process.env.JINA_API_KEY;
+    const headers: Record<string, string> = { Accept: "text/plain" };
+    if (apiKey) headers["Authorization"] = `Bearer ${apiKey}`;
+
+    try {
+        const response = await fetch(`${JINA_READER_URL}${url}`, { headers });
+        if (!response.ok) return "";
+        return (await response.text()).slice(0, 8000);
+    } catch {
+        return "";
+    }
 }
 
 // ============================================================================
@@ -79,25 +130,25 @@ async function openaiChat(
 /**
  * Generate FAQ questions and answers for a recipe
  */
-async function generateFAQ(recipe: Recipe): Promise<FAQItem[]> {
+async function generateFAQ(recipe: Recipe, sourceKnowledge: string): Promise<FAQItem[]> {
     const prompt = `You are an SEO expert creating FAQ schema content for a recipe page.
 
-STRICT SOURCE OF TRUTH:
-You must generate FAQs based ONLY on the following recipe data and your internal culinary knowledge of the *general* dish type.
-DO NOT hallucinatory details (e.g. don't say "cooks in 10 mins" if the recipe says 30).
-
-Recipe Data:
-Name: ${recipe.name}
+Recipe: ${recipe.name}
 Category: ${recipe.category || "General"}
 Cuisine: ${recipe.area || "International"}
 Ingredients: ${recipe.ingredients.map((i) => i.name).join(", ")}
 Instructions: ${recipe.instructions?.substring(0, 5000) || "Follow standard preparation."}
 
+RESEARCH KNOWLEDGE (For Context Only - Prioritize Recipe Data):
+${sourceKnowledge.slice(0, 5000)}
+
 Generate 5-7 frequently asked questions.
+Use the Research Knowledge to find *common questions* people ask about this dish, but ensure the *ANSWERS* are strictly based on the provided Recipe Data (e.g. don't suggest ingredients not in the list unless as common variations).
+
 Focus on:
 - Common cooking questions (based on the actual steps provided)
-- Ingredient substitutions (logical ones based on the ingredients list)
-- Storage & Reheating (general culinary best practices for this dish type)
+- Ingredient substitutions (logical ones)
+- Storage & Reheating (general culinary best practices)
 
 Output as JSON array:
 [
@@ -297,15 +348,31 @@ export async function enrichRecipeSEO(
         return cached;
     }
 
-    // 2. Generate enrichments purely from Recipe Data (No External Search)
-    console.log(`🔍 Enriching SEO for: ${recipe.name} (Source: Internal Recipe Data Only)`);
+    // 2. FAQ Research with JINA (Specific for FAQs only)
+    console.log(`🔍 Enriching SEO for: ${recipe.name}`);
+    let faqSourceContent = "";
+
+    try {
+        console.log(`   Running Jina FAQ research...`);
+        const searchQuery = `${recipe.name} recipe FAQ common questions mistakes`;
+        const searchResults = await searchWithJina(searchQuery);
+
+        if (searchResults.length > 0) {
+            for (const result of searchResults.slice(0, 2)) {
+                const content = await readWithJina(result.url);
+                faqSourceContent += `\nSOURCE: ${result.title}\n${content}\n`;
+            }
+        }
+    } catch (e) {
+        console.warn(`   ⚠️ Jina FAQ research failed, falling back to internal knowledge:`, e);
+    }
 
     // 3. Generate enrichments in parallel
     const [faq, metaDescription, keywords, culturalSnippet] = await Promise.all([
-        generateFAQ(recipe),
-        generateMetaDescription(recipe),
-        generateKeywords(recipe),
-        generateCulturalSnippet(recipe),
+        generateFAQ(recipe, faqSourceContent), // Uses Jina Research
+        generateMetaDescription(recipe),       // Internal Only
+        generateKeywords(recipe),              // Internal Only
+        generateCulturalSnippet(recipe),       // Internal Only
     ]);
 
     const enrichment: SEOEnrichment = {
