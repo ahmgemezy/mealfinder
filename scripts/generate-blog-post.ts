@@ -220,7 +220,7 @@ async function getVisualSearchTerms(topic: string): Promise<string[]> {
 }
 
 async function searchImagesWithUnsplash(query: string): Promise<string[]> {
-    const accessKey = process.env.UNSPLASH_ACCESS_KEY;
+    const accessKey = process.env.UNSPLASH_ACCESS_KEY?.trim();
     if (!accessKey) {
         console.warn("⚠️  Missing UNSPLASH_ACCESS_KEY. Skipping Unsplash search.");
         return [];
