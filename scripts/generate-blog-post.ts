@@ -244,36 +244,67 @@ async function searchImagesWithUnsplash(query: string): Promise<string[]> {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-async function openaiChat(messages: any[], model = "gpt-5", maxTokens = 16000) {
+async function openaiChat(messages: any[], model = "gpt-5", maxTokens = 16000, retries = 3) {
     const apiKey = process.env.OPENAI_API_KEY;
     if (!apiKey) throw new Error("OPENAI_API_KEY is required.");
 
-    const response = await fetch("https://api.openai.com/v1/chat/completions", {
-        method: "POST",
-        headers: {
-            Authorization: `Bearer ${apiKey}`,
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-            model,
-            messages,
-            max_completion_tokens: maxTokens,
-        }),
-        signal: AbortSignal.timeout(600000), // 10 minutes timeout for deep reasoning
-    });
+    for (let attempt = 1; attempt <= retries; attempt++) {
+        try {
+            // Use AbortController for granular timeout control
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 180000); // 3 minutes hard timeout
 
-    if (!response.ok) {
-        const errorBody = await response.text();
-        console.error(`❌ OpenAI API Error (${response.status} ${response.statusText}):`, errorBody);
-        throw new Error(`OpenAI API error: ${response.status} ${response.statusText}`);
+            const response = await fetch("https://api.openai.com/v1/chat/completions", {
+                method: "POST",
+                headers: {
+                    Authorization: `Bearer ${apiKey}`,
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    model,
+                    messages,
+                    max_completion_tokens: maxTokens,
+                }),
+                signal: controller.signal,
+            }).finally(() => clearTimeout(timeoutId));
+
+            if (!response.ok) {
+                const errorBody = await response.text();
+                // If it's a server error (5xx) or Rate Limit (429), we throw to retry
+                if (response.status >= 500 || response.status === 429) {
+                    throw new Error(`Retryable API Error: ${response.status} - ${errorBody}`);
+                }
+                // Client errors (400, 401, etc) we fail immediately
+                console.error(`❌ OpenAI API Fatal Error (${response.status}):`, errorBody);
+                throw new Error(`OpenAI API error: ${response.status} ${response.statusText}`);
+            }
+
+            const data = await response.json();
+            const content = data.choices?.[0]?.message?.content;
+
+            if (!content) {
+                throw new Error("Received empty content from OpenAI");
+            }
+            return content;
+
+        } catch (e) {
+            const isLastAttempt = attempt === retries;
+            const errorMsg = (e as Error).message;
+            console.warn(`⚠️  OpenAI Chat Attempt ${attempt}/${retries} failed: ${errorMsg}`);
+
+            // Specific handling for Timeout or Fetch failures
+            if (isLastAttempt) {
+                console.error("❌ All retry attempts failed.");
+                throw e; // Propagate the final error
+            }
+
+            // Exponential backoff: 2s, 4s, 8s
+            const waitTime = Math.pow(2, attempt) * 2000;
+            console.log(`⏳ Waiting ${waitTime / 1000}s before retry...`);
+            await new Promise(resolve => setTimeout(resolve, waitTime));
+        }
     }
-    const data = await response.json();
-    const content = data.choices?.[0]?.message?.content;
-    if (!content) {
-        console.error("❌ OpenAI Response missing content:", JSON.stringify(data, null, 2));
-        return "";
-    }
-    return content;
+    return "";
 }
 
 /**
