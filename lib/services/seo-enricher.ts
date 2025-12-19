@@ -131,7 +131,8 @@ async function openaiChat(
  * Generate FAQ questions and answers for a recipe
  */
 async function generateFAQ(recipe: Recipe, sourceKnowledge: string): Promise<FAQItem[]> {
-    const prompt = `You are an SEO expert creating FAQ schema content for a recipe page.
+    // 1. Primary Strategy: Use Jina Knowledge + Recipe Data
+    const primaryPrompt = `You are an SEO expert creating FAQ schema content for a recipe page.
 
 Recipe: ${recipe.name}
 Category: ${recipe.category || "General"}
@@ -139,16 +140,20 @@ Cuisine: ${recipe.area || "International"}
 Ingredients: ${recipe.ingredients.map((i) => i.name).join(", ")}
 Instructions: ${recipe.instructions?.substring(0, 5000) || "Follow standard preparation."}
 
-RESEARCH KNOWLEDGE (For Context Only - Prioritize Recipe Data):
+RESEARCH KNOWLEDGE (For Context Only):
 ${sourceKnowledge.slice(0, 5000)}
 
 Generate 5-7 frequently asked questions.
-Use the Research Knowledge to find *common questions* people ask about this dish, but ensure the *ANSWERS* are strictly based on the provided Recipe Data (e.g. don't suggest ingredients not in the list unless as common variations).
+Use the Research Knowledge to find *common questions* people ask about this dish.
+
+ANSWERING RULES:
+1. Cooking Steps/Ingredients: MUST be based on the provided Recipe Data.
+2. Storage/Reheating/Substitutions: You MAY use your general culinary knowledge if the recipe doesn't explicitly state it (e.g., "Can I freeze pesto?" is a valid question to answer with general knowledge).
 
 Focus on:
-- Common cooking questions (based on the actual steps provided)
-- Ingredient substitutions (logical ones)
-- Storage & Reheating (general culinary best practices)
+- Storage & Shelf Life (e.g. "How long does this last?")
+- Usage/Serving (e.g. "What to serve with...?")
+- Dietary/Substitutions (e.g. "Can I make this vegan?")
 
 Output as JSON array:
 [
@@ -160,12 +165,43 @@ Keep answers concise (50-100 words). Be helpful and accurate.`;
     try {
         const response = await openaiChat([
             { role: "system", content: "You are an SEO and culinary expert." },
-            { role: "user", content: prompt },
+            { role: "user", content: primaryPrompt },
         ]);
 
         const sanitized = response.replace(/```json|```/g, "").trim();
-        return JSON.parse(sanitized);
+        const results = JSON.parse(sanitized);
+
+        // If we got results, return them.
+        if (Array.isArray(results) && results.length > 0) {
+            return results;
+        }
     } catch {
+        // Fall through to fallback
+    }
+
+    // 2. Fallback Strategy: Pure Internal Knowledge (if Jina failed or strict prompt yielded nothing)
+    console.log("   ⚠️ Primary FAQ generation returned 0 items. Attempting OpenAI Fallback...");
+    const fallbackPrompt = `Generate 5 standard culinary FAQs for "${recipe.name}".
+    
+    Since specific recipe details might be sparse, focus on GENERAL Best Practices for this type of dish:
+    1. Storage (How to store, how long it lasts in fridge/freezer)
+    2. Serving Suggestions (What pairs well with it)
+    3. Common Variations (e.g. "Can I add spicy peppers?")
+    
+    Recipe Ingredients for context: ${recipe.ingredients.map((i) => i.name).join(", ")}
+    
+    Output strictly as JSON array of objects with 'question' and 'answer' keys.
+    [ { "question": "...", "answer": "..." } ]`;
+
+    try {
+        const fallbackResponse = await openaiChat([
+            { role: "system", content: "You are a helpful culinary assistant." },
+            { role: "user", content: fallbackPrompt }
+        ]);
+        const sanitizedFallback = fallbackResponse.replace(/```json|```/g, "").trim();
+        return JSON.parse(sanitizedFallback);
+    } catch (e) {
+        console.error("   ❌ FAQ Fallback failed:", e);
         return [];
     }
 }
