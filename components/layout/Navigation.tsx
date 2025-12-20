@@ -9,6 +9,7 @@ import type { User } from "@supabase/supabase-js";
 import { useTranslations } from "next-intl";
 import LanguageSwitcher from "@/components/features/LanguageSwitcher";
 import Image from "next/image";
+import { ChefHat } from "lucide-react";
 
 export default function Navigation() {
   const t = useTranslations("Navigation");
@@ -60,6 +61,7 @@ export default function Navigation() {
 
   const navItems = [
     { href: "/", label: t("home"), icon: HomeIcon },
+    { href: "/pantry", label: t("pantry"), icon: ChefHat },
     { href: "/recipes", label: t("recipes"), icon: BookIcon },
     { href: "/blog", label: t("blog"), icon: NewsIcon },
     { href: "/favorites", label: t("favorites"), icon: HeartIcon },
@@ -110,8 +112,8 @@ export default function Navigation() {
                     }
                   }}
                   className={`px-5 py-2.5 rounded-full font-medium text-sm transition-all duration-300 ${isActive(item.href)
-                      ? "bg-primary-50 text-primary-700 shadow-sm ring-1 ring-primary-200"
-                      : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
+                    ? "bg-primary-50 text-primary-700 shadow-sm ring-1 ring-primary-200"
+                    : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
                     }`}
                 >
                   {item.label}
@@ -266,7 +268,7 @@ export default function Navigation() {
 
       {/* Mobile Bottom Navigation */}
       <nav className="notranslate md:hidden fixed bottom-0 left-0 right-0 z-9999 bg-card/95 backdrop-blur-lg border-t border-border pb-safe shadow-[0_-4px_20px_-5px_rgba(0,0,0,0.1)]">
-        <div className="flex items-center justify-around h-16 px-2">
+        <div className="grid grid-cols-6 h-16 px-1">
           {navItems.map((item) => {
             const Icon = item.icon;
             const active = isActive(item.href);
@@ -280,15 +282,15 @@ export default function Navigation() {
                     openAuthModal();
                   }
                 }}
-                className={`flex flex-col items-center justify-center gap-1 px-4 py-2 rounded-xl transition-all duration-300 ${active
-                    ? "text-primary-500 scale-105"
-                    : "text-muted-foreground hover:text-foreground"
+                className={`flex flex-col items-center justify-start gap-1 py-3 rounded-xl transition-all duration-300 min-w-0 ${active
+                  ? "text-primary-500"
+                  : "text-muted-foreground hover:text-foreground"
                   }`}
               >
                 <Icon
-                  className={`w-6 h-6 ${active ? "fill-current" : "stroke-current"}`}
+                  className={`w-5 h-5 ${active ? "fill-current" : "stroke-current"} shrink-0`}
                 />
-                <span className="text-[10px] font-bold tracking-wide uppercase">
+                <span className="text-[9px] font-bold tracking-wide uppercase text-center leading-none px-0.5 line-clamp-2 w-full break-words">
                   {item.label}
                 </span>
               </Link>
@@ -297,10 +299,10 @@ export default function Navigation() {
           <button
             onClick={handleOpenModal}
             aria-label="Get random recipe suggestion"
-            className="flex flex-col items-center justify-center gap-1 px-4 py-2 rounded-xl transition-all duration-300 text-muted-foreground hover:text-foreground"
+            className="flex flex-col items-center justify-start gap-1 py-3 rounded-xl transition-all duration-300 text-muted-foreground hover:text-foreground min-w-0"
           >
-            <SparklesIcon className="w-6 h-6 stroke-current" />
-            <span className="text-[10px] font-bold tracking-wide uppercase">
+            <SparklesIcon className="w-5 h-5 stroke-current shrink-0" />
+            <span className="text-[9px] font-bold tracking-wide uppercase text-center leading-none px-0.5 line-clamp-2 w-full break-words">
               {t("surpriseMe")}
             </span>
           </button>

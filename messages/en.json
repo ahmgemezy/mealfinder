@@ -7,7 +7,22 @@
         "surpriseMe": "Surprise Me",
         "signIn": "Sign In",
         "signOut": "Sign Out",
-        "myFavorites": "My Favorites"
+        "myFavorites": "My Favorites",
+        "pantry": "Smart Pantry"
+    },
+    "SmartPantry": {
+        "newFeatureTag": "New Feature",
+        "heroTitle": "Cook with what",
+        "heroTitleHighlight": "you have.",
+        "heroSubtitle": "Don't let those leftovers go to waste. Enter your ingredients below and we'll find delicious recipes you can make right now.",
+        "inputPlaceholder": "Enter an ingredient (e.g. eggs, rice)...",
+        "addIngredientHelp": "Add at least one ingredient to start cooking!",
+        "findRecipesButton": "Find Recipes",
+        "resultsTitle": "Here's what you can cook:",
+        "matchesFound": "{count} matches found",
+        "noResults": "No recipes found 😔",
+        "noResultsDesc": "Try combining fewer ingredients or using more common ones.",
+        "topCategory": "Top Category"
     },
     "Hero": {
         "title": "Dish Shuffle",

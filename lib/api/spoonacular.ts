@@ -661,3 +661,50 @@ export async function searchRecipesWrapper(params: Record<string, string>): Prom
         return { recipes: [], totalResults: 0, hasMore: false, offset: 0 };
     }
 }
+/**
+ * Find recipes by ingredients
+ */
+export async function findByIngredients(ingredients: string[], count: number = 10): Promise<Recipe[]> {
+    try {
+        // Spoonacular finds recipes that use these ingredients
+        // It returns a simplified object that we need to enrich
+        // https://spoonacular.com/food-api/docs#Search-Recipes-by-Ingredients
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const data = await fetchFromSpoonacular<any[]>(
+            "recipes/findByIngredients",
+            {
+                ingredients: ingredients.join(","),
+                number: count.toString(),
+                ranking: "1", // Maximize used ingredients
+                ignorePantry: "true",
+            }
+        );
+
+        if (!data || data.length === 0) return [];
+
+        // Strict Filtering: Only keep recipes where all search ingredients are used.
+        // The 'unusedIngredients' array contains ingredients from the query that were NOT found in the recipe.
+        // If it's empty, it means all our search terms were found.
+        const strictMatches = data.filter((item: any) =>
+            !item.unusedIngredients || item.unusedIngredients.length === 0
+        );
+
+        if (strictMatches.length === 0) {
+            console.log(`No strict matches found for ingredients: ${ingredients.join(", ")} (Filtered from ${data.length} loose matches)`);
+            return [];
+        }
+
+        console.log(`Found ${strictMatches.length} strict matches (from ${data.length} candidates)`);
+
+        // LIMITATION: findByIngredients returns incomplete recipe objects (missing instructions)
+        // We must fetch full details for each result.
+        // To save quota, we only fetch full details for the top results.
+        const recipePromises = strictMatches.map((item) => getRecipeById(item.id.toString()));
+        const recipes = await Promise.all(recipePromises);
+
+        return recipes.filter((r): r is Recipe => r !== null);
+    } catch (error) {
+        console.error("Error finding recipes by ingredients:", error);
+        return [];
+    }
+}

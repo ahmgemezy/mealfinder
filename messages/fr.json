@@ -7,7 +7,22 @@
         "surpriseMe": "Surprends-moi",
         "signIn": "Connexion",
         "signOut": "Déconnexion",
-        "myFavorites": "Mes Favoris"
+        "myFavorites": "Mes Favoris",
+        "pantry": "Garde-manger Intelligent"
+    },
+    "SmartPantry": {
+        "newFeatureTag": "Nouvelle Fonctionnalité",
+        "heroTitle": "Cuisinez avec ce que",
+        "heroTitleHighlight": "vous avez.",
+        "heroSubtitle": "Ne gaspillez pas vos restes. Entrez vos ingrédients ci-dessous et nous trouverons de délicieuses recettes à préparer dès maintenant.",
+        "inputPlaceholder": "Entrez un ingrédient (ex. œufs, riz)...",
+        "addIngredientHelp": "Ajoutez au moins un ingrédient pour commencer à cuisiner !",
+        "findRecipesButton": "Trouver des Recettes",
+        "resultsTitle": "Voici ce que vous pouvez cuisiner :",
+        "matchesFound": "{count} correspondances trouvées",
+        "noResults": "Aucune recette trouvée 😔",
+        "noResultsDesc": "Essayez de combiner moins d'ingrédients ou d'en utiliser des plus courants.",
+        "topCategory": "Catégorie Principale"
     },
     "Hero": {
         "title": "Qu'est-ce qu'on mange ?",

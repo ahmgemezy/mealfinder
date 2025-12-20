@@ -7,7 +7,22 @@
         "surpriseMe": "Sorpréndeme",
         "signIn": "Iniciar Sesión",
         "signOut": "Cerrar Sesión",
-        "myFavorites": "Mis Favoritos"
+        "myFavorites": "Mis Favoritos",
+        "pantry": "Despensa Inteligente"
+    },
+    "SmartPantry": {
+        "newFeatureTag": "Nueva Función",
+        "heroTitle": "Cocina con lo que",
+        "heroTitleHighlight": "tienes.",
+        "heroSubtitle": "No dejes que las sobras se desperdicien. Ingresa tus ingredientes abajo y encontraremos recetas deliciosas que puedes hacer ahora mismo.",
+        "inputPlaceholder": "Introduce un ingrediente (ej. huevos, arroz)...",
+        "addIngredientHelp": "¡Añade al menos un ingrediente para empezar a cocinar!",
+        "findRecipesButton": "Buscar Recetas",
+        "resultsTitle": "Esto es lo que puedes cocinar:",
+        "matchesFound": "{count} coincidencias",
+        "noResults": "No se encontraron recetas 😔",
+        "noResultsDesc": "Intenta combinar menos ingredientes o usar otros más comunes.",
+        "topCategory": "Categoría Principal"
     },
     "Hero": {
         "title": "Dish Shuffle",

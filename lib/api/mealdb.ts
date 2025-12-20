@@ -405,6 +405,21 @@ export async function filterByArea(area: string): Promise<Recipe[]> {
 }
 
 /**
+ * Filter meals by main ingredient
+ */
+export async function filterByIngredient(ingredient: string): Promise<Recipe[]> {
+    try {
+        const data = await fetchFromMealDB<MealDBResponse>("filter.php", { i: ingredient });
+        if (!data.meals) return [];
+
+        return fetchMealsInBatches(data.meals);
+    } catch (error) {
+        console.error("Error filtering by ingredient:", error);
+        return [];
+    }
+}
+
+/**
  * Filter meals by multiple criteria (Category + Area) using ID intersection
  */
 export async function filterByMultiple(category?: string, area?: string): Promise<Recipe[]> {

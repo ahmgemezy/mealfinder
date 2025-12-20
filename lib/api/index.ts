@@ -20,6 +20,7 @@ import { Recipe, MealFilters } from "@/lib/types/recipe";
 import * as mealdb from "./mealdb";
 import * as spoonacular from "./spoonacular";
 import { devLog } from "@/lib/utils/logger";
+import { supabase } from "@/lib/supabase";
 import {
   validateRecipeId,
   validateSearchQuery,
@@ -806,6 +807,86 @@ export async function getAreas(): Promise<string[]> {
     }
   } catch (error) {
     console.error("Error in getAreas:", error);
+    return [];
+  }
+}
+
+/**
+ * Search recipes by ingredients (Smart Pantry)
+ */
+export async function searchByIngredients(ingredients: string[]): Promise<Recipe[]> {
+  const provider = getProvider();
+
+  // Smart Pantry logic:
+  // Spoonacular is much better at this ("findByIngredients" endpoint).
+  // MealDB only supports filtering by ONE main ingredient ("filter.php?i=chicken_breast").
+  // So if provider is "mealdb", we can only really search for the *first* ingredient.
+  // If provider is "spoonacular" or "hybrid", we use Spoonacular for best results.
+
+  try {
+    if (provider === "spoonacular" || provider === "hybrid" || provider === "mealdb") {
+      let results: Recipe[] = [];
+
+      try {
+        // 1. Try Database (Supabase) via custom RPC function
+        // This avoids API quota usage for cached recipes
+        const { data: dbRecipes, error } = await supabase.rpc(
+          'find_recipes_by_ingredients',
+          { search_ingredients: ingredients }
+        );
+
+        if (!error && dbRecipes && dbRecipes.length > 0) {
+          // rpc returns "setof recipes", ensuring correct schema structure.
+          // But `data` column is inside the row. We need to cast or transform.
+          // The RPC returns ROW(id, data, created_at, updated_at).
+          // We need to return the 'data' column content as Recipe.
+
+          // Note: Supabase JS client types might treat `dbRecipes` as generic array.
+          // We cast each row's data to Recipe.
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          const mappedDbRecipes = (dbRecipes as any[]).map(row => row.data as Recipe);
+          results.push(...mappedDbRecipes);
+
+          devLog.log(`Found ${mappedDbRecipes.length} cached recipes for ingredients: ${ingredients.join(", ")}`);
+        } else if (error) {
+          console.warn("Supabase find_recipes_by_ingredients error:", error);
+        }
+      } catch (dbError) {
+        console.error("Supabase ingredient search failed:", dbError);
+      }
+
+      // 2. Fallback to Spoonacular if we don't have enough results
+      // If we have less than 5 results, we should probably fetch more.
+      if ((provider === "spoonacular" || provider === "hybrid") && results.length < 5) {
+        // devLog.log(`Insufficient DB results ${results.length}, fetching from Spoonacular...`);
+        const spoonRecipes = await spoonacular.findByIngredients(ingredients);
+
+        // Combine and Deduplicate
+        const seenIds = new Set(results.map(r => r.id));
+        spoonRecipes.forEach(r => {
+          if (!seenIds.has(r.id)) {
+            results.push(r);
+            seenIds.add(r.id);
+          }
+        });
+      }
+
+      // MealDB Fallback if results are still empty and we are allowed to use it
+      if (results.length === 0 && (provider === "mealdb" || provider === "hybrid")) {
+        if (ingredients.length > 0) {
+          const firstIngredient = ingredients[0];
+          const mealdbData = await mealdb.filterByIngredient(firstIngredient);
+          results.push(...mealdbData);
+        }
+      }
+
+      return results;
+    } else {
+      return [];
+    }
+
+  } catch (error) {
+    console.error("Error in searchByIngredients:", error);
     return [];
   }
 }
