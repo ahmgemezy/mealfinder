@@ -6,12 +6,14 @@ import { Suspense } from "react";
 import HeroSection from "@/components/sections/HeroSection";
 import CTASection from "@/components/sections/CTASection";
 import { getTranslations } from "next-intl/server";
+import { translateRecipesList } from "@/lib/services/translation";
 
 // Enable Incremental Static Regeneration (ISR)
 export const revalidate = 3600; // Revalidate every hour
 
-export default async function HomePage() {
-  const t = await getTranslations('Home');
+export default async function HomePage({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: 'Home' });
 
   // Generate a unique key for each request to force React to re-render
   // eslint-disable-next-line react-hooks/purity
@@ -118,7 +120,7 @@ export default async function HomePage() {
               </Link>
             </div>
             <Suspense key={requestKey} fallback={<FeaturedRecipesSkeleton />}>
-              <FeaturedRecipes key={requestKey} />
+              <FeaturedRecipes key={requestKey} locale={locale} />
             </Suspense>
           </div>
         </section>
@@ -167,8 +169,13 @@ function FeatureCard({
   );
 }
 
-async function FeaturedRecipes() {
-  const recipes = await getMultipleRandomMeals(9);
+async function FeaturedRecipes({ locale }: { locale: string }) {
+  let recipes = await getMultipleRandomMeals(9);
+
+  // Translate recipes if needed
+  if (locale && locale !== "en" && recipes.length > 0) {
+    recipes = await translateRecipesList(recipes, locale);
+  }
 
   if (recipes.length === 0) {
     return (

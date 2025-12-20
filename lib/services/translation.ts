@@ -250,3 +250,48 @@ export async function translateRecipesList(recipes: Recipe[], locale: string): P
         return recipes;
     }
 }
+
+import { BlogPost } from '@/lib/types/blog';
+
+/**
+ * Translates a list of Blog Posts (Title and Excerpt)
+ * Currently performs on-the-fly translation without database caching.
+ */
+export async function translateBlogPosts(posts: BlogPost[], locale: string): Promise<BlogPost[]> {
+    if (!locale || locale === 'en' || !posts.length) return posts;
+
+    try {
+        devLog.log(`[Translation] Blog: Translating ${posts.length} posts for ${locale}`);
+
+        // Batch prepare to save requests
+        // Format: Title ||| Excerpt $$$ Title ||| Excerpt
+        const delimiter = ' ||| ';
+        const itemDelimiter = ' $$$ ';
+
+        const combinedText = posts
+            .map(p => `${p.title}${delimiter}${p.excerpt}`)
+            .join(itemDelimiter);
+
+        const translatedText = await translateText(combinedText, locale);
+
+        // Parse back
+        const translatedItems = translatedText.split(itemDelimiter);
+
+        return posts.map((post, index) => {
+            const parts = translatedItems[index]?.split(delimiter);
+
+            // Fallback to original if something broke
+            if (!parts || parts.length < 2) return post;
+
+            return {
+                ...post,
+                title: parts[0].trim(),
+                excerpt: parts[1].trim()
+            };
+        });
+
+    } catch (error) {
+        console.error('[Translation] Blog translation error:', error);
+        return posts;
+    }
+}

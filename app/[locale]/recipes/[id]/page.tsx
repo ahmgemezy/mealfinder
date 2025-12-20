@@ -19,7 +19,7 @@ import RelatedArticles from "@/components/recipes/RelatedArticles";
 import { getRelatedPostsByTags } from "@/lib/utils/blog-helpers";
 import RecipeFAQ from "@/components/recipes/RecipeFAQ";
 import { getRecipeSEO } from "@/lib/services/seo-enricher";
-import { translateRecipesList } from "@/lib/services/translation";
+import { translateRecipesList, translateBlogPosts } from "@/lib/services/translation";
 
 import { supabase } from "@/lib/supabase";
 
@@ -161,7 +161,12 @@ export default async function RecipePage({ params }: RecipePageProps) {
     recipe.area,
     ...recipe.tags.slice(0, 5),
   ].filter(Boolean);
-  const relatedArticles = getRelatedPostsByTags(contextTags, 3);
+  let relatedArticles = getRelatedPostsByTags(contextTags, 3);
+
+  // Translate blog posts if needed
+  if (locale && locale !== "en" && relatedArticles.length > 0) {
+    relatedArticles = await translateBlogPosts(relatedArticles, locale);
+  }
 
   // JSON-LD structured data for SEO - Enhanced for Google Rich Results
   // Addresses all Google Search Console warnings: nutrition, aggregateRating, video, prepTime, keywords
