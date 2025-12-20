@@ -1,18 +1,19 @@
 "use client";
 
 import { useState, useEffect, useRef, useCallback, useTransition } from "react";
-import { getRandomMeal } from "@/lib/api";
 import { Recipe } from "@/lib/types/recipe";
 import Button from "@/components/ui/Button";
 import Image from "next/image";
 import { useSurpriseMe } from "@/lib/contexts/SurpriseMeContext";
 import { getRecipeUrl } from "@/lib/utils/slugs";
 import { useRouter } from "@/navigation";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import { useToast } from "@/lib/contexts/ToastContext";
+import { getRandomRecipeAction } from "@/actions/get-random-recipe";
 
 export default function SurpriseMeModal() {
   const t = useTranslations("SurpriseMe");
+  const locale = useLocale();
   const { isOpen, closeModal } = useSurpriseMe();
   const router = useRouter();
   const { addToast } = useToast();
@@ -33,7 +34,7 @@ export default function SurpriseMeModal() {
 
     setIsLoading(true);
     try {
-      const meal = await getRandomMeal();
+      const meal = await getRandomRecipeAction(locale);
 
       // Check if request was aborted
       if (abortController.signal.aborted) {
@@ -47,14 +48,14 @@ export default function SurpriseMeModal() {
         return;
       }
 
-      console.error("Error fetching random meal:", error);
+      console.log("Error fetching random meal:", error);
       addToast("Failed to load random recipe. Please try again.", "error");
     } finally {
       if (!abortController.signal.aborted) {
         setIsLoading(false);
       }
     }
-  }, [addToast]);
+  }, [addToast, locale]);
 
   useEffect(() => {
     if (isOpen) {
@@ -153,7 +154,7 @@ export default function SurpriseMeModal() {
               {/* Content - Right Side */}
               <div className="space-y-4 flex flex-col">
                 {/* Title & Meta */}
-                <div lang="en" className="text-start">
+                <div className="text-start">
                   <h3 className="font-display text-2xl md:text-3xl font-bold mb-3">
                     {recipe.name}
                   </h3>
@@ -176,7 +177,7 @@ export default function SurpriseMeModal() {
                   <h4 className="font-display text-lg font-bold mb-2 notranslate">
                     {t("keyIngredients")}
                   </h4>
-                  <div className="flex flex-wrap gap-2 text-start" lang="en">
+                  <div className="flex flex-wrap gap-2 text-start">
                     {recipe.ingredients.slice(0, 6).map((ingredient, index) => (
                       <span
                         key={index}
@@ -202,7 +203,6 @@ export default function SurpriseMeModal() {
                   </h4>
                   <p
                     className="text-muted-foreground leading-relaxed text-sm text-start"
-                    lang="en"
                   >
                     {recipe.instructions.substring(0, 200)}...
                   </p>
