@@ -6,11 +6,13 @@ import { Link } from "@/navigation";
 import Button from "@/components/ui/Button";
 import { Recipe } from "@/lib/types/recipe";
 import { getRecipeUrl } from "@/lib/utils/slugs";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
+
 import { RECIPE_CATEGORIES, RECIPE_AREAS } from "@/lib/constants";
 
 export default function SurpriseMeContent() {
     const t = useTranslations('SurpriseMe');
+    const locale = useLocale();
     const [recipe, setRecipe] = useState<Recipe | null>(null);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
@@ -27,6 +29,7 @@ export default function SurpriseMeContent() {
             const params = new URLSearchParams();
             if (filters.category) params.append("category", filters.category);
             if (filters.area) params.append("area", filters.area);
+            params.append("locale", locale);
             // Add timestamp to prevent browser caching
             params.append("t", Date.now().toString());
 

@@ -3,12 +3,14 @@ import {
     getRandomMeal,
     getRandomMealWithFilters,
 } from "@/lib/api";
+import { translateRecipe } from "@/lib/services/translation";
 
 export async function GET(request: NextRequest) {
     try {
         const searchParams = request.nextUrl.searchParams;
         const category = searchParams.get("category") || undefined;
         const area = searchParams.get("area") || undefined;
+        const locale = searchParams.get("locale") || "en";
 
         let recipe;
 
@@ -26,6 +28,11 @@ export async function GET(request: NextRequest) {
                 { error: "No recipe found matching your criteria" },
                 { status: 404 }
             );
+        }
+
+        // Translate if needed
+        if (locale && locale !== 'en') {
+            recipe = await translateRecipe(recipe, locale);
         }
 
         return NextResponse.json(

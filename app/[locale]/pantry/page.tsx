@@ -3,13 +3,15 @@
 import { useState } from "react";
 import IngredientInput from "@/components/features/IngredientInput";
 import PantryResults from "@/components/features/PantryResults";
-import { searchByIngredients } from "@/lib/api";
+import { useTranslations, useLocale } from "next-intl";
+import { searchPantryAction } from "@/actions/search-pantry";
 import { Recipe } from "@/lib/types/recipe";
 import { Sparkles } from "lucide-react";
-import { useTranslations } from "next-intl";
+
 
 export default function SmartPantryPage() {
     const t = useTranslations("SmartPantry");
+    const locale = useLocale();
     const [recipes, setRecipes] = useState<Recipe[]>([]);
     const [isLoading, setIsLoading] = useState(false);
     const [searchedIngredients, setSearchedIngredients] = useState<string[]>([]);
@@ -22,7 +24,7 @@ export default function SmartPantryPage() {
         setRecipes([]);
 
         try {
-            const results = await searchByIngredients(ingredients);
+            const results = await searchPantryAction(ingredients, locale);
             setRecipes(results);
         } catch (error) {
             console.error("Failed to fetch recipes:", error);
