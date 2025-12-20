@@ -57,20 +57,21 @@ export default function AutoGoogleTranslate({ locale }: AutoGoogleTranslateProps
             return l;
         };
 
-        const googleLocale = getGoogleLocale(locale);
+        const supportedLocales = ['ar', 'de', 'es', 'fr', 'pt-br', 'en'];
+        const isSupported = supportedLocales.includes(locale);
 
-        if (googleLocale === 'en') {
-            // If we are in English, we want to FORCE English.
-            // Simply deleting the cookie isn't enough because the widget might persist state.
-            // Setting it to /en/en explicitly tells Google Translate "Translate from English to English" (i.e. do nothing).
+        if (isSupported) {
+            // Native translation available. Do NOT force Google Translate.
+            // Clear any existing cookie to prevent double-translation.
+            // We set it to /en/en which effectively turns it off or resets it.
             const cookieValue = '/en/en';
             setCookie('googtrans', cookieValue);
             setCookie('googtrans', cookieValue, domain);
             setCookie('googtrans', cookieValue, `.${domain}`);
             if (domain !== topDomain) setCookie('googtrans', cookieValue, `.${topDomain}`);
         } else {
-            // If we are in another language, FORCE Google Translate
-            // Format: /source_lang/target_lang
+            // Unsupported locale: Force Google Translate
+            const googleLocale = getGoogleLocale(locale);
             const cookieValue = `/en/${googleLocale}`;
             setCookie('googtrans', cookieValue);
             setCookie('googtrans', cookieValue, domain);

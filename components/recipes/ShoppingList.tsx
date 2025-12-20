@@ -36,10 +36,10 @@ export default function ShoppingList({ ingredients }: ShoppingListProps) {
                         🛒
                     </div>
                     <div>
-                        <h3 className="font-bold text-lg text-emerald-950 dark:text-emerald-50">
+                        <h3 className="font-bold text-lg text-emerald-950 dark:text-emerald-50 notranslate">
                             {t('shopIngredients')}
                         </h3>
-                        <p className="text-sm text-emerald-600 dark:text-emerald-400">
+                        <p className="text-sm text-emerald-600 dark:text-emerald-400 notranslate">
                             {t('shopIngredientsDesc')}
                         </p>
                     </div>

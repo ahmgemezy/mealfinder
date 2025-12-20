@@ -3,12 +3,15 @@
 import { useState } from "react";
 import { FAQItem } from "@/lib/services/seo-enricher";
 
+import { useTranslations } from "next-intl";
+
 interface RecipeFAQProps {
     questions: FAQItem[];
     recipeName: string;
 }
 
 export default function RecipeFAQ({ questions, recipeName }: RecipeFAQProps) {
+    const t = useTranslations("FAQ");
     const [openIndex, setOpenIndex] = useState<number | null>(null);
 
     if (!questions || questions.length === 0) {
@@ -23,8 +26,8 @@ export default function RecipeFAQ({ questions, recipeName }: RecipeFAQProps) {
         <section className="bg-muted py-16">
             <div className="container mx-auto px-4">
                 <div className="max-w-4xl mx-auto">
-                    <h2 className="font-display text-3xl md:text-4xl font-bold mb-8 text-center">
-                        Frequently Asked Questions
+                    <h2 className="font-display text-3xl md:text-4xl font-bold mb-8 text-center notranslate">
+                        {t("title")}
                     </h2>
                     <div className="space-y-4">
                         {questions.map((item, index) => (

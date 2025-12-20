@@ -47,7 +47,7 @@ export default function KitchenAppliances({ recipe }: KitchenAppliancesProps) {
         <section className="mb-12">
             <div className="flex items-center gap-3 mb-6">
                 <span className="text-3xl">🔪</span>
-                <h2 className="font-display text-2xl md:text-3xl font-bold">
+                <h2 className="font-display text-2xl md:text-3xl font-bold notranslate">
                     {t('kitchenGear', { defaultValue: 'Recommended Kitchen Gear' })}
                 </h2>
             </div>

@@ -149,7 +149,7 @@ export default function RecipeVideo({ recipe }: RecipeVideoProps) {
   // Render the video
   return (
     <section>
-      <h2 className="font-display text-3xl font-bold mb-6">
+      <h2 className="font-display text-3xl font-bold mb-6 notranslate">
         {t("videoTutorial")}
       </h2>
       <div className="bg-card rounded-2xl overflow-hidden shadow-soft">
