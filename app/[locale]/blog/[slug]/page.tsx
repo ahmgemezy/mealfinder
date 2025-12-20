@@ -10,6 +10,8 @@ import ShareButtons from "@/components/blog/ShareButtons";
 import { getRandomMealWithFilters, getMultipleRandomMeals } from "@/lib/api";
 import TryThisRecipe from "@/components/blog/TryThisRecipe";
 import { supabase } from "@/lib/supabase";
+import { translateBlogPostFull, translateBlogPosts } from "@/lib/services/translation";
+
 
 type Props = {
     params: Promise<{ locale: string; slug: string }>;
@@ -80,6 +82,12 @@ export default async function BlogPostPage({ params }: Props) {
         notFound();
     }
 
+    // Translate content if not English
+    const translatedPost = (locale !== 'en' && post)
+        // @ts-ignore - Supabase type mismatch
+        ? await translateBlogPostFull(post, locale)
+        : post;
+
     // Fetch Related Posts from Supabase (same category, exclude current)
     const { data: relatedPostsData } = await supabase
         .from('blog_posts')
@@ -89,7 +97,12 @@ export default async function BlogPostPage({ params }: Props) {
         .limit(3);
 
     // Map DB posts to component format
-    const relatedPosts = (relatedPostsData || []).map(p => ({
+    const relatedPostsTranslated = (locale !== 'en' && relatedPostsData)
+        // @ts-ignore
+        ? await translateBlogPosts(relatedPostsData as any[], locale)
+        : relatedPostsData;
+
+    const relatedPosts = (relatedPostsTranslated || []).map(p => ({
         slug: p.slug,
         title: p.title,
         description: p.excerpt,
@@ -101,7 +114,7 @@ export default async function BlogPostPage({ params }: Props) {
         publishedDate: p.published_date
     }));
 
-    const formattedDate = new Date(post.published_date).toLocaleDateString(locale, {
+    const formattedDate = new Date(translatedPost.published_date).toLocaleDateString(locale, {
         year: 'numeric',
         month: 'long',
         day: 'numeric'
@@ -160,22 +173,22 @@ export default async function BlogPostPage({ params }: Props) {
                 <div className="w-full px-5 mx-auto md:w-auto md:container md:px-4 max-w-4xl text-center">
                     <div className="flex items-center justify-center gap-3 mb-6">
                         <span className="px-3 py-1 text-sm font-semibold bg-primary-100 text-primary-700 dark:bg-primary-900/30 dark:text-primary-300 rounded-full">
-                            {post.category}
+                            {translatedPost.category}
                         </span>
                         <span className="text-muted-foreground">•</span>
                         <span className="text-muted-foreground text-sm font-medium">
-                            {post.read_time} min read
+                            {translatedPost.read_time} min read
                         </span>
                     </div>
 
                     <h1 className="font-display text-xl md:text-3xl lg:text-4xl font-bold mb-6 text-foreground leading-tight">
-                        {post.title}
+                        {translatedPost.title}
                     </h1>
 
                     <div className="flex items-center justify-center gap-2 text-muted-foreground">
-                        <span className="font-medium text-foreground">{post.author}</span>
+                        <span className="font-medium text-foreground">{translatedPost.author}</span>
                         <span>•</span>
-                        <time dateTime={post.published_date}>{formattedDate}</time>
+                        <time dateTime={translatedPost.published_date}>{formattedDate}</time>
                     </div>
                 </div>
             </div>
@@ -184,8 +197,8 @@ export default async function BlogPostPage({ params }: Props) {
             <div className="w-full px-5 mx-auto md:w-auto md:container md:px-4 max-w-5xl -mt-8 mb-12 relative z-10">
                 <div className="relative aspect-[21/9] w-full rounded-2xl overflow-hidden shadow-2xl border border-border/50">
                     <Image
-                        src={post.featured_image}
-                        alt={post.title}
+                        src={translatedPost.featured_image}
+                        alt={translatedPost.title}
                         fill
                         priority
                         className="object-cover"
@@ -197,11 +210,11 @@ export default async function BlogPostPage({ params }: Props) {
             {/* Main Content */}
             <div className="w-full px-5 mx-auto md:w-auto md:container md:px-4 grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-12 max-w-6xl">
                 <div className="max-w-3xl mx-auto lg:mx-0 min-w-0">
-                    <BlogContent content={post.content} />
+                    <BlogContent content={translatedPost.content} />
 
                     {/* Tags */}
                     <div className="mt-12 pt-8 border-t border-border flex flex-wrap gap-2">
-                        {post.tags.map((tag: string) => (
+                        {translatedPost.tags.map((tag: string) => (
                             <Link
                                 key={tag}
                                 href={`/${locale}/blog?tag=${tag}`} // Assuming we might add filtering later
@@ -216,10 +229,10 @@ export default async function BlogPostPage({ params }: Props) {
                     {/* Social Share */}
                     <div className="mt-8">
                         <ShareButtons
-                            title={post.title}
-                            url={`https://dishshuffle.com/${locale}/blog/${post.slug}`}
-                            excerpt={post.excerpt}
-                            tags={post.tags}
+                            title={translatedPost.title}
+                            url={`https://dishshuffle.com/${locale}/blog/${translatedPost.slug}`}
+                            excerpt={translatedPost.excerpt}
+                            tags={translatedPost.tags}
                         />
                     </div>
 

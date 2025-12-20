@@ -336,3 +336,44 @@ export async function translateFAQ(faq: FAQItem[], locale: string): Promise<FAQI
     }
 }
 
+/**
+ * Translates a SINGLE blog post including its full content (Markdown).
+ * Used for the Blog Detail page.
+ */
+export async function translateBlogPostFull(post: BlogPost, locale: string): Promise<BlogPost> {
+    if (!locale || locale === 'en') return post;
+
+    try {
+        devLog.log(`[Translation] translating full blog post: ${post.title}`);
+
+        const title = await translateText(post.title, locale);
+        const excerpt = await translateText(post.excerpt, locale);
+
+        // Translate content - split by paragraphs to avoid API limits
+        const contentChunks = post.content.split('\n\n');
+
+        // Limit parallel translation to avoid rate limits
+        const translatedChunks = [];
+        for (const chunk of contentChunks) {
+            if (!chunk.trim()) {
+                translatedChunks.push(chunk);
+                continue;
+            }
+            translatedChunks.push(await translateText(chunk, locale));
+        }
+
+        const content = translatedChunks.join('\n\n');
+
+        return {
+            ...post,
+            title,
+            excerpt,
+            content
+        };
+    } catch (error) {
+        console.error('[Translation] Full blog post translation error:', error);
+        return post;
+    }
+}
+
+

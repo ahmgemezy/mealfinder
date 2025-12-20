@@ -4,6 +4,8 @@ import { BLOG_CATEGORIES } from "@/lib/types/blog";
 import BlogFilter from "@/components/blog/BlogFilter";
 import BlogSearch from "@/components/blog/BlogSearch";
 import { supabase } from "@/lib/supabase";
+import { translateBlogPosts } from "@/lib/services/translation";
+
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -50,8 +52,14 @@ export default async function BlogPage({
     console.error("Error fetching blog posts:", error);
   }
 
+  // Translate posts if not English
+  const translatedDbPosts = (locale !== 'en' && dbPosts)
+    // @ts-ignore - Supabase types mismatch with our strict BlogPost interface but structure is compatible
+    ? await translateBlogPosts(dbPosts as any[], locale)
+    : dbPosts;
+
   // Map DB result to BlogPostMetadata
-  const posts = (dbPosts || []).map(post => ({
+  const posts = (translatedDbPosts || []).map(post => ({
     slug: post.slug,
     title: post.title,
     description: post.excerpt, // map excerpt to description for metadata
