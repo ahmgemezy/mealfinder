@@ -16,7 +16,8 @@ import { createClient } from "@supabase/supabase-js";
 import { Recipe } from "@/lib/types/recipe";
 
 // Utility to safely parse JSON from AI response
-function parseJSONFromText(text: string): any {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function parseJSONFromText<T = any>(text: string): T {
     try {
         // 1. Try direct parse
         return JSON.parse(text);
@@ -234,7 +235,7 @@ Keep answers concise (50-100 words). Be helpful and accurate.`;
             if (Array.isArray(parsed)) return parsed;
             // logic for object wrapper if needed? The prompt asks for array.
             return [];
-        } catch (parseError) {
+        } catch {
             console.error("   ❌ FAQ Fallback JSON parse failed. Raw:", fallbackResponse);
             return [];
         }

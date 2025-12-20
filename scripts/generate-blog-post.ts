@@ -12,7 +12,6 @@
 
 import 'dotenv/config';
 import * as fs from 'fs';
-import * as path from 'path';
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import dotenv from 'dotenv';
 
@@ -674,7 +673,7 @@ async function main() {
             }
 
         } catch (error) {
-            console.warn(`⚠️ Research failed: ${(error as any).message}. Using OpenAI Fallback.`);
+            console.warn(`⚠️ Research failed: ${error instanceof Error ? error.message : String(error)}. Using OpenAI Fallback.`);
             combinedSource = await simulateResearchWithOpenAI(args.topic);
             if (!combinedSource) {
                 throw new Error("Both Jina and OpenAI Fallback failed to provide source material.");

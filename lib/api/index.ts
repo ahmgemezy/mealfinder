@@ -407,7 +407,7 @@ export async function loadMoreCategoryResults(
     // 3. Fallback to API (Spoonacular) if applicable
     // Only Spoonacular effectively supports offset-based pagination in this codebase
     if (provider === "spoonacular" || provider === "hybrid") {
-      const needed = PAGE_SIZE - recipes.length;
+      // const needed = PAGE_SIZE - recipes.length;
       // We fetch with original offset?
       // If we fetched 12 from DB (offset 0), and returned 5.
       // Client asks for offset 5? No, client asks for Page 2 (offset 12).
