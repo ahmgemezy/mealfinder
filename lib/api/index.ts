@@ -28,7 +28,7 @@ import {
   validateArea,
   sanitizeInput,
 } from "@/lib/utils/validation";
-import { translateIngredientsToEnglish, translateToEnglish } from "@/lib/services/translation";
+import { translateIngredientsToEnglish, translateToEnglish, translateRecipe } from "@/lib/services/translation";
 
 // Get API provider from environment variable
 const getProvider = (): "mealdb" | "spoonacular" | "hybrid" => {
@@ -137,7 +137,7 @@ export async function getRandomMealWithFilters(
 /**
  * Get meal/recipe by ID
  */
-export async function getMealById(id: string): Promise<Recipe | null> {
+export async function getMealById(id: string, locale?: string): Promise<Recipe | null> {
   // Validate recipe ID
   if (!validateRecipeId(id)) {
     console.warn("Invalid recipe ID provided to getMealById:", id);
@@ -145,25 +145,34 @@ export async function getMealById(id: string): Promise<Recipe | null> {
   }
 
   const provider = getProvider();
+  let recipe: Recipe | null = null;
 
   try {
     if (provider === "spoonacular") {
-      return await spoonacular.getRecipeById(id);
+      recipe = await spoonacular.getRecipeById(id);
     } else if (provider === "hybrid") {
       // In hybrid mode, try to determine which API the ID belongs to
       // Spoonacular IDs are typically numeric, MealDB IDs are typically 5+ digits
       const isSpoonacularId = /^\d{1,6}$/.test(id);
 
       if (isSpoonacularId) {
-        const recipe = await spoonacular.getRecipeById(id);
-        if (recipe) return recipe;
+        recipe = await spoonacular.getRecipeById(id);
       }
 
-      // Try MealDB
-      return await mealdb.getMealById(id);
+      if (!recipe) {
+        // Try MealDB
+        recipe = await mealdb.getMealById(id);
+      }
     } else {
-      return await mealdb.getMealById(id);
+      recipe = await mealdb.getMealById(id);
     }
+
+    // Translate if needed
+    if (recipe && locale && locale !== 'en') {
+      return await translateRecipe(recipe, locale);
+    }
+
+    return recipe;
   } catch (error) {
     console.error("Error in getMealById:", error);
     return null;

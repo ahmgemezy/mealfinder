@@ -65,7 +65,7 @@ export async function generateMetadata({
   const { id: slug, locale } = await params;
   const t = await getTranslations({ locale, namespace: "Recipes" });
   const id = extractIdFromSlug(slug);
-  const recipe = await getMealById(id);
+  const recipe = await getMealById(id, locale);
 
   if (!recipe) {
     return {
@@ -126,7 +126,7 @@ export default async function RecipePage({ params }: RecipePageProps) {
   const { id: slug, locale } = await params;
   const t = await getTranslations({ locale, namespace: "Recipes" });
   const id = extractIdFromSlug(slug);
-  const recipe = await getMealById(id);
+  const recipe = await getMealById(id, locale);
 
   if (!recipe) {
     notFound();
@@ -387,7 +387,6 @@ export default async function RecipePage({ params }: RecipePageProps) {
                 {/* Title */}
                 <h1
                   className="font-display text-4xl md:text-6xl lg:text-7xl font-bold text-white leading-tight drop-shadow-lg"
-                  lang="en"
                 >
                   {recipe.name}
                 </h1>
@@ -435,7 +434,6 @@ export default async function RecipePage({ params }: RecipePageProps) {
                         <li
                           key={index}
                           className="flex items-center gap-2 md:gap-3 p-2 md:p-3 rounded-xl hover:bg-muted/50 transition-colors group"
-                          lang="en"
                         >
                           <IngredientIcon
                             ingredientName={ingredient.name}
@@ -565,7 +563,6 @@ export default async function RecipePage({ params }: RecipePageProps) {
                             <div
                               key={index}
                               className="flex gap-6 group relative"
-                              lang="en"
                             >
                               {/* Decorative dot indicator */}
                               <div className="relative shrink-0 mt-1">

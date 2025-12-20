@@ -1,36 +1,7 @@
 import createMiddleware from 'next-intl/middleware';
 import { routing } from './navigation';
-import { NextRequest } from 'next/server';
 
-const intlMiddleware = createMiddleware(routing);
-
-export default function middleware(request: NextRequest) {
-    const response = intlMiddleware(request);
-
-    // Get locale from path
-    const pathname = request.nextUrl.pathname;
-    const locale = pathname.split('/')[1];
-
-    if (locale && routing.locales.includes(locale as any)) {
-        // Map Next.js locale to Google Translate locale
-        let googleLocale = locale;
-        if (locale === 'pt-br') googleLocale = 'pt';
-
-        // Set cookie value: /source/target
-        // logic: always translate from 'en' to 'target'
-        const cookieValue = `/en/${googleLocale}`;
-
-        response.cookies.set('googtrans', cookieValue, {
-            path: '/',
-            domain: request.nextUrl.hostname.includes('localhost') ? undefined : `.${request.nextUrl.hostname.split('.').slice(-2).join('.')}`
-        });
-
-        // Also set on root domain just in case
-        response.cookies.set('googtrans', cookieValue, { path: '/' });
-    }
-
-    return response;
-}
+export default createMiddleware(routing);
 
 export const config = {
     // Match only internationalized pathnames
