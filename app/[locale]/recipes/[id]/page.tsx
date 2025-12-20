@@ -499,7 +499,7 @@ export default async function RecipePage({ params }: RecipePageProps) {
                         .filter((step) => {
                           // 7. Robust filtering
                           if (step.length < 5) return false;
-                          if (!/[a-zA-Z]/.test(step)) return false;
+                          // Allow any language (removed [a-zA-Z] check which blocked Arabic)
                           return true;
                         });
 
