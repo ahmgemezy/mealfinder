@@ -91,7 +91,7 @@ export async function translateRecipe(recipe: Recipe, locale: string): Promise<R
             .eq('locale', locale)
             .maybeSingle();
 
-        if (cached && !error) {
+        if (cached && !error && cached.instructions) { // Ensure incomplete translations (from list view) don't block full translation
             // devLog.log(`[Translation] Cache hit for ${recipe.id} (${locale})`);
             return {
                 ...recipe,
@@ -169,5 +169,84 @@ export async function translateRecipe(recipe: Recipe, locale: string): Promise<R
     } catch (error) {
         console.error('[Translation] Critical error in translateRecipe:', error);
         return recipe; // Fallback to original English
+    }
+}
+
+/**
+ * Efficiently translates a list of Recipes (Titles Only) for the Index page.
+ * Uses batching and caching.
+ * @param recipes List of recipes
+ * @param locale Target locale
+ */
+export async function translateRecipesList(recipes: Recipe[], locale: string): Promise<Recipe[]> {
+    if (!locale || locale === 'en' || !recipes.length) return recipes;
+
+    try {
+        const recipeIds = recipes.map(r => r.id);
+
+        // 1. Bulk Check Cache
+        const { data: cachedList, error } = await supabase
+            .from('recipe_translations')
+            .select('recipe_id, title')
+            .in('recipe_id', recipeIds)
+            .eq('locale', locale);
+
+        const cachedMap = new Map<string, string>();
+        if (cachedList && !error) {
+            cachedList.forEach((row: { recipe_id: string, title: string }) => {
+                if (row.title) cachedMap.set(row.recipe_id, row.title);
+            });
+        }
+
+        // 2. Identify missing translations
+        const missingRecipes = recipes.filter(r => !cachedMap.has(r.id));
+
+        if (missingRecipes.length > 0) {
+            devLog.log(`[Translation] List: Translating ${missingRecipes.length} titles for ${locale}`);
+
+            // Batch prepare
+            const titles = missingRecipes.map(r => r.name);
+            const delimiter = ' ||| ';
+            const joinedTitles = titles.join(delimiter);
+
+            // Translate
+            const translatedBlock = await translateText(joinedTitles, locale);
+            const translatedTitles = translatedBlock.split(delimiter);
+
+            // 3. Fire-and-forget Cache Updates
+            const updates = missingRecipes.map((recipe, index) => {
+                const tTitle = translatedTitles[index]?.trim() || recipe.name;
+                cachedMap.set(recipe.id, tTitle); // Update local map for immediate return
+
+                return {
+                    recipe_id: recipe.id,
+                    locale: locale,
+                    title: tTitle,
+                    instructions: null, // Explicitly null to mark as partial
+                    ingredients: []    // Explicitly empty
+                };
+            });
+
+            // Insert new partial records. 
+            // IMPORTANT: stick to ignoreDuplicates=true to prevent overwriting 
+            // a Full Translation that might have happened in parallel.
+            const { error: upsertError } = await supabase
+                .from('recipe_translations')
+                .upsert(updates, { onConflict: 'recipe_id,locale', ignoreDuplicates: true });
+
+            if (upsertError) {
+                console.error('[Translation] List cache upsert error:', upsertError);
+            }
+        }
+
+        // 4. Return merged results
+        return recipes.map(r => ({
+            ...r,
+            name: cachedMap.get(r.id) || r.name
+        }));
+
+    } catch (error) {
+        console.error('[Translation] List translation error:', error);
+        return recipes;
     }
 }

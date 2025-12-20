@@ -7,21 +7,12 @@ import RecipeCard from "@/components/ui/RecipeCard";
 import { RecipeCardSkeleton } from "@/components/ui/Skeleton";
 import Button from "@/components/ui/Button";
 import { Recipe } from "@/lib/types/recipe";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import Link from "next/link";
+import { getRecipesAction } from "@/actions/get-recipes";
 import {
-    searchMeals,
-    filterByMultiple,
-    filterByCategory,
-    filterByArea,
-    filterByDiet,
-    getMultipleRandomMeals,
     getCategories,
     getAreas,
-    loadMoreSearchResults,
-    loadMoreCategoryResults,
-    loadMoreAreaResults,
-    loadMoreDietResults,
 } from "@/lib/api";
 import { SPOONACULAR_DIETS, MEALDB_CATEGORIES, MEALDB_AREAS } from "@/lib/constants";
 import Breadcrumb from "@/components/ui/Breadcrumb";
@@ -62,6 +53,8 @@ function RecipesContent() {
     const filterRequestIdRef = useRef(0);
     const searchTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
+    const locale = useLocale();
+
     // Update URL Helper
     const updateUrl = useCallback((updates: Record<string, string | null>) => {
         const params = new URLSearchParams(searchParams.toString());
@@ -93,79 +86,23 @@ function RecipesContent() {
         // Clear recipes to show skeleton
         setRecipes([]);
 
-        let serverSideTotal = 0; // Initialize for server-side paginated results
-
         try {
-            let fetchedRecipes: Recipe[] = [];
-
-            // Calculate offset if we were doing server-side pagination (Simulated for API)
-            // Note: The APIs (MealDB) mostly don't support true offset pagination for filtered lists neatly,
-            // they return ALL results. We will fetch all and slice locally for pagination.
-            // Spoonacular supports offset.
-
-            if (searchQuery) {
-                // Search takes priority
-                fetchedRecipes = await searchMeals(searchQuery);
-            } else if (selectedDiet || selectedCategory || selectedArea) {
-                // Unified Filter (Category / Area / Diet) - SERVER SIDE PAGINATION
-                // This handles any combination of filters with proper intersection logic (AND)
-                const offset = (currentPage - 1) * RECIPES_PER_PAGE;
-
-                // Pass all possible filters
-                const result = await filterByMultiple(
-                    selectedCategory || undefined,
-                    selectedArea || undefined,
-                    selectedDiet || undefined,
-                    offset
-                );
-
-                fetchedRecipes = result.recipes;
-                serverSideTotal = result.totalCount;
-            } else {
-                // Default: fetch initial batch of random recipes
-                fetchedRecipes = await getMultipleRandomMeals(RECIPES_PER_PAGE);
-            }
+            const { recipes: fetchedRecipes, totalItems: fetchedTotal } = await getRecipesAction({
+                locale,
+                searchQuery: searchQuery || undefined,
+                category: selectedCategory || undefined,
+                area: selectedArea || undefined,
+                diet: selectedDiet || undefined,
+                page: currentPage
+            });
 
             // Check if this request is still valid
             if (currentRequestId !== filterRequestIdRef.current) {
                 return;
             }
 
-            // Remove duplicates
-            const uniqueRecipes: Recipe[] = [];
-            const seenIds = new Set<string>();
-            fetchedRecipes.forEach(recipe => {
-                if (recipe?.id && !seenIds.has(recipe.id)) {
-                    uniqueRecipes.push(recipe);
-                    seenIds.add(recipe.id);
-                }
-            });
-
-            // Handle Pagination
-            const isRandom = !searchQuery && !selectedCategory && !selectedArea && !selectedDiet;
-            // Diet is now server-side paginated too
-            const isServerSidePaginated = !!selectedDiet;
-
-            if (isServerSidePaginated) {
-                // Use the real count from the API/DB
-                setTotalItems(serverSideTotal);
-            } else if (isRandom) {
-                // For random Browse mode, we want to allow endless Next clicks
-                setTotalItems(10000);
-            } else {
-                setTotalItems(uniqueRecipes.length);
-            }
-
-            const startIndex = (currentPage - 1) * RECIPES_PER_PAGE;
-            const endIndex = startIndex + RECIPES_PER_PAGE;
-
-            // If server side paginated (Diet/Random), the fetched result IS the page. Don't slice.
-            // If client side (Category/Area/Search), we slice.
-            const paginatedRecipes = (isRandom || isServerSidePaginated)
-                ? uniqueRecipes
-                : uniqueRecipes.slice(startIndex, endIndex);
-
-            setRecipes(paginatedRecipes);
+            setRecipes(fetchedRecipes);
+            setTotalItems(fetchedTotal);
 
         } catch (error) {
             console.error("Error fetching recipes:", error);
@@ -177,7 +114,7 @@ function RecipesContent() {
                 setIsLoading(false);
             }
         }
-    }, [searchQuery, selectedCategory, selectedArea, selectedDiet, currentPage, RECIPES_PER_PAGE]);
+    }, [searchQuery, selectedCategory, selectedArea, selectedDiet, currentPage, RECIPES_PER_PAGE, locale]);
 
     // Load categories and areas
     useEffect(() => {
