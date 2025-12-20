@@ -10,11 +10,20 @@ export async function translateText(text: string, targetLang: string): Promise<s
     if (!text || !text.trim()) return text;
     if (targetLang === 'en') return text; // Assuming input is English
 
+    // Map locales to Google Translate ISO codes
+    // Google Translate expects 'pt' for Portuguese, not 'pt-br'
+    const supportedLocales: Record<string, string> = {
+        'pt-br': 'pt',
+        // Add others if needed (e.g. 'zh-cn' -> 'zh')
+    };
+
+    const isoTarget = supportedLocales[targetLang.toLowerCase()] || targetLang;
+
     try {
-        const res = await translate(text, { to: targetLang });
+        const res = await translate(text, { to: isoTarget });
         return res.text;
     } catch (error) {
-        console.error(`Translation error (${targetLang}):`, error);
+        console.error(`Translation error (${targetLang} -> ${isoTarget}):`, error);
         return text;
     }
 }
@@ -51,13 +60,15 @@ export async function translateIngredientsToEnglish(ingredients: string[]): Prom
     if (!ingredients || ingredients.length === 0) return [];
 
     try {
-        // Parallel translation
-        const translated = await Promise.all(
-            ingredients.map(async (ing) => {
-                return await translateToEnglish(ing);
-            })
-        );
-        return translated;
+        // Optimization: Join all ingredients into one string to translate in a single request
+        // Delimiter must be something that won't be translated or confuse the parser
+        const delimiter = ' ||| ';
+        const combinedText = ingredients.join(delimiter);
+
+        const translatedText = await translateToEnglish(combinedText);
+
+        // Split back into array
+        return translatedText.split(delimiter).map(s => s.trim());
     } catch (error) {
         console.error('Bulk translation error:', error);
         return ingredients;
@@ -93,16 +104,45 @@ export async function translateRecipe(recipe: Recipe, locale: string): Promise<R
         // 3. Translate if not in cache
         devLog.log(`[Translation] Cache miss for ${recipe.name} (${locale}). Translating...`);
 
-        // Parallelize translations
-        const [translatedTitle, translatedInstructions, translatedIngredients] = await Promise.all([
+        // Prepare Ingredients for Batch Translation
+        // Format: "Name ||| Measure $$$ Name ||| Measure" to keep structure
+        const delimiter = ' ||| ';
+        const itemDelimiter = ' $$$ ';
+
+        const ingredientsText = recipe.ingredients
+            .map(ing => `${ing.name}${delimiter}${ing.measure}`)
+            .join(itemDelimiter);
+
+        // Parallelize translations (reduced to 3 calls max)
+        const [translatedTitle, translatedInstructions, translatedIngredientsText] = await Promise.all([
             translateText(recipe.name, locale),
             translateText(recipe.instructions, locale),
-            Promise.all(recipe.ingredients.map(async (ing) => ({
-                ...ing,
-                name: await translateText(ing.name, locale),
-                measure: await translateText(ing.measure, locale)
-            })))
+            translateText(ingredientsText, locale)
         ]);
+
+        // Parse translated ingredients back
+        const translatedIngredients = translatedIngredientsText
+            .split(itemDelimiter)
+            .map((item, index) => {
+                const parts = item.split(delimiter);
+                // Fallback to original if split fails (mismatched delimiters in translation)
+                const original = recipe.ingredients[index];
+
+                if (parts.length >= 2) {
+                    return {
+                        ...original,
+                        name: parts[0].trim(),
+                        measure: parts[1].trim()
+                    };
+                } else {
+                    // Try to recover gracefully
+                    return {
+                        ...original,
+                        name: item.trim(),
+                        // keep original measure if lost
+                    };
+                }
+            });
 
         // 4. Save to Cache (Fire and Forget to not block return if it fails? No, better wait to ensure consistency)
         const { error: insertError } = await supabase
