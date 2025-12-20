@@ -673,7 +673,10 @@
             "cuisine": "Exploration Culinaire",
             "tips": "Conseils & Tendances"
         },
-        "readMore": "Lire la suite"
+        "readMore": "Lire la suite",
+        "exploreMore": "Découvrez plus sur notre blog",
+        "exploreSubtitle": "Apprenez des astuces, des conseils et des secrets de cuisine liés à ce plat.",
+        "viewAll": "Voir tous les articles"
     },
     "NotFound": {
         "title": "Recette Introuvable",

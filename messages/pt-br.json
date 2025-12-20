@@ -669,7 +669,10 @@
             "cuisine": "Exploração Culinária",
             "tips": "Dicas e Tendências"
         },
-        "readMore": "Ler Mais"
+        "readMore": "Ler Mais",
+        "exploreMore": "Explore mais em nosso blog",
+        "exploreSubtitle": "Aprenda dicas, truques e segredos de cozinha relacionados a este prato.",
+        "viewAll": "Ver todos os artigos"
     },
     "NotFound": {
         "title": "Receita Não Encontrada",

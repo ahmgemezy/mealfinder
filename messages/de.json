@@ -669,7 +669,10 @@
             "cuisine": "Kulinarische Entdeckungen",
             "tips": "Tipps & Trends"
         },
-        "readMore": "Mehr lesen"
+        "readMore": "Mehr lesen",
+        "exploreMore": "Mehr in unserem Blog entdecken",
+        "exploreSubtitle": "Lernen Sie Tipps, Tricks und Küchengeheimnisse rund um dieses Gericht.",
+        "viewAll": "Alle Artikel anzeigen"
     },
     "NotFound": {
         "title": "Rezept nicht gefunden",
