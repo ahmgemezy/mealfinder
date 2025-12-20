@@ -210,6 +210,12 @@ export function transformMealDBToRecipe(meal: MealDBMeal): Recipe {
         }
     }
 
+    // Estimate preparation time based on number of ingredients
+    // Base time 10 mins + 3 mins per ingredient
+    const estimatedTime = 10 + (ingredients.length * 3);
+    // Round to nearest 5
+    const readyInMinutes = Math.ceil(estimatedTime / 5) * 5;
+
     return {
         id: meal.idMeal,
         name: meal.strMeal,
@@ -222,6 +228,7 @@ export function transformMealDBToRecipe(meal: MealDBMeal): Recipe {
         ingredients,
         source: meal.strSource || undefined,
         apiSource: 'mealdb',
+        readyInMinutes, // Add estimated time
     };
 }
 

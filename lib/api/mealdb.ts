@@ -42,6 +42,16 @@ function setCache<T>(key: string, data: T): void {
 // Cache expiration: 120 days in milliseconds
 const SUPABASE_CACHE_TTL_MS = 120 * 24 * 60 * 60 * 1000;
 
+// Helper to ensure recipe has necessary defaults
+function ensureRecipeDefaults(recipe: Recipe): Recipe {
+    if (!recipe.readyInMinutes) {
+        // Estimate preparation time: 10 mins + 3 mins per ingredient
+        const estimatedTime = 10 + (recipe.ingredients.length * 3);
+        recipe.readyInMinutes = Math.ceil(estimatedTime / 5) * 5;
+    }
+    return recipe;
+}
+
 async function fetchRecipeFromSupabase(id: string): Promise<Recipe | null> {
     if (!isSupabaseConfigured()) return null;
 
@@ -66,7 +76,8 @@ async function fetchRecipeFromSupabase(id: string): Promise<Recipe | null> {
                     }
                 }
 
-                return data.data as Recipe;
+                // Ensure defaults for cached data
+                return ensureRecipeDefaults(data.data as Recipe);
             },
             3,
             200,
@@ -555,7 +566,7 @@ export async function getRandomRecipesFromSupabase(count: number, excludeIds: st
 
                 if (error || !data) return [];
 
-                const recipes = data.map(row => row.data as Recipe);
+                const recipes = data.map(row => ensureRecipeDefaults(row.data as Recipe));
 
                 // Shuffle and pick 'count' recipes
                 const shuffled = recipes.sort(() => 0.5 - Math.random());
@@ -625,7 +636,7 @@ export async function getRecipesFromSupabase(
 
         if (error || !data) return [];
 
-        return data.map(row => row.data as Recipe);
+        return data.map(row => ensureRecipeDefaults(row.data as Recipe));
     } catch (error) {
         console.error("Error fetching filtered recipes from Supabase:", error);
         return [];
@@ -695,7 +706,7 @@ export async function searchRecipesInSupabase(searchQuery: string): Promise<Reci
 
                 if (error || !data) return [];
 
-                return data.map(row => row.data as Recipe);
+                return data.map(row => ensureRecipeDefaults(row.data as Recipe));
             },
             3,
             200,
@@ -739,7 +750,7 @@ export async function getRandomRecipeFromSupabaseWithFilters(filters: MealFilter
 
                 // Pick a random one
                 const randomIndex = Math.floor(Math.random() * data.length);
-                return data[randomIndex].data as Recipe;
+                return ensureRecipeDefaults(data[randomIndex].data as Recipe);
             },
             3,
             200,
