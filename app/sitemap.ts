@@ -16,8 +16,10 @@ function generateSlug(name: string, id: string): string {
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // Use custom site URL or production domain as fallback
+  // Use custom site URL or production domain as fallback
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://dishshuffle.com";
-  const locales = ["en", "fr", "es"];
+  // Sync with navigation.ts
+  const locales = ['en', 'fr', 'es', 'pt-br', 'de', 'ar'];
 
   const allRoutes: MetadataRoute.Sitemap = [];
 
@@ -28,17 +30,19 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     changeFrequency: "daily" | "weekly" | "monthly"
   ) => {
     locales.forEach((locale) => {
+      // Dynamic alternates generation
+      const languages: Record<string, string> = {};
+      locales.forEach((l) => {
+        languages[l] = `${baseUrl}/${l}${path}`;
+      });
+
       allRoutes.push({
         url: `${baseUrl}/${locale}${path}`,
         lastModified: new Date(),
         changeFrequency,
         priority,
         alternates: {
-          languages: {
-            en: `${baseUrl}/en${path}`,
-            fr: `${baseUrl}/fr${path}`,
-            es: `${baseUrl}/es${path}`,
-          },
+          languages,
         },
       });
     });
@@ -49,6 +53,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { path: "", priority: 1, freq: "daily" },
     { path: "/surprise-me", priority: 0.9, freq: "daily" },
     { path: "/recipes", priority: 0.8, freq: "daily" },
+    { path: "/pantry", priority: 0.8, freq: "daily" }, // Added Smart Pantry
     { path: "/blog", priority: 0.8, freq: "daily" },
     { path: "/about", priority: 0.7, freq: "monthly" },
     { path: "/contact", priority: 0.7, freq: "monthly" },
@@ -69,14 +74,21 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // 2. Dynamic Routes: Categories & Areas
   RECIPE_CATEGORIES.forEach((category) => {
     const path = `/recipes?category=${encodeURIComponent(category)}`;
-    // Note: Query params are tricky with canonicals/sitemaps but included here for discovery
-    // Ideally should be static pages like /recipes/category/[name]
     locales.forEach((locale) => {
+      // Dynamic alternates for filters
+      const languages: Record<string, string> = {};
+      locales.forEach((l) => {
+        languages[l] = `${baseUrl}/${l}${path}`;
+      });
+
       allRoutes.push({
         url: `${baseUrl}/${locale}${path}`,
         lastModified: new Date(),
         changeFrequency: "weekly",
         priority: 0.7,
+        alternates: {
+          languages,
+        },
       });
     });
   });
@@ -84,11 +96,20 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   RECIPE_AREAS.forEach((area) => {
     const path = `/recipes?area=${encodeURIComponent(area)}`;
     locales.forEach((locale) => {
+      // Dynamic alternates for filters
+      const languages: Record<string, string> = {};
+      locales.forEach((l) => {
+        languages[l] = `${baseUrl}/${l}${path}`;
+      });
+
       allRoutes.push({
         url: `${baseUrl}/${locale}${path}`,
         lastModified: new Date(),
         changeFrequency: "weekly",
         priority: 0.7,
+        alternates: {
+          languages,
+        },
       });
     });
   });
@@ -105,17 +126,19 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     } else if (blogPosts && blogPosts.length > 0) {
       blogPosts.forEach((post) => {
         locales.forEach((locale) => {
+          // Dynamic alternates
+          const languages: Record<string, string> = {};
+          locales.forEach((l) => {
+            languages[l] = `${baseUrl}/${l}/blog/${post.slug}`;
+          });
+
           allRoutes.push({
             url: `${baseUrl}/${locale}/blog/${post.slug}`,
             lastModified: new Date(post.updated_at || post.published_date),
             changeFrequency: "monthly",
             priority: 0.7,
             alternates: {
-              languages: {
-                en: `${baseUrl}/en/blog/${post.slug}`,
-                fr: `${baseUrl}/fr/blog/${post.slug}`,
-                es: `${baseUrl}/es/blog/${post.slug}`,
-              },
+              languages,
             },
           });
         });
@@ -149,6 +172,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         const slug = generateSlug(name, recipe.id);
 
         locales.forEach((locale) => {
+          // Dynamic alternates
+          const languages: Record<string, string> = {};
+          locales.forEach((l) => {
+            languages[l] = `${baseUrl}/${l}/recipes/${slug}`;
+          });
+
           allRoutes.push({
             url: `${baseUrl}/${locale}/recipes/${slug}`,
             lastModified: recipe.created_at
@@ -157,11 +186,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
             changeFrequency: "weekly",
             priority: 0.6,
             alternates: {
-              languages: {
-                en: `${baseUrl}/en/recipes/${slug}`,
-                fr: `${baseUrl}/fr/recipes/${slug}`,
-                es: `${baseUrl}/es/recipes/${slug}`,
-              },
+              languages,
             },
           });
         });
