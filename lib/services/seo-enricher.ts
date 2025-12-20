@@ -15,6 +15,25 @@
 import { createClient } from "@supabase/supabase-js";
 import { Recipe } from "@/lib/types/recipe";
 
+// Utility to safely parse JSON from AI response
+function parseJSONFromText(text: string): any {
+    try {
+        // 1. Try direct parse
+        return JSON.parse(text);
+    } catch {
+        // 2. Try to find JSON array or object
+        const match = text.match(/(\[[\s\S]*\]|\{[\s\S]*\})/);
+        if (match) {
+            try {
+                return JSON.parse(match[0]);
+            } catch {
+                // duplicate logic or continue
+            }
+        }
+    }
+    throw new Error("Failed to extract JSON from text");
+}
+
 // ============================================================================
 // Configuration
 // ============================================================================
@@ -118,7 +137,11 @@ async function openaiChat(
         }),
     });
 
-    if (!response.ok) throw new Error(`OpenAI API error: ${response.statusText}`);
+    if (!response.ok) {
+        const errorText = await response.text();
+        console.error(`Status: ${response.status}. OpenAI API error body: ${errorText}`);
+        throw new Error(`OpenAI API error: ${response.statusText}`);
+    }
     const data = await response.json();
     return data.choices?.[0]?.message?.content || "";
 }
@@ -169,7 +192,14 @@ Keep answers concise (50-100 words). Be helpful and accurate.`;
         ]);
 
         const sanitized = response.replace(/```json|```/g, "").trim();
-        const results = JSON.parse(sanitized);
+        let results;
+        try {
+            results = parseJSONFromText(sanitized);
+        } catch (e) {
+            console.warn("   ⚠️ Primary FAQ JSON parse failed. Raw:", response.substring(0, 200) + "...");
+            // Allow fallback to trigger
+            throw e;
+        }
 
         // If we got results, return them.
         if (Array.isArray(results) && results.length > 0) {
@@ -198,10 +228,19 @@ Keep answers concise (50-100 words). Be helpful and accurate.`;
             { role: "system", content: "You are a helpful culinary assistant." },
             { role: "user", content: fallbackPrompt }
         ]);
-        const sanitizedFallback = fallbackResponse.replace(/```json|```/g, "").trim();
-        return JSON.parse(sanitizedFallback);
+
+        try {
+            const parsed = parseJSONFromText(fallbackResponse);
+            if (Array.isArray(parsed)) return parsed;
+            // logic for object wrapper if needed? The prompt asks for array.
+            return [];
+        } catch (parseError) {
+            console.error("   ❌ FAQ Fallback JSON parse failed. Raw:", fallbackResponse);
+            return [];
+        }
+
     } catch (e) {
-        console.error("   ❌ FAQ Fallback failed:", e);
+        console.error("   ❌ FAQ Fallback request failed:", e);
         return [];
     }
 }
