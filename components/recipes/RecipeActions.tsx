@@ -14,7 +14,7 @@ export default function RecipeActions({ recipe }: RecipeActionsProps) {
 
   return (
     <div className="bg-linear-to-br from-card to-card/50 rounded-2xl p-6 shadow-soft border border-primary-100 dark:border-primary-900/30 sticky top-20">
-      <div className="text-center mb-4">
+      <div className="text-center mb-4 notranslate text-start">
         <span className="text-3xl mb-2 block">❤️</span>
         <h3 className="font-bold text-xl bg-linear-to-r from-primary-600 to-accent-600 bg-clip-text text-transparent">
           {t("loveThisRecipe")}
@@ -29,9 +29,9 @@ export default function RecipeActions({ recipe }: RecipeActionsProps) {
         <div className="absolute inset-0 flex items-center" aria-hidden="true">
           <div className="w-full border-t border-border/50"></div>
         </div>
-        <div className="relative flex justify-center">
+        <div className="relative flex justify-center notranslate text-start">
           <span className="bg-card px-2 text-xs text-muted-foreground uppercase tracking-wider">
-            or
+            {t.has('or') ? t('or') : 'or'}
           </span>
         </div>
       </div>

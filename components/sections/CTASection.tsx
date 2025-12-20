@@ -26,7 +26,7 @@ export default function CTASection() {
   const t = useTranslations("CTA");
 
   return (
-    <section className="my-20">
+    <section className="my-20 notranslate text-start">
       <div className="container mx-auto px-4">
         <div className="relative rounded-3xl overflow-hidden bg-linear-to-br from-primary-600 via-primary-500 to-accent-500 p-16 text-center shadow-hard">
           <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-20 mix-blend-overlay" />

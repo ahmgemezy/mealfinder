@@ -29,7 +29,7 @@ export default function HeroSection() {
   const t = useTranslations("Hero");
 
   return (
-    <section className="relative overflow-hidden min-h-[600px] flex items-center">
+    <section className="relative overflow-hidden min-h-[600px] flex items-center notranslate text-start">
       {/* Background Image */}
       <div className="absolute inset-0 z-0">
         <Image

@@ -27,7 +27,7 @@ export default async function ContactPage({
   const t = await getTranslations({ locale });
 
   return (
-    <div className="container mx-auto px-4 py-16 max-w-4xl">
+    <div className="container mx-auto px-4 py-16 max-w-4xl text-start" lang="en">
       <h1 className="font-display text-4xl md:text-5xl font-bold mb-8 gradient-text text-center">
         Contact Us
       </h1>

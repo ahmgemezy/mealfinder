@@ -65,7 +65,7 @@ export default async function HomePage() {
         <HeroSection />
 
         {/* Features Section */}
-        <section className="py-16 md:py-24">
+        <section className="py-16 md:py-24 notranslate text-start">
           <div className="container mx-auto px-4">
             <h2 className="font-display text-3xl md:text-4xl font-bold text-center mb-12">
               {t('howItWorks')}
@@ -93,7 +93,7 @@ export default async function HomePage() {
         {/* Featured Recipes */}
         <section className="py-16 md:py-24 bg-muted">
           <div className="container mx-auto px-4">
-            <div className="flex items-center justify-between mb-12">
+            <div className="flex items-center justify-between mb-12 notranslate text-start">
               <h2 className="font-display text-3xl md:text-4xl font-bold">
                 {t('featuredRecipes')}
               </h2>
@@ -124,7 +124,7 @@ export default async function HomePage() {
         </section>
 
         {/* Privacy & Legal Notice - Required for Google OAuth Verification */}
-        <section className="py-8 bg-muted/50">
+        <section className="py-8 bg-muted/50 notranslate text-start">
           <div className="container mx-auto px-4">
             <div className="text-center text-sm text-muted-foreground">
               <p>

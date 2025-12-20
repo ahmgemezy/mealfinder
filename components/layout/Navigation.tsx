@@ -83,7 +83,7 @@ export default function Navigation() {
       {/* Desktop & Mobile Navigation */}
       <nav className="notranslate fixed top-0 left-0 right-0 z-50 glass-nav transition-all duration-300">
         <div className="container mx-auto px-4">
-          <div className="flex items-center justify-between h-16 md:h-20">
+          <div className="flex items-center justify-between h-16 lg:h-20">
             <Link href="/" className="flex items-center gap-1 group">
               <div className="relative w-14 h-14 group-hover:scale-105 transition-transform duration-300">
                 <Image
@@ -94,13 +94,13 @@ export default function Navigation() {
                   sizes="56px"
                 />
               </div>
-              <span className="hidden md:block font-display text-2xl font-bold text-foreground tracking-tight group-hover:text-primary-400 transition-colors">
+              <span className="hidden lg:block font-display text-2xl font-bold text-foreground tracking-tight group-hover:text-primary-400 transition-colors">
                 Dish Shuffle
               </span>
             </Link>
 
             {/* Desktop Navigation Items */}
-            <div className="hidden md:flex items-center gap-2">
+            <div className="hidden lg:flex items-center gap-2">
               {navItems.map((item) => (
                 <Link
                   key={item.href}
@@ -145,7 +145,7 @@ export default function Navigation() {
                     <div className="w-8 h-8 rounded-full bg-linear-to-br from-primary-500 to-accent-500 flex items-center justify-center text-white font-bold text-sm">
                       {getUserName().charAt(0).toUpperCase()}
                     </div>
-                    <span className="hidden lg:inline">{getUserName()}</span>
+                    <span className="hidden xl:inline">{getUserName()}</span>
                     <svg
                       className="w-4 h-4"
                       fill="none"
@@ -206,7 +206,7 @@ export default function Navigation() {
             </div>
 
             {/* Mobile: User Avatar or Sign In + Language Switcher */}
-            <div className="md:hidden flex items-center gap-2">
+            <div className="lg:hidden flex items-center gap-2">
               <LanguageSwitcher />
               {user ? (
                 <div className="relative">
@@ -267,7 +267,7 @@ export default function Navigation() {
       </nav>
 
       {/* Mobile Bottom Navigation */}
-      <nav className="notranslate md:hidden fixed bottom-0 left-0 right-0 z-9999 bg-card/95 backdrop-blur-lg border-t border-border pb-safe shadow-[0_-4px_20px_-5px_rgba(0,0,0,0.1)]">
+      <nav className="notranslate lg:hidden fixed bottom-0 left-0 right-0 z-9999 bg-card/95 backdrop-blur-lg border-t border-border pb-safe shadow-[0_-4px_20px_-5px_rgba(0,0,0,0.1)]">
         <div className="grid grid-cols-6 h-16 px-1">
           {navItems.map((item) => {
             const Icon = item.icon;
@@ -310,7 +310,7 @@ export default function Navigation() {
       </nav>
 
       {/* Spacer for fixed navigation */}
-      <div className="h-16 md:h-20" />
+      <div className="h-16 lg:h-20" />
     </>
   );
 }

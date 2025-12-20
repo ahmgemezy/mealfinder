@@ -50,6 +50,9 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
       'en': `${baseUrl}/en`,
       'fr': `${baseUrl}/fr`,
       'es': `${baseUrl}/es`,
+      'pt-BR': `${baseUrl}/pt-br`,
+      'de': `${baseUrl}/de`,
+      'ar': `${baseUrl}/ar`,
       'x-default': `${baseUrl}/en`,
     },
   };
@@ -67,7 +70,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     metadataBase: new URL(baseUrl),
     openGraph: {
       type: "website",
-      locale: locale === "en" ? "en_US" : locale === "fr" ? "fr_FR" : locale === "es" ? "es_ES" : "en_US",
+      locale: locale === "en" ? "en_US" : locale === "fr" ? "fr_FR" : locale === "es" ? "es_ES" : locale === "pt-br" ? "pt_BR" : locale === "de" ? "de_DE" : locale === "ar" ? "ar_AR" : "en_US",
       url: `${baseUrl}/${locale}`,
       siteName: "Dish Shuffle",
       title: "Dish Shuffle - Discover Your Next Meal",
@@ -109,6 +112,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 }
 
 import AutoGoogleTranslate from "@/components/features/AutoGoogleTranslate";
+import GoogleTranslateFix from "@/components/features/GoogleTranslateFix";
 
 export default async function RootLayout({
   children,
@@ -128,8 +132,12 @@ export default async function RootLayout({
 
   const messages = await getMessages();
 
+  // Ensure strict locale format for html lang attribute (pt-BR specifically)
+  const htmlLang = locale === 'pt-br' ? 'pt-BR' : locale;
+  const dir = locale === 'ar' ? 'rtl' : 'ltr';
+
   return (
-    <html lang={locale}>
+    <html lang={htmlLang} dir={dir}>
       <head>
         {/* Google Consent Mode - Set defaults BEFORE loading gtag.js */}
         <Script
@@ -193,11 +201,12 @@ export default async function RootLayout({
             <SurpriseMeProvider>
               <FavoritesProvider>
                 <div className="flex flex-col min-h-screen">
-                  <Navigation />
+                  <div className="notranslate"><Navigation /></div>
                   <main className="flex-grow">{children}</main>
-                  <Footer />
+                  <div className="notranslate"><Footer /></div>
                   <CookieConsent />
                   <SurpriseMeModal />
+                  <GoogleTranslateFix />
                   <AutoGoogleTranslate locale={locale} />
                 </div>
                 <ToastContainer />

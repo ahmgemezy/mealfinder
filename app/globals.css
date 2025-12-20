@@ -11,6 +11,25 @@
 .skiptranslate,
 .goog-te-banner-frame.skiptranslate {
   display: none !important;
+  visibility: hidden !important;
+  height: 0 !important;
+  width: 0 !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+/* Hide the floating gadget specifically */
+.goog-te-gadget-simple,
+.goog-te-gadget-icon {
+  display: none !important;
+}
+
+/* Hide the iframe that pushes content down */
+iframe[id=":2.container"],
+iframe.goog-te-banner-frame {
+  display: none !important;
+  visibility: hidden !important;
+  height: 0 !important;
 }
 
 /* Ensure body top offset is reset */

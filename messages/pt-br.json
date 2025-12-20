@@ -1,0 +1,682 @@
+{
+    "Navigation": {
+        "home": "Início",
+        "recipes": "Receitas",
+        "favorites": "Favoritos",
+        "blog": "Blog",
+        "surpriseMe": "Surpreenda-me",
+        "signIn": "Entrar",
+        "signOut": "Sair",
+        "myFavorites": "Meus Favoritos",
+        "pantry": "Despensa Inteligente"
+    },
+    "SmartPantry": {
+        "newFeatureTag": "Nova Funcionalidade",
+        "heroTitle": "Cozinhe com o que",
+        "heroTitleHighlight": "você tem.",
+        "heroSubtitle": "Não deixe as sobras irem para o lixo. Digite seus ingredientes abaixo e encontraremos receitas deliciosas que você pode fazer agora.",
+        "inputPlaceholder": "Digite um ingrediente (ex: ovos, arroz)...",
+        "addIngredientHelp": "Adicione pelo menos um ingrediente para começar a cozinhar!",
+        "findRecipesButton": "Encontrar Receitas",
+        "resultsTitle": "Aqui está o que você pode cozinhar:",
+        "matchesFound": "{count} receitas encontradas",
+        "noResults": "Nenhuma receita encontrada 😔",
+        "noResultsDesc": "Tente combinar menos ingredientes ou usar ingredientes mais comuns.",
+        "topCategory": "Categoria Principal"
+    },
+    "Hero": {
+        "title": "Dish Shuffle",
+        "subtitle": "Descubra refeições deliciosas de todo o mundo.",
+        "cta": "Começar",
+        "surprise": "Surpreenda-me"
+    },
+    "CTA": {
+        "title": "Pronto para cozinhar?",
+        "subtitle": "Encontre sua próxima refeição favorita hoje.",
+        "button": "Navegar Receitas"
+    },
+    "Recipe": {
+        "ingredients": "Ingredientes",
+        "instructions": "Instruções",
+        "youMightAlsoLike": "Você também pode gostar",
+        "loveThisRecipe": "Amou esta receita?",
+        "saveToFavorites": "Salve nos seus favoritos para nunca perdê-la!",
+        "viewFullRecipe": "Ver Receita Completa",
+        "video": "Tutorial em Vídeo",
+        "videoTutorial": "Tutorial em Vídeo",
+        "shopIngredients": "Comprar Ingredientes",
+        "shopIngredientsDesc": "Receba esses itens pela Amazon Fresh",
+        "category": "Categoria",
+        "area": "Culinária",
+        "tags": "Tags",
+        "share": "Compartilhar Receita",
+        "shareDescription": "Compartilhe esta receita com seus amigos",
+        "copyLink": "Copiar Link",
+        "copied": "Copiado!",
+        "shareOnFacebook": "Compartilhar no Facebook",
+        "shareOnTwitter": "Compartilhar no X",
+        "shareOnWhatsApp": "Compartilhar no WhatsApp",
+        "kitchenGear": "Utensílios Recomendados"
+    },
+    "Common": {
+        "loading": "Carregando...",
+        "error": "Algo deu errado",
+        "back": "Voltar"
+    },
+    "Home": {
+        "howItWorks": "Como Funciona",
+        "featuredRecipes": "Receitas em Destaque",
+        "viewAll": "Ver Tudo",
+        "features": {
+            "surprise": {
+                "title": "Surpreenda-se",
+                "description": "Indeciso? Deixe-nos escolher uma refeição deliciosa aleatória para você com nossa ferramenta Surpreenda-me."
+            },
+            "browse": {
+                "title": "Navegar e Pesquisar",
+                "description": "Explore milhares de receitas por culinária, categoria ou pesquise pratos específicos."
+            },
+            "favorites": {
+                "title": "Salvar Favoritos",
+                "description": "Acompanhe suas receitas favoritas e crie seu livro de receitas pessoal."
+            }
+        }
+    },
+    "Recipes": {
+        "title": "Navegar Receitas",
+        "subtitle": "Explore milhares de receitas deliciosas de todo o mundo",
+        "searchPlaceholder": "Pesquisar uma receita...",
+        "category": "Categoria",
+        "cuisine": "Culinária",
+        "allCategories": "Todas as Categorias",
+        "allCuisines": "Todas as Culinárias",
+        "activeFilters": "Filtros ativos:",
+        "searchPrefix": "Pesquisa:",
+        "clearAll": "Limpar tudo",
+        "resultsCount": "Encontrado {count} receita{count, plural, =1 {} other {s}}",
+        "latestRecipes": "Últimas Receitas",
+        "showingRange": "Mostrando {start}-{end} de {total}",
+        "foundRecipes": "Encontrado {count} receita{count, plural, =1 {} other {s}}",
+        "noRecipes": "Nenhuma receita encontrada",
+        "noRecipesDesc": "Tente ajustar sua pesquisa ou filtros",
+        "clearFilters": "Limpar Filtros",
+        "loadingMore": "Carregando mais receitas...",
+        "searching": "Pesquisando...",
+        "preparingRecipes": "Preparando receitas deliciosas para você...",
+        "justAMoment": "Isso levará apenas um momento",
+        "recipeNotFound": "Receita Não Encontrada",
+        "ingredients": "Ingredientes",
+        "instructions": "Instruções",
+        "noInstructionsAvailable": "Instruções não disponíveis para esta receita.",
+        "viewOriginalRecipe": "Ver Receita Original",
+        "videoTutorial": "Tutorial em Vídeo",
+        "youMightAlsoLike": "Você Também Pode Gostar",
+        "previousPage": "Página Anterior",
+        "nextPage": "Próxima Página"
+    },
+    "Favorites": {
+        "title": "Seus Favoritos",
+        "empty": "Você ainda não salvou nenhuma receita.",
+        "count": "Você salvou {count} receita{count, plural, =1 {} other {s}}.",
+        "emptyTitle": "Comece a Montar Seu Livro de Receitas",
+        "emptyDesc": "Salve suas receitas favoritas aqui para encontrá-las facilmente depois. Navegue em nossa coleção para começar!",
+        "browseRecipes": "Navegar Receitas"
+    },
+    "Auth": {
+        "welcomeBack": "Bem-vindo de volta",
+        "signInSubtitle": "Entre na sua conta para acessar seus favoritos",
+        "signInGoogle": "Entrar com Google",
+        "orContinueWith": "Ou continue com",
+        "emailAddress": "Endereço de e-mail",
+        "password": "Senha",
+        "rememberMe": "Lembrar de mim",
+        "forgotPassword": "Esqueceu a senha?",
+        "signIn": "Entrar",
+        "noAccount": "Não tem uma conta?",
+        "signUp": "Cadastrar",
+        "createAccount": "Criar uma conta",
+        "signUpSubtitle": "Junte-se a nós para salvar suas receitas favoritas e mais",
+        "signUpGoogle": "Cadastrar com Google",
+        "fullName": "Nome Completo",
+        "alreadyHaveAccount": "Já tem uma conta?"
+    },
+    "Footer": {
+        "quickLinks": "Links Rápidos",
+        "home": "Início",
+        "surpriseMe": "Surpreenda-me",
+        "browseRecipes": "Navegar Receitas",
+        "favorites": "Favoritos",
+        "blog": "Blog",
+        "faq": "FAQ",
+        "legal": "Legal",
+        "privacyPolicy": "Política de Privacidade",
+        "cookiePolicy": "Política de Cookies",
+        "termsOfService": "Termos de Serviço",
+        "rightsReserved": "Todos os direitos reservados.",
+        "providedBy": "Dados de receitas fornecidos por",
+        "about": "Sobre Nós",
+        "contact": "Fale Conosco"
+    },
+    "SurpriseMe": {
+        "title": "Surpreenda-me!",
+        "metaTitle": "Surpreenda-me - Gerador de Receitas Aleatórias | Dish Shuffle",
+        "metaDescription": "Não consegue decidir o que cozinhar? Deixe o Dish Shuffle escolher uma receita deliciosa aleatória para você. Filtre por categoria ou culinária.",
+        "subtitle": "Não consegue decidir o que comer? Deixe-nos escolher uma refeição deliciosa para você!",
+        "filterTitle": "Filtre Sua Surpresa",
+        "categoryLabel": "Categoria",
+        "cuisineLabel": "Culinária",
+        "anyCategory": "Qualquer Categoria",
+        "anyCuisine": "Qualquer Culinária",
+        "activeFilters": "Filtros ativos:",
+        "clearAll": "Limpar tudo",
+        "generateButton": "Gerar Refeição",
+        "tryAnotherButton": "Tentar Outra!",
+        "failedToFetch": "Falha ao buscar refeição",
+        "noRecipeFound": "Nenhuma receita encontrada com seus filtros",
+        "error": "Algo deu errado",
+        "emptyStateText": "Clique no botão acima para descobrir sua próxima refeição!",
+        "findingRecipe": "Encontrando uma receita deliciosa...",
+        "keyIngredients": "Ingredientes Chave",
+        "recipePreview": "Prévia da Receita",
+        "clickToView": "Clique em 'Ver Receita Completa' para ver instruções completas e todos os ingredientes",
+        "failedToLoad": "Falha ao carregar receita. Por favor, tente novamente.",
+        "close": "Fechar",
+        "viewFullRecipe": "Ver Receita Completa",
+        "getAnotherMeal": "Obter Outra Refeição",
+        "moreIngredients": "+{count} mais"
+    },
+    "FAQ": {
+        "title": "Perguntas Frequentes",
+        "subtitle": "Encontre respostas para perguntas comuns sobre culinária, receitas e como usar o Dish Shuffle",
+        "categories": {
+            "cooking": "Básico de Culinária",
+            "safety": "Segurança Alimentar e Armazenamento",
+            "substitutions": "Substituições de Ingredientes",
+            "planning": "Planejamento de Refeições",
+            "platform": "Usando o Dish Shuffle",
+            "health": "Saúde e Nutrição para Adultos 40+"
+        },
+        "questions": {
+            "howToBoilEgg": {
+                "q": "Como cozinho um ovo perfeitamente?",
+                "a": "Coloque os ovos em uma panela e cubra com água fria. Leve à fervura, desligue o fogo e tampe. Deixe descansar por 10-12 minutos para ovo cozido duro, 6-7 minutos para gema mole. Transfira para água gelada imediatamente para parar o cozimento."
+            },
+            "howToCookPasta": {
+                "q": "Como cozinho massa al dente?",
+                "a": "Use uma panela grande com bastante água fervente com sal. Cozinhe a massa por 1-2 minutos a menos que as instruções da embalagem, mexendo ocasionalmente. Prove para testar a textura. Reserve 1 xícara da água do cozimento antes de escorrer para ajudar a engrossar molhos."
+            },
+            "howToCookRice": {
+                "q": "Qual a melhor maneira de fazer arroz soltinho?",
+                "a": "Lave o arroz até a água sair limpa para remover o excesso de amido. Use uma proporção de 2:1 de água para arroz. Leve à fervura, abaixe o fogo, tampe e deixe cozinhar por 18-20 minutos sem abrir a tampa. Retire do fogo e deixe descansar coberto por 5 minutos, depois solte com um garfo."
+            },
+            "howToCookSteak": {
+                "q": "Como faço o bife perfeito?",
+                "a": "Seque a carne e tempere generosamente com sal e pimenta 30-40 minutos antes de cozinhar. Aqueça bem uma frigideira pesada. Sele 3-4 minutos de cada lado para malpassado. Deixe descansar 5-10 minutos antes de cortar."
+            },
+            "bakingPowderVsSoda": {
+                "q": "Qual a diferença entre fermento em pó e bicarbonato?",
+                "a": "Bicarbonato precisa de um ácido (como limão ou iogurte) para ativar. Fermento em pó já contém bicarbonato mais um ácido, então funciona sozinho. Não são intercambiáveis."
+            },
+            "essentialTools": {
+                "q": "Quais utensílios essenciais eu preciso para começar?",
+                "a": "Comece com uma faca de chef, tábua de corte, xícaras/colheres medidoras, uma panela grande, uma frigideira e uma assadeira. Isso cobre a maioria das receitas."
+            },
+            "readRecipe": {
+                "q": "Quão importante é ler a receita antes?",
+                "a": "Crucial! Leia duas vezes para entender as etapas, tempos e garantir que tem todos os ingredientes. Evita surpresas no meio do cozimento."
+            },
+            "miseEnPlace": {
+                "q": "O que é 'mise en place'?",
+                "a": "Significa 'tudo em seu lugar'. Preparar, picar e medir todos os ingredientes antes de começar a cozinhar. Torna o processo menos estressante e evita queimar a comida."
+            },
+            "pantryStaples": {
+                "q": "O que devo ter na despensa?",
+                "a": "Tenha óleos (azeite, vegetal), vinagre, ervas/especiarias secas, sal, pimenta, farinha, açúcar, arroz, macarrão, tomates em lata e feijão."
+            },
+            "seasoningTips": {
+                "q": "Como temperar corretamente?",
+                "a": "Tempere em camadas durante o cozimento, não apenas no final. Prove sempre. Sal realça o sabor, enquanto ácido (limão, vinagre) ilumina pratos sem graça."
+            },
+            "preventSticking": {
+                "q": "Como evito que a comida grude na panela?",
+                "a": "Aqueça a panela corretamente antes de adicionar óleo, depois deixe o óleo esquentar antes de adicionar a comida. Não encha demais a panela."
+            },
+            "checkMeatDoneness": {
+                "q": "Como sei quando a carne está cozida?",
+                "a": "A única maneira segura é usar um termômetro digital. A cor não é confiável. Frango deve estar a 74°C, porco/bifes 63°C e carne moída 71°C."
+            },
+            "saltPastaWater": {
+                "q": "Por que salgar a água da massa?",
+                "a": "É a única chance de dar sabor à massa. Deve ter gosto de mar. Nunca enxágue a massa depois de cozinhar (exceto para salada fria)."
+            },
+            "tenderizeMeat": {
+                "q": "Como amaciar carne dura?",
+                "a": "Use uma marinada com ácido (vinagre, frutas cítricas), bata com um martelo ou cozinhe lenta e longamente (braseado/ensopado) para quebrar as fibras."
+            },
+            "bakingMeasure": {
+                "q": "Como medir farinha para bolos?",
+                "a": "Não pegue direto! Afofe a farinha, coloque na xícara com uma colher e nivele. Pegar direto compacta e adiciona muita farinha, deixando bolos secos."
+            },
+            "cookingMistakes": {
+                "q": "Qual é um erro comum de iniciantes?",
+                "a": "Encher demais a panela—isso baixa a temperatura e cozinha a comida no vapor em vez de dourar. Cozinhe em lotes se necessário."
+            },
+            "tastingFood": {
+                "q": "Por que provar enquanto cozinha é importante?",
+                "a": "Ingredientes variam. Provar ajuda a equilibrar sabores (adicionar sal, ácido ou açúcar) antes de servir."
+            },
+            "knifeSkills": {
+                "q": "Como melhorar habilidades com faca?",
+                "a": "Mantenha as facas afiadas. Use a 'garra' com a mão que segura o alimento para proteger os dedos. Comece devagar."
+            },
+            "restingSteak": {
+                "q": "Por que descansar o bife antes de cortar?",
+                "a": "O descanso permite que os sucos se redistribuam. Cortar imediatamente faz os sucos vazarem, deixando a carne seca."
+            },
+            "boilingVsSimmering": {
+                "q": "Diferença entre ferver e cozinhar em fogo brando?",
+                "a": "Ferver são bolhas grandes e rápidas (100°C). Fogo brando (simmer) são bolhas pequenas e gentis (85-95°C) para sopas/ensopados."
+            },
+            "shouldWashChicken": {
+                "q": "Devo lavar frango cru?",
+                "a": "Não, nunca lave frango cru. Isso espalha bactérias nocivas pela pia e cozinha através respingos. Cozinhar na temperatura certa mata as bactérias."
+            },
+            "howLongFoodLeftOut": {
+                "q": "Quanto tempo comida cozida pode ficar fora?",
+                "a": "Não mais que 2 horas (1 hora se estiver acima de 32°C). Bactérias multiplicam rápido. Refrigere sobras prontamente."
+            },
+            "frozenVsFresh": {
+                "q": "Vegetais congelados são nutritivos?",
+                "a": "Sim! Frequentemente são colhidos e congelados no pico da maturação, preservando nutrientes. Podem ser mais nutritivos que frescos velhos."
+            },
+            "cheeseGoneBad": {
+                "q": "Como saber se o queijo estragou?",
+                "a": "Queijos duros: corte o mofo fora. Queijos moles: jogue fora se tiver mofo. Cheiro ruim ou textura viscosa também são sinais."
+            },
+            "restMeatAfterCooking": {
+                "q": "Por que descansar a carne?",
+                "a": "Para os sucos se redistribuírem. Se cortar logo, o suco vaza no prato."
+            },
+            "handwashing": {
+                "q": "Como lavar as mãos corretamente?",
+                "a": "Água morna e sabão por 20 segundos antes/depois de manusear alimentos, especialmente crus."
+            },
+            "crossContamination": {
+                "q": "O que é contaminação cruzada?",
+                "a": "Espalhar bactérias de comida crua para comida pronta. Use tábuas separadas e lave bem as mãos/utensílios."
+            },
+            "dangerZone": {
+                "q": "O que é a 'Zona de Perigo' dos alimentos?",
+                "a": "Bactérias crescem rápido entre 4°C e 60°C. Nunca deixe comida perecível fora por mais de 2 horas."
+            },
+            "fridgeTemp": {
+                "q": "Qual a temperatura ideal da geladeira?",
+                "a": "Abaixo de 4°C e freezer a -18°C."
+            },
+            "thawingFood": {
+                "q": "Como descongelar comida com segurança?",
+                "a": "Na geladeira durante a noite (mais seguro), em água fria ou micro-ondas. Nunca na bancada."
+            },
+            "leftoverSafety": {
+                "q": "Por quanto tempo sobras são seguras?",
+                "a": "Geralmente 3-4 dias na geladeira. Reaqueça bem."
+            },
+            "washingMeat": {
+                "q": "Devo lavar carne crua?",
+                "a": "NÃO. Isso espalha bactérias."
+            },
+            "refreezing": {
+                "q": "Posso recongelar comida descongelada?",
+                "a": "Se foi descongelada na geladeira, sim, mas a textura pode piorar. Não recongele se descongelou fora."
+            },
+            "safeTemps": {
+                "q": "Temperaturas internas seguras?",
+                "a": "Aves 74°C, Carne Moída 71°C, Bifes/Assados 63°C (+descanso), Peixe 63°C."
+            },
+            "produceTech": {
+                "q": "Como limpar frutas e vegetais?",
+                "a": "Lave em água corrente antes de comer/cozinhar. Esfregue cascas duras."
+            },
+            "useByVsBestBy": {
+                "q": "Validade vs Melhor Antes?",
+                "a": "'Validade' é segurança—não coma depois. 'Melhor Antes' é qualidade—provavelmente seguro, mas não tão bom."
+            },
+            "fridgeStorage": {
+                "q": "Onde guardar carne crua na geladeira?",
+                "a": "Prateleira inferior, em recipiente fechado para não pingar em outros alimentos."
+            },
+            "coolingFood": {
+                "q": "Quão rápido devo refrigerar comida cozida?",
+                "a": "Dentro de 2 horas. Divida porções grandes para esfriar mais rápido."
+            },
+            "kitchenHygiene": {
+                "q": "Frequência de limpeza de esponjas?",
+                "a": "Diariamente (micro-ondas ou lava-louças) e troque frequentemente. Acumulam muitas bactérias."
+            },
+            "visualCues": {
+                "q": "Posso confiar na cor da carne?",
+                "a": "Não. Hambúrgueres podem ficar marrons antes da temperatura segura. Use termômetro."
+            },
+            "butterSaltedOrUnsalted": {
+                "q": "Manteiga com ou sem sal para bolos?",
+                "a": "Sem sal. Permite controlar o sódio. Manteiga com sal varia muito entre marcas."
+            },
+            "freshVsDriedHerbs": {
+                "q": "Substituir ervas secas por frescas?",
+                "a": "Use 1/3 da quantidade de seca em relação à fresca. Secas são mais fortes."
+            },
+            "oliveOilForBaking": {
+                "q": "Azeite em bolos?",
+                "a": "Sim, mas tem sabor forte. Melhor para assados salgados ou use azeite leve."
+            },
+            "wholeWheatFlour": {
+                "q": "Farinha integral em vez de branca?",
+                "a": "Produz resultados mais densos. Pode substituir até 50% em muffins e cookies, mas evite em bolos leves."
+            },
+            "eggSubstitutes": {
+                "q": "Substitutos para ovos?",
+                "a": "Purê de maçã, banana amassada ou linhaça com água. Varia conforme a receita."
+            },
+            "substitutionRules": {
+                "q": "Regra geral para substituições?",
+                "a": "Considere umidade, doçura e estrutura. Limite a 1-2 trocas por receita."
+            },
+            "buttermilkSub": {
+                "q": "Substituto para Buttermilk?",
+                "a": "1 colher de sopa de limão/vinagre em 1 xícara de leite. Deixe talhar por 5-10 min."
+            },
+            "butterVsOil": {
+                "q": "Trocar manteiga por óleo?",
+                "a": "No forno: Sim (1:1), mas altera textura. No fogão: Óleo aguenta mais calor."
+            },
+            "glutenFreeFlour": {
+                "q": "Farinha sem glúten substitui normal?",
+                "a": "Sim, se for um mix '1-pra-1' com goma xantana. Só farinha de arroz não funciona bem sozinha."
+            },
+            "sugarTypes": {
+                "q": "Trocar açúcar mascavo por branco?",
+                "a": "Sim (1:1). Mascavo adiciona umidade e sabor de melaço."
+            },
+            "honeyVsSugar": {
+                "q": "Mel em vez de açúcar?",
+                "a": "Use 3/4 xícara de mel para 1 de açúcar. Reduza líquidos e temperatura do forno."
+            },
+            "breadcrumbsSub": {
+                "q": "Sem farinha de rosca?",
+                "a": "Use biscoitos, torradas ou aveia triturada."
+            },
+            "cornstarchSub": {
+                "q": "Substituto para amido de milho?",
+                "a": "Farinha de trigo (use o dobro) ou polvilho/fécula de batata (1:1)."
+            },
+            "brothSub": {
+                "q": "Sem caldo de galinha/carne?",
+                "a": "Use cubo de caldo + água, caldo de legumes ou água temperada."
+            },
+            "freshVsDried": {
+                "q": "Proporção ervas frescas vs secas?",
+                "a": "A seca é mais forte. Use 1 colher de chá seca para cada colher de sopa fresca."
+            },
+            "dairyFreeMilk": {
+                "q": "Leite vegetal para assados?",
+                "a": "Soja e Aveia são os mais próximos. Leite de coco enlatado dá mais riqueza."
+            },
+            "cheeseSub": {
+                "q": "Substituir queijos?",
+                "a": "Combine texturas. Mussarela ↔ Prato. Cheddar ↔ Gruyère."
+            },
+            "bakingChocolate": {
+                "q": "Sem chocolate sem açúcar?",
+                "a": "3 colheres de sopa de cacau + 1 colher de sopa de óleo/manteiga por onça."
+            },
+            "lemonJuice": {
+                "q": "Substituto para limão fresco?",
+                "a": "Suco engarrafado funciona. Vinagre serve para acidez."
+            },
+            "yogurtSourCream": {
+                "q": "Iogurte no lugar de Sour Cream?",
+                "a": "Sim, Iogurte Grego é um substituto quase perfeito e mais saudável."
+            },
+            "whatIsMealPlanning": {
+                "q": "O que é planejamento de refeições?",
+                "a": "É decidir com antecedência o que comer, fazer lista e preparar."
+            },
+            "howOftenMealPlan": {
+                "q": "Com que frequência planejar?",
+                "a": "Semanalmente é o mais comum. Escolha um dia fixo."
+            },
+            "mealPlanSaveMoney": {
+                "q": "Como economiza dinheiro?",
+                "a": "Evita compras por impulso e desperdício. Você compra só o que usa."
+            },
+            "mealPrepStorage": {
+                "q": "Quanto tempo dura comida preparada?",
+                "a": "3-4 dias na geladeira. Sopas até 5. Congele para durar meses."
+            },
+            "portionSizes": {
+                "q": "Como definir porções?",
+                "a": "Prato equilibrado: 1/2 vegetais, 1/4 proteína (palma da mão), 1/4 carboidratos (punho)."
+            },
+            "howToSaveRecipes": {
+                "q": "Como salvar receitas?",
+                "a": "Clique no ícone de coração. Precisa estar logado para acessar seus favoritos."
+            },
+            "howToSearchRecipes": {
+                "q": "Como pesquisar receitas?",
+                "a": "Use a barra de pesquisa ou filtros de categoria e culinária."
+            },
+            "surpriseMeFeature": {
+                "q": "O que é o Surpreenda-me?",
+                "a": "Escolhe uma receita aleatória para você quando está indeciso."
+            },
+            "recipesFromWhere": {
+                "q": "De onde vêm as receitas?",
+                "a": "São do TheMealDB e Spoonacular, bancos de dados abrangentes."
+            },
+            "canIShareRecipes": {
+                "q": "Posso compartilhar receitas?",
+                "a": "Sim! Use o botão de Compartilhar para enviar via redes sociais ou link."
+            },
+            "startMealPlanning": {
+                "q": "Como começar a planejar?",
+                "a": "Comece pequeno. Planeje 3-4 jantares. Verifique sua agenda."
+            },
+            "benefitsMealPlan": {
+                "q": "Por que planejar?",
+                "a": "Economiza dinheiro, tempo, reduz estresse e melhora alimentação."
+            },
+            "planningSchedule": {
+                "q": "Qual a melhor agenda?",
+                "a": "Semanal. Planeje sexta ou domingo."
+            },
+            "pickyEaters": {
+                "q": "Planejamento para enjoados?",
+                "a": "Envolva-os! Deixe escolherem 1 refeição. Faça pratos montáveis (tacos, bowls)."
+            },
+            "saveMoneyGroceries": {
+                "q": "Como economizar no mercado?",
+                "a": "Olhe o que já tem. Planeje baseado em promoções. Faça lista e sifa-a."
+            },
+            "mealPrepVsPlan": {
+                "q": "Planejar vs Preparar?",
+                "a": "Planejar é decidir. Preparar é cozinhar antecipadamente."
+            },
+            "themeNights": {
+                "q": "O que são Noites Temáticas?",
+                "a": "Temas fixos (Segunda sem carne, Terça do taco) para facilitar a decisão."
+            },
+            "handleLeftovers": {
+                "q": "Estratégias para sobras?",
+                "a": "Noite do 'Buffet' ou marmita para o almoço seguinte. Resignifique (Frango assado virando recheio)."
+            },
+            "backupMeals": {
+                "q": "E se estiver cansado demais?",
+                "a": "Tenha refeições de emergência (pizza congelada, ovos). Flexibilidade é chave."
+            },
+            "balancedPlan": {
+                "q": "Como garantir equilíbrio?",
+                "a": "Varie as proteínas e garanta vegetais em todo jantar."
+            },
+            "shoppingTips": {
+                "q": "Dicas de compras?",
+                "a": "Nunca vá com fome. Organize a lista por corredores."
+            },
+            "batchCooking": {
+                "q": "O que é cozinhar em lote?",
+                "a": "Fazer porções duplas ou triplas e congelar o extra."
+            },
+            "familyInvolvement": {
+                "q": "Como envolver a família?",
+                "a": "Peça sugestões. Compartilhe o menu. Deixe crianças ajudarem no preparo."
+            },
+            "fridgeFreezerLife": {
+                "q": "Validade de preparados?",
+                "a": "Geladeira: 3-4 dias. Freezer: 2-3 meses. Etiquete tudo!"
+            },
+            "convenienceItems": {
+                "q": "Vale usar vegetais pré-cortados?",
+                "a": "Com certeza. Se ajuda a cozinhar em casa, vale a pena."
+            },
+            "weightGainAfter40": {
+                "q": "Por que ganho peso após os 40?",
+                "a": "Mudanças hormonais e perda muscular (sarcopenia) reduzem o metabolismo."
+            },
+            "dietaryChanges40": {
+                "q": "Mudanças na dieta após os 40?",
+                "a": "Foque em nutrientes densos: frutas, vegetais, proteínas magras e gorduras boas. Menos açúcar e sódio."
+            },
+            "proteinNeeds40": {
+                "q": "Necessidade de proteína após 40?",
+                "a": "Aumente para 1.0–1.2g por kg de peso para manter músculos."
+            },
+            "boneHealth": {
+                "q": "Nutrientes para ossos?",
+                "a": "Cálcio e Vitamina D são críticos. Magnésio e exercícios de impacto também."
+            },
+            "metabolismBoost": {
+                "q": "Como acelerar metabolismo?",
+                "a": "Treino de força (músculos queimam mais), proteína suficiente e sono adequado."
+            },
+            "intermittentFasting": {
+                "q": "Jejum intermitente após 40?",
+                "a": "Pode ser bom, mas consulte médico. Mulheres devem ter cautela com hormônios."
+            },
+            "cognitiveFoods": {
+                "q": "Alimentos para o cérebro?",
+                "a": "Dieta MIND: folhas verdes, frutas vermelhas, nozes, peixes gordurosos."
+            },
+            "vitaminB12": {
+                "q": "Por que Vitamina B12?",
+                "a": "Absorção diminui com a idade. Deficiência causa fadiga. Considere suplementos."
+            },
+            "adultAllergies": {
+                "q": "Adultos desenvolvem alergias?",
+                "a": "Sim, é possível desenvolver alergias alimentares em qualquer idade."
+            },
+            "allergyVsIntolerance": {
+                "q": "Alergia vs Intolerância?",
+                "a": "Alergia é imune (pode ser fatal). Intolerância é digestiva (desconforto)."
+            },
+            "commonIntolerances": {
+                "q": "Intolerâncias comuns após 40?",
+                "a": "Lactose e Glúten tornam-se mais comuns devido à digestão mais lenta."
+            },
+            "heartHealth40": {
+                "q": "Saúde do coração após 40?",
+                "a": "Riscos aumentam. É hora crucial para adotar bons hábitos."
+            },
+            "protectHeart": {
+                "q": "Como proteger o coração?",
+                "a": "Dieta mediterrânea, exercício, gestão de estresse e check-ups."
+            },
+            "digestiveIssues40": {
+                "q": "Por que a digestão piora?",
+                "a": "Menos enzimas, menos ácido estomacal e mudanças hormonais."
+            },
+            "improveGutHealth": {
+                "q": "Melhorar saúde intestinal?",
+                "a": "Fibras diversas (30+ plantas/semana), fermentados e hidratação."
+            },
+            "supplements40": {
+                "q": "Preciso de suplementos?",
+                "a": "Dieta é melhor, mas Vitamina D, B12, Cálcio podem ajudar. Consulte médico."
+            },
+            "hydration40": {
+                "q": "Hidratação na idade?",
+                "a": "Sede diminui, risco de desidratação aumenta. Beba água regularmente."
+            },
+            "heartRiskFactors": {
+                "q": "Fatores de risco cardíaco?",
+                "a": "Pressão alta, colesterol, fumo, obesidade, diabetes, inatividade."
+            },
+            "agingHeart": {
+                "q": "Como o coração envelhece?",
+                "a": "Vasos endurecem, músculo pode espessar. Cardio ajuda elasticidade."
+            },
+            "heartWarningSigns": {
+                "q": "Sinais de alerta do coração?",
+                "a": "Dor no peito, falta de ar, fadiga inexplicável. Busque ajuda."
+            },
+            "commonDidgestiveProbs": {
+                "q": "Problemas digestivos comuns?",
+                "a": "Refluxo, inchaço, constipação."
+            },
+            "gutHealthSigns": {
+                "q": "Sinais de má saúde intestinal?",
+                "a": "Inchaço frequente, gases, azia, irregularidade."
+            },
+            "foodSensitivities40": {
+                "q": "Sensibilidades tardias?",
+                "a": "Sim, declínio enzimático pode causar novas sensibilidades."
+            },
+            "caloricNeeds40": {
+                "q": "Necessidade calórica muda?",
+                "a": "Sim, metabolismo desacelera. Precisa de menos calorias, mais qualidade."
+            },
+            "prioritizeFoods40": {
+                "q": "O que priorizar?",
+                "a": "Fibras, proteínas magras e anti-inflamatórios."
+            },
+            "managingSugar": {
+                "q": "Como gerenciar açúcar?",
+                "a": "Combine carboidratos com proteína/gordura. Caminhe após comer."
+            },
+            "oralAllergySyndrome": {
+                "q": "O que é Síndrome de Alergia Oral?",
+                "a": "Coceira na boca com frutas cruas devido à semelhança com pólen."
+            },
+            "suspectAllergy": {
+                "q": "Suspeita de alergia?",
+                "a": "Consulte um alergista. Não autodiagnostique."
+            },
+            "manageCravings": {
+                "q": "Lidar com desejos?",
+                "a": "Desejos podem ser estresse ou falta de sono/proteína."
+            }
+        }
+    },
+    "Blog": {
+        "title": "Blog Dish Shuffle",
+        "subtitle": "Descubra dicas de culinária, nutrição e inspiração de nossos especialistas.",
+        "readPost": "Ler Post",
+        "minRead": "min de leitura",
+        "relatedArticles": "Artigos Relacionados",
+        "sharePost": "Compartilhar:",
+        "categories": {
+            "all": "Todos os Posts",
+            "fundamentals": "Fundamentos da Culinária",
+            "nutrition": "Dieta e Nutrição",
+            "cuisine": "Exploração Culinária",
+            "tips": "Dicas e Tendências"
+        },
+        "readMore": "Ler Mais"
+    },
+    "NotFound": {
+        "title": "Receita Não Encontrada",
+        "description": "Ops! Parece que esse prato escapou.",
+        "suggestion": "Não se preocupe, temos muitas outras receitas deliciosas esperando por você!",
+        "goHome": "Ir para Início",
+        "browseRecipes": "Navegar Receitas",
+        "funTagline": "Até os melhores chefs perdem uma receita às vezes... 👨‍🍳"
+    }
+}

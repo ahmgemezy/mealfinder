@@ -1,0 +1,682 @@
+{
+    "Navigation": {
+        "home": "Startseite",
+        "recipes": "Rezepte",
+        "favorites": "Favoriten",
+        "blog": "Blog",
+        "surpriseMe": "Überrasch mich",
+        "signIn": "Anmelden",
+        "signOut": "Abmelden",
+        "myFavorites": "Meine Favoriten",
+        "pantry": "Smart Pantry"
+    },
+    "SmartPantry": {
+        "newFeatureTag": "Neue Funktion",
+        "heroTitle": "Kochen mit dem,",
+        "heroTitleHighlight": "was Sie haben.",
+        "heroSubtitle": "Verkaufen Sie keine Reste. Geben Sie unten Ihre Zutaten ein und wir finden leckere Rezepte, die Sie sofort kochen können.",
+        "inputPlaceholder": "Zutat eingeben (z.B. Eier, Reis)...",
+        "addIngredientHelp": "Fügen Sie mindestens eine Zutat hinzu, um zu beginnen!",
+        "findRecipesButton": "Rezepte Finden",
+        "resultsTitle": "Hier ist, was Sie kochen können:",
+        "matchesFound": "{count} Treffer gefunden",
+        "noResults": "Keine Rezepte gefunden 😔",
+        "noResultsDesc": "Versuchen Sie, weniger Zutaten zu kombinieren oder gängigere zu verwenden.",
+        "topCategory": "Top-Kategorie"
+    },
+    "Hero": {
+        "title": "Dish Shuffle",
+        "subtitle": "Entdecken Sie köstliche Gerichte aus aller Welt.",
+        "cta": "Loslegen",
+        "surprise": "Überrasch mich"
+    },
+    "CTA": {
+        "title": "Bereit zum Kochen?",
+        "subtitle": "Finden Sie heute Ihr neues Lieblingsgericht.",
+        "button": "Rezepte Durchstöbern"
+    },
+    "Recipe": {
+        "ingredients": "Zutaten",
+        "instructions": "Anleitung",
+        "youMightAlsoLike": "Das könnte Ihnen auch gefallen",
+        "loveThisRecipe": "Gefällt Ihnen dieses Rezept?",
+        "saveToFavorites": "Speichern Sie es in Ihren Favoriten, um es nie wieder zu verlieren!",
+        "viewFullRecipe": "Vollständiges Rezept ansehen",
+        "video": "Video-Tutorial",
+        "videoTutorial": "Video-Tutorial",
+        "shopIngredients": "Zutaten kaufen",
+        "shopIngredientsDesc": "Lassen Sie sich diese Artikel von Amazon Fresh liefern",
+        "category": "Kategorie",
+        "area": "Küche",
+        "tags": "Tags",
+        "share": "Rezept teilen",
+        "shareDescription": "Teilen Sie dieses Rezept mit Ihren Freunden",
+        "copyLink": "Link kopieren",
+        "copied": "Kopiert!",
+        "shareOnFacebook": "Auf Facebook teilen",
+        "shareOnTwitter": "Auf X teilen",
+        "shareOnWhatsApp": "Auf WhatsApp teilen",
+        "kitchenGear": "Empfohlene Küchenutensilien"
+    },
+    "Common": {
+        "loading": "Lädt...",
+        "error": "Etwas ist schief gelaufen",
+        "back": "Zurück"
+    },
+    "Home": {
+        "howItWorks": "Wie es funktioniert",
+        "featuredRecipes": "Vorgestellte Rezepte",
+        "viewAll": "Alle ansehen",
+        "features": {
+            "surprise": {
+                "title": "Lassen Sie sich überraschen",
+                "description": "Unentschlossen? Lassen Sie uns mit unserer Überraschungsfunktion ein zufälliges, leckeres Gericht für Sie auswählen."
+            },
+            "browse": {
+                "title": "Stöbern & Suchen",
+                "description": "Entdecken Sie tausende Rezepte nach Küche, Kategorie oder suchen Sie nach bestimmten Gerichten."
+            },
+            "favorites": {
+                "title": "Favoriten speichern",
+                "description": "Behalten Sie den Überblick über Ihre Lieblingsrezepte und erstellen Sie Ihr persönliches Kochbuch."
+            }
+        }
+    },
+    "Recipes": {
+        "title": "Rezepte Durchstöbern",
+        "subtitle": "Entdecken Sie tausende köstliche Rezepte aus der ganzen Welt",
+        "searchPlaceholder": "Nach einem Rezept suchen...",
+        "category": "Kategorie",
+        "cuisine": "Küche",
+        "allCategories": "Alle Kategorien",
+        "allCuisines": "Alle Küchen",
+        "activeFilters": "Aktive Filter:",
+        "searchPrefix": "Suche:",
+        "clearAll": "Alles löschen",
+        "resultsCount": "{count} Rezept{count, plural, =1 {} other {e}} gefunden",
+        "latestRecipes": "Neueste Rezepte",
+        "showingRange": "Zeige {start}-{end} von {total}",
+        "foundRecipes": "{count} Rezept{count, plural, =1 {} other {e}} gefunden",
+        "noRecipes": "Keine Rezepte gefunden",
+        "noRecipesDesc": "Versuchen Sie, Ihre Suche oder Filter anzupassen",
+        "clearFilters": "Filter löschen",
+        "loadingMore": "Lade weitere Rezepte...",
+        "searching": "Suche...",
+        "preparingRecipes": "Bereite köstliche Rezepte für Sie vor...",
+        "justAMoment": "Das dauert nur einen Moment",
+        "recipeNotFound": "Rezept nicht gefunden",
+        "ingredients": "Zutaten",
+        "instructions": "Anleitung",
+        "noInstructionsAvailable": "Für dieses Rezept ist keine Anleitung verfügbar.",
+        "viewOriginalRecipe": "Originalrezept ansehen",
+        "videoTutorial": "Video-Tutorial",
+        "youMightAlsoLike": "Das könnte Ihnen auch gefallen",
+        "previousPage": "Vorherige Seite",
+        "nextPage": "Nächste Seite"
+    },
+    "Favorites": {
+        "title": "Ihre Favoriten",
+        "empty": "Sie haben noch keine Rezepte gespeichert.",
+        "count": "Sie haben {count} Rezept{count, plural, =1 {} other {e}} gespeichert.",
+        "emptyTitle": "Beginnen Sie Ihr Kochbuch",
+        "emptyDesc": "Speichern Sie Ihre Lieblingsrezepte hier, um sie später leicht wiederzufinden. Stöbern Sie in unserer Sammlung, um zu beginnen!",
+        "browseRecipes": "Rezepte Durchstöbern"
+    },
+    "Auth": {
+        "welcomeBack": "Willkommen zurück",
+        "signInSubtitle": "Melden Sie sich an, um auf Ihre Favoriten zuzugreifen",
+        "signInGoogle": "Mit Google anmelden",
+        "orContinueWith": "Oder weiter mit",
+        "emailAddress": "E-Mail-Adresse",
+        "password": "Passwort",
+        "rememberMe": "Angemeldet bleiben",
+        "forgotPassword": "Passwort vergessen?",
+        "signIn": "Anmelden",
+        "noAccount": "Kein Konto?",
+        "signUp": "Registrieren",
+        "createAccount": "Konto erstellen",
+        "signUpSubtitle": "Treten Sie bei, um Ihre Lieblingsrezepte zu speichern und mehr",
+        "signUpGoogle": "Mit Google registrieren",
+        "fullName": "Vollständiger Name",
+        "alreadyHaveAccount": "Bereits ein Konto?"
+    },
+    "Footer": {
+        "quickLinks": "Rechtliches",
+        "home": "Startseite",
+        "surpriseMe": "Überrasch mich",
+        "browseRecipes": "Rezepte",
+        "favorites": "Favoriten",
+        "blog": "Blog",
+        "faq": "FAQ",
+        "legal": "Rechtliches",
+        "privacyPolicy": "Datenschutzerklärung",
+        "cookiePolicy": "Cookie-Richtlinie",
+        "termsOfService": "Nutzungsbedingungen",
+        "rightsReserved": "Alle Rechte vorbehalten.",
+        "providedBy": "Rezeptdaten bereitgestellt von",
+        "about": "Über Uns",
+        "contact": "Kontakt"
+    },
+    "SurpriseMe": {
+        "title": "Überrasch mich!",
+        "metaTitle": "Überrasch mich - Zufallsrezept-Generator | Dish Shuffle",
+        "metaDescription": "Unentschlossen? Lassen Sie Dish Shuffle ein zufälliges leckeres Rezept für Sie auswählen. Filtern Sie nach Kategorie oder Küche.",
+        "subtitle": "Können Sie sich nicht entscheiden? Lassen Sie uns ein köstliches Gericht für Sie auswählen!",
+        "filterTitle": "Filtern Sie Ihre Überraschung",
+        "categoryLabel": "Kategorie",
+        "cuisineLabel": "Küche",
+        "anyCategory": "Jede Kategorie",
+        "anyCuisine": "Jede Küche",
+        "activeFilters": "Aktive Filter:",
+        "clearAll": "Alles löschen",
+        "generateButton": "Gericht Generieren",
+        "tryAnotherButton": "Ein anderes versuchen!",
+        "failedToFetch": "Fehler beim Laden des Gerichts",
+        "noRecipeFound": "Kein Rezept mit Ihren Filtern gefunden",
+        "error": "Etwas ist schief gelaufen",
+        "emptyStateText": "Klicken Sie oben auf den Button, um Ihr nächstes Gericht zu entdecken!",
+        "findingRecipe": "Suche nach einem leckeren Rezept...",
+        "keyIngredients": "Hauptzutaten",
+        "recipePreview": "Rezeptvorschau",
+        "clickToView": "Klicken Sie auf 'Vollständiges Rezept ansehen' für die komplette Anleitung und alle Zutaten",
+        "failedToLoad": "Rezept konnte nicht geladen werden. Bitte versuchen Sie es erneut.",
+        "close": "Schließen",
+        "viewFullRecipe": "Vollständiges Rezept ansehen",
+        "getAnotherMeal": "Anderes Gericht",
+        "moreIngredients": "+{count} weitere"
+    },
+    "FAQ": {
+        "title": "Häufig gestellte Fragen",
+        "subtitle": "Finden Sie Antworten auf häufige Fragen zum Kochen, Rezepten und zur Nutzung von Dish Shuffle",
+        "categories": {
+            "cooking": "Kochgrundlagen",
+            "safety": "Lebensmittelsicherheit & Lagerung",
+            "substitutions": "Zutaten-Austausch",
+            "planning": "Mahlzeitenplanung",
+            "platform": "Nutzung von Dish Shuffle",
+            "health": "Gesundheit & Ernährung ab 40"
+        },
+        "questions": {
+            "howToBoilEgg": {
+                "q": "Wie koche ich ein Ei perfekt?",
+                "a": "Eier in einen Topf geben und mit kaltem Wasser bedecken. Zum Kochen bringen, Hitze ausschalten und abdecken. 10-12 Minuten für hartgekocht, 6-7 Minuten für wachsweich. Sofort in Eiswasser legen, um den Garprozess zu stoppen."
+            },
+            "howToCookPasta": {
+                "q": "Wie koche ich Nudeln al dente?",
+                "a": "Verwenden Sie einen großen Topf mit viel gesalzenem kochendem Wasser. Kochen Sie die Nudeln 1-2 Minuten weniger als auf der Packung angegeben. Probieren Sie für den richtigen Biss. Behalten Sie 1 Tasse Nudelwasser zurück, bevor Sie abgießen, um Soßen zu binden."
+            },
+            "howToCookRice": {
+                "q": "Wie koche ich lockeren Reis?",
+                "a": "Reis waschen, bis das Wasser klar ist. Verhältnis 2:1 (Wasser:Reis). Zum Kochen bringen, Hitze reduzieren, abdecken und 18-20 Minuten köcheln lassen, ohne den Deckel zu heben. Vom Herd nehmen, 5 Minuten ruhen lassen, dann mit einer Gabel auflockern."
+            },
+            "howToCookSteak": {
+                "q": "Wie brate ich das perfekte Steak?",
+                "a": "Fleisch trocken tupfen und 30-40 Minuten vor dem Braten großzügig salzen und pfeffern. Pfanne sehr heiß werden lassen. 3-4 Minuten pro Seite für medium-rare braten. Vor dem Aufschneiden 5-10 Minuten ruhen lassen."
+            },
+            "bakingPowderVsSoda": {
+                "q": "Unterschied zwischen Backpulver und Natron?",
+                "a": "Natron benötigt Säure (wie Zitrone oder Buttermilch), um zu reagieren. Backpulver enthält bereits Säure und funktioniert allein. Sie sind nicht austauschbar."
+            },
+            "essentialTools": {
+                "q": "Welche Küchenutensilien brauche ich für den Anfang?",
+                "a": "Ein Kochmesser, Schneidebrett, Messbecher/-löffel, großer Topf, Pfanne und Backblech reichen für die meisten Rezepte."
+            },
+            "readRecipe": {
+                "q": "Wie wichtig ist das Rezeptlesen vorher?",
+                "a": "Sehr wichtig! Lesen Sie es zweimal, um Schritte und Zeitplanung zu verstehen und sicherzustellen, dass alle Zutaten da sind."
+            },
+            "miseEnPlace": {
+                "q": "Was ist 'Mise en Place'?",
+                "a": "Es bedeutet 'alles an seinem Platz'. Vorbereiten, Schneiden und Abmessen aller Zutaten vor dem Kochen. Macht das Kochen stressfreier."
+            },
+            "pantryStaples": {
+                "q": "Was sollte ich im Vorrat haben?",
+                "a": "Öle, Essig, Gewürze, Salz, Pfeffer, Mehl, Zucker, Reis, Nudeln, Dosentomaten und Bohnen."
+            },
+            "seasoningTips": {
+                "q": "Wie würze ich richtig?",
+                "a": "Würzen Sie schichtweise während des Kochens, nicht nur am Ende. Probieren Sie ständig. Salz hebt den Geschmack, Säure (Zitrone) belebt fade Gerichte."
+            },
+            "preventSticking": {
+                "q": "Wie verhindere ich Anhaften in der Pfanne?",
+                "a": "Pfanne vor dem Öl erhitzen, dann Öl heiß werden lassen. Pfanne nicht überfüllen."
+            },
+            "checkMeatDoneness": {
+                "q": "Wann ist Fleisch gar?",
+                "a": "Sicher nur mit Fleischthermometer. Farbe täuscht. Geflügel 74°C, Schwein/Steaks 63°C, Hackfleisch 71°C."
+            },
+            "saltPastaWater": {
+                "q": "Warum Nudelwasser salzen?",
+                "a": "Einzige Chance, die Nudel selbst zu würzen. Sollte wie Meerwasser schmecken. Nudeln nie abspülen (außer für Salat)."
+            },
+            "tenderizeMeat": {
+                "q": "Wie mache ich Fleisch zart?",
+                "a": "Marinade mit Säure, Klopfen oder langes Schmoren."
+            },
+            "bakingMeasure": {
+                "q": "Wie Mehl messen?",
+                "a": "Auflockern, in den Becher löffeln und abstreifen. Nicht direkt schöpfen, sonst wird der Teig zu fest."
+            },
+            "cookingMistakes": {
+                "q": "Häufiger Anfängerfehler?",
+                "a": "Pfanne überfüllen – das dämpft das Essen statt es zu braten. Lieber portionsweise braten."
+            },
+            "tastingFood": {
+                "q": "Warum Probieren wichtig ist?",
+                "a": "Zutaten variieren. Probieren hilft, Balance zu finden (Salz, Säure, Süße) vor dem Servieren."
+            },
+            "knifeSkills": {
+                "q": "Messerfertigkeiten verbessern?",
+                "a": "Messer scharf halten. 'Krallengriff' zum Schutz der Finger nutzen. Langsam anfangen."
+            },
+            "restingSteak": {
+                "q": "Warum Steak ruhen lassen?",
+                "a": "Damit sich Säfte verteilen. Sofortiges Schneiden lässt Fleisch austrocknen."
+            },
+            "boilingVsSimmering": {
+                "q": "Kochen vs Köcheln?",
+                "a": "Kochen = große Blasen (100°C) für Nudeln. Köcheln = kleine Blasen (85-95°C) für Suppen."
+            },
+            "shouldWashChicken": {
+                "q": "Huhn waschen?",
+                "a": "Nie. Verteilt Bakterien in der Küche. Hitze tötet Bakterien."
+            },
+            "howLongFoodLeftOut": {
+                "q": "Wie lange darf Essen draußen stehen?",
+                "a": "Maximal 2 Stunden (1 Stunde bei >30°C). Bakterien vermehren sich schnell."
+            },
+            "frozenVsFresh": {
+                "q": "Tiefkühlgemüse gesund?",
+                "a": "Ja, oft nährstoffreicher als altes frisches Gemüse, da reif eingefroren."
+            },
+            "cheeseGoneBad": {
+                "q": "Wann ist Käse schlecht?",
+                "a": "Hartkäse: Schimmel abschneiden. Weichkäse: Wegwerfen bei Schimmel."
+            },
+            "restMeatAfterCooking": {
+                "q": "Warum Fleisch ruhen lassen?",
+                "a": "Saftverteilung. Verhindert Auslaufen auf dem Teller."
+            },
+            "handwashing": {
+                "q": "Händewaschen?",
+                "a": "20 Sek. warmes Seifenwasser, besonders nach rohem Fleisch."
+            },
+            "crossContamination": {
+                "q": "Kreuzkontamination?",
+                "a": "Bakterienübertragung von roh auf gekocht. Getrennte Bretter nutzen."
+            },
+            "dangerZone": {
+                "q": "Gefahrenzone?",
+                "a": "4-60°C. Bakterien wachsen hier am schnellsten."
+            },
+            "fridgeTemp": {
+                "q": "Kühlschranktemperatur?",
+                "a": "Unter 4°C, Gefrierfach -18°C."
+            },
+            "thawingFood": {
+                "q": "Sicheres Auftauen?",
+                "a": "Im Kühlschrank (am besten), kaltes Wasser oder Mikrowelle. Nie bei Raumtemperatur."
+            },
+            "leftoverSafety": {
+                "q": "Haltbarkeit von Resten?",
+                "a": "3-4 Tage im Kühlschrank. Gut durcherhitzen."
+            },
+            "washingMeat": {
+                "q": "Fleisch waschen?",
+                "a": "NEIN. Verbreitet Bakterien."
+            },
+            "refreezing": {
+                "q": "Wieder einfrieren?",
+                "a": "Ja, wenn im Kühlschrank aufgetaut. Qualität leidet aber."
+            },
+            "safeTemps": {
+                "q": "Kerntemperaturen?",
+                "a": "Geflügel 74°C, Hack 71°C, Steak 63°C, Fisch 63°C."
+            },
+            "produceTech": {
+                "q": "Obst/Gemüse waschen?",
+                "a": "Unter fließendem Wasser vor Verzehr. Harte Schalen bürsten."
+            },
+            "useByVsBestBy": {
+                "q": "Verbrauchsdatum vs Mindesthaltbarkeit?",
+                "a": "Verbrauchsdatum = Sicherheit (Wegwerfen). MHD = Qualität."
+            },
+            "fridgeStorage": {
+                "q": "Fleischlagerung?",
+                "a": "Unterstes Fach, gut verpackt, um Tropfen zu verhindern."
+            },
+            "coolingFood": {
+                "q": "Abkühlen?",
+                "a": "Innerhalb von 2 Stunden in den Kühlschrank."
+            },
+            "kitchenHygiene": {
+                "q": "Schwämme?",
+                "a": "Täglich desinfizieren, oft wechseln. Bakterienherd Nr. 1."
+            },
+            "visualCues": {
+                "q": "Fleischfarbe verlässlich?",
+                "a": "Nein. Thermometer nutzen."
+            },
+            "butterSaltedOrUnsalted": {
+                "q": "Butter: gesalzen oder ungesalzen?",
+                "a": "Ungesalzen zum Backen für volle Kontrolle."
+            },
+            "freshVsDriedHerbs": {
+                "q": "Frische vs getrocknete Kräuter?",
+                "a": "1/3 Menge bei getrockneten (konzentrierter)."
+            },
+            "oliveOilForBaking": {
+                "q": "Olivenöl zum Backen?",
+                "a": "Ja, aber hat Eigengeschmack. Eher für Herzhaftes."
+            },
+            "wholeWheatFlour": {
+                "q": "Vollkornmehl statt Weißmehl?",
+                "a": "Macht Teig dichter. Bis zu 50% ersetzbar in Cookies/Muffins."
+            },
+            "eggSubstitutes": {
+                "q": "Eierersatz?",
+                "a": "Apfelmus, Banane oder Leinsamen-Ei."
+            },
+            "substitutionRules": {
+                "q": "Austausch-Regel?",
+                "a": "Feuchtigkeit, Süße und Struktur beachten. Max 1-2 Änderungen."
+            },
+            "buttermilkSub": {
+                "q": "Buttermilch-Ersatz?",
+                "a": "1 EL Zitrone/Essig auf 1 Tasse Milch, 5 Min stehen lassen."
+            },
+            "butterVsOil": {
+                "q": "Butter statt Öl?",
+                "a": "Öl = saftiger, Butter = Geschmack/Luftigkeit."
+            },
+            "glutenFreeFlour": {
+                "q": "Glutenfreies Mehl?",
+                "a": "Nur 1:1 Mischungen funktionieren gut."
+            },
+            "sugarTypes": {
+                "q": "Brauner Zucker?",
+                "a": "Austauschbar 1:1, macht Gebäck feuchter."
+            },
+            "honeyVsSugar": {
+                "q": "Honig statt Zucker?",
+                "a": "3/4 Tasse Honig für 1 Tasse Zucker. Flüssigkeit reduzieren."
+            },
+            "breadcrumbsSub": {
+                "q": "Kein Paniermehl?",
+                "a": "Zerbröselte Cracker, Cornflakes oder Haferflocken nutzen."
+            },
+            "cornstarchSub": {
+                "q": "Speisestärke-Ersatz?",
+                "a": "Mehl (doppelte Menge) oder Kartoffelstärke."
+            },
+            "brothSub": {
+                "q": "Keine Brühe?",
+                "a": "Brühwürfel, Wasser mit Gewürzen oder Wein."
+            },
+            "freshVsDried": {
+                "q": "Verhältnis Kräuter?",
+                "a": "1 TL getrocknet = 1 EL frisch."
+            },
+            "dairyFreeMilk": {
+                "q": "Milchalternative zum Backen?",
+                "a": "Soja oder Hafer sind am besten. Kokos für Fettgehalt."
+            },
+            "cheeseSub": {
+                "q": "Käse ersetzen?",
+                "a": "Ähnliche Textur suchen. Gouda ↔ Cheddar."
+            },
+            "bakingChocolate": {
+                "q": "Keine Schokolade?",
+                "a": "Kakao + Fett mischen."
+            },
+            "lemonJuice": {
+                "q": "Zitronensaft-Ersatz?",
+                "a": "Essig (für Säure) oder anderer Zitrussaft."
+            },
+            "yogurtSourCream": {
+                "q": "Joghurt statt Saurer Sahne?",
+                "a": "Griechischer Joghurt ist perfekt."
+            },
+            "whatIsMealPlanning": {
+                "q": "Was ist Essensplanung?",
+                "a": "Im Voraus entscheiden, einkaufen und vorbereiten."
+            },
+            "howOftenMealPlan": {
+                "q": "Wie oft planen?",
+                "a": "Wöchentlich ist ideal."
+            },
+            "mealPlanSaveMoney": {
+                "q": "Spart das Geld?",
+                "a": "Ja, weniger Spontankäufe und Müll."
+            },
+            "mealPrepStorage": {
+                "q": "Haltbarkeit Prep?",
+                "a": "3-4 Tage kühl, Monate gefroren."
+            },
+            "portionSizes": {
+                "q": "Portionsgrößen?",
+                "a": "1/2 Gemüse, 1/4 Protein, 1/4 Kohlenhydrate."
+            },
+            "howToSaveRecipes": {
+                "q": "Rezepte speichern?",
+                "a": "Herz-Symbol klicken (eingeloggt)."
+            },
+            "howToSearchRecipes": {
+                "q": "Suchen?",
+                "a": "Suchleiste oder Filter nutzen."
+            },
+            "surpriseMeFeature": {
+                "q": "Überrasch mich?",
+                "a": "Zufallsrezept für Unentschlossene."
+            },
+            "recipesFromWhere": {
+                "q": "Rezeptquellen?",
+                "a": "TheMealDB und Spoonacular."
+            },
+            "canIShareRecipes": {
+                "q": "Teilen?",
+                "a": "Ja, über Teilen-Button."
+            },
+            "startMealPlanning": {
+                "q": "Wie anfangen?",
+                "a": "Klein starten, 3-4 Abendessen planen."
+            },
+            "benefitsMealPlan": {
+                "q": "Vorteile?",
+                "a": "Geld, Zeit, weniger Stress, gesünder."
+            },
+            "planningSchedule": {
+                "q": "Wann planen?",
+                "a": "Fixen Tag (z.B. Sonntag) wählen."
+            },
+            "pickyEaters": {
+                "q": "Wählerische Esser?",
+                "a": "Einbinden! Baukasten-Gerichte (Tacos) nutzen."
+            },
+            "saveMoneyGroceries": {
+                "q": "Sparen beim Einkauf?",
+                "a": "Vorrat checken, Liste schreiben, satt einkaufen."
+            },
+            "mealPrepVsPlan": {
+                "q": "Planen vs Preppen?",
+                "a": "Entscheiden vs Vorkochen."
+            },
+            "themeNights": {
+                "q": "Themenabende?",
+                "a": "Taco-Dienstag, Pasta-Donnerstag – vereinfacht Entscheidung."
+            },
+            "handleLeftovers": {
+                "q": "Reste verwerten?",
+                "a": "Reste-Buffet oder Mittagessen am nächsten Tag."
+            },
+            "backupMeals": {
+                "q": "Notfallgerichte?",
+                "a": "Pizza im TK oder Nudeln für stressige Tage."
+            },
+            "balancedPlan": {
+                "q": "Ausgewogenheit?",
+                "a": "Proteine rotieren, immer Gemüse dazu."
+            },
+            "shoppingTips": {
+                "q": "Einkaufstipps?",
+                "a": "Nie hungrig gehen. Liste nach Gang sortieren."
+            },
+            "batchCooking": {
+                "q": "Vorkochen?",
+                "a": "Doppelte Menge kochen, Hälfte einfrieren."
+            },
+            "familyInvolvement": {
+                "q": "Familie einbinden?",
+                "a": "Wünsche abfragen, Kinder helfen lassen."
+            },
+            "fridgeFreezerLife": {
+                "q": "Haltbarkeit?",
+                "a": "Kühlschrank Tage, TK Monate. Beschriften!"
+            },
+            "convenienceItems": {
+                "q": "Fertiges Gemüse?",
+                "a": "Ja, wenn es hilft, selbst zu kochen."
+            },
+            "weightGainAfter40": {
+                "q": "Gewichtszunahme ab 40?",
+                "a": "Hormone und Muskelabbau senken Grundumsatz."
+            },
+            "dietaryChanges40": {
+                "q": "Ernährung ab 40?",
+                "a": "Nährstoffdichte erhöhen, Zucker/Salz reduzieren."
+            },
+            "proteinNeeds40": {
+                "q": "Proteinbedarf?",
+                "a": "Erhöht auf 1.0-1.2g/kg für Muskelerhalt."
+            },
+            "boneHealth": {
+                "q": "Knochengesundheit?",
+                "a": "Calcium, Vitamin D, Magnesium und Krafttraining."
+            },
+            "metabolismBoost": {
+                "q": "Stoffwechsel ankurbeln?",
+                "a": "Muskelaufbau, Protein, Schlaf."
+            },
+            "intermittentFasting": {
+                "q": "Intervallfasten?",
+                "a": "Möglich, aber ärztlich abklären (Hormone)."
+            },
+            "cognitiveFoods": {
+                "q": "Gehirnnahrung?",
+                "a": "Beeren, Nüsse, Fisch, Grünzeug."
+            },
+            "vitaminB12": {
+                "q": "Vitamin B12?",
+                "a": "Absorptionsfähigkeit sinkt. Spiegel prüfen."
+            },
+            "adultAllergies": {
+                "q": "Späte Allergien?",
+                "a": "Ja, können jederzeit auftreten."
+            },
+            "allergyVsIntolerance": {
+                "q": "Alergie vs Intoleranz?",
+                "a": "Immunsystem vs Verdauung."
+            },
+            "commonIntolerances": {
+                "q": "Häufige Intoleranzen?",
+                "a": "Laktose, Gluten."
+            },
+            "heartHealth40": {
+                "q": "Herzgesundheit?",
+                "a": "Risiken steigen. Prävention ist key."
+            },
+            "protectHeart": {
+                "q": "Herzschutz?",
+                "a": "Bewegung, mediterrane Kost, Stressmanagement."
+            },
+            "digestiveIssues40": {
+                "q": "Verdauungsprobleme?",
+                "a": "Verlangsamung, weniger Säure."
+            },
+            "improveGutHealth": {
+                "q": "Darmgesundheit?",
+                "a": "Ballaststoffe, Fermentiertes."
+            },
+            "supplements40": {
+                "q": "Nahrungsergänzung?",
+                "a": "Bei Bedarf Vit D, B12. Arzt fragen."
+            },
+            "hydration40": {
+                "q": "Trinken?",
+                "a": "Durstgefühl lässt nach. Regelmäßig trinken!"
+            },
+            "heartRiskFactors": {
+                "q": "Herzrisiken?",
+                "a": "Blutdruck, Cholesterin, Diabetes, Rauchen."
+            },
+            "agingHeart": {
+                "q": "Herzalterung?",
+                "a": "Gefäße werden steifer."
+            },
+            "heartWarningSigns": {
+                "q": "Warnsignale?",
+                "a": "Brustschmerz, Atemnot. Arzt rufen."
+            },
+            "commonDidgestiveProbs": {
+                "q": "Verdauungsbeschwerden?",
+                "a": "Sodbrennen, Blähungen."
+            },
+            "gutHealthSigns": {
+                "q": "Schlechter Darm?",
+                "a": "Unregelmäßigkeit, Unverträglichkeiten."
+            },
+            "foodSensitivities40": {
+                "q": "Neue Sensibilitäten?",
+                "a": "Ja, durch Enzymmangel."
+            },
+            "caloricNeeds40": {
+                "q": "Kalorienbedarf?",
+                "a": "Sinkt. Qualität vor Quantität."
+            },
+            "prioritizeFoods40": {
+                "q": "Top-Lebensmittel?",
+                "a": "Faserreiches, Omega-3."
+            },
+            "managingSugar": {
+                "q": "Blutzucker?",
+                "a": "Komplexe Kohlenhydrate, Spazieren nach Essen."
+            },
+            "oralAllergySyndrome": {
+                "q": "Kreuzallergie?",
+                "a": "Jucken bei rohem Obst (Pollenähnlichkeit)."
+            },
+            "suspectAllergy": {
+                "q": "Allergieverdacht?",
+                "a": "Testen lassen. Nicht raten."
+            },
+            "manageCravings": {
+                "q": "Heißhunger?",
+                "a": "Oft Stress oder Proteinmangel."
+            }
+        }
+    },
+    "Blog": {
+        "title": "Dish Shuffle Blog",
+        "subtitle": "Entdecken Sie Kochtipps, Ernährungshinweise und kulinarische Inspiration von unseren Experten.",
+        "readPost": "Beitrag lesen",
+        "minRead": "Min. Lesezeit",
+        "relatedArticles": "Ähnliche Artikel",
+        "sharePost": "Teilen:",
+        "categories": {
+            "all": "Alle Beiträge",
+            "fundamentals": "Grundlagen des Kochens",
+            "nutrition": "Ernährung & Diät",
+            "cuisine": "Kulinarische Entdeckungen",
+            "tips": "Tipps & Trends"
+        },
+        "readMore": "Mehr lesen"
+    },
+    "NotFound": {
+        "title": "Rezept nicht gefunden",
+        "description": "Hoppla! Dieses Gericht ist uns entwischt.",
+        "suggestion": "Keine Sorge, viele weitere leckere Rezepte warten auf Sie!",
+        "goHome": "Zur Startseite",
+        "browseRecipes": "Rezepte Stöbern",
+        "funTagline": "Sogar die besten Köche verlieren mal ein Rezept... 👨‍🍳"
+    }
+}

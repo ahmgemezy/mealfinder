@@ -387,6 +387,7 @@ export default async function RecipePage({ params }: RecipePageProps) {
                 {/* Title */}
                 <h1
                   className="font-display text-4xl md:text-6xl lg:text-7xl font-bold text-white leading-tight drop-shadow-lg"
+                  lang="en"
                 >
                   {recipe.name}
                 </h1>
@@ -423,7 +424,7 @@ export default async function RecipePage({ params }: RecipePageProps) {
               <div className="lg:col-span-2 space-y-8">
                 {/* Ingredients */}
                 <section>
-                  <h2 className="font-display text-3xl font-bold mb-6">
+                  <h2 className="font-display text-3xl font-bold mb-6 notranslate text-start">
                     {t("ingredients")}
                   </h2>
                   <div className="bg-card rounded-3xl p-4 md:p-8 shadow-soft border border-border/50">
@@ -434,6 +435,7 @@ export default async function RecipePage({ params }: RecipePageProps) {
                         <li
                           key={index}
                           className="flex items-center gap-2 md:gap-3 p-2 md:p-3 rounded-xl hover:bg-muted/50 transition-colors group"
+                          lang="en"
                         >
                           <IngredientIcon
                             ingredientName={ingredient.name}
@@ -461,7 +463,7 @@ export default async function RecipePage({ params }: RecipePageProps) {
 
                 {/* Instructions */}
                 <section>
-                  <h2 className="font-display text-3xl font-bold mb-6">
+                  <h2 className="font-display text-3xl font-bold mb-6 notranslate text-start">
                     {t("instructions")}
                   </h2>
                   <div className="bg-card rounded-2xl p-8 shadow-soft">
@@ -563,6 +565,7 @@ export default async function RecipePage({ params }: RecipePageProps) {
                             <div
                               key={index}
                               className="flex gap-6 group relative"
+                              lang="en"
                             >
                               {/* Decorative dot indicator */}
                               <div className="relative shrink-0 mt-1">
@@ -612,7 +615,7 @@ export default async function RecipePage({ params }: RecipePageProps) {
         {relatedRecipes.length > 0 && (
           <section className="bg-muted py-16">
             <div className="container mx-auto px-4">
-              <h2 className="font-display text-3xl font-bold mb-8">
+              <h2 className="font-display text-3xl font-bold mb-8 notranslate text-start">
                 {t("youMightAlsoLike")}
               </h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">

@@ -28,6 +28,7 @@ import {
   validateArea,
   sanitizeInput,
 } from "@/lib/utils/validation";
+import { translateIngredientsToEnglish, translateToEnglish } from "@/lib/services/translation";
 
 // Get API provider from environment variable
 const getProvider = (): "mealdb" | "spoonacular" | "hybrid" => {
@@ -184,6 +185,13 @@ export async function searchMeals(query: string): Promise<Recipe[]> {
     return [];
   }
 
+  // Translate query to English if needed (e.g. Arabic input -> English search)
+  const translatedQuery = await translateToEnglish(sanitizedQuery);
+  if (translatedQuery !== sanitizedQuery) {
+    devLog.log(`Searching for translated query: "${translatedQuery}" (Original: "${sanitizedQuery}")`);
+  }
+  const effectiveQuery = translatedQuery;
+
   const provider = getProvider();
 
   try {
@@ -194,7 +202,7 @@ export async function searchMeals(query: string): Promise<Recipe[]> {
     // 1. Database (Supabase) - Always check first
     if (provider === "hybrid" || provider === "mealdb") {
       try {
-        const dbRecipes = await mealdb.searchRecipesInSupabase(sanitizedQuery);
+        const dbRecipes = await mealdb.searchRecipesInSupabase(effectiveQuery);
         dbRecipes.forEach((r) => {
           if (!seenIds.has(r.id)) {
             results.push(r);
@@ -208,7 +216,7 @@ export async function searchMeals(query: string): Promise<Recipe[]> {
     }
 
     if (provider === "spoonacular") {
-      const spoonResult = await spoonacular.searchRecipes(sanitizedQuery);
+      const spoonResult = await spoonacular.searchRecipes(effectiveQuery);
       spoonResult.recipes.forEach((r) => {
         if (!seenIds.has(r.id)) {
           results.push(r);
@@ -219,8 +227,8 @@ export async function searchMeals(query: string): Promise<Recipe[]> {
     } else if (provider === "hybrid") {
       // In hybrid mode, combine results from both APIs
       const [mealdbResults, spoonacularResults] = await Promise.allSettled([
-        mealdb.searchMeals(sanitizedQuery),
-        spoonacular.searchRecipes(sanitizedQuery),
+        mealdb.searchMeals(effectiveQuery),
+        spoonacular.searchRecipes(effectiveQuery),
       ]);
 
       if (mealdbResults.status === "fulfilled") {
@@ -244,7 +252,7 @@ export async function searchMeals(query: string): Promise<Recipe[]> {
       }
     } else {
       // MealDB only
-      const mealdbRecipes = await mealdb.searchMeals(sanitizedQuery);
+      const mealdbRecipes = await mealdb.searchMeals(effectiveQuery);
       mealdbRecipes.forEach((r) => {
         if (!seenIds.has(r.id)) {
           results.push(r);
@@ -817,6 +825,16 @@ export async function getAreas(): Promise<string[]> {
 export async function searchByIngredients(ingredients: string[]): Promise<Recipe[]> {
   const provider = getProvider();
 
+  // Translate ingredients to English to support multilingual search
+  // This allows users to search in Arabic/German/etc but find recipes (which are in English)
+  const translatedIngredients = await translateIngredientsToEnglish(ingredients);
+  if (translatedIngredients.length > 0 && translatedIngredients[0] !== ingredients[0]) {
+    devLog.log(`Searching for translated ingredients: [${translatedIngredients.join(", ")}] (Original: [${ingredients.join(", ")}])`);
+  }
+
+  // Use the translated ingredients for the search logic
+  const searchIngredients = translatedIngredients;
+
   // Smart Pantry logic:
   // Spoonacular is much better at this ("findByIngredients" endpoint).
   // MealDB only supports filtering by ONE main ingredient ("filter.php?i=chicken_breast").
@@ -832,7 +850,7 @@ export async function searchByIngredients(ingredients: string[]): Promise<Recipe
         // This avoids API quota usage for cached recipes
         const { data: dbRecipes, error } = await supabase.rpc(
           'find_recipes_by_ingredients',
-          { search_ingredients: ingredients }
+          { search_ingredients: searchIngredients }
         );
 
         if (!error && dbRecipes && dbRecipes.length > 0) {
@@ -847,7 +865,7 @@ export async function searchByIngredients(ingredients: string[]): Promise<Recipe
           const mappedDbRecipes = (dbRecipes as any[]).map(row => row.data as Recipe);
           results.push(...mappedDbRecipes);
 
-          devLog.log(`Found ${mappedDbRecipes.length} cached recipes for ingredients: ${ingredients.join(", ")}`);
+          devLog.log(`Found ${mappedDbRecipes.length} cached recipes for ingredients: ${searchIngredients.join(", ")}`);
         } else if (error) {
           console.warn("Supabase find_recipes_by_ingredients error:", error);
         }
@@ -859,7 +877,7 @@ export async function searchByIngredients(ingredients: string[]): Promise<Recipe
       // If we have less than 5 results, we should probably fetch more.
       if ((provider === "spoonacular" || provider === "hybrid") && results.length < 5) {
         // devLog.log(`Insufficient DB results ${results.length}, fetching from Spoonacular...`);
-        const spoonRecipes = await spoonacular.findByIngredients(ingredients);
+        const spoonRecipes = await spoonacular.findByIngredients(searchIngredients);
 
         // Combine and Deduplicate
         const seenIds = new Set(results.map(r => r.id));
@@ -873,8 +891,8 @@ export async function searchByIngredients(ingredients: string[]): Promise<Recipe
 
       // MealDB Fallback if results are still empty and we are allowed to use it
       if (results.length === 0 && (provider === "mealdb" || provider === "hybrid")) {
-        if (ingredients.length > 0) {
-          const firstIngredient = ingredients[0];
+        if (searchIngredients.length > 0) {
+          const firstIngredient = searchIngredients[0];
           const mealdbData = await mealdb.filterByIngredient(firstIngredient);
           results.push(...mealdbData);
         }

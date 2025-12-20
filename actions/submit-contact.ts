@@ -43,24 +43,23 @@ export async function submitContactForm(formData: FormData) {
         const sheet = doc.sheetsByIndex[0];
 
         // 4. Check/Set Headers
-        try {
-            await sheet.loadHeaderRow();
-        } catch (e) {
-            // If checking headers fails, it likely means the sheet is empty or has no headers
-            // So we initialize them
-            console.log("Sheet appears empty, initializing headers...");
-            const headers = ['Timestamp', 'Name', 'Email', 'Subject', 'Message'];
-            await sheet.setHeaderRow(headers);
+        // 4. Check Headers (Check A1)
+        await sheet.loadCells('A1:A1');
+        const a1 = sheet.getCell(0, 0);
+
+        if (!a1.value) {
+            console.log("Sheet appears empty (A1 is null), initializing headers...");
+            await sheet.setHeaderRow(['Timestamp', 'Name', 'Email', 'Subject', 'Message']);
         }
 
-        // 5. Add Row
-        await sheet.addRow({
-            Timestamp: new Date().toISOString(),
-            Name: name,
-            Email: email,
-            Subject: subject || "No Subject",
-            Message: message,
-        });
+        // 5. Add Row (Array based is safer/simpler than Object-Header mapping)
+        await sheet.addRow([
+            new Date().toISOString(),
+            name,
+            email,
+            subject || "No Subject",
+            message,
+        ]);
 
         return { success: true };
     } catch (error) {

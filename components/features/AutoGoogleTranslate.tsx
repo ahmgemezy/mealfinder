@@ -18,7 +18,7 @@ export default function AutoGoogleTranslate({ locale }: AutoGoogleTranslateProps
             new window.google.translate.TranslateElement(
                 {
                     pageLanguage: "en",
-                    includedLanguages: "en,fr,es",
+                    includedLanguages: "en,fr,es,pt,de,ar",
                     autoDisplay: false,
                 },
                 "google_translate_element"
@@ -51,7 +51,15 @@ export default function AutoGoogleTranslate({ locale }: AutoGoogleTranslateProps
         // Also handle top-level domain if needed (e.g. .localhost or .example.com)
         const topDomain = domain.split('.').slice(-2).join('.');
 
-        if (locale === 'en') {
+        // Function to map Next.js locale to Google Translate locale
+        const getGoogleLocale = (l: string) => {
+            if (l === 'pt-br') return 'pt';
+            return l;
+        };
+
+        const googleLocale = getGoogleLocale(locale);
+
+        if (googleLocale === 'en') {
             // If we are in English, we want to FORCE English.
             // Simply deleting the cookie isn't enough because the widget might persist state.
             // Setting it to /en/en explicitly tells Google Translate "Translate from English to English" (i.e. do nothing).
@@ -63,7 +71,7 @@ export default function AutoGoogleTranslate({ locale }: AutoGoogleTranslateProps
         } else {
             // If we are in another language, FORCE Google Translate
             // Format: /source_lang/target_lang
-            const cookieValue = `/en/${locale}`;
+            const cookieValue = `/en/${googleLocale}`;
             setCookie('googtrans', cookieValue);
             setCookie('googtrans', cookieValue, domain);
             setCookie('googtrans', cookieValue, `.${domain}`);

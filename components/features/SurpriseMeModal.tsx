@@ -89,7 +89,7 @@ export default function SurpriseMeModal() {
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
-        <div className="p-6 border-b border-border flex items-center justify-between">
+        <div className="p-6 border-b border-border flex items-center justify-between notranslate">
           <div className="flex items-center gap-3">
             <span className="text-3xl">🎲</span>
             <h2 className="font-display text-2xl font-bold">{t("title")}</h2>
@@ -127,7 +127,7 @@ export default function SurpriseMeModal() {
           ) : recipe ? (
             <div
               key={recipe.id}
-              className="grid grid-cols-1 md:grid-cols-[300px_1fr] gap-6 notranslate"
+              className="grid grid-cols-1 md:grid-cols-[300px_1fr] gap-6"
             >
               {/* Image - Left Side */}
               <div className="relative w-full h-64 md:h-auto md:min-h-[400px] rounded-2xl overflow-hidden shrink-0">
@@ -153,7 +153,7 @@ export default function SurpriseMeModal() {
               {/* Content - Right Side */}
               <div className="space-y-4 flex flex-col">
                 {/* Title & Meta */}
-                <div lang="en">
+                <div lang="en" className="text-start">
                   <h3 className="font-display text-2xl md:text-3xl font-bold mb-3">
                     {recipe.name}
                   </h3>
@@ -173,10 +173,10 @@ export default function SurpriseMeModal() {
 
                 {/* Ingredients Preview */}
                 <div>
-                  <h4 className="font-display text-lg font-bold mb-2">
+                  <h4 className="font-display text-lg font-bold mb-2 notranslate">
                     {t("keyIngredients")}
                   </h4>
-                  <div className="flex flex-wrap gap-2" lang="en">
+                  <div className="flex flex-wrap gap-2 text-start" lang="en">
                     {recipe.ingredients.slice(0, 6).map((ingredient, index) => (
                       <span
                         key={index}
@@ -197,16 +197,16 @@ export default function SurpriseMeModal() {
 
                 {/* Instructions Preview */}
                 <div className="flex-1">
-                  <h4 className="font-display text-lg font-bold mb-2">
+                  <h4 className="font-display text-lg font-bold mb-2 notranslate">
                     {t("recipePreview")}
                   </h4>
                   <p
-                    className="text-muted-foreground leading-relaxed text-sm"
+                    className="text-muted-foreground leading-relaxed text-sm text-start"
                     lang="en"
                   >
                     {recipe.instructions.substring(0, 200)}...
                   </p>
-                  <p className="text-xs text-primary-500 font-medium mt-2">
+                  <p className="text-xs text-primary-500 font-medium mt-2 notranslate">
                     {t("clickToView")}
                   </p>
                 </div>
@@ -220,7 +220,7 @@ export default function SurpriseMeModal() {
         </div>
 
         {/* Footer */}
-        <div className="p-4 md:p-6 border-t border-border bg-muted/30 flex flex-row items-center justify-between gap-3">
+        <div className="p-4 md:p-6 border-t border-border bg-muted/30 flex flex-row items-center justify-between gap-3 notranslate">
           <Button
             variant="outline"
             onClick={() => {
