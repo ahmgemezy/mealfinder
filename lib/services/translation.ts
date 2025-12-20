@@ -295,3 +295,44 @@ export async function translateBlogPosts(posts: BlogPost[], locale: string): Pro
         return posts;
     }
 }
+
+import { FAQItem } from '@/lib/services/seo-enricher';
+
+/**
+ * Translates a list of FAQ Items (Question and Answer)
+ * On-the-fly translation.
+ */
+export async function translateFAQ(faq: FAQItem[], locale: string): Promise<FAQItem[]> {
+    if (!locale || locale === 'en' || !faq.length) return faq;
+
+    try {
+        devLog.log(`[Translation] FAQ: Translating ${faq.length} items for ${locale}`);
+
+        // Batch prepare
+        const delimiter = ' ||| ';
+        const itemDelimiter = ' $$$ ';
+
+        const combinedText = faq
+            .map(item => `${item.question}${delimiter}${item.answer}`)
+            .join(itemDelimiter);
+
+        const translatedText = await translateText(combinedText, locale);
+        const translatedItems = translatedText.split(itemDelimiter);
+
+        return faq.map((item, index) => {
+            const parts = translatedItems[index]?.split(delimiter);
+
+            if (!parts || parts.length < 2) return item;
+
+            return {
+                question: parts[0].trim(),
+                answer: parts[1].trim()
+            };
+        });
+
+    } catch (error) {
+        console.error('[Translation] FAQ translation error:', error);
+        return faq;
+    }
+}
+

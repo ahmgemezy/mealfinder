@@ -19,7 +19,7 @@ import RelatedArticles from "@/components/recipes/RelatedArticles";
 import { getRelatedPostsByTags } from "@/lib/utils/blog-helpers";
 import RecipeFAQ from "@/components/recipes/RecipeFAQ";
 import { getRecipeSEO } from "@/lib/services/seo-enricher";
-import { translateRecipesList, translateBlogPosts } from "@/lib/services/translation";
+import { translateRecipesList, translateBlogPosts, translateFAQ } from "@/lib/services/translation";
 
 import { supabase } from "@/lib/supabase";
 
@@ -153,6 +153,11 @@ export default async function RecipePage({ params }: RecipePageProps) {
 
   // Get SEO enrichment (FAQ, meta description, etc.)
   const seoEnrichment = await getRecipeSEO(recipe);
+
+  // Translate FAQ if needed
+  if (seoEnrichment?.faq?.length && locale && locale !== 'en') {
+    seoEnrichment.faq = await translateFAQ(seoEnrichment.faq, locale);
+  }
 
   // Get related blog posts based on recipe tags/category
   // We combine category, area, and first 5 tags to matching
