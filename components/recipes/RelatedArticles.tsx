@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { BlogPost } from "@/lib/types/blog";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 
 interface RelatedArticlesProps {
   posts: BlogPost[];
@@ -9,6 +9,7 @@ interface RelatedArticlesProps {
 
 export default function RelatedArticles({ posts }: RelatedArticlesProps) {
   const locale = useLocale();
+  const t = useTranslations("Blog");
 
   if (!posts || posts.length === 0) {
     return null;
@@ -19,18 +20,18 @@ export default function RelatedArticles({ posts }: RelatedArticlesProps) {
       <div className="container mx-auto px-4">
         <div className="flex flex-col md:flex-row justify-between items-end mb-8 gap-4">
           <div>
-            <h2 className="font-display text-3xl font-bold mb-2">
-              Explore More on Our Blog
+            <h2 className="font-display text-3xl font-bold mb-2 notranslate text-start h2">
+              {t("exploreMore")}
             </h2>
-            <p className="text-muted-foreground">
-              Learn tips, tricks, and kitchen secrets related to this dish.
+            <p className="text-muted-foreground text-start">
+              {t("exploreSubtitle")}
             </p>
           </div>
           <Link
             href={`/${locale}/blog`}
             className="text-primary-600 hover:text-primary-700 font-medium flex items-center gap-1 group"
           >
-            View All Articles
+            {t("viewAll")}
             <svg
               className="w-4 h-4 transform group-hover:translate-x-1 transition-transform"
               fill="none"
@@ -79,16 +80,16 @@ export default function RelatedArticles({ posts }: RelatedArticlesProps) {
                     })}
                   </span>
                   <span>•</span>
-                  <span>{post.readTime} min read</span>
+                  <span>{post.readTime} {t("minRead")}</span>
                 </div>
-                <h3 className="font-display text-xl font-bold mb-3 group-hover:text-primary-600 transition-colors line-clamp-2">
+                <h3 className="font-display text-xl font-bold mb-3 group-hover:text-primary-600 transition-colors line-clamp-2 text-start">
                   {post.title}
                 </h3>
-                <p className="text-muted-foreground text-sm line-clamp-2 mb-4 flex-1">
+                <p className="text-muted-foreground text-sm line-clamp-2 mb-4 flex-1 text-start">
                   {post.excerpt}
                 </p>
                 <span className="text-primary-600 font-medium text-sm flex items-center gap-1 mt-auto group/btn">
-                  Read Article
+                  {t("readPost")}
                   <svg
                     className="w-4 h-4 transform group-hover/btn:translate-x-1 transition-transform"
                     fill="none"

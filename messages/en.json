@@ -661,6 +661,9 @@
         "readPost": "Read Post",
         "minRead": "min read",
         "relatedArticles": "Related Articles",
+        "exploreMore": "Explore More on Our Blog",
+        "exploreSubtitle": "Learn tips, tricks, and kitchen secrets related to this dish.",
+        "viewAll": "View All Articles",
         "sharePost": "Share this post:",
         "categories": {
             "all": "All Posts",

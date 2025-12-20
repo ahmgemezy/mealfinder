@@ -19,6 +19,7 @@ import RelatedArticles from "@/components/recipes/RelatedArticles";
 import { getRelatedPostsByTags } from "@/lib/utils/blog-helpers";
 import RecipeFAQ from "@/components/recipes/RecipeFAQ";
 import { getRecipeSEO } from "@/lib/services/seo-enricher";
+import { translateRecipesList } from "@/lib/services/translation";
 
 import { supabase } from "@/lib/supabase";
 
@@ -143,7 +144,12 @@ export default async function RecipePage({ params }: RecipePageProps) {
   };
 
   // Get related recipes for the "You might also like" section
-  const relatedRecipes = await getRelatedRecipes(recipe.category, recipe.id, 3);
+  let relatedRecipes = await getRelatedRecipes(recipe.category, recipe.id, 3);
+
+  // Translate related recipes if needed
+  if (locale && locale !== "en" && relatedRecipes.length > 0) {
+    relatedRecipes = await translateRecipesList(relatedRecipes, locale);
+  }
 
   // Get SEO enrichment (FAQ, meta description, etc.)
   const seoEnrichment = await getRecipeSEO(recipe);
