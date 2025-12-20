@@ -1,6 +1,7 @@
 import { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
-import { BLOG_CATEGORIES } from "@/lib/types/blog";
+import { BLOG_CATEGORIES, BlogPost } from "@/lib/types/blog";
+
 import BlogFilter from "@/components/blog/BlogFilter";
 import BlogSearch from "@/components/blog/BlogSearch";
 import { supabase } from "@/lib/supabase";
@@ -54,8 +55,7 @@ export default async function BlogPage({
 
   // Translate posts if not English
   const translatedDbPosts = (locale !== 'en' && dbPosts)
-    // @ts-ignore - Supabase types mismatch with our strict BlogPost interface but structure is compatible
-    ? await translateBlogPosts(dbPosts as any[], locale)
+    ? await translateBlogPosts(dbPosts as unknown as BlogPost[], locale)
     : dbPosts;
 
   // Map DB result to BlogPostMetadata

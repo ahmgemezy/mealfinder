@@ -3,7 +3,7 @@
 import React, { useMemo } from 'react';
 import Image from 'next/image';
 import { Recipe } from '@/lib/types/recipe';
-import { KITCHEN_APPLIANCES, GENERIC_APPLIANCES, Appliance } from '@/lib/appliances';
+import { KITCHEN_APPLIANCES, GENERIC_APPLIANCES } from '@/lib/appliances';
 import { useTranslations } from 'next-intl';
 
 interface KitchenAppliancesProps {

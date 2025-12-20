@@ -852,7 +852,7 @@ export async function searchByIngredients(ingredients: string[]): Promise<Recipe
 
   try {
     if (provider === "spoonacular" || provider === "hybrid" || provider === "mealdb") {
-      let results: Recipe[] = [];
+      const results: Recipe[] = [];
 
       try {
         // 1. Try Database (Supabase) via custom RPC function

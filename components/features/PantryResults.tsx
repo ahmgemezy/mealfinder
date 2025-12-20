@@ -12,7 +12,7 @@ interface PantryResultsProps {
     searchedIngredients: string[];
 }
 
-export default function PantryResults({ recipes, searchedIngredients }: PantryResultsProps) {
+export default function PantryResults({ recipes }: PantryResultsProps) {
     const t = useTranslations("SmartPantry");
 
     if (recipes.length === 0) return null;

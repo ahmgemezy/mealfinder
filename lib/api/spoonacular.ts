@@ -669,8 +669,15 @@ export async function findByIngredients(ingredients: string[], count: number = 1
         // Spoonacular finds recipes that use these ingredients
         // It returns a simplified object that we need to enrich
         // https://spoonacular.com/food-api/docs#Search-Recipes-by-Ingredients
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const data = await fetchFromSpoonacular<any[]>(
+        interface SpoonacularIngredientRecipe {
+            id: number;
+            usedIngredientCount: number;
+            missedIngredientCount: number;
+            unusedIngredients: unknown[];
+            likes: number;
+        }
+
+        const data = await fetchFromSpoonacular<SpoonacularIngredientRecipe[]>(
             "recipes/findByIngredients",
             {
                 ingredients: ingredients.join(","),
@@ -685,16 +692,16 @@ export async function findByIngredients(ingredients: string[], count: number = 1
         // Strict Filtering: Only keep recipes where all search ingredients are used.
         // The 'unusedIngredients' array contains ingredients from the query that were NOT found in the recipe.
         // If it's empty, it means all our search terms were found.
-        const strictMatches = data.filter((item: any) =>
+        const strictMatches = data.filter((item) =>
             !item.unusedIngredients || item.unusedIngredients.length === 0
         );
 
         if (strictMatches.length === 0) {
-            console.log(`No strict matches found for ingredients: ${ingredients.join(", ")} (Filtered from ${data.length} loose matches)`);
+            devLog.log(`No strict matches found for ingredients: ${ingredients.join(", ")} (Filtered from ${data.length} loose matches)`);
             return [];
         }
 
-        console.log(`Found ${strictMatches.length} strict matches (from ${data.length} candidates)`);
+        devLog.log(`Found ${strictMatches.length} strict matches (from ${data.length} candidates)`);
 
         // LIMITATION: findByIngredients returns incomplete recipe objects (missing instructions)
         // We must fetch full details for each result.

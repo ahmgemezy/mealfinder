@@ -11,6 +11,8 @@ import { getRandomMealWithFilters, getMultipleRandomMeals } from "@/lib/api";
 import TryThisRecipe from "@/components/blog/TryThisRecipe";
 import { supabase } from "@/lib/supabase";
 import { translateBlogPostFull, translateBlogPosts } from "@/lib/services/translation";
+import { BlogPost } from "@/lib/types/blog";
+
 
 
 type Props = {
@@ -83,9 +85,9 @@ export default async function BlogPostPage({ params }: Props) {
     }
 
     // Translate content if not English
+    // Translate content if not English
     const translatedPost = (locale !== 'en' && post)
-        // @ts-ignore - Supabase type mismatch
-        ? await translateBlogPostFull(post, locale)
+        ? await translateBlogPostFull(post as unknown as BlogPost, locale)
         : post;
 
     // Fetch Related Posts from Supabase (same category, exclude current)
@@ -97,9 +99,9 @@ export default async function BlogPostPage({ params }: Props) {
         .limit(3);
 
     // Map DB posts to component format
+    // Map DB posts to component format
     const relatedPostsTranslated = (locale !== 'en' && relatedPostsData)
-        // @ts-ignore
-        ? await translateBlogPosts(relatedPostsData as any[], locale)
+        ? await translateBlogPosts(relatedPostsData as unknown as BlogPost[], locale)
         : relatedPostsData;
 
     const relatedPosts = (relatedPostsTranslated || []).map(p => ({

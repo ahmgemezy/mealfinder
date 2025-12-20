@@ -10,7 +10,7 @@ interface RecipeFAQProps {
     recipeName: string;
 }
 
-export default function RecipeFAQ({ questions, recipeName }: RecipeFAQProps) {
+export default function RecipeFAQ({ questions }: RecipeFAQProps) {
     const t = useTranslations("FAQ");
     const [openIndex, setOpenIndex] = useState<number | null>(null);
 

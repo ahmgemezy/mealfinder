@@ -114,7 +114,7 @@ function RecipesContent() {
                 setIsLoading(false);
             }
         }
-    }, [searchQuery, selectedCategory, selectedArea, selectedDiet, currentPage, RECIPES_PER_PAGE, locale]);
+    }, [searchQuery, selectedCategory, selectedArea, selectedDiet, currentPage, locale]);
 
     // Load categories and areas
     useEffect(() => {
