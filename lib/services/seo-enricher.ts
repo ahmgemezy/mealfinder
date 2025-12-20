@@ -131,9 +131,9 @@ async function openaiChat(
             "Content-Type": "application/json",
         },
         body: JSON.stringify({
-            model: "gpt-5",
+            model: "gpt-4o",
             messages,
-            max_completion_tokens: maxTokens,
+            max_tokens: maxTokens,
         }),
     });
 
@@ -196,7 +196,7 @@ Keep answers concise (50-100 words). Be helpful and accurate.`;
         try {
             results = parseJSONFromText(sanitized);
         } catch (e) {
-            console.warn("   ⚠️ Primary FAQ JSON parse failed. Raw:", response.substring(0, 200) + "...");
+            console.warn("   ⚠️ Primary FAQ JSON parse failed. Raw:", response ? (response.substring(0, 200) + "...") : "[EMPTY_STRING]");
             // Allow fallback to trigger
             throw e;
         }
