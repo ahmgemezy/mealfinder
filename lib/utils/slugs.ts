@@ -4,12 +4,21 @@
  * Example: "Kebab Fries" + "52914" => "kebab-fries-52914"
  */
 export function generateRecipeSlug(name: string, id: string): string {
+    // 1. Convert to lowercase
+    // 2. Replace special characters that are NOT letters or numbers (Unicode aware) with hyphens
+    // 3. Remove multiple hyphens
+    // 4. Trim hyphens
     const slug = name
         .toLowerCase()
-        .replace(/[^a-z0-9]+/g, '-') // Replace non-alphanumeric with hyphens
-        .replace(/^-+|-+$/g, '');     // Remove leading/trailing hyphens
+        // Improve regex to allow unicode letters (\p{L}) and numbers (\p{N})
+        // NOTE: JS regex with /u flag supports unicode property escapes
+        .replace(/[^\p{L}\p{N}]+/gu, '-')
+        .replace(/^-+|-+$/g, '');
 
-    return `${slug}-${id}`;
+    // Fallback if name becomes empty (e.g. was only special chars)
+    const finalSlug = slug || 'recipe';
+
+    return `${finalSlug}-${id}`;
 }
 
 /**
