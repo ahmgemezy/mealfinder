@@ -659,6 +659,12 @@
         "title": "مدونة Dish Shuffle",
         "subtitle": "اكتشف نصائح الطهي، التغذية، والمزيد من خبرائنا.",
         "readPost": "اقرأ المقال",
+        "tableOfContents": "جدول المحتويات",
+        "tryThisRecipe": {
+            "title": "جرب هذه الوصفة!",
+            "description": "هل ألهمك هذا المقال؟ إليك وصفة لذيذة يمكنك صنعها الآن.",
+            "viewRecipe": "عرض الوصفة"
+        },
         "minRead": "دقيقة قراءة",
         "relatedArticles": "مقالات ذات صلة",
         "exploreMore": "استكشف المزيد في مدونتنا",

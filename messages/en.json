@@ -659,6 +659,12 @@
         "title": "Dish Shuffle Blog",
         "subtitle": "Discover cooking tips, nutrition advice, and culinary inspiration from our experts.",
         "readPost": "Read Post",
+        "tableOfContents": "Table of Contents",
+        "tryThisRecipe": {
+            "title": "Try This Recipe!",
+            "description": "Inspired by this article? Here's a delicious recipe you can make right now.",
+            "viewRecipe": "View Recipe"
+        },
         "minRead": "min read",
         "relatedArticles": "Related Articles",
         "exploreMore": "Explore More on Our Blog",

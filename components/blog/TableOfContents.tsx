@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { useTranslations } from 'next-intl';
 
 interface TOCItem {
     id: string;
@@ -10,13 +11,18 @@ interface TOCItem {
 }
 
 export default function TableOfContents() {
+    const t = useTranslations('Blog');
     const [headings, setHeadings] = useState<TOCItem[]>([]);
     const [activeId, setActiveId] = useState<string>('');
 
     useEffect(() => {
         // Use a timeout to schedule state update for next render
         const timer = setTimeout(() => {
-            const elements = Array.from(document.querySelectorAll('h2, h3'))
+            const contentContainer = document.getElementById('blog-content-body');
+            const root = contentContainer || document;
+
+            const elements = Array.from(root.querySelectorAll('h2, h3'))
+                .filter(elem => !elem.hasAttribute('data-toc-ignore'))
                 .map((elem) => ({
                     id: elem.id,
                     text: elem.textContent || '',
@@ -51,7 +57,7 @@ export default function TableOfContents() {
 
     return (
         <nav className="p-6 bg-card rounded-xl border border-border">
-            <h4 className="font-bold mb-4">Table of Contents</h4>
+            <h4 className="font-bold mb-4">{t('tableOfContents')}</h4>
             <ul className="space-y-2 text-sm">
                 {headings.map((heading) => (
                     <li

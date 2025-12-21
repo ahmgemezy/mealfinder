@@ -663,6 +663,12 @@
         "title": "Blog Dish Shuffle",
         "subtitle": "Descubre consejos de cocina, asesoramiento nutricional e inspiración culinaria de nuestros expertos.",
         "readPost": "Leer Artículo",
+        "tableOfContents": "Tabla de Contenidos",
+        "tryThisRecipe": {
+            "title": "¡Prueba esta receta!",
+            "description": "¿Inspirado por este artículo? Aquí tienes una deliciosa receta que puedes hacer ahora mismo.",
+            "viewRecipe": "Ver Receta"
+        },
         "minRead": "min de lectura",
         "relatedArticles": "Artículos Relacionados",
         "sharePost": "Comparte este artículo:",

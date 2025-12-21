@@ -2,6 +2,7 @@ import { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { getTranslations } from "next-intl/server";
 import BlogContent from "@/components/blog/BlogContent";
 import RelatedPosts from "@/components/blog/RelatedPosts";
 import TableOfContents from "@/components/blog/TableOfContents";
@@ -72,6 +73,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function BlogPostPage({ params }: Props) {
     const { slug } = await params;
     const { locale } = await params; // Keeping locale for now as it is used in Links
+    const t = await getTranslations('Blog');
 
     // Fetch post from Supabase
     const { data: post } = await supabase
@@ -256,7 +258,7 @@ export default async function BlogPostPage({ params }: Props) {
 
             {/* Related Posts (Below content) */}
             <div className="w-[80vw] mx-auto px-4 mt-16 pb-8">
-                <h3 className="font-display font-bold text-2xl mb-6">Related Articles</h3>
+                <h3 className="font-display font-bold text-2xl mb-6">{t('relatedArticles')}</h3>
                 <RelatedPosts posts={relatedPosts} locale={locale} />
             </div>
         </article>

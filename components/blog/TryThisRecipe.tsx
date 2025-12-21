@@ -1,13 +1,14 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Recipe } from "@/lib/types/recipe";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 
 interface TryThisRecipeProps {
   recipe: Recipe;
 }
 
 export default function TryThisRecipe({ recipe }: TryThisRecipeProps) {
+  const t = useTranslations('Blog');
   const locale = useLocale();
 
   if (!recipe) return null;
@@ -16,14 +17,16 @@ export default function TryThisRecipe({ recipe }: TryThisRecipeProps) {
     <div className="bg-card rounded-3xl p-6 md:p-8 shadow-soft border border-border/50">
       <div className="flex items-center gap-3 mb-6">
         <span className="text-2xl">👨‍🍳</span>
-        <h3 className="font-display text-2xl font-bold bg-clip-text text-transparent bg-linear-to-r from-primary-600 to-accent-600">
-          Try This Recipe!
+        <h3
+          data-toc-ignore="true"
+          className="font-display text-2xl font-bold bg-clip-text text-transparent bg-linear-to-r from-primary-600 to-accent-600"
+        >
+          {t('tryThisRecipe.title')}
         </h3>
       </div>
 
       <p className="text-muted-foreground mb-6">
-        Inspired by this article? Here&apos;s a delicious recipe you can make
-        right now.
+        {t('tryThisRecipe.description')}
       </p>
 
       <Link href={`/${locale}/recipes/${recipe.id}`} className="block group">
@@ -76,7 +79,7 @@ export default function TryThisRecipe({ recipe }: TryThisRecipeProps) {
         </div>
 
         <div className="w-full py-3 rounded-xl bg-primary-600 text-white font-medium text-center shadow-lg shadow-primary-500/20 group-hover:bg-primary-700 group-hover:shadow-primary-500/30 transition-all transform group-hover:-translate-y-0.5">
-          View Recipe
+          {t('tryThisRecipe.viewRecipe')}
         </div>
       </Link>
     </div>
