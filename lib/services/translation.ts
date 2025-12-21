@@ -26,7 +26,7 @@ export async function translateText(text: string, targetLang: string): Promise<s
         });
         return res.text;
     } catch (error) {
-        console.error(`Translation error (${targetLang} -> ${isoTarget}):`, error);
+        console.error(`Translation error (${targetLang} -> ${isoTarget}). Text length: ${text.length}. Error:`, error);
         return text;
     }
 }
@@ -305,33 +305,98 @@ export async function translateBlogPosts<T extends BlogPost | DBBlogPost>(posts:
     if (!locale || locale === 'en' || !posts.length) return posts;
 
     try {
-        devLog.log(`[Translation] Blog: Translating ${posts.length} posts for ${locale}`);
+        // 1. Bulk Check Cache
+        const slugs = posts.map(p => p.slug);
+        const { data: cachedList, error } = await supabase
+            .from('blog_translations')
+            .select('post_slug, title, excerpt')
+            .in('post_slug', slugs)
+            .eq('locale', locale);
 
-        // Batch prepare to save requests
-        // Format: Title ||| Excerpt $$$ Title ||| Excerpt
-        const delimiter = ' ||| ';
-        const itemDelimiter = ' $$$ ';
+        const cachedMap = new Map<string, { title: string, excerpt: string }>();
+        if (cachedList && !error) {
+            cachedList.forEach((row: { post_slug: string, title: string, excerpt: string }) => {
+                if (row.title) cachedMap.set(row.post_slug, { title: row.title, excerpt: row.excerpt });
+            });
+        }
 
-        const combinedText = posts
-            .map(p => `${p.title || ''}${delimiter}${p.excerpt || ''}`)
-            .join(itemDelimiter);
+        // 2. Identify missing translations
+        const missingPosts = posts.filter(p => !cachedMap.has(p.slug));
 
-        const translatedText = await translateText(combinedText, locale);
+        if (missingPosts.length > 0) {
+            devLog.log(`[Translation] Blog: Translating ${missingPosts.length} posts for ${locale}`);
 
-        // Parse back
-        const translatedItems = translatedText.split(itemDelimiter);
+            // Batch processing to avoid hitting API limits (safe limit ~2000 chars)
+            const BATCH_SIZE = 5;
+            const delimiter = ' ||| ';
+            const itemDelimiter = ' $$$ ';
 
-        return posts.map((post, index) => {
-            const parts = translatedItems[index]?.split(delimiter);
+            const chunkedPosts = [];
+            for (let i = 0; i < missingPosts.length; i += BATCH_SIZE) {
+                chunkedPosts.push(missingPosts.slice(i, i + BATCH_SIZE));
+            }
 
-            // Fallback to original if something broke
-            if (!parts || parts.length < 2) return post;
+            const translatedChunks = await Promise.all(chunkedPosts.map(async (chunk) => {
+                try {
+                    const combinedText = chunk
+                        .map(p => `${p.title || ''}${delimiter}${p.excerpt || ''}`)
+                        .join(itemDelimiter);
 
-            return {
-                ...post,
-                title: parts[0].trim(),
-                excerpt: parts[1].trim()
-            };
+                    const translatedText = await translateText(combinedText, locale);
+                    const translatedItems = translatedText.split(itemDelimiter);
+
+                    const batchUpdates: any[] = [];
+
+                    const translatedChunk = chunk.map((post, index) => {
+                        const parts = translatedItems[index]?.split(delimiter);
+
+                        // Fallback to original if something broke
+                        const tTitle = (parts && parts.length >= 2) ? parts[0].trim() : post.title;
+                        const tExcerpt = (parts && parts.length >= 2) ? parts[1].trim() : post.excerpt;
+
+                        // Add to update queue
+                        batchUpdates.push({
+                            post_slug: post.slug,
+                            locale: locale,
+                            title: tTitle,
+                            excerpt: tExcerpt,
+                            // Content is null for list view translations
+                        });
+
+                        // Update local map instantly
+                        cachedMap.set(post.slug, { title: tTitle, excerpt: tExcerpt });
+
+                        return {
+                            ...post,
+                            title: tTitle,
+                            excerpt: tExcerpt
+                        };
+                    });
+
+                    // Fire and forget upsert for this chunk
+                    if (batchUpdates.length > 0) {
+                        // ignoreDuplicates: true is safer if another request is also writing
+                        await supabase
+                            .from('blog_translations')
+                            .upsert(batchUpdates, { onConflict: 'post_slug,locale', ignoreDuplicates: true });
+                    }
+
+                    return translatedChunk;
+
+                } catch (err) {
+                    console.error('[Translation] Batch chunk error:', err);
+                    return chunk; // Fallback for this chunk
+                }
+            }));
+        }
+
+        // 4. Return merged results using the map (source of truth)
+        return posts.map(post => {
+            const cached = cachedMap.get(post.slug);
+            if (cached) {
+                return { ...post, title: cached.title, excerpt: cached.excerpt };
+            }
+            return post;
         });
 
     } catch (error) {
@@ -388,7 +453,25 @@ export async function translateBlogPostFull<T extends BlogPost | DBBlogPost>(pos
     if (!locale || locale === 'en') return post;
 
     try {
-        devLog.log(`[Translation] translating full blog post: ${post.title}`);
+        // 1. Check Cache
+        const { data: cached, error } = await supabase
+            .from('blog_translations')
+            .select('*')
+            .eq('post_slug', post.slug)
+            .eq('locale', locale)
+            .maybeSingle();
+
+        if (cached && !error && cached.content) {
+            // devLog.log(`[Translation] Blog Cache hit for ${post.title}`);
+            return {
+                ...post,
+                title: cached.title || post.title,
+                excerpt: cached.excerpt || post.excerpt,
+                content: cached.content
+            };
+        }
+
+        devLog.log(`[Translation] translating full blog post: ${post.title} (Cache Miss)`);
 
         // Format: Title ||| Excerpt (translate strictly these two first)
         const metaDelimiter = ' ||| ';
@@ -406,6 +489,21 @@ export async function translateBlogPostFull<T extends BlogPost | DBBlogPost>(pos
         });
 
         const content = translatedChunks.join('\n\n');
+
+        // 3. Save to Cache (Upsert)
+        const { error: upsertError } = await supabase
+            .from('blog_translations')
+            .upsert({
+                post_slug: post.slug,
+                locale: locale,
+                title: title?.trim() || post.title,
+                excerpt: excerpt?.trim() || post.excerpt,
+                content: content
+            }, { onConflict: 'post_slug,locale' });
+
+        if (upsertError) {
+            console.error('[Translation] Full blog cache error:', upsertError);
+        }
 
         return {
             ...post,
