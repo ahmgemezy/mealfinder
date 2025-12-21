@@ -32,6 +32,21 @@ export interface BlogPost {
     relatedPosts?: string[]; // Array of slugs
 }
 
+export interface DBBlogPost {
+    slug: string;
+    title: string;
+    description?: string;
+    category: BlogCategory;
+    tags: string[];
+    author: string;
+    published_date: string;
+    updated_at?: string;
+    read_time: number;
+    featured_image: string;
+    excerpt: string;
+    content: string;
+}
+
 export interface BlogPostMetadata {
     slug: string;
     title: string;

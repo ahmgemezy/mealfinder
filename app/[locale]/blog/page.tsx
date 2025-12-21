@@ -1,6 +1,7 @@
 import { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
-import { BLOG_CATEGORIES, BlogPost } from "@/lib/types/blog";
+import { BLOG_CATEGORIES, DBBlogPost } from "@/lib/types/blog";
+
 
 import BlogFilter from "@/components/blog/BlogFilter";
 import BlogSearch from "@/components/blog/BlogSearch";
@@ -54,9 +55,10 @@ export default async function BlogPage({
   }
 
   // Translate posts if not English
+  // Translate posts if not English
   const translatedDbPosts = (locale !== 'en' && dbPosts)
-    ? await translateBlogPosts(dbPosts as unknown as BlogPost[], locale)
-    : dbPosts;
+    ? await translateBlogPosts(dbPosts as unknown as DBBlogPost[], locale)
+    : (dbPosts as unknown as DBBlogPost[]);
 
   // Map DB result to BlogPostMetadata
   const posts = (translatedDbPosts || []).map(post => ({

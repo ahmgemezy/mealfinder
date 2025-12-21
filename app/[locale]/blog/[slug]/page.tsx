@@ -11,7 +11,7 @@ import { getRandomMealWithFilters, getMultipleRandomMeals } from "@/lib/api";
 import TryThisRecipe from "@/components/blog/TryThisRecipe";
 import { supabase } from "@/lib/supabase";
 import { translateBlogPostFull, translateBlogPosts } from "@/lib/services/translation";
-import { BlogPost } from "@/lib/types/blog";
+import { DBBlogPost } from "@/lib/types/blog";
 
 
 
@@ -87,8 +87,8 @@ export default async function BlogPostPage({ params }: Props) {
     // Translate content if not English
     // Translate content if not English
     const translatedPost = (locale !== 'en' && post)
-        ? await translateBlogPostFull(post as unknown as BlogPost, locale)
-        : post;
+        ? await translateBlogPostFull(post as unknown as DBBlogPost, locale)
+        : (post as unknown as DBBlogPost);
 
     // Fetch Related Posts from Supabase (same category, exclude current)
     const { data: relatedPostsData } = await supabase
@@ -100,9 +100,10 @@ export default async function BlogPostPage({ params }: Props) {
 
     // Map DB posts to component format
     // Map DB posts to component format
+    // Map DB posts to component format
     const relatedPostsTranslated = (locale !== 'en' && relatedPostsData)
-        ? await translateBlogPosts(relatedPostsData as unknown as BlogPost[], locale)
-        : relatedPostsData;
+        ? await translateBlogPosts(relatedPostsData as unknown as DBBlogPost[], locale)
+        : (relatedPostsData as unknown as DBBlogPost[]);
 
     const relatedPosts = (relatedPostsTranslated || []).map(p => ({
         slug: p.slug,

@@ -20,7 +20,10 @@ export async function translateText(text: string, targetLang: string): Promise<s
     const isoTarget = supportedLocales[targetLang.toLowerCase()] || targetLang;
 
     try {
-        const res = await translate(text, { to: isoTarget });
+        const res = await translate(text, {
+            to: isoTarget,
+            rejectOnPartialFail: false
+        });
         return res.text;
     } catch (error) {
         console.error(`Translation error (${targetLang} -> ${isoTarget}):`, error);
@@ -39,7 +42,10 @@ export async function translateToEnglish(text: string): Promise<string> {
     if (!text || text.trim() === '') return text;
 
     try {
-        const res = await translate(text, { to: 'en' });
+        const res = await translate(text, {
+            to: 'en',
+            rejectOnPartialFail: false
+        });
         if (res.text && res.text !== text) {
             devLog.log(`Translated "${text}" to "${res.text}"`);
             return res.text;
@@ -251,13 +257,51 @@ export async function translateRecipesList(recipes: Recipe[], locale: string): P
     }
 }
 
-import { BlogPost } from '@/lib/types/blog';
+import { BlogPost, DBBlogPost } from '@/lib/types/blog';
+
+// Helper for concurrency control
+async function pMap<T, R>(
+    collection: T[],
+    mapper: (item: T) => Promise<R>,
+    concurrency: number
+): Promise<R[]> {
+    const results: R[] = new Array(collection.length);
+    const executing: Promise<void>[] = [];
+
+    for (const [index, item] of collection.entries()) {
+        const p = mapper(item).then(result => {
+            results[index] = result;
+        });
+        executing.push(p);
+
+        if (executing.length >= concurrency) {
+            await Promise.race(executing);
+            // Remove completed promises (this is a simplified logic, for strict order preserving we used array index above)
+            // Actually Promise.race just tells us *one* finished, we need to find which one.
+            // Simpler: Just chunks.
+        }
+    }
+    await Promise.all(executing);
+    return results;
+}
+
+// Simple batch helper
+async function processInBatches<T, R>(items: T[], batchSize: number, fn: (item: T) => Promise<R>): Promise<R[]> {
+    const results: R[] = [];
+    for (let i = 0; i < items.length; i += batchSize) {
+        const batch = items.slice(i, i + batchSize);
+        const batchResults = await Promise.all(batch.map(fn));
+        results.push(...batchResults);
+    }
+    return results;
+}
+
 
 /**
  * Translates a list of Blog Posts (Title and Excerpt)
  * Currently performs on-the-fly translation without database caching.
  */
-export async function translateBlogPosts(posts: BlogPost[], locale: string): Promise<BlogPost[]> {
+export async function translateBlogPosts<T extends BlogPost | DBBlogPost>(posts: T[], locale: string): Promise<T[]> {
     if (!locale || locale === 'en' || !posts.length) return posts;
 
     try {
@@ -269,7 +313,7 @@ export async function translateBlogPosts(posts: BlogPost[], locale: string): Pro
         const itemDelimiter = ' $$$ ';
 
         const combinedText = posts
-            .map(p => `${p.title}${delimiter}${p.excerpt}`)
+            .map(p => `${p.title || ''}${delimiter}${p.excerpt || ''}`)
             .join(itemDelimiter);
 
         const translatedText = await translateText(combinedText, locale);
@@ -340,34 +384,33 @@ export async function translateFAQ(faq: FAQItem[], locale: string): Promise<FAQI
  * Translates a SINGLE blog post including its full content (Markdown).
  * Used for the Blog Detail page.
  */
-export async function translateBlogPostFull(post: BlogPost, locale: string): Promise<BlogPost> {
+export async function translateBlogPostFull<T extends BlogPost | DBBlogPost>(post: T, locale: string): Promise<T> {
     if (!locale || locale === 'en') return post;
 
     try {
         devLog.log(`[Translation] translating full blog post: ${post.title}`);
 
-        const title = await translateText(post.title, locale);
-        const excerpt = await translateText(post.excerpt, locale);
+        // Format: Title ||| Excerpt (translate strictly these two first)
+        const metaDelimiter = ' ||| ';
+        const metaText = `${post.title || ''}${metaDelimiter}${post.excerpt || ''}`;
+        const translatedMeta = await translateText(metaText, locale);
+        const [title, excerpt] = translatedMeta.split(metaDelimiter);
 
-        // Translate content - split by paragraphs to avoid API limits
+        // Translate content - split by paragraphs
         const contentChunks = post.content.split('\n\n');
 
-        // Limit parallel translation to avoid rate limits
-        const translatedChunks = [];
-        for (const chunk of contentChunks) {
-            if (!chunk.trim()) {
-                translatedChunks.push(chunk);
-                continue;
-            }
-            translatedChunks.push(await translateText(chunk, locale));
-        }
+        // Parallelize content translation with concurrency limit of 5
+        const translatedChunks = await processInBatches(contentChunks, 5, async (chunk) => {
+            if (!chunk.trim()) return chunk;
+            return await translateText(chunk, locale);
+        });
 
         const content = translatedChunks.join('\n\n');
 
         return {
             ...post,
-            title,
-            excerpt,
+            title: title?.trim() || post.title,
+            excerpt: excerpt?.trim() || post.excerpt,
             content
         };
     } catch (error) {
