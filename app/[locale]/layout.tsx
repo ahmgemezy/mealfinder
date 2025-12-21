@@ -155,6 +155,8 @@ export default async function RootLayout({
                 'ad_user_data': 'denied',
                 'ad_personalization': 'denied',
                 'analytics_storage': 'denied',
+                'ads_data_redaction': true,
+                'url_passthrough': true,
                 'wait_for_update': 500
               });
             `,
@@ -162,12 +164,12 @@ export default async function RootLayout({
         />
         {/* Google Analytics */}
         <Script
-          strategy="lazyOnload"
+          strategy="afterInteractive"
           src={`https://www.googletagmanager.com/gtag/js?id=${GA_TRACKING_ID}`}
         />
         <Script
           id="google-analytics"
-          strategy="lazyOnload"
+          strategy="afterInteractive"
           dangerouslySetInnerHTML={{
             __html: `
               window.dataLayer = window.dataLayer || [];
