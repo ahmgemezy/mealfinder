@@ -687,5 +687,34 @@
         "goHome": "Go Home",
         "browseRecipes": "Browse Recipes",
         "funTagline": "Even the best chefs sometimes lose a recipe... 👨‍🍳"
+    },
+    "CookieConsent": {
+        "title": "We value your privacy",
+        "description": "We use cookies to enhance your browsing experience, serve personalized content, and analyze our traffic. By clicking \"Accept All\", you consent to our use of cookies.",
+        "settings": "Settings",
+        "reject": "Reject",
+        "acceptAll": "Accept All",
+        "settingsModal": {
+            "title": "Cookie Settings",
+            "description": "Manage your cookie preferences. Essential cookies are always active.",
+            "back": "Back",
+            "save": "Save Preferences",
+            "essential": {
+                "title": "Essential Cookies",
+                "description": "Necessary for the website to function. Cannot be disabled."
+            },
+            "performance": {
+                "title": "Performance Cookies",
+                "description": "Help us understand how visitors interact with the website."
+            },
+            "functional": {
+                "title": "Functional Cookies",
+                "description": "Enable enhanced functionality and personalization."
+            },
+            "targeting": {
+                "title": "Targeting Cookies",
+                "description": "Used to deliver advertisements more relevant to you and your interests."
+            }
+        }
     }
 }

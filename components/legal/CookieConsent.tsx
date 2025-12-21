@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Button from "@/components/ui/Button";
+import { useTranslations } from "next-intl";
 
 // Extend Window interface for gtag
 declare global {
@@ -22,6 +23,7 @@ type CookiePreferences = {
 };
 
 export default function CookieConsent() {
+    const t = useTranslations('CookieConsent');
     const [isVisible, setIsVisible] = useState(false);
     const [showSettings, setShowSettings] = useState(false);
     const [preferences, setPreferences] = useState<CookiePreferences>({
@@ -120,9 +122,9 @@ export default function CookieConsent() {
             <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4 animate-fade-in">
                 <div className="bg-card w-full max-w-2xl rounded-3xl shadow-hard border border-border overflow-hidden flex flex-col max-h-[90vh]">
                     <div className="p-6 border-b border-border">
-                        <h3 className="font-display text-2xl font-bold">Cookie Settings</h3>
+                        <h3 className="font-display text-2xl font-bold">{t('settingsModal.title')}</h3>
                         <p className="text-muted-foreground mt-2">
-                            Manage your cookie preferences. Essential cookies are always active.
+                            {t('settingsModal.description')}
                         </p>
                     </div>
 
@@ -130,9 +132,9 @@ export default function CookieConsent() {
                         {/* Essential */}
                         <div className="flex items-start justify-between gap-4">
                             <div>
-                                <h4 className="font-bold text-foreground">Essential Cookies</h4>
+                                <h4 className="font-bold text-foreground">{t('settingsModal.essential.title')}</h4>
                                 <p className="text-sm text-muted-foreground mt-1">
-                                    Necessary for the website to function. Cannot be disabled.
+                                    {t('settingsModal.essential.description')}
                                 </p>
                             </div>
                             <div className="relative inline-flex h-6 w-11 items-center rounded-full bg-primary-500 opacity-50 cursor-not-allowed">
@@ -143,9 +145,9 @@ export default function CookieConsent() {
                         {/* Performance */}
                         <div className="flex items-start justify-between gap-4">
                             <div>
-                                <h4 className="font-bold text-foreground">Performance Cookies</h4>
+                                <h4 className="font-bold text-foreground">{t('settingsModal.performance.title')}</h4>
                                 <p className="text-sm text-muted-foreground mt-1">
-                                    Help us understand how visitors interact with the website.
+                                    {t('settingsModal.performance.description')}
                                 </p>
                             </div>
                             <button
@@ -163,9 +165,9 @@ export default function CookieConsent() {
                         {/* Functional */}
                         <div className="flex items-start justify-between gap-4">
                             <div>
-                                <h4 className="font-bold text-foreground">Functional Cookies</h4>
+                                <h4 className="font-bold text-foreground">{t('settingsModal.functional.title')}</h4>
                                 <p className="text-sm text-muted-foreground mt-1">
-                                    Enable enhanced functionality and personalization.
+                                    {t('settingsModal.functional.description')}
                                 </p>
                             </div>
                             <button
@@ -183,9 +185,9 @@ export default function CookieConsent() {
                         {/* Targeting */}
                         <div className="flex items-start justify-between gap-4">
                             <div>
-                                <h4 className="font-bold text-foreground">Targeting Cookies</h4>
+                                <h4 className="font-bold text-foreground">{t('settingsModal.targeting.title')}</h4>
                                 <p className="text-sm text-muted-foreground mt-1">
-                                    Used to deliver advertisements more relevant to you and your interests.
+                                    {t('settingsModal.targeting.description')}
                                 </p>
                             </div>
                             <button
@@ -203,10 +205,10 @@ export default function CookieConsent() {
 
                     <div className="p-6 border-t border-border bg-muted/30 flex justify-end gap-3">
                         <Button variant="outline" onClick={() => setShowSettings(false)}>
-                            Back
+                            {t('settingsModal.back')}
                         </Button>
                         <Button onClick={handleSaveSettings}>
-                            Save Preferences
+                            {t('settingsModal.save')}
                         </Button>
                     </div>
                 </div>
@@ -219,12 +221,10 @@ export default function CookieConsent() {
             <div className="container mx-auto max-w-6xl flex flex-col md:flex-row items-start md:items-center justify-between gap-3 md:gap-6">
                 <div className="flex-1">
                     <h3 className="font-display text-base md:text-lg font-bold mb-1">
-                        We value your privacy
+                        {t('title')}
                     </h3>
                     <p className="text-xs md:text-sm text-muted-foreground leading-relaxed">
-                        We use cookies to enhance your browsing experience, serve personalized
-                        content, and analyze our traffic. By clicking &quot;Accept All&quot;, you
-                        consent to our use of cookies.
+                        {t('description')}
                     </p>
                 </div>
                 <div className="flex flex-row gap-2 w-full md:w-auto flex-wrap">
@@ -234,7 +234,7 @@ export default function CookieConsent() {
                         onClick={() => setShowSettings(true)}
                         className="whitespace-nowrap text-xs md:text-sm flex-1 md:flex-none"
                     >
-                        Settings
+                        {t('settings')}
                     </Button>
                     <Button
                         variant="outline"
@@ -242,14 +242,14 @@ export default function CookieConsent() {
                         onClick={handleRejectAll}
                         className="whitespace-nowrap text-xs md:text-sm flex-1 md:flex-none"
                     >
-                        Reject
+                        {t('reject')}
                     </Button>
                     <Button
                         size="sm"
                         onClick={handleAcceptAll}
                         className="whitespace-nowrap text-xs md:text-sm flex-1 md:flex-none"
                     >
-                        Accept All
+                        {t('acceptAll')}
                     </Button>
                 </div>
             </div>

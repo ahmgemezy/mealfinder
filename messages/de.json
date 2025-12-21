@@ -682,10 +682,39 @@
     },
     "NotFound": {
         "title": "Rezept nicht gefunden",
-        "description": "Hoppla! Dieses Gericht ist uns entwischt.",
-        "suggestion": "Keine Sorge, viele weitere leckere Rezepte warten auf Sie!",
-        "goHome": "Zur Startseite",
-        "browseRecipes": "Rezepte Stöbern",
-        "funTagline": "Sogar die besten Köche verlieren mal ein Rezept... 👨‍🍳"
+        "description": "Hoppla! Es sieht so aus, als wäre dieses Gericht entwischt.",
+        "suggestion": "Keine Sorge, wir haben noch viele weitere leckere Rezepte für Sie!",
+        "goHome": "Startseite",
+        "browseRecipes": "Rezepte durchsuchen",
+        "funTagline": "Auch die besten Köche verlieren manchmal ein Rezept... 👨‍🍳"
+    },
+    "CookieConsent": {
+        "title": "Wir schätzen Ihre Privatsphäre",
+        "description": "Wir verwenden Cookies, um Ihr Surferlebnis zu verbessern, personalisierte Inhalte bereitzustellen und unseren Datenverkehr zu analysieren. Durch Klicken auf „Alle akzeptieren“ stimmen Sie unserer Verwendung von Cookies zu.",
+        "settings": "Einstellungen",
+        "reject": "Ablehnen",
+        "acceptAll": "Alle akzeptieren",
+        "settingsModal": {
+            "title": "Cookie-Einstellungen",
+            "description": "Verwalten Sie Ihre Cookie-Einstellungen. Essenzielle Cookies sind immer aktiv.",
+            "back": "Zurück",
+            "save": "Einstellungen speichern",
+            "essential": {
+                "title": "Essenzielle Cookies",
+                "description": "Notwendig für die Funktion der Website. Können nicht deaktiviert werden."
+            },
+            "performance": {
+                "title": "Leistungs-Cookies",
+                "description": "Helfen uns zu verstehen, wie Besucher mit der Website interagieren."
+            },
+            "functional": {
+                "title": "Funktionale Cookies",
+                "description": "Ermöglichen verbesserte Funktionalität und Personalisierung."
+            },
+            "targeting": {
+                "title": "Marketing-Cookies",
+                "description": "Werden verwendet, um Werbung bereitzustellen, die für Sie und Ihre Interessen relevanter ist."
+            }
+        }
     }
 }

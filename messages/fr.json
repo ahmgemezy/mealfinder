@@ -686,10 +686,39 @@
     },
     "NotFound": {
         "title": "Recette Introuvable",
-        "description": "Oups ! On dirait que ce plat s'est échappé.",
-        "suggestion": "Ne vous inquiétez pas, nous avons plein d'autres délicieuses recettes qui vous attendent !",
+        "description": "Oups ! Il semble que ce plat se soit échappé.",
+        "suggestion": "Ne vous inquiétez pas, nous avons beaucoup d'autres recettes délicieuses qui vous attendent !",
         "goHome": "Accueil",
         "browseRecipes": "Parcourir les recettes",
-        "funTagline": "Même les meilleurs chefs perdent parfois une recette... 👨‍🍳"
+        "funTagline": "Même les grands chefs perdent parfois une recette... 👨‍🍳"
+    },
+    "CookieConsent": {
+        "title": "Nous respectons votre vie privée",
+        "description": "Nous utilisons des cookies pour améliorer votre expérience de navigation, diffuser du contenu personnalisé et analyser notre trafic. En cliquant sur « Tout accepter », vous consentez à notre utilisation des cookies.",
+        "settings": "Paramètres",
+        "reject": "Refuser",
+        "acceptAll": "Tout accepter",
+        "settingsModal": {
+            "title": "Paramètres des cookies",
+            "description": "Gérez vos préférences en matière de cookies. Les cookies essentiels sont toujours actifs.",
+            "back": "Retour",
+            "save": "Enregistrer les préférences",
+            "essential": {
+                "title": "Cookies essentiels",
+                "description": "Nécessaires au fonctionnement du site web. Ne peuvent pas être désactivés."
+            },
+            "performance": {
+                "title": "Cookies de performance",
+                "description": "Nous aident à comprendre comment les visiteurs interagissent avec le site web."
+            },
+            "functional": {
+                "title": "Cookies fonctionnels",
+                "description": "Permettent des fonctionnalités améliorées et la personnalisation."
+            },
+            "targeting": {
+                "title": "Cookies de ciblage",
+                "description": "Utilisés pour diffuser des publicités plus pertinentes pour vous et vos intérêts."
+            }
+        }
     }
 }
