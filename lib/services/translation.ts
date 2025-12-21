@@ -1,6 +1,7 @@
 import translate from 'google-translate-api-x';
 import { devLog } from '@/lib/utils/logger';
 import { supabase } from '@/lib/supabase';
+import { supabaseAdmin } from '@/lib/supabase-admin';
 import { Recipe } from '@/lib/types/recipe';
 
 /**
@@ -150,8 +151,8 @@ export async function translateRecipe(recipe: Recipe, locale: string): Promise<R
                 }
             });
 
-        // 4. Save to Cache (Fire and Forget to not block return if it fails? No, better wait to ensure consistency)
-        const { error: insertError } = await supabase
+        // 4. Save to Cache
+        const { error: insertError } = await supabaseAdmin // Use admin to bypass RLS
             .from('recipe_translations')
             .upsert({
                 recipe_id: recipe.id,
@@ -236,7 +237,7 @@ export async function translateRecipesList(recipes: Recipe[], locale: string): P
             // Insert new partial records. 
             // IMPORTANT: stick to ignoreDuplicates=true to prevent overwriting 
             // a Full Translation that might have happened in parallel.
-            const { error: upsertError } = await supabase
+            const { error: upsertError } = await supabaseAdmin // Use admin to bypass RLS
                 .from('recipe_translations')
                 .upsert(updates, { onConflict: 'recipe_id,locale', ignoreDuplicates: true });
 
@@ -376,7 +377,7 @@ export async function translateBlogPosts<T extends BlogPost | DBBlogPost>(posts:
                     // Fire and forget upsert for this chunk
                     if (batchUpdates.length > 0) {
                         // ignoreDuplicates: true is safer if another request is also writing
-                        await supabase
+                        await supabaseAdmin // Use admin to bypass RLS
                             .from('blog_translations')
                             .upsert(batchUpdates, { onConflict: 'post_slug,locale', ignoreDuplicates: true });
                     }
@@ -491,7 +492,7 @@ export async function translateBlogPostFull<T extends BlogPost | DBBlogPost>(pos
         const content = translatedChunks.join('\n\n');
 
         // 3. Save to Cache (Upsert)
-        const { error: upsertError } = await supabase
+        const { error: upsertError } = await supabaseAdmin // Use admin to bypass RLS
             .from('blog_translations')
             .upsert({
                 post_slug: post.slug,
