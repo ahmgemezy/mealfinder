@@ -25,6 +25,16 @@ export function isSpoonacularConfigured(): boolean {
     return isConfigured;
 }
 
+/**
+ * Validate recipe content to ensure it has instructions
+ */
+function isValidRecipe(recipe: Recipe): boolean {
+    if (!recipe.instructions || recipe.instructions.trim().length < 15) {
+        return false;
+    }
+    return true;
+}
+
 // Cache for API responses
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const cache = new Map<string, { data: any; timestamp: number }>();
@@ -133,6 +143,12 @@ async function fetchRecipeFromSupabase(id: string): Promise<Recipe | null> {
 async function saveRecipeToSupabase(recipe: Recipe): Promise<void> {
     if (!isSupabaseConfigured()) return;
 
+    // Validate before saving
+    if (!isValidRecipe(recipe)) {
+        devLog.log(`Skipping saving recipe ${recipe.id} due to invalid/missing instructions.`);
+        return;
+    }
+
     // Fire and forget with retry - use .then() to avoid blocking
     retryAsync(
         async () => {
@@ -240,6 +256,11 @@ export async function getRandomRecipe(): Promise<Recipe | null> {
 
         const recipe = transformSpoonacularToRecipe(data.recipes[0]);
 
+        if (!isValidRecipe(recipe)) {
+            console.warn(`Random recipe ${recipe.name} (${recipe.id}) has missing instructions. Skipping.`);
+            return null;
+        }
+
         // Cache to Supabase
         await saveRecipeToSupabase(recipe);
 
@@ -323,6 +344,12 @@ export async function getRecipeById(id: string): Promise<Recipe | null> {
         if (!data) return null;
 
         const recipe = transformSpoonacularToRecipe(data);
+
+        // Validate before returning
+        if (!isValidRecipe(recipe)) {
+            console.warn(`Recipe ${recipe.name} (${recipe.id}) from API has missing instructions. Skipping.`);
+            return null;
+        }
 
         // 3. Save/update to Supabase with complete data
         await saveRecipeToSupabase(recipe);
@@ -585,7 +612,9 @@ export async function getMultipleRandomRecipes(count: number = 6): Promise<Recip
 
         if (!data.recipes) return [];
 
-        const recipes = data.recipes.map(transformSpoonacularToRecipe);
+        const recipes = data.recipes
+            .map(transformSpoonacularToRecipe)
+            .filter(isValidRecipe);
 
         // Cache all recipes to Supabase
         await Promise.all(recipes.map(recipe => saveRecipeToSupabase(recipe)));

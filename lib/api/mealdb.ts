@@ -52,6 +52,16 @@ function ensureRecipeDefaults(recipe: Recipe): Recipe {
     return recipe;
 }
 
+/**
+ * Validate recipe content to ensure it has instructions
+ */
+function isValidRecipe(recipe: Recipe): boolean {
+    if (!recipe.instructions || recipe.instructions.trim().length < 15) {
+        return false;
+    }
+    return true;
+}
+
 async function fetchRecipeFromSupabase(id: string): Promise<Recipe | null> {
     if (!isSupabaseConfigured()) return null;
 
@@ -93,6 +103,12 @@ async function saveRecipeToSupabase(recipe: Recipe): Promise<void> {
     if (!isSupabaseConfigured()) return;
     if (!recipe.id) {
         console.warn("Attempted to save recipe to Supabase without ID:", recipe);
+        return;
+    }
+
+    // Validate before saving
+    if (!isValidRecipe(recipe)) {
+        devLog.log(`Skipping saving recipe ${recipe.id} due to invalid/missing instructions.`);
         return;
     }
 
@@ -231,6 +247,11 @@ export async function getRandomMeal(): Promise<Recipe | null> {
         if (!data.meals || data.meals.length === 0) return null;
         const recipe = transformMealDBToRecipe(data.meals[0]);
 
+        if (!isValidRecipe(recipe)) {
+            console.warn(`Random meal ${recipe.name} (${recipe.id}) has missing instructions. Skipping.`);
+            return null;
+        }
+
         // Cache the random meal for future direct access
         await saveRecipeToSupabase(recipe);
 
@@ -333,6 +354,12 @@ export async function getMealById(id: string): Promise<Recipe | null> {
 
         const recipe = transformMealDBToRecipe(data.meals[0]);
 
+        // Validate before returning
+        if (!isValidRecipe(recipe)) {
+            console.warn(`Meal ${recipe.name} (${recipe.id}) from API has missing instructions. Skipping.`);
+            return null;
+        }
+
         // 3. Save to Supabase cache (this will update corrupted entries)
         await saveRecipeToSupabase(recipe);
 
@@ -351,7 +378,9 @@ export async function searchMeals(query: string): Promise<Recipe[]> {
         const data = await fetchFromMealDB<MealDBResponse>("search.php", { s: query });
         if (!data.meals) return [];
 
-        const recipes = data.meals.map(transformMealDBToRecipe);
+        const recipes = data.meals
+            .map(transformMealDBToRecipe)
+            .filter(isValidRecipe);
 
         // Cache all recipes to Supabase (fire and forget)
         recipes.forEach(recipe => saveRecipeToSupabase(recipe));
@@ -519,7 +548,7 @@ export async function getMultipleRandomMeals(count: number = 6): Promise<Recipe[
 
             if (data.meals && data.meals.length > 0) {
                 const recipe = transformMealDBToRecipe(data.meals[0]);
-                if (!seenIds.has(recipe.id)) {
+                if (!seenIds.has(recipe.id) && isValidRecipe(recipe)) {
                     meals.push(recipe);
                     seenIds.add(recipe.id);
                     // Cache the random meal for future direct access
