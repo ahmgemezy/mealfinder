@@ -24,7 +24,7 @@ import { translateRecipesList, translateBlogPosts, translateFAQ } from "@/lib/se
 import { supabase } from "@/lib/supabase";
 
 export const dynamic = "force-static";
-export const revalidate = 86400; // Revalidate daily
+export const revalidate = 1814400; // Revalidate every 21 days
 
 export async function generateStaticParams() {
   const { data: recipes } = await supabase

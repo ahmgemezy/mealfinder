@@ -9,7 +9,7 @@ import { getTranslations } from "next-intl/server";
 import { translateRecipesList } from "@/lib/services/translation";
 
 // Enable Incremental Static Regeneration (ISR)
-export const revalidate = 3600; // Revalidate every hour
+export const revalidate = 604800; // Revalidate every 7 days
 
 export default async function HomePage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
