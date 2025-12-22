@@ -25,9 +25,21 @@ export async function translateText(text: string, targetLang: string): Promise<s
             to: isoTarget,
             rejectOnPartialFail: false
         });
+
+        // Safety check for library response
+        if (!res || !res.text) {
+            throw new Error('Empty response from translation service');
+        }
+
         return res.text;
     } catch (error) {
-        console.error(`Translation error (${targetLang} -> ${isoTarget}). Text length: ${text.length}. Error:`, error);
+        // Reduce log noise for common transient errors
+        const msg = error instanceof Error ? error.message : String(error);
+        if (msg.includes("Cannot read properties of null") || msg.includes("Too Many Requests")) {
+            console.warn(`[Silent Translation Fail] (${targetLang}): ${msg}`);
+        } else {
+            console.error(`Translation error (${targetLang}). Text len: ${text.length}. Error:`, error);
+        }
         return text;
     }
 }
