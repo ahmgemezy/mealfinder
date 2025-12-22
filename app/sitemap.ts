@@ -157,7 +157,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       // Fetch only the name from the JSONB column to save memory
       // 'data->name' extracts just the name field maintaining the structure { data: { name: "..." } }
       .select("id, data->name, created_at")
-      .limit(50000);
+      .limit(2000);
 
     if (error) {
       console.error("Supabase error fetching recipes for sitemap:", error);
