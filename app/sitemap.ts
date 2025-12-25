@@ -3,16 +3,7 @@ import { RECIPE_CATEGORIES, RECIPE_AREAS } from "@/lib/constants";
 import { supabase } from "@/lib/supabase";
 import { getAllPostsMetadata } from "@/lib/utils/blog-helpers";
 
-// Helper to generate slug from recipe name (must match the slug format used in the app)
-function generateSlug(name: string, id: string): string {
-  const slug = name
-    .toLowerCase()
-    .replace(/[^a-z0-9\s-]/g, "")
-    .replace(/\s+/g, "-")
-    .replace(/-+/g, "-")
-    .trim();
-  return `${slug}-${id}`;
-}
+import { generateRecipeSlug } from "@/lib/utils/slugs";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // Use custom site URL or production domain as fallback
@@ -169,7 +160,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         const name = recipe.name as string;
         if (!name) return;
 
-        const slug = generateSlug(name, recipe.id);
+        const slug = generateRecipeSlug(name, recipe.id);
 
         locales.forEach((locale) => {
           // Dynamic alternates

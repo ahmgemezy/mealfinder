@@ -513,9 +513,21 @@ export async function getRecipeSEO(
     try {
         // Only return cached data in production to avoid slow page loads
         // Try to get cached data first
-        const cached = await getCachedEnrichment(recipe.id);
+        let cached = await getCachedEnrichment(recipe.id);
 
         if (cached) {
+            // CACHE HEALING: If cache exists but misses 'intro' (Chef's Tips), generate it!
+            if (!cached.intro || cached.intro.trim() === "") {
+                console.log(`🩹 Healing Cache for: ${recipe.name} (Missing Intro)`);
+                const newIntro = await generateRecipeIntro(recipe);
+
+                // Update object in memory
+                cached.intro = newIntro;
+
+                // Update DB in background (don't block response too long if possible, 
+                // but for now await to ensure consistency)
+                await cacheEnrichment(cached);
+            }
             return cached;
         }
 

@@ -2,6 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Recipe } from "@/lib/types/recipe";
 import { useLocale, useTranslations } from "next-intl";
+import { generateRecipeSlug } from "@/lib/utils/slugs";
 
 interface TryThisRecipeProps {
   recipe: Recipe;
@@ -29,7 +30,7 @@ export default function TryThisRecipe({ recipe }: TryThisRecipeProps) {
         {t('tryThisRecipe.description')}
       </p>
 
-      <Link href={`/${locale}/recipes/${recipe.id}`} className="block group">
+      <Link href={`/${locale}/recipes/${generateRecipeSlug(recipe.name, recipe.id)}`} className="block group">
         {/* Image Card */}
         <div className="relative aspect-square rounded-2xl overflow-hidden shadow-lg mb-4">
           {recipe.thumbnail ? (
