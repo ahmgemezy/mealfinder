@@ -124,7 +124,10 @@ async function openaiChat(
     maxTokens = 2048
 ): Promise<string> {
     const apiKey = process.env.OPENAI_API_KEY;
-    if (!apiKey) throw new Error("OPENAI_API_KEY is required");
+    if (!apiKey) {
+        console.error(`[OpenAI Error] Key missing. Env check: NODE_ENV=${process.env.NODE_ENV}, SUPABASE_URL=${!!process.env.NEXT_PUBLIC_SUPABASE_URL}, KeyLength=${process.env.OPENAI_API_KEY?.length}`);
+        throw new Error("OPENAI_API_KEY is required");
+    }
 
     const response = await fetch("https://api.openai.com/v1/chat/completions", {
         method: "POST",
