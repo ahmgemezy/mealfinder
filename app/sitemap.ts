@@ -119,7 +119,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const { data: blogPosts, error: blogError } = await supabase
       .from('blog_posts')
       .select('slug, published_date, updated_at')
-      .eq('published', true);
+      .not('published_date', 'is', null);
 
     if (blogError) {
       console.error("Error fetching blog posts for sitemap:", blogError);

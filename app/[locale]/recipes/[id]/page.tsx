@@ -19,7 +19,7 @@ import RelatedArticles from "@/components/recipes/RelatedArticles";
 import { getRelatedPostsByTags } from "@/lib/utils/blog-helpers";
 import RecipeFAQ from "@/components/recipes/RecipeFAQ";
 import { getRecipeSEO } from "@/lib/services/seo-enricher";
-import { translateRecipesList, translateBlogPosts, translateFAQ } from "@/lib/services/translation";
+import { translateRecipesList, translateBlogPosts, translateSEOEnrichment } from "@/lib/services/translation";
 
 import { supabase } from "@/lib/supabase";
 
@@ -30,7 +30,7 @@ export async function generateStaticParams() {
   const { data: recipes } = await supabase
     .from("recipes")
     .select("id, data")
-    .limit(10000);
+    .limit(50);
 
   if (!recipes) return [];
 
@@ -152,11 +152,11 @@ export default async function RecipePage({ params }: RecipePageProps) {
   }
 
   // Get SEO enrichment (FAQ, meta description, etc.)
-  const seoEnrichment = await getRecipeSEO(recipe);
+  let seoEnrichment = await getRecipeSEO(recipe);
 
-  // Translate FAQ if needed
-  if (seoEnrichment?.faq?.length && locale && locale !== 'en') {
-    seoEnrichment.faq = await translateFAQ(seoEnrichment.faq, locale);
+  // Translate SEO content (Intro, FAQ, Meta) if needed
+  if (seoEnrichment && locale && locale !== 'en') {
+    seoEnrichment = await translateSEOEnrichment(seoEnrichment, locale);
   }
 
   // Get related blog posts based on recipe tags/category
@@ -437,6 +437,22 @@ export default async function RecipePage({ params }: RecipePageProps) {
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
               {/* Main Content */}
               <div className="lg:col-span-2 space-y-8">
+                {/* Chef's Introduction (Runtime AI Content) */}
+                {seoEnrichment?.intro && (
+                  <section className="bg-primary-50 dark:bg-primary-900/10 rounded-3xl p-6 md:p-8 border border-primary-100 dark:border-primary-800 relative overflow-hidden">
+                    <div className="absolute top-0 right-0 p-4 opacity-10">
+                      <span className="text-6xl">👨‍🍳</span>
+                    </div>
+                    <h2 className="font-display text-2xl font-bold mb-4 flex items-center gap-3 text-primary-700 dark:text-primary-400">
+                      <span className="w-8 h-8 rounded-full bg-primary-100 dark:bg-primary-800 flex items-center justify-center text-lg">💡</span>
+                      {t("chefsNote") || "Chef's Note"}
+                    </h2>
+                    <p className="text-lg leading-relaxed text-foreground/90 italic">
+                      &ldquo;{seoEnrichment.intro}&rdquo;
+                    </p>
+                  </section>
+                )}
+
                 {/* Ingredients */}
                 <section>
                   <h2 className="font-display text-3xl font-bold mb-6 notranslate text-start">

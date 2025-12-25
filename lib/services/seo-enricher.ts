@@ -64,6 +64,7 @@ export interface SEOEnrichment {
     relatedRecipes: string[];
     relatedBlogPosts: string[];
     enrichedAt: string;
+    intro?: string;
 }
 
 interface JinaSearchResult {
@@ -371,6 +372,7 @@ export async function getCachedEnrichment(
             relatedRecipes: data.related_recipes || [],
             relatedBlogPosts: data.related_posts || [],
             enrichedAt: data.enriched_at,
+            intro: data.intro || "",
         };
     } catch {
         return null;
@@ -397,6 +399,7 @@ export async function cacheEnrichment(
                 related_recipes: enrichment.relatedRecipes,
                 related_posts: enrichment.relatedBlogPosts,
                 enriched_at: new Date().toISOString(),
+                intro: enrichment.intro,
             },
             { onConflict: "recipe_id" }
         );
@@ -410,6 +413,33 @@ export async function cacheEnrichment(
 // ============================================================================
 // Main Enrichment Function
 // ============================================================================
+
+/**
+ * Generate unique Chef's Introduction
+ */
+async function generateRecipeIntro(recipe: Recipe): Promise<string> {
+    const prompt = `Write a unique 50-80 word "Chef's Introduction" for this recipe.
+    
+Recipe: ${recipe.name}
+Category: ${recipe.category}
+Cuisine: ${recipe.area}
+
+Focus on:
+- Why this dish is special/delicious
+- Provide a "chef's tip" or flavor note
+- Create a welcoming tone (e.g., "This vibrant pasta dish combines...")
+- Use varied sentence structure
+
+Output ONLY the text paragraph.`;
+
+    try {
+        const response = await openaiChat([{ role: "user", content: prompt }]);
+        return response.trim();
+    } catch {
+        // Fallback generic intro if API fails
+        return `Discover how to make the perfect ${recipe.name}. This ${recipe.area} classic is part of our ${recipe.category} collection and is sure to impress your family and friends with its delicious flavors.`;
+    }
+}
 
 /**
  * Enrich a recipe with SEO metadata
@@ -444,11 +474,12 @@ export async function enrichRecipeSEO(
     }
 
     // 3. Generate enrichments in parallel
-    const [faq, metaDescription, keywords, culturalSnippet] = await Promise.all([
+    const [faq, metaDescription, keywords, culturalSnippet, intro] = await Promise.all([
         generateFAQ(recipe, faqSourceContent), // Uses Jina Research
         generateMetaDescription(recipe),       // Internal Only
         generateKeywords(recipe),              // Internal Only
         generateCulturalSnippet(recipe),       // Internal Only
+        generateRecipeIntro(recipe),           // Internal Only
     ]);
 
     const enrichment: SEOEnrichment = {
@@ -457,6 +488,7 @@ export async function enrichRecipeSEO(
         metaDescription,
         keywords,
         culturalSnippet,
+        intro: intro || "",
         relatedRecipes: [], // Could be populated by similarity search
         relatedBlogPosts: [], // Could be populated by tag matching
         enrichedAt: new Date().toISOString(),
@@ -477,8 +509,17 @@ export async function getRecipeSEO(
 ): Promise<SEOEnrichment | null> {
     try {
         // Only return cached data in production to avoid slow page loads
-        // Enrichment happens via background script
-        return await getCachedEnrichment(recipe.id);
+        // Try to get cached data first
+        const cached = await getCachedEnrichment(recipe.id);
+
+        if (cached) {
+            return cached;
+        }
+
+        // If not cached, generate it ON THE FLY (Runtime Enrichment)
+        // This ensures every page viewed by a user/bot gets enriched
+        console.log(`⚡️ Runtime Enrichment triggered for: ${recipe.name}`);
+        return await enrichRecipeSEO(recipe);
     } catch {
         return null;
     }

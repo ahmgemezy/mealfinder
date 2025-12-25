@@ -531,3 +531,88 @@ export async function translateBlogPostFull<T extends BlogPost | DBBlogPost>(pos
 }
 
 
+
+import { SEOEnrichment } from '@/lib/services/seo-enricher';
+
+/**
+ * Translates and caches SEO Enrichment data (Intro, FAO, etc.)
+ */
+export async function translateSEOEnrichment(
+    enrichment: SEOEnrichment,
+    locale: string
+): Promise<SEOEnrichment> {
+    if (!locale || locale === 'en' || !enrichment) return enrichment;
+
+    try {
+        // 1. Check Cache
+        const { data: cached, error } = await supabase
+            .from('recipe_seo_translations')
+            .select('*')
+            .eq('recipe_id', enrichment.recipeId)
+            .eq('locale', locale)
+            .maybeSingle();
+
+        if (cached && !error) {
+            // devLog.log(`[Translation] SEO Cache hit for ${enrichment.recipeId} (${locale})`);
+            return {
+                ...enrichment,
+                intro: cached.intro || enrichment.intro,
+                faq: cached.faq || enrichment.faq,
+                metaDescription: cached.meta_description || enrichment.metaDescription,
+                keywords: cached.keywords || enrichment.keywords,
+                culturalSnippet: cached.cultural_snippet || enrichment.culturalSnippet,
+            };
+        }
+
+        // 2. Translate if not in cache (Cache Miss)
+        devLog.log(`[Translation] SEO Cache miss for ${enrichment.recipeId} (${locale}). Translating...`);
+
+        // Prepare text for batch translation
+        // We'll translate Intro and Meta Description. 
+        // FAQ is handled separately via translateFAQ (which we can optionally cache here too)
+
+        const introText = enrichment.intro || "";
+        const metaDescText = enrichment.metaDescription || "";
+        const culturalText = enrichment.culturalSnippet || "";
+
+        // Batch translate core text fields
+        const delimiter = ' ||| ';
+        const combinedText = `${introText}${delimiter}${metaDescText}${delimiter}${culturalText}`;
+
+        const [translatedCombined, translatedFaq] = await Promise.all([
+            translateText(combinedText, locale),
+            translateFAQ(enrichment.faq, locale)
+        ]);
+
+        const [tIntro, tMeta, tCultural] = translatedCombined.split(delimiter);
+
+        // 3. Save to Cache
+        const { error: upsertError } = await supabaseAdmin
+            .from('recipe_seo_translations')
+            .upsert({
+                recipe_id: enrichment.recipeId,
+                locale: locale,
+                intro: tIntro?.trim() || introText,
+                meta_description: tMeta?.trim() || metaDescText,
+                cultural_snippet: tCultural?.trim() || culturalText,
+                faq: translatedFaq,
+                keywords: enrichment.keywords // We typically don't translate keywords automatically as search behavior varies, keeping original for now
+            }, { onConflict: 'recipe_id,locale' });
+
+        if (upsertError) {
+            console.error('[Translation] SEO cache upsert error:', upsertError);
+        }
+
+        return {
+            ...enrichment,
+            intro: tIntro?.trim() || introText,
+            metaDescription: tMeta?.trim() || metaDescText,
+            culturalSnippet: tCultural?.trim() || culturalText,
+            faq: translatedFaq
+        };
+
+    } catch (error) {
+        console.error('[Translation] SEO translation error:', error);
+        return enrichment;
+    }
+}
