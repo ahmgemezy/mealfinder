@@ -457,32 +457,48 @@ export async function enrichRecipeSEO(
         return cached;
     }
 
-    // 2. FAQ Research with JINA (Specific for FAQs only)
-    console.log(`🔍 Enriching SEO for: ${recipe.name}`);
-    let faqSourceContent = "";
+    // 2. Start Jina Research in background (independent of other tasks EXCEPT FAQ)
+    const jinaResearchPromise = (async () => {
+        try {
+            console.log(`   Running Jina FAQ research...`);
+            const searchQuery = `${recipe.name} recipe FAQ common questions mistakes`;
+            const searchResults = await searchWithJina(searchQuery);
 
-    try {
-        console.log(`   Running Jina FAQ research...`);
-        const searchQuery = `${recipe.name} recipe FAQ common questions mistakes`;
-        const searchResults = await searchWithJina(searchQuery);
+            if (searchResults.length > 0) {
+                // Parallelize reading the top 2 results
+                const contents = await Promise.all(
+                    searchResults.slice(0, 2).map(result => readWithJina(result.url))
+                );
 
-        if (searchResults.length > 0) {
-            for (const result of searchResults.slice(0, 2)) {
-                const content = await readWithJina(result.url);
-                faqSourceContent += `\nSOURCE: ${result.title}\n${content}\n`;
+                return searchResults.slice(0, 2).map((result, index) =>
+                    `\nSOURCE: ${result.title}\n${contents[index]}\n`
+                ).join("");
             }
+            return "";
+        } catch (e) {
+            console.warn(`   ⚠️ Jina FAQ research failed, falling back to internal knowledge:`, e);
+            return "";
         }
-    } catch (e) {
-        console.warn(`   ⚠️ Jina FAQ research failed, falling back to internal knowledge:`, e);
-    }
+    })();
 
     // 3. Generate enrichments in parallel
+    // We start the independent ones immediately without waiting for Jina
+    const metaPromise = generateMetaDescription(recipe);
+    const keywordsPromise = generateKeywords(recipe);
+    const culturalSnippetPromise = generateCulturalSnippet(recipe);
+    const introPromise = generateRecipeIntro(recipe);
+
+    // FAQ depends on Jina, so we chain it
+    const faqPromise = jinaResearchPromise.then(sourceContent =>
+        generateFAQ(recipe, sourceContent)
+    );
+
     const [faq, metaDescription, keywords, culturalSnippet, intro] = await Promise.all([
-        generateFAQ(recipe, faqSourceContent), // Uses Jina Research
-        generateMetaDescription(recipe),       // Internal Only
-        generateKeywords(recipe),              // Internal Only
-        generateCulturalSnippet(recipe),       // Internal Only
-        generateRecipeIntro(recipe),           // Internal Only
+        faqPromise,
+        metaPromise,
+        keywordsPromise,
+        culturalSnippetPromise,
+        introPromise,
     ]);
 
     const enrichment: SEOEnrichment = {
