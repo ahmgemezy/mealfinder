@@ -11,6 +11,11 @@ const nextConfig: NextConfig = {
         destination: '/recipes',
         permanent: true,
       },
+      {
+        source: '/ads.txt',
+        destination: 'https://srv.adstxtmanager.com/19390/dishshuffle.com',
+        permanent: true,
+      },
     ];
   },
   turbopack: {
