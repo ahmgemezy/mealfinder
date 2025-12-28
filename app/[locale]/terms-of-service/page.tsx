@@ -2,7 +2,7 @@ import React from "react";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-    title: "Terms of Service | Dish Shuffle",
+    title: "Terms of Service",
     description: "Read the Terms of Service for Dish Shuffle. Understand your rights and responsibilities when using our recipe discovery platform.",
 };
 

@@ -41,7 +41,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     }
 
     return {
-        title: `${post.title} | Dish Shuffle`,
+        title: post.title,
         description: post.excerpt,
         openGraph: {
             title: post.title,

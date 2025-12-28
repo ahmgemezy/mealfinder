@@ -2,7 +2,7 @@ import React from "react";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-    title: "Privacy Policy | Dish Shuffle",
+    title: "Privacy Policy",
     description: "Learn how Dish Shuffle collects, uses, and protects your personal data. Compliant with GDPR and CCPA regulations.",
 };
 
