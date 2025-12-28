@@ -154,6 +154,7 @@ interface CLIArgs {
     topic: string;
     category: BlogCategory;
     author?: string;
+    featuredImage?: string;
     output: boolean;
     dryRun: boolean;
 }
@@ -431,7 +432,8 @@ async function writeSection(
     topic: string,
     section: OutlineSection,
     previousContext: string,
-    sourceMaterial: string
+    sourceMaterial: string,
+    internalLinks: string[]
 ): Promise<string> {
     console.log(`✍️  Writing Section: "${section.heading}"...`);
 
@@ -450,6 +452,15 @@ async function writeSection(
 -   Role in Article: ${section.description}
 
 **SEO**: Naturally weave in these keywords if relevant: ${section.keywords || []}.
+
+**INTERNAL LINKS (CRITICAL)**:
+You have access to these recipes from our database:
+${internalLinks.join(', ')}
+
+**MANDATORY**: Try to naturally mention at least 1 of these recipes in this section if it fits the context.
+-   Format: Use the markdown link exactly provided.
+-   Example: "For a classic side, try our [Garlic Mashed Potatoes](/recipes/garlic-mashed-potatoes-123)."
+-   Do NOT force it if it's completely irrelevant.
 
 **GOAL**: Write a section that is so useful and engaging the reader shares it immediately.`;
 
@@ -490,7 +501,8 @@ async function generateLongFormPost(
     category: BlogCategory,
     sourceMaterial: string,
     author: string,
-    availableImages: string[]
+    availableImages: string[],
+    forcedFeaturedImage?: string
 ): Promise<GeneratedBlogPost> {
 
     // 0. Fetch internal recipe links for SEO
@@ -510,7 +522,7 @@ async function generateLongFormPost(
     for (const [index, section] of outline.sections.entries()) {
         console.log(`\n[${index + 1}/${outline.sections.length}]Processing: ${section.heading} `);
 
-        let sectionContent = await writeSection(topic, section, fullContent, sourceMaterial);
+        let sectionContent = await writeSection(topic, section, fullContent, sourceMaterial, internalLinks);
 
         // Clean the heading just in case the AI leaked instructions into it
         const cleanHeading = section.heading.replace(/\(.*?\)/g, "").trim();
@@ -526,8 +538,9 @@ async function generateLongFormPost(
     }
 
     // 3. Assemble
+    // 3. Assemble
     // Select Image
-    const featuredImage = availableImages.length > 0 ? availableImages[0] : FALLBACK_IMAGES[0];
+    const featuredImage = forcedFeaturedImage || (availableImages.length > 0 ? availableImages[0] : FALLBACK_IMAGES[0]);
 
     return {
         slug: outline.slug,
@@ -592,6 +605,7 @@ function parseArgs(): CLIArgs {
             if (BLOG_CATEGORIES.includes(cat)) result.category = cat;
         }
         else if (args[i] === "--author" && args[++i]) { result.author = args[i]; }
+        else if (args[i] === "--featured-image" && args[++i]) { result.featuredImage = args[i]; }
         else if (args[i] === "--output") { result.output = true; }
         else if (args[i] === "--dry-run") { result.dryRun = true; }
     }
@@ -662,7 +676,7 @@ async function main() {
 
         // 2. Generate
         const author = args.author || AUTHORS[Math.floor(Math.random() * AUTHORS.length)];
-        const post = await generateLongFormPost(args.topic, args.category, combinedSource, author, images);
+        const post = await generateLongFormPost(args.topic, args.category, combinedSource, author, images, args.featuredImage);
 
         // 3. Output
         if (args.dryRun || args.output) {

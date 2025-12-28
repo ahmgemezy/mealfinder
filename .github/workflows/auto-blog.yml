@@ -1,0 +1,35 @@
+name: Auto Blog Generator
+
+on:
+  schedule:
+    # Run at 09:00 UTC on Mon, Wed, Fri, Sun (4 times/week)
+    - cron: '0 9 * * 1,3,5,0'
+  workflow_dispatch: # Allow manual trigger
+
+jobs:
+  generate-blog:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # Needed to commit if we decided to commit static files (though we use Supabase)
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Run Auto-Generator
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          JINA_API_KEY: ${{ secrets.JINA_API_KEY }}
+          UNSPLASH_ACCESS_KEY: ${{ secrets.UNSPLASH_ACCESS_KEY }}
+        run: npx tsx scripts/auto-generate-from-recipe.ts
