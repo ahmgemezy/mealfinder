@@ -123,6 +123,7 @@ interface OutlineSection {
     heading: string;
     description: string;
     estimatedWords: number;
+    keywords?: string[];
 }
 
 interface BlogPostOutline {
@@ -156,6 +157,43 @@ interface CLIArgs {
     output: boolean;
     dryRun: boolean;
 }
+
+// ============================================================================
+// AI Configuration (OpenAI SDK)
+// ============================================================================
+
+import OpenAI from "openai";
+import { z } from "zod";
+import { zodResponseFormat } from "openai/helpers/zod";
+
+const openai = new OpenAI({
+    apiKey: process.env.OPENAI_API_KEY,
+    maxRetries: 5, // Retry up to 5 times for 502/503 errors
+    timeout: 180000, // 3 minutes timeout
+});
+
+// Zod Schemas for Structured Outputs
+
+const VisualSearchTermsSchema = z.object({
+    terms: z.array(z.string()),
+});
+
+const OutlineSectionSchema = z.object({
+    heading: z.string(),
+    description: z.string(),
+    estimatedWords: z.number(),
+    keywords: z.array(z.string()),
+});
+
+const BlogPostOutlineSchema = z.object({
+    slug: z.string(),
+    title: z.string(),
+    description: z.string(),
+    tags: z.array(z.string()),
+    excerpt: z.string(),
+    sections: z.array(OutlineSectionSchema),
+    infographicPrompt: z.string(),
+});
 
 // ============================================================================
 // Logic
@@ -202,18 +240,28 @@ async function readWithJina(url: string): Promise<string> {
 // ============================================================================
 
 async function getVisualSearchTerms(topic: string): Promise<string[]> {
-    const systemPrompt = "You are a visual research assistant. Generate 3 distinct search keywords (MAX 1-2 words each) to find high-quality images on Unsplash for the given topic. Output strictly a JSON array of strings. Example: for 'Pizza Dough', output ['Pizza', 'Dough', 'Flour']. Avoid long phrases.";
+    const systemPrompt = "You are a visual research assistant. Generate 3 distinct search keywords (MAX 1-2 words each) to find high-quality images on Unsplash for the given topic. Avoid long phrases.";
     const userPrompt = `Topic: "${topic}"`;
 
     try {
-        const raw = await openaiChat([
-            { role: "system", content: systemPrompt },
-            { role: "user", content: userPrompt }
-        ], "gpt-5", 1000);
-        const sanitized = raw.replace(/```json|```/g, "").trim();
-        return JSON.parse(sanitized);
-    } catch {
-        // Fallback: simple split or just the topic
+        const completion = await openai.chat.completions.create({
+            model: "gpt-4o",
+            messages: [
+                { role: "system", content: systemPrompt },
+                { role: "user", content: userPrompt }
+            ],
+            response_format: zodResponseFormat(VisualSearchTermsSchema, "search_terms"),
+        });
+
+        const content = completion.choices[0].message.content;
+        if (content) {
+            const parsed = JSON.parse(content);
+            const result = VisualSearchTermsSchema.parse(parsed);
+            return result.terms;
+        }
+        return [topic];
+    } catch (e) {
+        console.warn("⚠️ Visual search terms generation failed, using topic.", e);
         return [topic, topic.split(" ")[0], "Food"];
     }
 }
@@ -250,101 +298,53 @@ async function searchImagesWithUnsplash(query: string): Promise<string[]> {
     }
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-async function openaiChat(messages: any[], model = "gpt-5", maxTokens = 16000, retries = 3) {
-    const apiKey = process.env.OPENAI_API_KEY;
-    if (!apiKey) throw new Error("OPENAI_API_KEY is required.");
-
-    for (let attempt = 1; attempt <= retries; attempt++) {
-        try {
-            // Use AbortController for granular timeout control
-            const controller = new AbortController();
-            const timeoutId = setTimeout(() => controller.abort(), 180000); // 3 minutes hard timeout
-
-            const response = await fetch("https://api.openai.com/v1/chat/completions", {
-                method: "POST",
-                headers: {
-                    Authorization: `Bearer ${apiKey}`,
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    model,
-                    messages,
-                    max_completion_tokens: maxTokens,
-                }),
-                signal: controller.signal,
-            }).finally(() => clearTimeout(timeoutId));
-
-            if (!response.ok) {
-                const errorBody = await response.text();
-                // If it's a server error (5xx) or Rate Limit (429), we throw to retry
-                if (response.status >= 500 || response.status === 429) {
-                    throw new Error(`Retryable API Error: ${response.status} - ${errorBody}`);
-                }
-                // Client errors (400, 401, etc) we fail immediately
-                console.error(`❌ OpenAI API Fatal Error (${response.status}):`, errorBody);
-                throw new Error(`OpenAI API error: ${response.status} ${response.statusText}`);
-            }
-
-            const data = await response.json();
-            const content = data.choices?.[0]?.message?.content;
-
-            if (!content) {
-                throw new Error("Received empty content from OpenAI");
-            }
-            return content;
-
-        } catch (e) {
-            const isLastAttempt = attempt === retries;
-            const errorMsg = (e as Error).message;
-            console.warn(`⚠️  OpenAI Chat Attempt ${attempt}/${retries} failed: ${errorMsg}`);
-
-            // Specific handling for Timeout or Fetch failures
-            if (isLastAttempt) {
-                console.error("❌ All retry attempts failed.");
-                throw e; // Propagate the final error
-            }
-
-            // Exponential backoff: 2s, 4s, 8s
-            const waitTime = Math.pow(2, attempt) * 2000;
-            console.log(`⏳ Waiting ${waitTime / 1000}s before retry...`);
-            await new Promise(resolve => setTimeout(resolve, waitTime));
-        }
+// Helper for general chat (non-structured) using SDK
+async function openaiChat(messages: any[], model = "gpt-4o", maxTokens = 16000) {
+    try {
+        const completion = await openai.chat.completions.create({
+            model: model === "gpt-5" ? "gpt-4o" : model, // Fallback mapping if gpt-5 not available/mocked
+            messages,
+            max_tokens: maxTokens,
+        });
+        return completion.choices[0]?.message?.content || "";
+    } catch (e) {
+        console.error("❌ OpenAI API Error:", e instanceof Error ? e.message : String(e));
+        throw e; // Rethrow to let caller handle or fail
     }
-    return "";
 }
 
 /**
  * Fallback: Simulate research using OpenAI's internal knowledge base
  * This is used when Jina.ai search fails (e.g. 402 Payment Required).
  */
-async function simulateResearchWithOpenAI(topic: string): Promise<string> {
-    console.log(`⚠️  Jina Search failed. Switching to OpenAI Knowledge Base for research on: "${topic}"...`);
+async function conductDeepResearch(topic: string): Promise<string> {
+    console.log(`🧠 Conducting Deep-Dive Research on: "${topic}"...`);
 
-    const systemPrompt = `You are a research assistant for a culinary blog. 
-The user needs a comprehensive research briefing on the topic: "${topic}".
-Since external search is unavailable, you must synthesize a detailed research document from your internal knowledge.
+    // Prompt engineered to simulate an "Expert" searching for non-obvious data
+    const systemPrompt = `You are an elite Investigative Journalist and Subject Matter Expert.
+Your goal is to provide a "Deep Dive" research briefing on the topic.
 
-Include the following sections:
-1.  **History & Origins**: Cultural background, evolution of the dish/ingredient.
-2.  **Scientific Principles**: Chemical reactions (Maillard, gluten development, etc.), cooking physics.
-3.  **Key Culinary Facts**: Varieties, seasonality, best practices.
-4.  **Common FAQs**: 5-7 questions and detailed answers.
-5.  **Product Trends**: Popular tools/brands associated with this topic (for valid recommendations).
+RULES for Research:
+1.  **NO FLUFF**: Do not write generic intros. Go straight to the hard facts.
+2.  **SPECIFICITY**: Cite specific techniques, scientific principles, dates, or expert consensus.
+3.  **CONTRARIAN VIEWS**: Mention common myths vs. reality.
+4.  **HUMAN ELEMENT**: focused on what actually matters to the user (pain points, real benefits).
+5.  **DATA POINTS**: If applicable, estimate numbers/stats based on your training (e.g. "cooking temps", "gear weight").
 
-Format the output as a structured text document. Be factually accurate and detailed.`;
+Format:
+-   **Key Concepts**: 3-5 core technical or practical pillars.
+-   **Common Pitfalls**: What do beginners get wrong?
+-   **Expert Tips**: 3 nuances only pros know.
+-   **SEO Entities**: List 10 semantic keywords associated with this topic.`;
 
-    const userPrompt = `Generate research material for: "${topic}"`;
+    const userPrompt = `Topic: "${topic}"
+    
+    Give me the raw research material needed to write the best article on the internet about this.`;
 
-    try {
-        return await openaiChat([
-            { role: "system", content: systemPrompt },
-            { role: "user", content: userPrompt }
-        ], "gpt-5", 16000); // High token limit for detailed research
-    } catch (e) {
-        console.error("❌ Critical: OpenAI simulation also failed.", e);
-        return "";
-    }
+    return openaiChat([
+        { role: "system", content: systemPrompt },
+        { role: "user", content: userPrompt }
+    ], "gpt-4o", 2000);
 }
 
 // ----------------------------------------------------------------------------
@@ -361,31 +361,23 @@ async function generateOutline(
     const config = CATEGORY_CONFIG[category];
     const wordsPerSection = Math.ceil(config.targetWords / config.sectionCount);
 
-    const systemPrompt = `You are the Editor-in-Chief of "Dish Shuffle", a premium culinary discovery platform.
+
+    const systemPrompt = `You are the Editor-in-Chief of "Dish Shuffle".
 You are designing the structure for a ${config.targetWords}-word authority article in the "${category}" category.
 
-**PRIORITY**: Quality and Depth are far more important than speed. Take your time to design a logical, high-impact structure.
+**PHILOSOPHY**: "Value over Volume". We want to solve the reader's problem, not just fill space.
+
+**GOAL**: Create a "Human" Narrative Arc.
+-   Avoid "Robot" structures (e.g. "Introduction -> Body -> Conclusion").
+-   Use "Hook-based" headings that promise value (e.g. instead of "Benefits", use "Why This Changes Everything").
+-   Ensure logical flow: Step 1 leads to Step 2.
 
 **CATEGORY FOCUS**: ${config.focusNote}
 
 Your goal is to break this topic down into ${config.sectionCount} discrete, high-value sections.
 
-Output strictly JSON with this schema:
-{
-  "slug": "url-slug",
-  "title": "A Click-Worthy, SEO-Optimized Title",
-  "description": "Meta description (150 chars)",
-  "tags": ["Tag1", "Tag2"],
-  "excerpt": "Engaging summary.",
-  "infographicPrompt": "Visual description for a summary chart.",
-  "sections": [
-    { 
-      "heading": "Section H2 Title", 
-      "description": "Exact instructions for what to write here. Be specific about data, examples, or tips to include. DO NOT include parenthetical constraints (like 'Affiliate Picks') in the heading name itself.", 
-      "estimatedWords": ${wordsPerSection}
-    }
-  ]
-}
+Requirements:
+
 
 Requirements:
 1.  **Structure**:
@@ -411,16 +403,23 @@ ${sourceMaterial.slice(0, 10000)}
 
 Create the Master Outline for a ${config.targetWords}-word article.`;
 
-    const raw = await openaiChat([
-        { role: "system", content: systemPrompt },
-        { role: "user", content: userPrompt }
-    ]);
-
     try {
-        const sanitized = raw.replace(/```json|```/g, "").trim();
-        return JSON.parse(sanitized);
+        const completion = await openai.chat.completions.create({
+            model: "gpt-4o",
+            messages: [
+                { role: "system", content: systemPrompt },
+                { role: "user", content: userPrompt }
+            ],
+            response_format: zodResponseFormat(BlogPostOutlineSchema, "blog_outline"),
+        });
+
+        const content = completion.choices[0].message.content;
+        if (!content) throw new Error("No content returned for outline");
+
+        const parsed = JSON.parse(content);
+        return BlogPostOutlineSchema.parse(parsed);
     } catch (e) {
-        console.error("Failed to parse outline JSON", raw);
+        console.error("Failed to parse outline JSON", e);
         throw e;
     }
 }
@@ -436,57 +435,23 @@ async function writeSection(
 ): Promise<string> {
     console.log(`✍️  Writing Section: "${section.heading}"...`);
 
-    const systemPrompt = `You are a specialized senior food writer for "Dish Shuffle", a premium culinary platform.
-You are writing ONE specific section of an authority guide on "${topic}".
+    const systemPrompt = `You are a Senior Feature Writer for a top-tier magazine (like NYT Cooking, Serious Eats, or Bon Appétit).
 
-**MINDSET**: Do not rush. Think deeply about the reader's needs. Quality, accuracy, and engaging prose are your only metrics. Rankability (SEO) depends on depth and value, not fluff.
+**TONE & STYLE GUIDE**:
+1.  **HUMAN**: Write like a knowledgeable friend, not a textbook. Be opinionated, witty, and warm.
+2.  **DIRECT**: Use active voice. Cut the fluff. Never use phrases like "In this section", "It is important to note", or "Let's delve into".
+3.  **ANTI-HALLUCINATION**: Do not invent products or studies. If unsure, generalize (e.g. "Many experts say...") or omit.
+4.  **VOCABULARY**: Ban these AI-words: *delve, tapestry, landscape, myriad, crucial, paramount, realm, game-changer*.
+5.  **FORMATTING**: Use short paragraphs (2-3 sentences). Use bullet points for readability.
 
-Your Task: Write the content for the section "${section.heading}".
-Target Length: ${section.estimatedWords} words (Minimum ${Math.max(250, section.estimatedWords - 100)}).
-STRICT LIMIT: Do not exceed ${section.estimatedWords + 150} words. Be concise and high-value.
+**CONTEXT**:
+-   Article Name: "${topic}"
+-   Section Topic: "${section.heading}"
+-   Role in Article: ${section.description}
 
-**CRITICAL FORMATTING RULES (for Mobile Readability)**:
-1.  **Short Paragraphs**: Maximum 3 sentences per paragraph. No walls of text.
-2.  **H3 Subheadings**: Use H3s every 200-300 words to break up content.
-3.  **Bold Key Terms**: Highlight important words to aid scanning.
-4.  **Bullet Points**: Use lists for steps or multi-item information.
+**SEO**: Naturally weave in these keywords if relevant: ${section.keywords || []}.
 
-**CONTENT QUALITY RULES (for EEAT & SEO)**:
-1.  **Natural Voice**: Write in a conversational, authoritative tone (like Serious Eats or Bon Appétit). Avoid robotic transitions.
-2.  **Contextual Expertise**: Explain the "why" behind techniques (e.g., why brown butter tastes nutty) naturally, without forcing scientific jargon unless necessary.
-3.  **Pro Tip Callout**: OPTIONAL. Include one ONLY if you have a specific, actionable tip that isn't obvious text.
-    \`\`\`
-    > **💡 Pro Tip:** [Your actionable advice here.]
-    \`\`\`
-4.  **Tone**: Authoritative, scientific yet accessible (Serious Eats / NYT Cooking style).
-5.  **Flow**: Ensure smooth transition from the previous section (context provided below).
-
-**MONETIZATION (RESTRICTED - QUALITY OVER QUANTITY)**:
-- Include Amazon Search Links ONLY for specific, high-value recommendations.
-- **LIMIT**: Maximum 1-2 links per section. Do not spam.
-- **CRITICAL**: NEVER use direct product links (like /dp/B00... or /gp/product/...). They break. ONLY use SEARCH links.
-- Format: [Product Name](https://www.amazon.com/s?k=Product+Name&tag=dishshuffle-20)
-- Example: "For best results, use a [Lodge Cast Iron Skillet](https://www.amazon.com/s?k=Lodge+Cast+Iron+Skillet&tag=dishshuffle-20)."
-- **DO NOT** output "Anchor text:" or "Link:" labels. Just integrate the link naturally into the sentence.
-
-**INTERNAL LINKING RULES**:
-- When mentioning related recipes, you MUST format them as proper Markdown links.
-- **BAD**: "Try our shrimp rolls (/recipes/shrimp-rolls-123)"
-- **GOOD**: "Try our [Shrimp & Crab Egg Rolls](/recipes/shrimp-rolls-123)"
-- Use the exact paths provided in the context.
-
-**FORBIDDEN CONTENT**:
-- Do NOT mention "downloading a PDF", "grabbing our guide", or "printable versions". These do not exist.
-- Do NOT refer to "our test kitchen" unless citing a specific known fact.
-
-**FACTUAL GROUNDING (CRITICAL)**:
-- Use provided SOURCE MATERIAL as truth. Do not invent specific numbers/dates.
-
-**FACTUAL GROUNDING (CRITICAL)**:
-1.  **Source Truth**: You are provided with "SOURCE MATERIAL". Use this as your primary source of truth for specific facts, numbers, dates, and scientific details.
-2.  **No Invention**: If the source material does not contain a specific detail (like a specific temperature or year), do NOT invent one. Generalize instead (e.g., say "high heat" instead of "450°F" if not verified).
-3.  **Cross-Check**: If your internal knowledge conflicts heavily with the Source Material, defer to the Source Material or mention the variability.
-`;
+**GOAL**: Write a section that is so useful and engaging the reader shares it immediately.`;
 
     const userPrompt = `
 SECTION TO WRITE: "${section.heading}"
@@ -673,8 +638,8 @@ async function main() {
             }
 
         } catch (error) {
-            console.warn(`⚠️ Research failed: ${error instanceof Error ? error.message : String(error)}. Using OpenAI Fallback.`);
-            combinedSource = await simulateResearchWithOpenAI(args.topic);
+            console.warn(`⚠️ Research failed: ${error instanceof Error ? error.message : String(error)}. Using OpenAI Deep Dive.`);
+            combinedSource = await conductDeepResearch(args.topic);
             if (!combinedSource) {
                 throw new Error("Both Jina and OpenAI Fallback failed to provide source material.");
             }
