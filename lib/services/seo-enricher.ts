@@ -15,25 +15,7 @@
 import { createClient } from "@supabase/supabase-js";
 import { Recipe } from "@/lib/types/recipe";
 
-// Utility to safely parse JSON from AI response
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-function parseJSONFromText<T = any>(text: string): T {
-    try {
-        // 1. Try direct parse
-        return JSON.parse(text);
-    } catch {
-        // 2. Try to find JSON array or object
-        const match = text.match(/(\[[\s\S]*\]|\{[\s\S]*\})/);
-        if (match) {
-            try {
-                return JSON.parse(match[0]);
-            } catch {
-                // duplicate logic or continue
-            }
-        }
-    }
-    throw new Error("Failed to extract JSON from text");
-}
+
 
 // ============================================================================
 // Configuration
@@ -119,41 +101,51 @@ async function readWithJina(url: string): Promise<string> {
 // OpenAI Integration for Processing
 // ============================================================================
 
+// ============================================================================
+// OpenAI Integration for Processing
+// ============================================================================
+
+import OpenAI from "openai";
+import { z } from "zod";
+import { zodResponseFormat } from "openai/helpers/zod";
+
+const openai = new OpenAI({
+    apiKey: process.env.OPENAI_API_KEY,
+});
+
 async function openaiChat(
-    messages: Array<{ role: string; content: string }>,
+    messages: Array<{ role: "system" | "user" | "assistant"; content: string }>,
     maxTokens = 2048
 ): Promise<string> {
-    const apiKey = process.env.OPENAI_API_KEY;
-    if (!apiKey) {
-        console.error(`[OpenAI Error] Key missing. Env check: NODE_ENV=${process.env.NODE_ENV}, SUPABASE_URL=${!!process.env.NEXT_PUBLIC_SUPABASE_URL}, KeyLength=${process.env.OPENAI_API_KEY?.length}`);
-        throw new Error("OPENAI_API_KEY is required");
-    }
-
-    const response = await fetch("https://api.openai.com/v1/chat/completions", {
-        method: "POST",
-        headers: {
-            Authorization: `Bearer ${apiKey}`,
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
+    try {
+        const response = await openai.chat.completions.create({
             model: "gpt-4o",
-            messages,
+            messages: messages,
             max_tokens: maxTokens,
-        }),
-    });
+        });
 
-    if (!response.ok) {
-        const errorText = await response.text();
-        console.error(`Status: ${response.status}. OpenAI API error body: ${errorText}`);
-        throw new Error(`OpenAI API error: ${response.statusText}`);
+        return response.choices[0]?.message?.content || "";
+    } catch (e) {
+        console.error(`Status: OpenAI API error`, e);
+        throw new Error(`OpenAI API error: ${e instanceof Error ? e.message : String(e)}`);
     }
-    const data = await response.json();
-    return data.choices?.[0]?.message?.content || "";
 }
 
 // ============================================================================
 // SEO Enrichment Functions
 // ============================================================================
+
+// ============================================================================
+// SEO Enrichment Functions
+// ============================================================================
+
+// Schema for FAQ Response
+const FAQSchema = z.object({
+    faqs: z.array(z.object({
+        question: z.string(),
+        answer: z.string(),
+    })),
+});
 
 /**
  * Generate FAQ questions and answers for a recipe
@@ -183,35 +175,29 @@ Focus on:
 - Usage/Serving (e.g. "What to serve with...?")
 - Dietary/Substitutions (e.g. "Can I make this vegan?")
 
-Output as JSON array:
-[
-  { "question": "Question?", "answer": "Answer" }
-]
-
 Keep answers concise (50-100 words). Be helpful and accurate.`;
 
     try {
-        const response = await openaiChat([
-            { role: "system", content: "You are an SEO and culinary expert." },
-            { role: "user", content: primaryPrompt },
-        ]);
+        const completion = await openai.chat.completions.create({
+            model: "gpt-4o-2024-08-06",
+            messages: [
+                { role: "system", content: "You are an SEO and culinary expert." },
+                { role: "user", content: primaryPrompt },
+            ],
+            response_format: zodResponseFormat(FAQSchema, "faq_response"),
+        });
 
-        const sanitized = response.replace(/```json|```/g, "").trim();
-        let results;
-        try {
-            results = parseJSONFromText(sanitized);
-        } catch (e) {
-            console.warn("   ⚠️ Primary FAQ JSON parse failed. Raw:", response ? (response.substring(0, 200) + "...") : "[EMPTY_STRING]");
-            // Allow fallback to trigger
-            throw e;
+        const content = completion.choices[0].message.content;
+        if (content) {
+            const parsed = JSON.parse(content);
+            const result = FAQSchema.parse(parsed);
+            if (result && result.faqs && result.faqs.length > 0) {
+                return result.faqs;
+            }
         }
-
-        // If we got results, return them.
-        if (Array.isArray(results) && results.length > 0) {
-            return results;
-        }
-    } catch {
+    } catch (e) {
         // Fall through to fallback
+        console.warn("   ⚠️ Primary FAQ generation failed:", e);
     }
 
     // 2. Fallback Strategy: Pure Internal Knowledge (if Jina failed or strict prompt yielded nothing)
@@ -223,32 +209,32 @@ Keep answers concise (50-100 words). Be helpful and accurate.`;
     2. Serving Suggestions (What pairs well with it)
     3. Common Variations (e.g. "Can I add spicy peppers?")
     
-    Recipe Ingredients for context: ${recipe.ingredients.map((i) => i.name).join(", ")}
-    
-    Output strictly as JSON array of objects with 'question' and 'answer' keys.
-    [ { "question": "...", "answer": "..." } ]`;
+    Recipe Ingredients for context: ${recipe.ingredients.map((i) => i.name).join(", ")}`;
 
     try {
-        const fallbackResponse = await openaiChat([
-            { role: "system", content: "You are a helpful culinary assistant." },
-            { role: "user", content: fallbackPrompt }
-        ]);
+        const completion = await openai.chat.completions.create({
+            model: "gpt-4o-2024-08-06",
+            messages: [
+                { role: "system", content: "You are a helpful culinary assistant." },
+                { role: "user", content: fallbackPrompt }
+            ],
+            response_format: zodResponseFormat(FAQSchema, "faq_response"),
+        });
 
-        try {
-            const parsed = parseJSONFromText(fallbackResponse);
-            if (Array.isArray(parsed)) return parsed;
-            // logic for object wrapper if needed? The prompt asks for array.
-            return [];
-        } catch {
-            console.error("   ❌ FAQ Fallback JSON parse failed. Raw:", fallbackResponse);
-            return [];
+        const content = completion.choices[0].message.content;
+        if (content) {
+            const parsed = JSON.parse(content);
+            const result = FAQSchema.parse(parsed);
+            return result.faqs || [];
         }
+        return [];
 
     } catch (e) {
         console.error("   ❌ FAQ Fallback request failed:", e);
         return [];
     }
 }
+
 
 /**
  * Generate CTR-optimized meta description
