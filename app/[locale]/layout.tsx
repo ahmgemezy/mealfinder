@@ -143,24 +143,24 @@ export default async function RootLayout({
         {/* Ezoic Privacy & Header Scripts */}
         <Script
           id="ezoic-privacy-cmp"
-          strategy="beforeInteractive"
+          strategy="afterInteractive"
           src="https://cmp.gatekeeperconsent.com/min.js"
           data-cfasync="false"
         />
         <Script
           id="ezoic-privacy-gatekeeper"
-          strategy="beforeInteractive"
+          strategy="afterInteractive"
           src="https://the.gatekeeperconsent.com/cmp.min.js"
           data-cfasync="false"
         />
         <Script
           id="ezoic-header"
-          strategy="beforeInteractive"
+          strategy="afterInteractive"
           src="//www.ezojs.com/ezoic/sa.min.js"
         />
         <Script
           id="ezoic-init"
-          strategy="beforeInteractive"
+          strategy="afterInteractive"
           dangerouslySetInnerHTML={{
             __html: `window.ezstandalone = window.ezstandalone || {}; ezstandalone.cmd = ezstandalone.cmd || [];`,
           }}
