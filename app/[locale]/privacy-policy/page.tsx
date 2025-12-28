@@ -91,6 +91,11 @@ export default function PrivacyPolicy() {
                             advertisements.
                         </li>
                     </ul>
+
+
+                    {/* Ezoic Privacy Policy Embed */}
+                    <span id="ezoic-privacy-policy-embed"></span>
+
                     <p className="mt-4">
                         <strong>Opting Out of Personalized Advertising:</strong> You may opt out of
                         personalized advertising by visiting{" "}
@@ -230,6 +235,6 @@ export default function PrivacyPolicy() {
                     </p>
                 </section>
             </div>
-        </div>
+        </div >
     );
 }

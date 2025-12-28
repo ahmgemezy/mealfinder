@@ -7,7 +7,7 @@ import "../globals.css";
 import Navigation from "@/components/layout/Navigation";
 import Footer from "@/components/layout/Footer";
 import { FavoritesProvider } from "@/lib/hooks/useFavorites";
-import CookieConsent from "@/components/legal/CookieConsent";
+
 import { SurpriseMeProvider } from "@/lib/contexts/SurpriseMeContext";
 import SurpriseMeModal from "@/components/features/SurpriseMeModal";
 import { NextIntlClientProvider } from 'next-intl';
@@ -233,7 +233,7 @@ export default async function RootLayout({
                   <div className="notranslate"><Navigation /></div>
                   <main className="flex-grow">{children}</main>
                   <div className="notranslate"><Footer /></div>
-                  <CookieConsent />
+
                   <SurpriseMeModal />
                   <GoogleTranslateFix />
                   <AutoGoogleTranslate locale={locale} />
