@@ -1,0 +1,23 @@
+Script started (JS).
+Main started
+Starting download for chef-alex.jpg to /Users/ahmedgemmezy/Documents/mealfinder/public/images/team/chef-alex.jpg
+Starting download for sarah-jenkins.jpg to /Users/ahmedgemmezy/Documents/mealfinder/public/images/team/sarah-jenkins.jpg
+Starting download for dr--emily-foodsci.jpg to /Users/ahmedgemmezy/Documents/mealfinder/public/images/team/dr--emily-foodsci.jpg
+Starting download for giulia-rossi.jpg to /Users/ahmedgemmezy/Documents/mealfinder/public/images/team/giulia-rossi.jpg
+Starting download for marcus-chen.jpg to /Users/ahmedgemmezy/Documents/mealfinder/public/images/team/marcus-chen.jpg
+Starting download for elena-rodriguez.jpg to /Users/ahmedgemmezy/Documents/mealfinder/public/images/team/elena-rodriguez.jpg
+Starting download for james-oliver.jpg to /Users/ahmedgemmezy/Documents/mealfinder/public/images/team/james-oliver.jpg
+Starting download for priya-patel.jpg to /Users/ahmedgemmezy/Documents/mealfinder/public/images/team/priya-patel.jpg
+Starting download for sophie-dubois.jpg to /Users/ahmedgemmezy/Documents/mealfinder/public/images/team/sophie-dubois.jpg
+Starting download for kenji-yamamoto.jpg to /Users/ahmedgemmezy/Documents/mealfinder/public/images/team/kenji-yamamoto.jpg
+Downloaded sarah-jenkins.jpg
+Downloaded dr--emily-foodsci.jpg
+Downloaded chef-alex.jpg
+Downloaded elena-rodriguez.jpg
+Downloaded giulia-rossi.jpg
+Downloaded marcus-chen.jpg
+Downloaded kenji-yamamoto.jpg
+Downloaded sophie-dubois.jpg
+Downloaded james-oliver.jpg
+Downloaded priya-patel.jpg
+All images downloaded.

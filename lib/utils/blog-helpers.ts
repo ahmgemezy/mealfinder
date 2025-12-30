@@ -27,6 +27,7 @@ export function getAllPostsMetadata(): BlogPostMetadata[] {
         featuredImage: post.featuredImage,
         excerpt: post.excerpt,
         publishedDate: post.publishedDate,
+        authorImage: post.authorImage,
     }));
 }
 

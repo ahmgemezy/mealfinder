@@ -72,6 +72,7 @@ export default async function BlogPage({
     featuredImage: post.featured_image,
     excerpt: post.excerpt,
     publishedDate: post.published_date,
+    authorImage: post.author_image,
   }));
 
   return (

@@ -8,7 +8,7 @@ export const fundamentalsPosts: BlogPost[] = [
         category: "Cooking Fundamentals",
         tags: ["Knife Skills", "Kitchen Safety", "Beginner Tips", "Prep Work"],
         author: "Chef Alex",
-        authorImage: "https://images.unsplash.com/photo-1583394293214-28ded15ee548?w=400&q=80",
+        authorImage: "/images/team/james-oliver.jpg",
         publishedDate: "2024-01-15",
         readTime: 8,
         featuredImage: "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=800&q=80",
@@ -80,7 +80,7 @@ Check out our [Vegetable Stir-Fry Recipes](/recipes?category=Vegetarian) to prac
         category: "Cooking Fundamentals",
         tags: ["Cooking Techniques", "Sautéing", "Roasting", "Braising"],
         author: "Sarah Jenkins",
-        authorImage: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&q=80",
+        authorImage: "/images/team/sarah-jenkins.jpg",
         publishedDate: "2024-01-22",
         readTime: 10,
         featuredImage: "https://images.unsplash.com/photo-1466637574441-749b8f19452f?w=800&q=80",
@@ -192,7 +192,7 @@ Invest in quality basics, and they will last you a lifetime.
         category: "Cooking Fundamentals",
         tags: ["Food Safety", "Temperatures", "Meat", "Science"],
         author: "Dr. Emily Foodsci",
-        authorImage: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&q=80",
+        authorImage: "/images/team/dr--emily-foodsci.jpg",
         publishedDate: "2024-02-12",
         readTime: 6,
         featuredImage: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800&q=80",
@@ -228,7 +228,7 @@ A large roast can rise 5-10 degrees while it rests. If you want your roast chick
 
 Insert the thermometer into the thickest part of the meat, avoiding bone, fat, or gristle. For a whole chicken, check the inner thigh near the breast.
 
-Don't have a recipe for tonight? Use your new knowledge on a reliable [Roast Chicken](/recipes/search?q=Roast%20Chicken).
+Don't have a recipe for tonight? Use your new knowledge on a reliable [Roast Chicken](/recipes/search?q=Roast%20Chicken").
         `
     },
     {
@@ -240,6 +240,7 @@ Don't have a recipe for tonight? Use your new knowledge on a reliable [Roast Chi
         author: "Chef Alex",
         publishedDate: "2024-02-19",
         readTime: 9,
+        authorImage: "/images/team/chef-alex.jpg",
         featuredImage: "https://images.unsplash.com/photo-1507048331197-7d4ac70811cf?w=800&q=80",
         excerpt: "Why does restaurant food taste better? Usually, it's the seasoning. Learn the golden rules of salt and acid.",
         content: `
@@ -290,7 +291,7 @@ Next time you cook, taste as you go. Ask yourself: "Does this need a lift?" Try 
         category: "Cooking Fundamentals",
         tags: ["Cast Iron", "Cooking", "Care", "Seasoning", "Recipes"],
         author: "Giulia Rossi",
-        authorImage: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=400&q=80",
+        authorImage: "/images/team/giulia-rossi.jpg",
         publishedDate: "2025-12-10",
         readTime: 15,
         featuredImage: "https://www.lodgecastiron.com/cdn/shop/files/Gnome2_800x800_6b3c07ce-cd61-465e-9851-6b982000f4f5.png?v=1762805499&width=800",
@@ -382,7 +383,7 @@ Mastering the art of cast iron cooking is a rewarding endeavor that can enhance 
         category: "Cooking Fundamentals",
         tags: ["Flavor Layering", "Culinary Techniques", "Cooking Fundamentals", "Recipe Enhancement", "Kitchen Tips"],
         author: "Priya Patel",
-        authorImage: "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=400&q=80",
+        authorImage: "/images/team/priya-patel.jpg",
         publishedDate: "2025-12-11",
         readTime: 15,
         featuredImage: "https://maranofoods.com/cdn/shop/articles/Blog_Layering_1_278e973e-17c5-473d-84c5-f700c47890de.png?v=1739066510&width=1100",
@@ -486,7 +487,7 @@ Discover more [healthy recipes](/recipes?category=Healthy) and explore the world
         category: "Cooking Fundamentals",
         tags: ["Plant-Based", "Protein", "Vegan", "Vegetarian", "Nutrition"],
         author: "Sophie Dubois",
-        authorImage: "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400&q=80",
+        authorImage: "/images/team/sophie-dubois.jpg",
         publishedDate: "2025-12-11",
         readTime: 15,
         featuredImage: "https://plantednutrition.nz/wp-content/uploads/2023/04/qkbhvzxb85a.jpg",
@@ -736,7 +737,7 @@ Ancient grains like farro and freekeh are not only rich in history but also in n
         category: "Ingredient Deep Dive",
         tags: ["Citrus", "Yuzu", "Bergamot", "Meyer Lemons", "Cooking"],
         author: "Elena Rodriguez",
-        authorImage: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&q=80",
+        authorImage: "/images/team/elena-rodriguez.jpg",
         publishedDate: "2025-12-11",
         readTime: 20,
         featuredImage: "https://msmarmitelover.com/wp-content/uploads/2021/01/citrus-recipes-2-scaled.jpeg",

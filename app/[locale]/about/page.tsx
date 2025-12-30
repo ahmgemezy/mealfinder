@@ -27,25 +27,25 @@ const TEAM_MEMBERS = [
     name: "Chef Alex",
     role: "Head Chef & Recipe Curator",
     bio: "A classically trained chef with over 15 years of experience in professional kitchens across Europe and Asia. Alex brings authentic techniques and flavors to every recipe.",
-    avatar: "👨‍🍳",
+    avatar: "/images/team/chef-alex.jpg",
   },
   {
     name: "Sarah Jenkins",
     role: "Nutrition Specialist",
     bio: "Registered dietitian passionate about making healthy eating accessible. Sarah ensures our recipes balance flavor with nutritional value.",
-    avatar: "👩‍🔬",
+    avatar: "/images/team/sarah-jenkins.jpg",
   },
   {
     name: "Marcus Chen",
     role: "Food Writer & Recipe Developer",
     bio: "Award-winning food writer who has contributed to major culinary publications. Marcus crafts engaging content that makes cooking approachable for everyone.",
-    avatar: "✍️",
+    avatar: "/images/team/marcus-chen.jpg",
   },
   {
     name: "Giulia Rossi",
     role: "Mediterranean Cuisine Expert",
     bio: "Born and raised in Tuscany, Giulia shares authentic Italian recipes passed down through generations of her family.",
-    avatar: "🇮🇹",
+    avatar: "/images/team/giulia-rossi.jpg",
   },
 ];
 
@@ -153,8 +153,14 @@ export default async function AboutPage({
                 className="bg-card rounded-2xl p-6 border border-border/50 shadow-sm hover:shadow-md transition-shadow"
               >
                 <div className="flex items-start gap-4">
-                  <div className="w-16 h-16 rounded-full bg-gradient-to-br from-primary-100 to-accent-100 dark:from-primary-900/30 dark:to-accent-900/30 flex items-center justify-center text-3xl shrink-0">
-                    {member.avatar}
+                  <div className="w-16 h-16 rounded-full overflow-hidden relative border border-border/50 shrink-0">
+                    <Image
+                      src={member.avatar}
+                      alt={member.name}
+                      fill
+                      className="object-cover"
+                      sizes="64px"
+                    />
                   </div>
                   <div>
                     <h3 className="font-bold text-lg">{member.name}</h3>
