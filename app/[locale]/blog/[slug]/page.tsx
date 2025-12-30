@@ -113,6 +113,7 @@ export default async function BlogPostPage({ params }: Props) {
         description: p.excerpt,
         category: p.category,
         tags: p.tags || [],
+        author: p.author,
         readTime: p.read_time,
         featuredImage: p.featured_image,
         excerpt: p.excerpt,
