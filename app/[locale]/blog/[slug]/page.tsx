@@ -114,6 +114,7 @@ export default async function BlogPostPage({ params }: Props) {
         category: p.category,
         tags: p.tags || [],
         author: p.author,
+        authorImage: p.author_image,
         readTime: p.read_time,
         featuredImage: p.featured_image,
         excerpt: p.excerpt,
@@ -192,6 +193,17 @@ export default async function BlogPostPage({ params }: Props) {
                     </h1>
 
                     <div className="flex items-center justify-center gap-2 text-muted-foreground">
+                        {translatedPost.author_image && (
+                            <div className="w-8 h-8 rounded-full overflow-hidden relative border border-border">
+                                <Image
+                                    src={translatedPost.author_image}
+                                    alt={translatedPost.author}
+                                    fill
+                                    className="object-cover"
+                                    sizes="32px"
+                                />
+                            </div>
+                        )}
                         <span className="font-medium text-foreground">{translatedPost.author}</span>
                         <span>•</span>
                         <time dateTime={translatedPost.published_date}>{formattedDate}</time>

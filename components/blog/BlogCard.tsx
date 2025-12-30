@@ -41,9 +41,21 @@ export default function BlogCard({ post, className, locale }: BlogCardProps) { /
             <div className="flex flex-col flex-grow p-6">
                 {/* Author Byline */}
                 <div className="flex items-center gap-2 text-sm text-foreground mb-3">
-                    <div className="w-6 h-6 rounded-full bg-primary-100 dark:bg-primary-900/30 flex items-center justify-center text-xs">
-                        ✍️
-                    </div>
+                    {post.authorImage ? (
+                        <div className="w-6 h-6 rounded-full overflow-hidden relative">
+                            <Image
+                                src={post.authorImage}
+                                alt={post.author}
+                                fill
+                                className="object-cover"
+                                sizes="24px"
+                            />
+                        </div>
+                    ) : (
+                        <div className="w-6 h-6 rounded-full bg-primary-100 dark:bg-primary-900/30 flex items-center justify-center text-xs">
+                            ✍️
+                        </div>
+                    )}
                     <span className="font-medium">{post.author || 'Dish Shuffle Team'}</span>
                 </div>
 

@@ -8,6 +8,7 @@ export const nutritionPosts: BlogPost[] = [
         category: "Diet & Nutrition",
         tags: ["Mediterranean Diet", "Healthy Eating", "Heart Health", "Olive Oil"],
         author: "Dr. Emily Foodsci",
+        authorImage: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&q=80",
         publishedDate: "2024-03-04",
         readTime: 12,
         featuredImage: "https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?w=800&q=80",
@@ -70,6 +71,7 @@ Ready to dive in? Filter our recipes by [Mediterranean](/recipes?area=Italian) o
         category: "Diet & Nutrition",
         tags: ["Keto", "Low Carb", "Weight Loss", "Diet Trends"],
         author: "Sarah Jenkins",
+        authorImage: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&q=80",
         publishedDate: "2024-03-11",
         readTime: 10,
         featuredImage: "https://images.unsplash.com/photo-1432139555190-58524dae6a55?w=800&q=80",
@@ -131,6 +133,7 @@ Search for "Keto" in our [recipes](/recipes) to find low-carb inspiration.
         category: "Diet & Nutrition",
         tags: ["Vegan", "Vegetarian", "Plant-Based", "Cooking Tips"],
         author: "Chef Alex",
+        authorImage: "https://images.unsplash.com/photo-1583394293214-28ded15ee548?w=400&q=80",
         publishedDate: "2024-03-18",
         readTime: 8,
         featuredImage: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=800&q=80",
@@ -298,13 +301,13 @@ Block out **Sunday 4PM - 6PM**. Put on a podcast.
 Done. Your future self will thank you every single day.
         `
     }
-,
+    ,
     {
         slug: "top-5-superfoods-for-brain-health",
         title: "Top 5 Superfoods to Boost Your Brain Health",
         description: "Discover the top 5 superfoods that can enhance your brain health and cognitive function.",
         category: "Diet & Nutrition",
-        tags: ["Superfoods","Brain Health","Diet","Nutrition"],
+        tags: ["Superfoods", "Brain Health", "Diet", "Nutrition"],
         author: "Dr. Emily Foodsci",
         publishedDate: "2025-12-10",
         readTime: 8,
@@ -342,13 +345,13 @@ Incorporating these superfoods into your daily meals doesn't have to be challeng
 By prioritizing these superfoods, you'll be taking important steps toward enhancing your brain health and maintaining cognitive function throughout your life. Remember, a well-nourished brain is the key to a vibrant and fulfilling life!
         `
     }
-,
+    ,
     {
         slug: "healthy-smoothies-delicious-nutrition",
         title: "Healthy Smoothies: Delicious Nutrition in a Glass",
         description: "Discover the benefits of healthy smoothies and learn how to craft the perfect blend for any time of day.",
         category: "Diet & Nutrition",
-        tags: ["Smoothies","Healthy Eating","Nutrition","Breakfast"],
+        tags: ["Smoothies", "Healthy Eating", "Nutrition", "Breakfast"],
         author: "Dr. Emily Foodsci",
         publishedDate: "2025-12-10",
         readTime: 8,
@@ -383,13 +386,13 @@ Having a smoothie every day can be an excellent way to ensure you’re getting a
 By integrating healthy smoothies into your routine, you can enjoy a delicious approach to nutrition that supports your wellbeing. Whether it’s a vibrant green smoothie to start your morning or a creamy berry blend to recharge in the afternoon, these drinks offer flexibility and health benefits that fit seamlessly into any lifestyle.
         `
     }
-,
+    ,
     {
         slug: "balancing-macros-without-math-intuitive-portion-guide",
         title: "Balancing Macros Without the Math: The Ultimate Intuitive Portion Guide",
         description: "Master macro balance effortlessly with our intuitive portion guide. Eat healthily without calorie counting.",
         category: "Diet & Nutrition",
-        tags: ["Nutrition","Macros","Diet","Health","Portion Control"],
+        tags: ["Nutrition", "Macros", "Diet", "Health", "Portion Control"],
         author: "Dr. Emily Foodsci",
         publishedDate: "2025-12-11",
         readTime: 20,

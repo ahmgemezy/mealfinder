@@ -43,11 +43,20 @@ if (supabaseUrl && supabaseUrl.startsWith('http') && supabaseServiceKey) {
     console.warn("⚠️ Supabase credentials missing or invalid. Database operations will fail.");
 }
 
-const AUTHORS = [
-    "Chef Alex", "Sarah Jenkins", "Dr. Emily Foodsci", "Giulia Rossi",
-    "Marcus Chen", "Elena Rodriguez", "James Oliver", "Priya Patel",
-    "Sophie Dubois", "Kenji Yamamoto"
-];
+const AUTHORS_DATA: Record<string, string> = {
+    "Chef Alex": "https://images.unsplash.com/photo-1583394293214-28ded15ee548?w=400&q=80",
+    "Sarah Jenkins": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&q=80",
+    "Dr. Emily Foodsci": "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&q=80",
+    "Giulia Rossi": "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=400&q=80",
+    "Marcus Chen": "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=400&q=80",
+    "Elena Rodriguez": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&q=80",
+    "James Oliver": "https://images.unsplash.com/photo-1599566150163-29194dcaad36?w=400&q=80",
+    "Priya Patel": "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=400&q=80",
+    "Sophie Dubois": "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400&q=80",
+    "Kenji Yamamoto": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80"
+};
+
+const AUTHORS = Object.keys(AUTHORS_DATA);
 
 const FALLBACK_IMAGES = [
     "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800&q=80",
@@ -143,6 +152,7 @@ interface GeneratedBlogPost {
     category: BlogCategory;
     tags: string[];
     author: string;
+    authorImage: string;
     publishedDate: string;
     readTime: number;
     featuredImage: string;
@@ -550,6 +560,7 @@ async function generateLongFormPost(
         tags: outline.tags,
         category,
         author,
+        authorImage: AUTHORS_DATA[author] || "",
         publishedDate: new Date().toISOString(),
         readTime: Math.ceil(wordCount / 200), // ~200 wpm
         featuredImage, // Simplification for now
@@ -578,6 +589,7 @@ async function saveBlogPostToSupabase(post: GeneratedBlogPost): Promise<boolean>
                 content: post.content,
                 category: post.category,
                 author: post.author,
+                author_image: post.authorImage,
                 featured_image: post.featuredImage,
                 tags: post.tags,
                 read_time: post.readTime,

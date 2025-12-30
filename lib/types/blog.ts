@@ -23,6 +23,7 @@ export interface BlogPost {
     category: BlogCategory;
     tags: string[];
     author: string;
+    authorImage?: string;
     publishedDate: string; // ISO 8601 format
     updatedDate?: string; // ISO 8601 format
     readTime: number; // in minutes
@@ -39,6 +40,7 @@ export interface DBBlogPost {
     category: BlogCategory;
     tags: string[];
     author: string;
+    author_image?: string;
     published_date: string;
     updated_at?: string;
     read_time: number;
@@ -54,6 +56,7 @@ export interface BlogPostMetadata {
     category: BlogCategory;
     tags: string[];
     author: string;
+    authorImage?: string;
     readTime: number;
     featuredImage: string;
     excerpt: string;
