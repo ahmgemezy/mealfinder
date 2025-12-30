@@ -22,6 +22,7 @@ export function getAllPostsMetadata(): BlogPostMetadata[] {
         description: post.description,
         category: post.category,
         tags: post.tags,
+        author: post.author,
         readTime: post.readTime,
         featuredImage: post.featuredImage,
         excerpt: post.excerpt,
