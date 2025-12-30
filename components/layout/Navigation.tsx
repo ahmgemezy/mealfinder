@@ -101,6 +101,14 @@ export default function Navigation() {
 
             {/* Desktop Navigation Items */}
             <div className="hidden lg:flex items-center gap-2">
+              <button
+                onClick={handleOpenModal}
+                aria-label="Get random recipe suggestion"
+                className="px-5 py-2.5 rounded-full font-bold text-sm text-white bg-gradient-to-r from-primary-500 to-accent-500 hover:from-primary-600 hover:to-accent-600 shadow-md hover:shadow-xl hover:scale-105 transition-all duration-300 flex items-center gap-2 animate-pulse-slow mr-2"
+              >
+                <SparklesIcon className="w-4 h-4" />
+                {t("surpriseMe")}
+              </button>
               {navItems.map((item) => (
                 <Link
                   key={item.href}
@@ -119,13 +127,6 @@ export default function Navigation() {
                   {item.label}
                 </Link>
               ))}
-              <button
-                onClick={handleOpenModal}
-                aria-label="Get random recipe suggestion"
-                className="px-5 py-2.5 rounded-full font-medium text-sm text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-all duration-300"
-              >
-                {t("surpriseMe")}
-              </button>
 
               <div className="w-px h-6 bg-border mx-2" />
 
@@ -268,8 +269,8 @@ export default function Navigation() {
 
       {/* Mobile Bottom Navigation */}
       <nav className="notranslate lg:hidden fixed bottom-0 left-0 right-0 z-9999 bg-card/95 backdrop-blur-lg border-t border-border pb-safe shadow-[0_-4px_20px_-5px_rgba(0,0,0,0.1)]">
-        <div className="grid grid-cols-6 h-16 px-1">
-          {navItems.map((item) => {
+        <div className="flex items-end justify-between h-16 px-2 pb-2">
+          {navItems.slice(0, 2).map((item) => {
             const Icon = item.icon;
             const active = isActive(item.href);
             return (
@@ -282,30 +283,61 @@ export default function Navigation() {
                     openAuthModal();
                   }
                 }}
-                className={`flex flex-col items-center justify-start gap-1 py-3 rounded-xl transition-all duration-300 min-w-0 ${active
+                className={`flex flex-col items-center justify-end gap-1 flex-1 min-w-0 transition-all duration-300 ${active
                   ? "text-primary-500"
                   : "text-muted-foreground hover:text-foreground"
                   }`}
               >
                 <Icon
-                  className={`w-5 h-5 ${active ? "fill-current" : "stroke-current"} shrink-0`}
+                  className={`w-6 h-6 ${active ? "fill-current" : "stroke-current"} shrink-0`}
                 />
-                <span className="text-[9px] font-bold tracking-wide uppercase text-center leading-none px-0.5 line-clamp-2 w-full break-words">
+                <span className="text-[10px] font-medium tracking-tight text-center leading-none w-full px-0.5 line-clamp-2 break-words">
                   {item.label}
                 </span>
               </Link>
             );
           })}
-          <button
-            onClick={handleOpenModal}
-            aria-label="Get random recipe suggestion"
-            className="flex flex-col items-center justify-start gap-1 py-3 rounded-xl transition-all duration-300 text-muted-foreground hover:text-foreground min-w-0"
-          >
-            <SparklesIcon className="w-5 h-5 stroke-current shrink-0" />
-            <span className="text-[9px] font-bold tracking-wide uppercase text-center leading-none px-0.5 line-clamp-2 w-full break-words">
+
+          <div className="relative flex flex-col items-center justify-end flex-initial w-20 shrink-0 z-10">
+            <button
+              onClick={handleOpenModal}
+              aria-label="Get random recipe suggestion"
+              className="absolute -top-10 w-14 h-14 rounded-full text-white bg-gradient-to-r from-primary-500 to-accent-500 hover:from-primary-600 hover:to-accent-600 shadow-lg hover:shadow-xl transition-all duration-300 animate-pulse-slow ring-4 ring-background flex items-center justify-center transform hover:scale-105 active:scale-95"
+            >
+              <SparklesIcon className="w-7 h-7 stroke-current stroke-2" />
+            </button>
+            <span className="text-[10px] font-bold tracking-tight text-center leading-none text-foreground w-full mt-6">
               {t("surpriseMe")}
             </span>
-          </button>
+          </div>
+
+          {navItems.slice(2, 4).map((item) => {
+            const Icon = item.icon;
+            const active = isActive(item.href);
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                onClick={(e) => {
+                  if (item.href === "/favorites" && !user) {
+                    e.preventDefault();
+                    openAuthModal();
+                  }
+                }}
+                className={`flex flex-col items-center justify-end gap-1 flex-1 min-w-0 transition-all duration-300 ${active
+                  ? "text-primary-500"
+                  : "text-muted-foreground hover:text-foreground"
+                  }`}
+              >
+                <Icon
+                  className={`w-6 h-6 ${active ? "fill-current" : "stroke-current"} shrink-0`}
+                />
+                <span className="text-[10px] font-medium tracking-tight text-center leading-none w-full px-0.5 line-clamp-2 break-words">
+                  {item.label}
+                </span>
+              </Link>
+            );
+          })}
         </div>
       </nav>
 
