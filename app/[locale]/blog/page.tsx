@@ -67,6 +67,7 @@ export default async function BlogPage({
     description: post.excerpt, // map excerpt to description for metadata
     category: post.category,
     tags: post.tags || [],
+    author: post.author,
     readTime: post.read_time,
     featuredImage: post.featured_image,
     excerpt: post.excerpt,

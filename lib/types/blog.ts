@@ -53,6 +53,7 @@ export interface BlogPostMetadata {
     description: string;
     category: BlogCategory;
     tags: string[];
+    author: string;
     readTime: number;
     featuredImage: string;
     excerpt: string;

@@ -39,6 +39,14 @@ export default function BlogCard({ post, className, locale }: BlogCardProps) { /
             </Link>
 
             <div className="flex flex-col flex-grow p-6">
+                {/* Author Byline */}
+                <div className="flex items-center gap-2 text-sm text-foreground mb-3">
+                    <div className="w-6 h-6 rounded-full bg-primary-100 dark:bg-primary-900/30 flex items-center justify-center text-xs">
+                        ✍️
+                    </div>
+                    <span className="font-medium">{post.author || 'Dish Shuffle Team'}</span>
+                </div>
+
                 <div className="flex items-center gap-4 text-xs text-muted-foreground mb-3">
                     <time dateTime={post.publishedDate} className="flex items-center gap-1">
                         <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
