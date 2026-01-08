@@ -1,6 +1,8 @@
 import createMiddleware from 'next-intl/middleware';
 import { routing } from './navigation';
 
+export const runtime = 'experimental-edge';
+
 const handleRequest = createMiddleware(routing);
 
 export function proxy(request: any) {
