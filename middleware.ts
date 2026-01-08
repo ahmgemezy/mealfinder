@@ -5,9 +5,7 @@ export const runtime = 'experimental-edge';
 
 const handleRequest = createMiddleware(routing);
 
-export function proxy(request: any) {
-    return handleRequest(request);
-}
+export default handleRequest;
 
 export const config = {
     // Match only internationalized pathnames
