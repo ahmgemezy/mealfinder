@@ -1,8 +1,9 @@
 {
-    "name": "dishshuffle",
+    "name": "mealfinder",
     "compatibility_date": "2024-12-01",
     "compatibility_flags": [
         "nodejs_compat"
     ],
-    "pages_build_output_dir": ".open-next/assets"
+    "pages_build_output_dir": ".open-next/assets",
+    "account_id": "524f538eb0ee76515ec20ba665259e21"
 }
