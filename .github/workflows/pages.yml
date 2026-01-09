@@ -22,6 +22,33 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Render wrangler.toml from secrets
+        env:
+          CF_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
+          CF_KV_ID: ${{ secrets.CF_KV_ID }}
+          CF_R2_BUCKET: ${{ secrets.CF_R2_BUCKET }}
+          CF_D1_ID: ${{ secrets.CF_D1_ID }}
+        run: |
+          cat > wrangler.toml <<'EOF'
+          name = "mealfinder"
+          account_id = "${CF_ACCOUNT_ID}"
+          compatibility_date = "2024-12-01"
+          pages_build_output_dir = ".open-next/assets"
+
+          [[kv_namespaces]]
+          binding = "MY_KV"
+          id = "${CF_KV_ID}"
+
+          [[r2_buckets]]
+          binding = "MY_R2"
+          bucket_name = "${CF_R2_BUCKET}"
+
+          [[d1_databases]]
+          binding = "MY_DB"
+          database_name = "my-database"
+          database_id = "${CF_D1_ID}"
+          EOF
+
       - name: Build for Cloudflare
         run: npm run build:cloudflare
 
@@ -29,5 +56,5 @@ jobs:
         uses: cloudflare/pages-action@v1
         with:
           apiToken: ${{ secrets.CF_PAGES_API_TOKEN }}
-          projectName: your-pages-project-name
+          projectName: ${{ secrets.CF_PAGES_PROJECT_NAME }}
           directory: ./.open-next/assets

@@ -18,10 +18,29 @@ Secrets and environment
 - Add `CF_PAGES_API_TOKEN` as a secret in your GitHub repository (used by the GitHub Action to publish to Pages).
 - Add other runtime secrets (e.g., `SUPABASE_URL`, `SUPABASE_KEY`) in Cloudflare Pages UI or use Wrangler secrets.
 
+Set GitHub secrets via CLI (recommended):
+
+```bash
+# Replace <owner>/<repo> with your repository
+# Set your Cloudflare account id
+echo "524f538eb0ee76515ec20ba665259e21" | gh secret set CF_ACCOUNT_ID -R <owner>/<repo> -b-
+
+# Set your Pages API token
+echo "r9qOUxR3Bci1Py8gugDChr46CyQsk6P8mzEtKQoG" | gh secret set CF_PAGES_API_TOKEN -R <owner>/<repo> -b-
+
+# Set your Pages project name (replace with your project name)
+echo "your-pages-project-name" | gh secret set CF_PAGES_PROJECT_NAME -R <owner>/<repo> -b-
+
+# Optional bindings (set if you created these resources in Cloudflare)
+# echo "<kv-id>" | gh secret set CF_KV_ID -R <owner>/<repo> -b-
+# echo "<r2-bucket-name>" | gh secret set CF_R2_BUCKET -R <owner>/<repo> -b-
+# echo "<d1-id>" | gh secret set CF_D1_ID -R <owner>/<repo> -b-
+```
+
 CI / Deploy
 
 - The GitHub Action at `.github/workflows/pages.yml` builds the OpenNext output and publishes `.open-next/assets` to Cloudflare Pages.
-- Customize `projectName` in the workflow and set `CF_PAGES_API_TOKEN` in GitHub secrets.
+- The workflow now renders `wrangler.toml` from GitHub secrets and reads `CF_PAGES_PROJECT_NAME` from secrets; ensure the secrets above are set before pushing the workflow branch.
 
 Notes
 
