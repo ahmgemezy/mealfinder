@@ -91,6 +91,7 @@ If you want to use Spoonacular API:
 - **Recipe APIs:** TheMealDB & Spoonacular
 - **Internationalization:** next-intl
 - **Deployment:** Vercel-ready
+- **Cloudflare:** OpenNext + Cloudflare Pages support (see `docs/CLOUDFLARE.md` for setup and CI examples)
 
 ## Project Structure
 

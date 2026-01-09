@@ -109,16 +109,30 @@ import OpenAI from "openai";
 import { z } from "zod";
 import { zodResponseFormat } from "openai/helpers/zod";
 
-const openai = new OpenAI({
-    apiKey: process.env.OPENAI_API_KEY,
-});
+// Lazy initialization of OpenAI client to prevent build crashes
+let openaiInstance: OpenAI | null = null;
+
+function getOpenAI() {
+    if (!openaiInstance) {
+        openaiInstance = new OpenAI({
+            apiKey: process.env.OPENAI_API_KEY || 'dummy-key-for-build',
+        });
+    }
+    return openaiInstance;
+}
+
+// Helper to check if OpenAI is actually configured
+function isOpenAIConfigured() {
+    return !!process.env.OPENAI_API_KEY;
+}
 
 async function openaiChat(
     messages: Array<{ role: "system" | "user" | "assistant"; content: string }>,
     maxTokens = 2048
 ): Promise<string> {
+    const instance = getOpenAI();
     try {
-        const response = await openai.chat.completions.create({
+        const response = await instance.chat.completions.create({
             model: "gpt-4o",
             messages: messages,
             max_tokens: maxTokens,
@@ -177,8 +191,10 @@ Focus on:
 
 Keep answers concise (50-100 words). Be helpful and accurate.`;
 
+    if (!isOpenAIConfigured()) return [];
+
     try {
-        const completion = await openai.chat.completions.create({
+        const completion = await getOpenAI().chat.completions.create({
             model: "gpt-4o-2024-08-06",
             messages: [
                 { role: "system", content: "You are an SEO and culinary expert." },
@@ -211,8 +227,10 @@ Keep answers concise (50-100 words). Be helpful and accurate.`;
     
     Recipe Ingredients for context: ${recipe.ingredients.map((i) => i.name).join(", ")}`;
 
+    if (!isOpenAIConfigured()) return [];
+
     try {
-        const completion = await openai.chat.completions.create({
+        const completion = await getOpenAI().chat.completions.create({
             model: "gpt-4o-2024-08-06",
             messages: [
                 { role: "system", content: "You are a helpful culinary assistant." },

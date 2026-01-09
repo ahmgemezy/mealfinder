@@ -1,0 +1,34 @@
+# Example wrangler.toml for Cloudflare bindings — replace the placeholders
+name = "mealfinder"
+account_id = "YOUR_ACCOUNT_ID"
+compatibility_date = "2024-12-01"
+compatibility_flags = ["nodejs_compat"]
+
+# Pages output directory (OpenNext build output)
+pages_build_output_dir = ".open-next/assets"
+
+# Example KV namespace binding
+[[kv_namespaces]]
+binding = "MY_KV"
+id = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+
+# Example R2 binding
+[[r2_buckets]]
+binding = "MY_R2"
+bucket_name = "my-r2-bucket"
+
+# Example D1 database
+[[d1_databases]]
+binding = "MY_DB"
+database_name = "my-database"
+
+# Example Durable Object binding
+[[durable_objects.bindings]]
+name = "MY_DO"
+script_name = "do-worker"
+class_name = "DurableObjectClass"
+
+# Notes:
+# - Replace YOUR_ACCOUNT_ID with your Cloudflare account id.
+# - Fill the binding IDs from the Cloudflare dashboard when creating KV/R2/D1 resources.
+# - Keep this file out of source control if it contains real secrets/IDs; consider using a template file instead (e.g., wrangler.toml.example) and store real values in your CI secrets or Cloudflare dashboard.
