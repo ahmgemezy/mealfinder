@@ -11,6 +11,17 @@ import { translateRecipesList } from "@/lib/services/translation";
 // Enable Incremental Static Regeneration (ISR)
 export const revalidate = 604800; // Revalidate every 7 days
 
+export async function generateStaticParams() {
+  return [
+    { locale: "en" },
+    { locale: "fr" },
+    { locale: "es" },
+    { locale: "pt-br" },
+    { locale: "de" },
+    { locale: "ar" },
+  ];
+}
+
 export default async function HomePage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: 'Home' });
