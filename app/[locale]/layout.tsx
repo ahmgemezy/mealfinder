@@ -14,7 +14,6 @@ import { ToastProvider } from "@/lib/contexts/ToastContext";
 import { ToastContainer } from "@/components/ui/Toast";
 import { validateEnvVars } from '@/lib/env-validator';
 
-const GA_TRACKING_ID = "G-1CJ0891RQ7";
 const GA_TRACKING_ID = 'G-QZPYKBVDCE';
 
 const inter = Inter({
