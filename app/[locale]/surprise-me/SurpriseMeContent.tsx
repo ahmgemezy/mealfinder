@@ -158,7 +158,7 @@ export default function SurpriseMeContent() {
           {/* Recipe Result */}
           {recipe && (
             <div className="bg-card rounded-2xl overflow-hidden shadow-medium animate-scale-in">
-              <div className="relative aspect-[16/9] md:aspect-[21/9]">
+              <div className="relative aspect-video md:aspect-21/9">
                 <Image
                   src={recipe.thumbnail}
                   alt={recipe.name}

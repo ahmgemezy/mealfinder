@@ -5,12 +5,14 @@ import { getAllPostsMetadata } from "@/lib/utils/blog-helpers";
 
 import { generateRecipeSlug } from "@/lib/utils/slugs";
 
+export const dynamic = "force-static";
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // Use custom site URL or production domain as fallback
   // Use custom site URL or production domain as fallback
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://dishshuffle.com";
   // Sync with navigation.ts
-  const locales = ['en', 'fr', 'es', 'pt-br', 'de', 'ar'];
+  const locales = ["en", "fr", "es", "pt-br", "de", "ar"];
 
   const allRoutes: MetadataRoute.Sitemap = [];
 
@@ -108,9 +110,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // 3. Blog Posts
   try {
     const { data: blogPosts, error: blogError } = await supabase
-      .from('blog_posts')
-      .select('slug, published_date, updated_at')
-      .not('published_date', 'is', null);
+      .from("blog_posts")
+      .select("slug, published_date, updated_at")
+      .not("published_date", "is", null);
 
     if (blogError) {
       console.error("Error fetching blog posts for sitemap:", blogError);

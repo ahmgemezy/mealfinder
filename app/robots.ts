@@ -1,30 +1,32 @@
 import { MetadataRoute } from "next";
 
-export default function robots(): MetadataRoute.Robots {
-    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+export const dynamic = "force-static";
 
-    return {
-        rules: [
-            {
-                userAgent: [
-                    "GPTBot",
-                    "ChatGPT-User",
-                    "Google-Extended",
-                    "Bytespider",
-                    "CCBot",
-                    "ClaudeBot",
-                    "AnthropicAI",
-                    "FacebookBot",
-                    "Diffbot"
-                ],
-                disallow: "/",
-            },
-            {
-                userAgent: "*",
-                allow: "/",
-                disallow: ["/api/"],
-            },
+export default function robots(): MetadataRoute.Robots {
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+
+  return {
+    rules: [
+      {
+        userAgent: [
+          "GPTBot",
+          "ChatGPT-User",
+          "Google-Extended",
+          "Bytespider",
+          "CCBot",
+          "ClaudeBot",
+          "AnthropicAI",
+          "FacebookBot",
+          "Diffbot",
         ],
-        sitemap: `${baseUrl}/sitemap.xml`,
-    };
+        disallow: "/",
+      },
+      {
+        userAgent: "*",
+        allow: "/",
+        disallow: ["/api/"],
+      },
+    ],
+    sitemap: `${baseUrl}/sitemap.xml`,
+  };
 }
