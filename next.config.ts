@@ -1,37 +1,20 @@
 import type { NextConfig } from "next";
 import createNextIntlPlugin from "next-intl/plugin";
-import { initOpenNextCloudflareForDev } from "@opennextjs/cloudflare";
-import path from "path";
 
 const withNextIntl = createNextIntlPlugin("./i18n.ts");
 
-// Check if building for Cloudflare (set by build:cloudflare script)
+// Check if building for Cloudflare static export
 const isCloudflare = process.env.CLOUDFLARE_BUILD === "true";
 
-// Initialize OpenNext Cloudflare integration during local development so
-// Cloudflare bindings (KV, R2, D1, etc.) can be simulated when running `next dev`.
-if (process.env.NODE_ENV === "development") {
-  try {
-    // safe to call; no-op in environments where the package isn't usable
-    initOpenNextCloudflareForDev?.();
-  } catch (e) {
-    // eslint-disable-next-line no-console
-    console.error("initOpenNextCloudflareForDev failed:", e);
-  }
-}
-
 const nextConfig: NextConfig = {
-  // Alias heavy translation library to stub for Cloudflare builds
+  // Enable static export for Cloudflare Pages (no worker needed)
   ...(isCloudflare && {
-    webpack: (config: { resolve: { alias: Record<string, string> } }) => {
-      config.resolve.alias["google-translate-api-x"] = path.resolve(
-        __dirname,
-        "lib/services/google-translate-stub.js"
-      );
-      return config;
-    },
+    output: "export",
+    trailingSlash: true,
   }),
   async redirects() {
+    // Redirects don't work with static export, handle in _redirects file
+    if (isCloudflare) return [];
     return [
       {
         source: "/recipes/search",
@@ -46,7 +29,6 @@ const nextConfig: NextConfig = {
     ];
   },
   turbopack: {
-    root: __dirname,
     // Alias heavy translation library to stub for Cloudflare builds
     ...(isCloudflare && {
       resolveAlias: {

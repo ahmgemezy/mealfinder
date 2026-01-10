@@ -14,9 +14,9 @@
     "test:all": "npm run test && npm run e2e",
     "generate:blog": "npx ts-node scripts/generate-blog-post.ts",
     "enrich:seo": "npx tsx scripts/enrich-recipe-seo.ts",
-    "prebuild:cloudflare": "node scripts/check-build-env.js",
-    "build:cloudflare": "CLOUDFLARE_BUILD=true npx @opennextjs/cloudflare build && cp .open-next/worker.js .open-next/_worker.js",
-    "preview:cloudflare": "npx wrangler pages dev .open-next --compatibility-flags=nodejs_compat"
+    "prebuild:cloudflare": "node scripts/check-build-env.js && node scripts/generate-rss.js",
+    "build:cloudflare": "CLOUDFLARE_BUILD=true next build",
+    "preview:cloudflare": "npx wrangler pages dev out"
   },
   "dependencies": {
     "@opennextjs/cloudflare": "^1.0.0",
