@@ -265,7 +265,7 @@ export default async function RootLayout({
                   <div className="notranslate">
                     <Navigation />
                   </div>
-                  <main className="flex-grow">{children}</main>
+                  <main className="grow">{children}</main>
                   <div className="notranslate">
                     <Footer />
                   </div>

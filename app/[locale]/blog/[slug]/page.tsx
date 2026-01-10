@@ -250,7 +250,7 @@ export default async function BlogPostPage({ params }: Props) {
 
       {/* Featured Image */}
       <div className="w-full px-5 mx-auto md:w-auto md:container md:px-4 max-w-5xl -mt-8 mb-12 relative z-10">
-        <div className="relative aspect-[21/9] w-full rounded-2xl overflow-hidden shadow-2xl border border-border/50">
+        <div className="relative aspect-21/9 w-full rounded-2xl overflow-hidden shadow-2xl border border-border/50">
           <Image
             src={translatedPost.featured_image}
             alt={translatedPost.title}

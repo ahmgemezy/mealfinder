@@ -60,14 +60,14 @@ export default async function AboutPage({
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="bg-gradient-to-br from-primary-50 via-background to-accent-50 dark:from-primary-950/30 dark:via-background dark:to-accent-950/30 py-16 md:py-24">
+      <section className="bg-linear-to-br from-primary-50 via-background to-accent-50 dark:from-primary-950/30 dark:via-background dark:to-accent-950/30 py-16 md:py-24">
         <div className="container mx-auto px-4 max-w-4xl text-center">
           <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold mb-6 gradient-text">
             About Dish Shuffle
           </h1>
           <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-            Where culinary inspiration meets everyday cooking. We&apos;re on a mission
-            to help you discover your next favorite meal.
+            Where culinary inspiration meets everyday cooking. We&apos;re on a
+            mission to help you discover your next favorite meal.
           </p>
         </div>
       </section>
@@ -83,20 +83,21 @@ export default async function AboutPage({
               <div className="prose dark:prose-invert text-lg leading-relaxed space-y-4">
                 <p>
                   Dish Shuffle was born from a simple frustration we&apos;ve all
-                  experienced: standing in front of the fridge, wondering what to
-                  cook tonight. The endless scrolling through recipe sites, the
-                  paralysis of too many choices—we knew there had to be a better way.
+                  experienced: standing in front of the fridge, wondering what
+                  to cook tonight. The endless scrolling through recipe sites,
+                  the paralysis of too many choices—we knew there had to be a
+                  better way.
                 </p>
                 <p>
                   Founded in 2024, our platform combines thousands of carefully
                   curated recipes with intelligent discovery tools to make meal
-                  planning exciting again. Whether you&apos;re a seasoned home cook
-                  or just starting your culinary journey, we&apos;re here to inspire
-                  your next masterpiece.
+                  planning exciting again. Whether you&apos;re a seasoned home
+                  cook or just starting your culinary journey, we&apos;re here
+                  to inspire your next masterpiece.
                 </p>
               </div>
             </div>
-            <div className="relative aspect-square rounded-3xl overflow-hidden shadow-2xl bg-gradient-to-br from-primary-500 to-accent-500 flex items-center justify-center">
+            <div className="relative aspect-square rounded-3xl overflow-hidden shadow-2xl bg-linear-to-br from-primary-500 to-accent-500 flex items-center justify-center">
               <span className="text-9xl">🍳</span>
             </div>
           </div>
@@ -114,7 +115,8 @@ export default async function AboutPage({
               </div>
               <h3 className="font-bold text-lg">Global Flavors</h3>
               <p className="text-muted-foreground">
-                Bringing authentic recipes from every corner of the world to your kitchen.
+                Bringing authentic recipes from every corner of the world to
+                your kitchen.
               </p>
             </div>
             <div className="text-center space-y-4">
@@ -123,7 +125,8 @@ export default async function AboutPage({
               </div>
               <h3 className="font-bold text-lg">Quality Content</h3>
               <p className="text-muted-foreground">
-                Every recipe is tested and written by experienced culinary professionals.
+                Every recipe is tested and written by experienced culinary
+                professionals.
               </p>
             </div>
             <div className="text-center space-y-4">
@@ -132,7 +135,8 @@ export default async function AboutPage({
               </div>
               <h3 className="font-bold text-lg">Cooking Made Easy</h3>
               <p className="text-muted-foreground">
-                Clear instructions and helpful tips that make any dish achievable.
+                Clear instructions and helpful tips that make any dish
+                achievable.
               </p>
             </div>
           </div>
@@ -144,7 +148,8 @@ export default async function AboutPage({
             Meet Our Team
           </h2>
           <p className="text-center text-muted-foreground mb-12 max-w-2xl mx-auto">
-            The talented food enthusiasts behind Dish Shuffle&apos;s recipes and content.
+            The talented food enthusiasts behind Dish Shuffle&apos;s recipes and
+            content.
           </p>
           <div className="grid md:grid-cols-2 gap-8">
             {TEAM_MEMBERS.map((member) => (
@@ -215,7 +220,7 @@ export default async function AboutPage({
         </section>
 
         {/* Contact CTA */}
-        <section className="text-center bg-gradient-to-r from-primary-600 to-accent-600 rounded-3xl p-8 md:p-12 text-white">
+        <section className="text-center bg-linear-to-r from-primary-600 to-accent-600 rounded-3xl p-8 md:p-12 text-white">
           <h2 className="font-display text-2xl md:text-3xl font-bold mb-4">
             Have Questions or Suggestions?
           </h2>
@@ -228,8 +233,18 @@ export default async function AboutPage({
             className="inline-flex items-center px-8 py-4 bg-white text-primary-600 rounded-full font-bold transition-transform hover:scale-105 shadow-lg"
           >
             Contact Us
-            <svg className="w-5 h-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+            <svg
+              className="w-5 h-5 ml-2"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M17 8l4 4m0 0l-4 4m4-4H3"
+              />
             </svg>
           </Link>
         </section>
