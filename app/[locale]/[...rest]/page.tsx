@@ -1,10 +1,12 @@
 import { notFound } from "next/navigation";
 
-// Generate empty static params - this catch-all handles 404s dynamically
-// but we need this function for static export compatibility
+// Generate static params for all locales - catch-all route requires this
 export function generateStaticParams() {
-  // Return empty array - all unmatched routes will 404
-  return [];
+  // Return all locales - unmatched rest segments will 404 dynamically
+  return ['en', 'fr', 'es', 'pt-br', 'de', 'ar'].map((locale) => ({
+    locale,
+    rest: [],
+  }));
 }
 
 // This catch-all route handles all unmatched URLs within the [locale] route group
