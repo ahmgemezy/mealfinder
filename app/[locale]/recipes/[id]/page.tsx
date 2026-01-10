@@ -31,10 +31,10 @@ export const dynamic = "force-static";
 export const revalidate = 1814400; // Revalidate every 21 days
 
 export async function generateStaticParams() {
+  // Fetch ALL recipes for static export (no limit)
   const { data: recipes } = await supabase
     .from("recipes")
-    .select("id, data")
-    .limit(50);
+    .select("id, data");
 
   if (!recipes) return [];
 

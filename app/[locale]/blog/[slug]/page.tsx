@@ -28,11 +28,11 @@ export const revalidate = 86400; // Revalidate every 24 hours
 // Generate static params for all blog posts
 export async function generateStaticParams() {
   try {
+    // Fetch ALL blog posts for static export (no limit)
     const { data: posts } = await supabase
       .from("blog_posts")
       .select("slug")
-      .eq("status", "published")
-      .limit(100);
+      .eq("status", "published");
 
     const locales = ["en", "fr", "es", "pt-br", "de", "ar"];
     const params = [];
