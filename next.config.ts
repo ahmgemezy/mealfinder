@@ -47,6 +47,12 @@ const nextConfig: NextConfig = {
   },
   turbopack: {
     root: __dirname,
+    // Alias heavy translation library to stub for Cloudflare builds
+    ...(isCloudflare && {
+      resolveAlias: {
+        "google-translate-api-x": "./lib/services/google-translate-stub.js",
+      },
+    }),
   },
   images: {
     unoptimized: true, // Disable Vercel Image Optimization due to quota exceeded
