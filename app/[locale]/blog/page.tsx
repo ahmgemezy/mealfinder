@@ -9,8 +9,7 @@ import { supabase } from "@/lib/supabase";
 import { translateBlogPosts } from "@/lib/services/translation";
 
 
-export const dynamic = "force-dynamic";
-export const revalidate = 0;
+export const dynamic = "force-static";
 
 export async function generateMetadata({
   params,

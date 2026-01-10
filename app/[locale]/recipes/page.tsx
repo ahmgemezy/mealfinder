@@ -2,7 +2,7 @@ import { Metadata } from "next";
 import RecipesList from "@/components/recipes/RecipesList";
 import { getTranslations } from "next-intl/server";
 
-export const dynamic = "force-dynamic";
+export const dynamic = "force-static";
 
 interface RecipesPageProps {
     params: Promise<{ locale: string }>;
