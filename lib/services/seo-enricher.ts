@@ -10,8 +10,6 @@
  * This service NEVER modifies original recipe data.
  */
 
-"use server";
-
 import { createClient } from "@supabase/supabase-js";
 import { Recipe } from "@/lib/types/recipe";
 

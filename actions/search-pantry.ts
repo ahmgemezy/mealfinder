@@ -1,5 +1,3 @@
-'use server';
-
 import { searchByIngredients } from "@/lib/api";
 import { translateRecipesList } from "@/lib/services/translation";
 import { Recipe } from "@/lib/types/recipe";

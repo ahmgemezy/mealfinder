@@ -1,9 +1,8 @@
 /**
  * Unified Recipe API
- * "use server" directive ensures this code runs on the server,
- * allowing secure access to environment variables.
+ * Note: This module contains server-side only functions.
+ * For client-side usage, use lib/api/client.ts instead.
  */
-"use server";
 
 /**
  * Unified Recipe API

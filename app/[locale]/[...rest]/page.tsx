@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 // Generate static params for all locales - catch-all route requires this
 export function generateStaticParams() {
   // Return all locales - unmatched rest segments will 404 dynamically
-  return ['en', 'fr', 'es', 'pt-br', 'de', 'ar'].map((locale) => ({
+  return ["en", "fr", "es", "pt-br", "de", "ar"].map((locale) => ({
     locale,
     rest: [],
   }));
