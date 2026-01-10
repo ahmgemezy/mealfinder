@@ -1,4 +1,7 @@
-# Cloudflare Pages redirects for static export
+# Redirect root to default locale
 
-/recipes/search /recipes 301
+/ /en/ 301
+
+# Ads.txt redirect
+
 /ads.txt https://srv.adstxtmanager.com/19390/dishshuffle.com 301
