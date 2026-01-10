@@ -21,40 +21,32 @@ interface MealDBMeal {
 
 function transformMealDBToRecipe(meal: MealDBMeal): Recipe {
   // Extract ingredients and measures
-  const ingredients: string[] = [];
-  const measures: string[] = [];
+  const ingredients: { name: string; measure: string }[] = [];
 
   for (let i = 1; i <= 20; i++) {
     const ingredient = meal[`strIngredient${i}`];
     const measure = meal[`strMeasure${i}`];
 
     if (ingredient && ingredient.trim()) {
-      ingredients.push(ingredient.trim());
-      measures.push(measure?.trim() || "");
+      ingredients.push({
+        name: ingredient.trim(),
+        measure: measure?.trim() || "",
+      });
     }
   }
 
   return {
     id: `mealdb-${meal.idMeal}`,
-    title: meal.strMeal,
-    image: meal.strMealThumb,
-    summary: `A delicious ${meal.strArea} ${meal.strCategory} dish.`,
-    instructions: meal.strInstructions,
-    readyInMinutes: 45,
-    servings: 4,
-    sourceUrl: meal.strSource || "",
-    cuisines: [meal.strArea],
-    dishTypes: [meal.strCategory?.toLowerCase()],
-    diets: [],
-    extendedIngredients: ingredients.map((ing, idx) => ({
-      id: idx,
-      original: `${measures[idx]} ${ing}`.trim(),
-      originalName: ing,
-      amount: 1,
-      unit: measures[idx] || "",
-    })),
-    nutrition: null,
-    videoUrl: meal.strYoutube || null,
+    name: meal.strMeal,
+    category: meal.strCategory || "",
+    area: meal.strArea || "",
+    instructions: meal.strInstructions || "",
+    thumbnail: meal.strMealThumb || "",
+    tags: meal.strTags ? meal.strTags.split(",").map((t) => t.trim()) : [],
+    youtube: meal.strYoutube || undefined,
+    source: meal.strSource || undefined,
+    ingredients,
+    apiSource: "mealdb",
   };
 }
 
