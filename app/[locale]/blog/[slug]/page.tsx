@@ -27,23 +27,38 @@ export const revalidate = 86400; // Revalidate every 24 hours
 
 // Generate static params for all blog posts
 export async function generateStaticParams() {
-  const { data: posts } = await supabase
-    .from("blog_posts")
-    .select("slug")
-    .eq("status", "published");
+  try {
+    const { data: posts } = await supabase
+      .from("blog_posts")
+      .select("slug")
+      .eq("status", "published")
+      .limit(100);
 
-  if (!posts) return [];
+    const locales = ["en", "fr", "es", "pt-br", "de", "ar"];
+    const params = [];
 
-  const locales = ["en", "fr", "es", "pt-br", "de", "ar"];
-  const params = [];
-
-  for (const post of posts) {
-    for (const locale of locales) {
-      params.push({ slug: post.slug, locale });
+    if (posts && posts.length > 0) {
+      for (const post of posts) {
+        for (const locale of locales) {
+          params.push({ slug: post.slug, locale });
+        }
+      }
+    } else {
+      // Fallback: generate at least one param per locale to avoid empty array
+      // This ensures the blog route doesn't fail during static export
+      for (const locale of locales) {
+        params.push({ slug: "not-found", locale });
+      }
     }
-  }
 
-  return params;
+    return params;
+  } catch (error) {
+    // If Supabase query fails, generate fallback params for all locales
+    return ["en", "fr", "es", "pt-br", "de", "ar"].map((locale) => ({
+      slug: "not-found",
+      locale,
+    }));
+  }
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
