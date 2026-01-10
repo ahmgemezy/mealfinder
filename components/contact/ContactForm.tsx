@@ -169,12 +169,6 @@ export default function ContactForm() {
             ></textarea>
           </div>
 
-          {status === "error" && (
-            <div className="p-3 bg-red-50 text-red-600 rounded-lg text-sm border border-red-100">
-              {errorMessage}
-            </div>
-          )}
-
           <button
             type="submit"
             disabled={isLoading}
