@@ -5,6 +5,20 @@ import { Link } from "@/navigation";
 
 const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://dishshuffle.com";
 
+// Make FAQ static for export
+export const dynamic = "force-static";
+
+export async function generateStaticParams() {
+  return [
+    { locale: "en" },
+    { locale: "fr" },
+    { locale: "es" },
+    { locale: "pt-br" },
+    { locale: "de" },
+    { locale: "ar" },
+  ];
+}
+
 export async function generateMetadata({
   params,
 }: {
