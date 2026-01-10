@@ -189,12 +189,12 @@ export default async function RootLayout({
         />
         {/* Google Analytics */}
         <Script
-          strategy="lazyOnload"
+          strategy="afterInteractive"
           src={`https://www.googletagmanager.com/gtag/js?id=${GA_TRACKING_ID}`}
         />
         <Script
           id="google-analytics"
-          strategy="lazyOnload"
+          strategy="afterInteractive"
           dangerouslySetInnerHTML={{
             __html: `
               window.dataLayer = window.dataLayer || [];
@@ -207,7 +207,7 @@ export default async function RootLayout({
         {/* Google Ads Conversion Event - Page View */}
         <Script
           id="google-ads-conversion"
-          strategy="lazyOnload"
+          strategy="afterInteractive"
           dangerouslySetInnerHTML={{
             __html: `
               gtag('event', 'conversion_event_page_view', {});
