@@ -52,3 +52,14 @@ const indexContent = `<!DOCTYPE html>
 `;
 fs.writeFileSync(indexPath, indexContent);
 console.log("✅ Created root index.html redirect");
+
+// Verify that generated pages exist
+const locales = ["en", "fr", "es", "pt-br", "de", "ar"];
+locales.forEach((locale) => {
+  const localeIndexPath = path.join(outDir, locale, "index.html");
+  if (fs.existsSync(localeIndexPath)) {
+    console.log(`✅ /${locale}/ index.html found`);
+  } else {
+    console.log(`⚠️  /${locale}/ index.html NOT found - build may have failed`);
+  }
+});
