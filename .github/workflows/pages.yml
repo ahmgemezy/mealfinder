@@ -57,4 +57,4 @@ jobs:
         with:
           apiToken: ${{ secrets.CF_PAGES_API_TOKEN }}
           projectName: ${{ secrets.CF_PAGES_PROJECT_NAME }}
-          directory: ./.open-next/assets
+          directory: ./.open-next
