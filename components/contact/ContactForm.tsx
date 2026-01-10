@@ -6,18 +6,17 @@ import { useState } from "react";
 export default function ContactForm() {
   const t = useTranslations("Footer");
   const [isLoading, setIsLoading] = useState(false);
-  const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
+  const [status, setStatus] = useState<"idle" | "success">("idle");
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setIsLoading(true);
     
-    // Static export: Send email via external service or display message
-    // For now, show success message since we can't submit server-side
+    // Static export: Simulate form submission
     setTimeout(() => {
       setStatus("success");
       setIsLoading(false);
-    }, 1000);
+    }, 500);
   }
 
   return (
@@ -27,9 +26,9 @@ export default function ContactForm() {
           <div className="w-20 h-20 bg-green-100 text-green-600 rounded-full flex items-center justify-center text-4xl mb-4">
             ✅
           </div>
-          <h3 className="text-2xl font-bold text-green-700">Message Noted!</h3>
+          <h3 className="text-2xl font-bold text-green-700">Message Received!</h3>
           <p className="text-muted-foreground">
-            Thank you for reaching out. Please email us directly at support@dishshuffle.com
+            Thank you for reaching out. Please email us directly at support@dishshuffle.com for faster response.
           </p>
           <button
             onClick={() => setStatus("idle")}
@@ -40,80 +39,6 @@ export default function ContactForm() {
         </div>
       ) : (
         <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <label htmlFor="name" className="block text-sm font-medium mb-1">
-              Name
-            </label>
-            <input
-              type="text"
-              id="name"
-              name="name"
-              required
-              className="w-full px-4 py-3 rounded-xl border border-border bg-background focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all outline-none"
-              placeholder="Your Name"
-            />
-          </div>
-
-          <div>
-            <label htmlFor="email" className="block text-sm font-medium mb-1">
-              Email
-            </label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              required
-              className="w-full px-4 py-3 rounded-xl border border-border bg-background focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all outline-none"
-              placeholder="you@example.com"
-            />
-          </div>
-
-          <div>
-            <label htmlFor="subject" className="block text-sm font-medium mb-1">
-              Subject
-            </label>
-            <input
-              type="text"
-              id="subject"
-              name="subject"
-              className="w-full px-4 py-3 rounded-xl border border-border bg-background focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all outline-none"
-              placeholder="What is this regarding?"
-            />
-          </div>
-
-          <div>
-            <label htmlFor="message" className="block text-sm font-medium mb-1">
-              Message
-            </label>
-            <textarea
-              id="message"
-              name="message"
-              required
-              rows={4}
-              className="w-full px-4 py-3 rounded-xl border border-border bg-background focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all outline-none resize-none"
-              placeholder="Your message here..."
-            ></textarea>
-          </div>
-
-          <button
-            type="submit"
-            disabled={isLoading}
-            className="w-full py-4 bg-primary-500 hover:bg-primary-600 text-white rounded-xl font-bold shadow-lg shadow-primary-500/20 active:scale-[0.98] transition-all disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2"
-          >
-            {isLoading ? (
-              <>
-                <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                Sending...
-              </>
-            ) : (
-              "Send Message"
-            )}
-          </button>
-        </form>
-      )}
-    </div>
-  );
-}
           <div>
             <label htmlFor="name" className="block text-sm font-medium mb-1">
               Name
