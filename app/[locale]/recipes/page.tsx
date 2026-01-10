@@ -4,11 +4,6 @@ import { getTranslations } from "next-intl/server";
 
 export const dynamic = "force-static";
 
-interface RecipesPageProps {
-    params: Promise<{ locale: string }>;
-    searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
-}
-
 export async function generateStaticParams() {
     return [
         { locale: "en" },
@@ -22,21 +17,14 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({
     params,
-    searchParams
-}: RecipesPageProps): Promise<Metadata> {
+}: {
+    params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
     const { locale } = await params;
-    const { category, area, search } = await searchParams;
     const t = await getTranslations({ locale, namespace: 'Recipes' });
 
     const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://dishshuffle.com";
-    let canonical = `${baseUrl}/${locale}/recipes`;
-
-    // Add canonical for filtered pages to prevent duplicate content
-    if (typeof category === 'string' && category) {
-        canonical += `?category=${encodeURIComponent(category)}`;
-    } else if (typeof area === 'string' && area) {
-        canonical += `?area=${encodeURIComponent(area)}`;
-    }
+    const canonical = `${baseUrl}/${locale}/recipes`;
 
     return {
         title: t('title'),

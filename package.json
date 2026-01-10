@@ -15,7 +15,7 @@
     "generate:blog": "npx ts-node scripts/generate-blog-post.ts",
     "enrich:seo": "npx tsx scripts/enrich-recipe-seo.ts",
     "prebuild:cloudflare": "node scripts/check-build-env.js && node scripts/generate-rss.js",
-    "build:cloudflare": "CLOUDFLARE_BUILD=true next build && node scripts/post-build-cloudflare.js",
+    "build:cloudflare": "CLOUDFLARE_BUILD=true next build && node scripts/post-build-cloudflare.js && node scripts/create-routes-json.js",
     "preview:cloudflare": "npx wrangler pages dev out"
   },
   "dependencies": {

@@ -11,6 +11,17 @@ import { translateBlogPosts } from "@/lib/services/translation";
 
 export const dynamic = "force-static";
 
+export async function generateStaticParams() {
+  return [
+    { locale: "en" },
+    { locale: "fr" },
+    { locale: "es" },
+    { locale: "pt-br" },
+    { locale: "de" },
+    { locale: "ar" },
+  ];
+}
+
 export async function generateMetadata({
   params,
 }: {
