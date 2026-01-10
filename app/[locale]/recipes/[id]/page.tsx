@@ -19,7 +19,11 @@ import RelatedArticles from "@/components/recipes/RelatedArticles";
 import { getRelatedPostsByTags } from "@/lib/utils/blog-helpers";
 import RecipeFAQ from "@/components/recipes/RecipeFAQ";
 import { getRecipeSEO } from "@/lib/services/seo-enricher";
-import { translateRecipesList, translateBlogPosts, translateSEOEnrichment } from "@/lib/services/translation";
+import {
+  translateRecipesList,
+  translateBlogPosts,
+  translateSEOEnrichment,
+} from "@/lib/services/translation";
 
 import { supabase } from "@/lib/supabase";
 
@@ -34,7 +38,7 @@ export async function generateStaticParams() {
 
   if (!recipes) return [];
 
-  const locales = ["en", "fr", "es"];
+  const locales = ["en", "fr", "es", "pt-br", "de", "ar"];
   const params = [];
 
   for (const recipe of recipes) {
@@ -155,7 +159,7 @@ export default async function RecipePage({ params }: RecipePageProps) {
   let seoEnrichment = await getRecipeSEO(recipe);
 
   // Translate SEO content (Intro, FAQ, Meta) if needed
-  if (seoEnrichment && locale && locale !== 'en') {
+  if (seoEnrichment && locale && locale !== "en") {
     seoEnrichment = await translateSEOEnrichment(seoEnrichment, locale);
   }
 
@@ -283,18 +287,20 @@ export default async function RecipePage({ params }: RecipePageProps) {
   };
 
   // FAQ Schema for SEO (if enrichment available)
-  const faqSchema = seoEnrichment?.faq?.length ? {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": seoEnrichment.faq.map((item) => ({
-      "@type": "Question",
-      "name": item.question,
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": item.answer,
-      },
-    })),
-  } : null;
+  const faqSchema = seoEnrichment?.faq?.length
+    ? {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        mainEntity: seoEnrichment.faq.map((item) => ({
+          "@type": "Question",
+          name: item.question,
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: item.answer,
+          },
+        })),
+      }
+    : null;
 
   return (
     <>
@@ -344,9 +350,7 @@ export default async function RecipePage({ params }: RecipePageProps) {
               {/* Text Content (Left) */}
               <div className="flex-1 text-center md:text-left space-y-6">
                 {/* Tags/Badges */}
-                <div
-                  className="flex flex-wrap justify-center md:justify-start gap-3"
-                >
+                <div className="flex flex-wrap justify-center md:justify-start gap-3">
                   {recipe.area && recipe.area.trim() !== "" && (
                     <Link
                       href={`/recipes?area=${encodeURIComponent(recipe.area)}`}
@@ -401,9 +405,7 @@ export default async function RecipePage({ params }: RecipePageProps) {
                 </div>
 
                 {/* Title */}
-                <h1
-                  className="font-display text-4xl md:text-6xl lg:text-7xl font-bold text-white leading-tight drop-shadow-lg"
-                >
+                <h1 className="font-display text-4xl md:text-6xl lg:text-7xl font-bold text-white leading-tight drop-shadow-lg">
                   {recipe.name}
                 </h1>
               </div>
@@ -444,7 +446,9 @@ export default async function RecipePage({ params }: RecipePageProps) {
                       <span className="text-6xl">👨‍🍳</span>
                     </div>
                     <h2 className="font-display text-2xl font-bold mb-4 flex items-center gap-3 text-primary-700 dark:text-primary-400">
-                      <span className="w-8 h-8 rounded-full bg-primary-100 dark:bg-primary-800 flex items-center justify-center text-lg">💡</span>
+                      <span className="w-8 h-8 rounded-full bg-primary-100 dark:bg-primary-800 flex items-center justify-center text-lg">
+                        💡
+                      </span>
                       {t("chefsNote") || "Chef's Note"}
                     </h2>
                     <p className="text-lg leading-relaxed text-foreground/90 italic">
@@ -459,9 +463,7 @@ export default async function RecipePage({ params }: RecipePageProps) {
                     {t("ingredients")}
                   </h2>
                   <div className="bg-card rounded-3xl p-4 md:p-8 shadow-soft border border-border/50">
-                    <ul
-                      className="grid grid-cols-2 gap-3 md:gap-4"
-                    >
+                    <ul className="grid grid-cols-2 gap-3 md:gap-4">
                       {recipe.ingredients.map((ingredient, index) => (
                         <li
                           key={index}

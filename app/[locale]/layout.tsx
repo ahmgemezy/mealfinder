@@ -8,13 +8,13 @@ import { FavoritesProvider } from "@/lib/hooks/useFavorites";
 
 import { SurpriseMeProvider } from "@/lib/contexts/SurpriseMeContext";
 import SurpriseMeModal from "@/components/features/SurpriseMeModal";
-import { NextIntlClientProvider } from 'next-intl';
-import { getMessages, setRequestLocale } from 'next-intl/server';
+import { NextIntlClientProvider } from "next-intl";
+import { getMessages, setRequestLocale } from "next-intl/server";
 import { ToastProvider } from "@/lib/contexts/ToastContext";
 import { ToastContainer } from "@/components/ui/Toast";
-import { validateEnvVars } from '@/lib/env-validator';
+import { validateEnvVars } from "@/lib/env-validator";
 
-const GA_TRACKING_ID = 'G-1CJ0891RQ7';
+const GA_TRACKING_ID = "G-1CJ0891RQ7";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -36,7 +36,11 @@ const geistMono = Geist_Mono({
 
 const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://dishshuffle.com";
 
-export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
   const { locale } = await params;
 
   // Base alternates that apply to all pages
@@ -45,13 +49,13 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   const alternates = {
     canonical: `${baseUrl}/${locale}`,
     languages: {
-      'en': `${baseUrl}/en`,
-      'fr': `${baseUrl}/fr`,
-      'es': `${baseUrl}/es`,
-      'pt-BR': `${baseUrl}/pt-br`,
-      'de': `${baseUrl}/de`,
-      'ar': `${baseUrl}/ar`,
-      'x-default': `${baseUrl}/en`,
+      en: `${baseUrl}/en`,
+      fr: `${baseUrl}/fr`,
+      es: `${baseUrl}/es`,
+      "pt-BR": `${baseUrl}/pt-br`,
+      de: `${baseUrl}/de`,
+      ar: `${baseUrl}/ar`,
+      "x-default": `${baseUrl}/en`,
     },
   };
 
@@ -60,19 +64,41 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
       default: "Dish Shuffle - Discover Your Next Meal",
       template: "%s | Dish Shuffle",
     },
-    description: "Find your next favorite meal with Dish Shuffle. Browse thousands of recipes from around the world.",
-    keywords: ["recipes", "food", "cooking", "meal planner", "dish shuffle", "what to eat"],
+    description:
+      "Find your next favorite meal with Dish Shuffle. Browse thousands of recipes from around the world.",
+    keywords: [
+      "recipes",
+      "food",
+      "cooking",
+      "meal planner",
+      "dish shuffle",
+      "what to eat",
+    ],
     authors: [{ name: "Dish Shuffle Team" }],
     creator: "Dish Shuffle",
     publisher: "Dish Shuffle",
     metadataBase: new URL(baseUrl),
     openGraph: {
       type: "website",
-      locale: locale === "en" ? "en_US" : locale === "fr" ? "fr_FR" : locale === "es" ? "es_ES" : locale === "pt-br" ? "pt_BR" : locale === "de" ? "de_DE" : locale === "ar" ? "ar_AR" : "en_US",
+      locale:
+        locale === "en"
+          ? "en_US"
+          : locale === "fr"
+            ? "fr_FR"
+            : locale === "es"
+              ? "es_ES"
+              : locale === "pt-br"
+                ? "pt_BR"
+                : locale === "de"
+                  ? "de_DE"
+                  : locale === "ar"
+                    ? "ar_AR"
+                    : "en_US",
       url: `${baseUrl}/${locale}`,
       siteName: "Dish Shuffle",
       title: "Dish Shuffle - Discover Your Next Meal",
-      description: "Find your next favorite meal with Dish Shuffle. Browse thousands of recipes from around the world.",
+      description:
+        "Find your next favorite meal with Dish Shuffle. Browse thousands of recipes from around the world.",
       images: [
         {
           url: "/og-image.jpg",
@@ -109,6 +135,11 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   };
 }
 
+// Generate static params for all locales (required for static export)
+export function generateStaticParams() {
+  return ["en", "fr", "es", "pt-br", "de", "ar"].map((locale) => ({ locale }));
+}
+
 import AutoGoogleTranslate from "@/components/features/AutoGoogleTranslate";
 import GoogleTranslateFix from "@/components/features/GoogleTranslateFix";
 import EzoicAdsHandler from "@/components/features/EzoicAdsHandler";
@@ -132,8 +163,8 @@ export default async function RootLayout({
   const messages = await getMessages();
 
   // Ensure strict locale format for html lang attribute (pt-BR specifically)
-  const htmlLang = locale === 'pt-br' ? 'pt-BR' : locale;
-  const dir = locale === 'ar' ? 'rtl' : 'ltr';
+  const htmlLang = locale === "pt-br" ? "pt-BR" : locale;
+  const dir = locale === "ar" ? "rtl" : "ltr";
 
   return (
     <html lang={htmlLang} dir={dir}>
@@ -222,15 +253,22 @@ export default async function RootLayout({
           strategy="lazyOnload"
         />
       </head>
-      <body className={`${inter.variable} ${playfair.variable} ${geistMono.variable} antialiased`} suppressHydrationWarning>
+      <body
+        className={`${inter.variable} ${playfair.variable} ${geistMono.variable} antialiased`}
+        suppressHydrationWarning
+      >
         <NextIntlClientProvider messages={messages} locale={locale}>
           <ToastProvider>
             <SurpriseMeProvider>
               <FavoritesProvider>
                 <div className="flex flex-col min-h-screen">
-                  <div className="notranslate"><Navigation /></div>
+                  <div className="notranslate">
+                    <Navigation />
+                  </div>
                   <main className="flex-grow">{children}</main>
-                  <div className="notranslate"><Footer /></div>
+                  <div className="notranslate">
+                    <Footer />
+                  </div>
 
                   <SurpriseMeModal />
                   <GoogleTranslateFix />
