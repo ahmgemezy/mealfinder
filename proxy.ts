@@ -1,9 +1,10 @@
 import createMiddleware from 'next-intl/middleware';
+import { NextRequest } from 'next/server';
 import { routing } from './navigation';
 
 const handleRequest = createMiddleware(routing);
 
-export function proxy(request: any) {
+export function proxy(request: NextRequest) {
     return handleRequest(request);
 }
 

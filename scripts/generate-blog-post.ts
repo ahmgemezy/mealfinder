@@ -310,6 +310,7 @@ async function searchImagesWithUnsplash(query: string): Promise<string[]> {
 }
 
 // Helper for general chat (non-structured) using SDK
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 async function openaiChat(messages: any[], model = "gpt-4o", maxTokens = 16000) {
     try {
         const completion = await openai.chat.completions.create({

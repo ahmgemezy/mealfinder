@@ -15,6 +15,7 @@ export default function EzoicAdsHandler() {
                 // Refresh all ads on page navigation
                 // Re-access window.ezstandalone to ensure we have the loaded library with methods, 
                 // in case the initial stub object was replaced or not yet augmented.
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 const actualEz = (window as any).ezstandalone;
                 if (actualEz && typeof actualEz.showAds === 'function') {
                     actualEz.showAds();

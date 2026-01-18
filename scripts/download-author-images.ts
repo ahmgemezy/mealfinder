@@ -71,8 +71,8 @@ async function main() {
         });
         await Promise.all(promises);
         log("All images downloaded.");
-    } catch (e: any) {
-        log("Fatal error: " + e.message);
+    } catch (e) {
+        log("Fatal error: " + (e instanceof Error ? e.message : String(e)));
     }
 }
 

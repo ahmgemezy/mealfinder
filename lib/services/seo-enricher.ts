@@ -113,10 +113,15 @@ const openai = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY,
 });
 
+// Circuit breaker for OpenAI Quota
+let isOpenAIQuotaExceeded = false;
+
 async function openaiChat(
     messages: Array<{ role: "system" | "user" | "assistant"; content: string }>,
     maxTokens = 2048
 ): Promise<string> {
+    if (isOpenAIQuotaExceeded) throw new Error("OpenAI Quota Exceeded (Circuit Breaker)");
+
     try {
         const response = await openai.chat.completions.create({
             model: "gpt-4o",
@@ -126,6 +131,15 @@ async function openaiChat(
 
         return response.choices[0]?.message?.content || "";
     } catch (e) {
+        // Handle Quota Exceeded (429) gracefully
+        if (e instanceof Error && (e.message.includes("429") || e.message.includes("quota"))) {
+            if (!isOpenAIQuotaExceeded) {
+                console.warn("⚠️ OpenAI Quota Exceeded. Disabling further requests for this session.");
+                isOpenAIQuotaExceeded = true;
+            }
+            throw new Error("OpenAI Quota Exceeded");
+        }
+        
         console.error(`Status: OpenAI API error`, e);
         throw new Error(`OpenAI API error: ${e instanceof Error ? e.message : String(e)}`);
     }
@@ -151,6 +165,8 @@ const FAQSchema = z.object({
  * Generate FAQ questions and answers for a recipe
  */
 async function generateFAQ(recipe: Recipe, sourceKnowledge: string): Promise<FAQItem[]> {
+    if (isOpenAIQuotaExceeded) return [];
+
     // 1. Primary Strategy: Use Jina Knowledge + Recipe Data
     const primaryPrompt = `You are an SEO expert creating FAQ schema content for a recipe page.
 
@@ -196,9 +212,14 @@ Keep answers concise (50-100 words). Be helpful and accurate.`;
             }
         }
     } catch (e) {
+        if (e instanceof Error && (e.message.includes("429") || e.message.includes("quota"))) {
+            isOpenAIQuotaExceeded = true;
+        }
         // Fall through to fallback
         console.warn("   ⚠️ Primary FAQ generation failed:", e);
     }
+
+    if (isOpenAIQuotaExceeded) return [];
 
     // 2. Fallback Strategy: Pure Internal Knowledge (if Jina failed or strict prompt yielded nothing)
     console.log("   ⚠️ Primary FAQ generation returned 0 items. Attempting OpenAI Fallback...");
@@ -230,6 +251,10 @@ Keep answers concise (50-100 words). Be helpful and accurate.`;
         return [];
 
     } catch (e) {
+        if (e instanceof Error && (e.message.includes("429") || e.message.includes("quota"))) {
+             isOpenAIQuotaExceeded = true;
+             return [];
+        }
         console.error("   ❌ FAQ Fallback request failed:", e);
         return [];
     }
@@ -515,7 +540,7 @@ export async function getRecipeSEO(
     try {
         // Only return cached data in production to avoid slow page loads
         // Try to get cached data first
-        let cached = await getCachedEnrichment(recipe.id);
+        const cached = await getCachedEnrichment(recipe.id);
 
         if (cached) {
             // CACHE HEALING: If cache exists but misses 'intro' (Chef's Tips), generate it!
