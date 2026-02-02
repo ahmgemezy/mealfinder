@@ -4,7 +4,7 @@ import { routing } from './navigation';
 
 const handleRequest = createMiddleware(routing);
 
-export function proxy(request: NextRequest) {
+export default function proxy(request: NextRequest) {
     return handleRequest(request);
 }
 

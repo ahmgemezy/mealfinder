@@ -187,6 +187,32 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     console.error("Error fetching recipes for sitemap:", error);
   }
 
+  // 5. Programmatic Collections
+  // Generate URLs for all defined collections
+  try {
+    const { COLLECTIONS_CONFIG } = await import("@/lib/collections");
+    COLLECTIONS_CONFIG.forEach((collection) => {
+      locales.forEach((locale) => {
+        const languages: Record<string, string> = {};
+        locales.forEach((l) => {
+          languages[l] = `${baseUrl}/${l}/collections/${collection.slug}`;
+        });
+
+        allRoutes.push({
+          url: `${baseUrl}/${locale}/collections/${collection.slug}`,
+          lastModified: new Date(),
+          changeFrequency: "weekly",
+          priority: 0.7,
+          alternates: {
+            languages,
+          },
+        });
+      });
+    });
+  } catch (error) {
+    console.error("Error generating collection sitemap:", error);
+  }
+
   console.log(`Sitemap: Generated ${allRoutes.length} URLs`);
   return allRoutes;
 }
