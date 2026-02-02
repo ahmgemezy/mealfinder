@@ -64,7 +64,7 @@ export default function Navigation() {
     { href: "/pantry", label: t("pantry"), icon: ChefHat },
     { href: "/recipes", label: t("recipes"), icon: BookIcon },
     { href: "/blog", label: t("blog"), icon: NewsIcon },
-    { href: "/favorites", label: t("favorites"), icon: HeartIcon },
+    { href: "/collections", label: t("collections"), icon: CollectionsIcon },
   ];
 
   const isActive = (href: string) => {
@@ -114,10 +114,7 @@ export default function Navigation() {
                   key={item.href}
                   href={item.href}
                   onClick={(e) => {
-                    if (item.href === "/favorites" && !user) {
-                      e.preventDefault();
-                      openAuthModal();
-                    }
+                    // No special auth requirements for public links
                   }}
                   className={`px-5 py-2.5 rounded-full font-medium text-sm transition-all duration-300 ${isActive(item.href)
                     ? "bg-primary-50 text-primary-700 shadow-sm ring-1 ring-primary-200"
@@ -402,7 +399,7 @@ function BookIcon({ className }: { className?: string }) {
   );
 }
 
-function HeartIcon({ className }: { className?: string }) {
+function CollectionsIcon({ className }: { className?: string }) {
   return (
     <svg
       className={className}
@@ -414,7 +411,7 @@ function HeartIcon({ className }: { className?: string }) {
         strokeLinecap="round"
         strokeLinejoin="round"
         strokeWidth={2}
-        d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+        d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"
       />
     </svg>
   );
