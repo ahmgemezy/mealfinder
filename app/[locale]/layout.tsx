@@ -44,19 +44,6 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   // Base alternates that apply to all pages
   // Next.js will automatically merge these with page-specific metadata
   // and handle the path concatenation
-  const alternates = {
-    canonical: `${baseUrl}/${locale}`,
-    languages: {
-      'en': `${baseUrl}/en`,
-      'fr': `${baseUrl}/fr`,
-      'es': `${baseUrl}/es`,
-      'pt-BR': `${baseUrl}/pt-br`,
-      'de': `${baseUrl}/de`,
-      'ar': `${baseUrl}/ar`,
-      'x-default': `${baseUrl}/en`,
-    },
-  };
-
   return {
     title: {
       default: "Dish Shuffle - Discover Your Next Meal",
@@ -103,7 +90,6 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
         "max-snippet": -1,
       },
     },
-    alternates,
     manifest: "/site.webmanifest",
     other: {
       "google-adsense-account": "ca-pub-2393924023690242",

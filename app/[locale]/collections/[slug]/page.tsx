@@ -96,7 +96,7 @@ export default async function CollectionPage({ params }: CollectionPageProps) {
                 <Breadcrumb
                     items={[
                         { label: 'Home', href: '/' },
-                        { label: 'Collections', href: '#' }, // non-link for now
+                        { label: 'Collections', href: '/collections' },
                         { label: definition.title },
                     ]}
                 />
