@@ -718,5 +718,52 @@
                 "description": "Werden verwendet, um Werbung bereitzustellen, die für Sie und Ihre Interessen relevanter ist."
             }
         }
+    },
+    "CollectionsPage": {
+        "title": "Rezeptsammlungen",
+        "subtitle": "Entdecken Sie unsere handverlesenen Rezeptsammlungen für jeden Anlass.",
+        "browseCollection": "Sammlung durchsuchen",
+        "collections": {
+            "vegetarian-dinner-recipes": {
+                "title": "Beste Vegetarische Abendessen-Rezepte",
+                "description": "Entdecken Sie köstliche und sättigende vegetarische Abendessen-Ideen. Von Pasta bis Curry – diese fleischlosen Mahlzeiten sind perfekt für den Wochenabend."
+            },
+            "healthy-chicken-recipes": {
+                "title": "Gesunde Hähnchenrezepte",
+                "description": "Leichte und nahrhafte Hähnchenrezepte, die geschmacklich überzeugen. Proteinreich, fettarm und perfekt für eine ausgewogene Ernährung."
+            },
+            "gluten-free-options": {
+                "title": "Glutenfreie Rezeptsammlung",
+                "description": "Sichere und köstliche glutenfreie Rezepte für alle. Entdecken Sie Mahlzeiten ohne Weizen, Gerste oder Roggen."
+            },
+            "authentic-italian-pasta": {
+                "title": "Authentische Italienische Pasta-Rezepte",
+                "description": "Bringen Sie den Geschmack Italiens in Ihre Küche mit diesen traditionellen Pastagerichten. Carbonara, Bolognese und mehr."
+            },
+            "spicy-mexican-food": {
+                "title": "Würzige Mexikanische Rezepte",
+                "description": "Feurige und geschmackvolle mexikanische Gerichte für mehr Abwechslung. Tacos, Enchiladas und frische Salsas."
+            },
+            "asian-stir-fry": {
+                "title": "Schnelles Asiatisches Pfannengericht",
+                "description": "Besser als Lieferservice. Schnell, frisch und aromatisch mit Wok-Rezepten aus ganz Asien."
+            },
+            "quick-breakfast-ideas": {
+                "title": "Schnelle Frühstücksideen",
+                "description": "Starten Sie gut in den Tag mit diesen schnellen und energiereichen Frühstücksrezepten. In Minuten fertig."
+            },
+            "comfort-food-desserts": {
+                "title": "Gemütliche Desserts",
+                "description": "Genießen Sie süße Leckereien, die die Seele wärmen. Warme Kekse, reichhaltige Kuchen und klassische Puddings."
+            },
+            "seafood-lovers": {
+                "title": "Rezepte für Meeresfrüchte-Liebhaber",
+                "description": "Frische Fisch- und Meeresfrüchte-Rezepte. Gesund, elegant und einfacher zuzubereiten als Sie denken."
+            },
+            "vegan-friendly-meals": {
+                "title": "Vegane Mahlzeiten",
+                "description": "Pflanzliche Power auf dem Teller. Keine tierischen Produkte, 100% Geschmack."
+            }
+        }
     }
 }

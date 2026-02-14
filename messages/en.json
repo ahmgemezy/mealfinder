@@ -718,5 +718,52 @@
                 "description": "Used to deliver advertisements more relevant to you and your interests."
             }
         }
+    },
+    "CollectionsPage": {
+        "title": "Recipe Collections",
+        "subtitle": "Explore our hand-picked selections of delicious recipes for every occasion.",
+        "browseCollection": "Browse Collection",
+        "collections": {
+            "vegetarian-dinner-recipes": {
+                "title": "Best Vegetarian Dinner Recipes",
+                "description": "Discover delicious and satisfying vegetarian dinner ideas. From pasta to curries, these meat-free meals are perfect for weeknight cooking."
+            },
+            "healthy-chicken-recipes": {
+                "title": "Healthy Chicken Recipes",
+                "description": "Light and nutritious chicken recipes that don't skimp on flavor. High protein, low fat, and perfect for a balanced diet."
+            },
+            "gluten-free-options": {
+                "title": "Gluten-Free Recipe Collection",
+                "description": "Safe and delicious gluten-free recipes for everyone. Explore meals without wheat, barley, or rye."
+            },
+            "authentic-italian-pasta": {
+                "title": "Authentic Italian Pasta Recipes",
+                "description": "Bring the taste of Italy to your kitchen with these traditional pasta dishes. Carbonara, Bolognese, and more."
+            },
+            "spicy-mexican-food": {
+                "title": "Spicy Mexican Recipes",
+                "description": "Fiesty and flavorful Mexican dishes to spice up your routine. Tacos, enchiladas, and fresh salsas."
+            },
+            "asian-stir-fry": {
+                "title": "Quick & Easy Asian Stir-Fry",
+                "description": "Better than takeout. Fast, fresh, and flavorful stir-fry recipes from across Asia."
+            },
+            "quick-breakfast-ideas": {
+                "title": "Quick Breakfast Ideas for Busy Mornings",
+                "description": "Start your day right with these fast and fueling breakfast recipes. Ready in minutes."
+            },
+            "comfort-food-desserts": {
+                "title": "Ultimate Comfort Food Desserts",
+                "description": "Indulge in sweet treats that feel like a hug. Warm cookies, rich cakes, and classic puddings."
+            },
+            "seafood-lovers": {
+                "title": "Recipes for Seafood Lovers",
+                "description": "Fresh fish and shellfish recipes. Healthy, elegant, and easier to make than you think."
+            },
+            "vegan-friendly-meals": {
+                "title": "Vegan Friendly Meals",
+                "description": "Plant-based power on a plate. No animal products, 100% flavor."
+            }
+        }
     }
 }

@@ -722,5 +722,52 @@
                 "description": "Utilizadas para ofrecer anuncios más relevantes para ti y tus intereses."
             }
         }
+    },
+    "CollectionsPage": {
+        "title": "Colecciones de Recetas",
+        "subtitle": "Explora nuestras selecciones de recetas deliciosas para cada ocasión.",
+        "browseCollection": "Ver Colección",
+        "collections": {
+            "vegetarian-dinner-recipes": {
+                "title": "Mejores Recetas Vegetarianas para Cenar",
+                "description": "Descubre ideas deliciosas y satisfactorias de cena vegetariana. Desde pasta hasta curries, estas comidas sin carne son perfectas para entre semana."
+            },
+            "healthy-chicken-recipes": {
+                "title": "Recetas Saludables de Pollo",
+                "description": "Recetas de pollo ligeras y nutritivas que no escatiman en sabor. Alta en proteínas, baja en grasas y perfectas para una dieta equilibrada."
+            },
+            "gluten-free-options": {
+                "title": "Colección de Recetas Sin Gluten",
+                "description": "Recetas sin gluten seguras y deliciosas para todos. Explora comidas sin trigo, cebada o centeno."
+            },
+            "authentic-italian-pasta": {
+                "title": "Recetas Auténticas de Pasta Italiana",
+                "description": "Trae el sabor de Italia a tu cocina con estos platos tradicionales de pasta. Carbonara, Boloñesa y más."
+            },
+            "spicy-mexican-food": {
+                "title": "Recetas Mexicanas Picantes",
+                "description": "Platos mexicanos llenos de sabor para darle vida a tu rutina. Tacos, enchiladas y salsas frescas."
+            },
+            "asian-stir-fry": {
+                "title": "Salteado Asiático Rápido y Fácil",
+                "description": "Mejor que pedir a domicilio. Rápido, fresco y sabroso con recetas de salteado de toda Asia."
+            },
+            "quick-breakfast-ideas": {
+                "title": "Ideas Rápidas de Desayuno",
+                "description": "Empieza bien el día con estas recetas rápidas y energizantes de desayuno. Listas en minutos."
+            },
+            "comfort-food-desserts": {
+                "title": "Postres Reconfortantes",
+                "description": "Disfruta de dulces que reconfortan el alma. Galletas calientes, pasteles ricos y pudines clásicos."
+            },
+            "seafood-lovers": {
+                "title": "Recetas para Amantes de los Mariscos",
+                "description": "Recetas frescas de pescado y mariscos. Saludables, elegantes y más fáciles de hacer de lo que piensas."
+            },
+            "vegan-friendly-meals": {
+                "title": "Comidas Veganas",
+                "description": "El poder de las plantas en tu plato. Sin productos animales, 100% sabor."
+            }
+        }
     }
 }

@@ -14,10 +14,11 @@ interface CollectionsIndexProps {
 
 export async function generateMetadata({ params }: CollectionsIndexProps): Promise<Metadata> {
     const { locale } = await params;
+    const t = await getTranslations({ locale, namespace: 'CollectionsPage' });
 
     return {
-        title: 'Recipe Collections | Dish Shuffle',
-        description: 'Browse our curated collections of recipes. From quick dinners to special dietary needs, find exactly what you are looking for.',
+        title: `${t('title')} | Dish Shuffle`,
+        description: t('subtitle'),
         alternates: {
             canonical: `https://dishshuffle.com/${locale}/collections`,
         }
@@ -26,23 +27,24 @@ export async function generateMetadata({ params }: CollectionsIndexProps): Promi
 
 export default async function CollectionsIndexPage({ params }: CollectionsIndexProps) {
     const { locale } = await params;
-    const t = await getTranslations({ locale }); // Using default namespace for general terms if avail, or we can just hardcode english fallback for "Collections" if not in dict
+    const t = await getTranslations({ locale, namespace: 'CollectionsPage' });
+    const navT = await getTranslations({ locale, namespace: 'Navigation' });
 
     return (
         <div className="container mx-auto px-4 pt-8 pb-16">
             <Breadcrumb
                 items={[
-                    { label: 'Home', href: '/' },
-                    { label: 'Collections' },
+                    { label: navT('home'), href: '/' },
+                    { label: navT('collections') },
                 ]}
             />
 
             <div className="py-12 text-center max-w-3xl mx-auto">
                 <h1 className="font-display text-4xl md:text-5xl font-bold mb-6 text-foreground">
-                    Recipe Collections
+                    {t('title')}
                 </h1>
                 <p className="text-xl text-muted-foreground leading-relaxed">
-                    Explore our hand-picked selections of delicious recipes for every occasion.
+                    {t('subtitle')}
                 </p>
             </div>
 
@@ -69,15 +71,15 @@ export default async function CollectionsIndexPage({ params }: CollectionsIndexP
                             </div>
 
                             <h2 className="font-display text-2xl font-bold mb-3 group-hover:text-primary-600 transition-colors">
-                                {collection.title}
+                                {t(`collections.${collection.slug}.title`)}
                             </h2>
 
                             <p className="text-muted-foreground leading-relaxed">
-                                {collection.description}
+                                {t(`collections.${collection.slug}.description`)}
                             </p>
 
                             <div className="mt-6 font-medium text-primary-500 flex items-center gap-2">
-                                Browse Collection
+                                {t('browseCollection')}
                                 <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                                 </svg>

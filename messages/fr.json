@@ -722,5 +722,52 @@
                 "description": "Utilisés pour diffuser des publicités plus pertinentes pour vous et vos intérêts."
             }
         }
+    },
+    "CollectionsPage": {
+        "title": "Collections de Recettes",
+        "subtitle": "Explorez nos sélections de recettes délicieuses pour chaque occasion.",
+        "browseCollection": "Parcourir la Collection",
+        "collections": {
+            "vegetarian-dinner-recipes": {
+                "title": "Meilleures Recettes Végétariennes pour le Dîner",
+                "description": "Découvrez des idées de dîner végétarien délicieuses et satisfaisantes. Des pâtes aux currys, ces repas sans viande sont parfaits pour les soirs de semaine."
+            },
+            "healthy-chicken-recipes": {
+                "title": "Recettes de Poulet Saines",
+                "description": "Des recettes de poulet légères et nutritives qui ne lésinent pas sur la saveur. Riches en protéines, faibles en gras et parfaites pour une alimentation équilibrée."
+            },
+            "gluten-free-options": {
+                "title": "Collection de Recettes Sans Gluten",
+                "description": "Des recettes sans gluten sûres et délicieuses pour tous. Explorez des repas sans blé, orge ou seigle."
+            },
+            "authentic-italian-pasta": {
+                "title": "Recettes Authentiques de Pâtes Italiennes",
+                "description": "Apportez le goût de l'Italie dans votre cuisine avec ces plats de pâtes traditionnels. Carbonara, Bolognaise et plus encore."
+            },
+            "spicy-mexican-food": {
+                "title": "Recettes Mexicaines Épicées",
+                "description": "Des plats mexicains savoureux et épicés pour pimenter votre routine. Tacos, enchiladas et salsas fraîches."
+            },
+            "asian-stir-fry": {
+                "title": "Sauté Asiatique Rapide et Facile",
+                "description": "Mieux que la livraison. Rapide, frais et savoureux avec des recettes de sauté de toute l'Asie."
+            },
+            "quick-breakfast-ideas": {
+                "title": "Idées de Petit-déjeuner Rapides",
+                "description": "Commencez bien votre journée avec ces recettes de petit-déjeuner rapides et énergisantes. Prêtes en quelques minutes."
+            },
+            "comfort-food-desserts": {
+                "title": "Desserts Réconfortants",
+                "description": "Savourez des douceurs qui réchauffent le cœur. Cookies chauds, gâteaux riches et puddings classiques."
+            },
+            "seafood-lovers": {
+                "title": "Recettes pour les Amateurs de Fruits de Mer",
+                "description": "Poissons frais et fruits de mer. Sains, élégants et plus faciles à préparer que vous ne le pensez."
+            },
+            "vegan-friendly-meals": {
+                "title": "Repas Végétaliens",
+                "description": "La puissance des plantes dans votre assiette. Sans produits animaux, 100% saveur."
+            }
+        }
     }
 }

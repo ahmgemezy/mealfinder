@@ -718,5 +718,52 @@
                 "description": "Usados para fornecer anúncios mais relevantes para você e seus interesses."
             }
         }
+    },
+    "CollectionsPage": {
+        "title": "Coleções de Receitas",
+        "subtitle": "Explore nossas seleções especiais de receitas deliciosas para cada ocasião.",
+        "browseCollection": "Ver Coleção",
+        "collections": {
+            "vegetarian-dinner-recipes": {
+                "title": "Melhores Receitas Vegetarianas para Jantar",
+                "description": "Descubra ideias deliciosas e satisfatórias de jantar vegetariano. De massas a curries, essas refeições sem carne são perfeitas para o dia a dia."
+            },
+            "healthy-chicken-recipes": {
+                "title": "Receitas Saudáveis de Frango",
+                "description": "Receitas leves e nutritivas de frango que não perdem no sabor. Alta proteína, pouca gordura e perfeitas para uma dieta equilibrada."
+            },
+            "gluten-free-options": {
+                "title": "Coleção de Receitas Sem Glúten",
+                "description": "Receitas seguras e deliciosas sem glúten para todos. Explore refeições sem trigo, cevada ou centeio."
+            },
+            "authentic-italian-pasta": {
+                "title": "Receitas Autênticas de Massa Italiana",
+                "description": "Traga o sabor da Itália para sua cozinha com esses pratos tradicionais de massa. Carbonara, Bolonhesa e muito mais."
+            },
+            "spicy-mexican-food": {
+                "title": "Receitas Mexicanas Picantes",
+                "description": "Pratos mexicanos cheios de sabor para apimentar sua rotina. Tacos, enchiladas e salsas frescas."
+            },
+            "asian-stir-fry": {
+                "title": "Stir-Fry Asiático Rápido e Fácil",
+                "description": "Melhor que delivery. Rápido, fresco e saboroso, com receitas de stir-fry de toda a Ásia."
+            },
+            "quick-breakfast-ideas": {
+                "title": "Ideias Rápidas de Café da Manhã",
+                "description": "Comece o dia bem com receitas rápidas e energéticas de café da manhã. Prontas em minutos."
+            },
+            "comfort-food-desserts": {
+                "title": "Sobremesas Comfort Food",
+                "description": "Delicie-se com doces que aquecem o coração. Cookies quentinhos, bolos ricos e pudins clássicos."
+            },
+            "seafood-lovers": {
+                "title": "Receitas para Amantes de Frutos do Mar",
+                "description": "Receitas frescas de peixes e frutos do mar. Saudáveis, elegantes e mais fáceis de fazer do que você imagina."
+            },
+            "vegan-friendly-meals": {
+                "title": "Refeições Veganas",
+                "description": "O poder das plantas no prato. Sem produtos animais, 100% sabor."
+            }
+        }
     }
 }
