@@ -80,11 +80,7 @@ export default function PrivacyPolicy() {
                             advertising cookies enables it and its partners to serve ads based on your
                             visit to our site and/or other sites on the Internet.
                         </li>
-                        <li>
-                            <strong>Ezoic:</strong> We may use Ezoic to optimize ad placements and improve
-                            user experience. Ezoic uses machine learning technology and may collect data
-                            about your browsing behavior to serve relevant advertisements.
-                        </li>
+
                         <li>
                             <strong>Other Ad Networks:</strong> We may partner with additional advertising
                             networks that use cookies and similar technologies to deliver targeted
@@ -93,8 +89,7 @@ export default function PrivacyPolicy() {
                     </ul>
 
 
-                    {/* Ezoic Privacy Policy Embed */}
-                    <span id="ezoic-privacy-policy-embed"></span>
+
 
                     <p className="mt-4">
                         <strong>Opting Out of Personalized Advertising:</strong> You may opt out of

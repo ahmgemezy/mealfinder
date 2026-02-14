@@ -25,7 +25,7 @@ export const dynamic = 'force-dynamic';
 export const revalidate = 0;
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-    const { slug } = await params;
+    const { slug, locale } = await params;
 
     // Fetch post from Supabase
     const { data: post } = await supabase
@@ -61,11 +61,16 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
                 },
             ],
         },
-        twitter: {
-            card: "summary_large_image",
-            title: post.title,
-            description: post.excerpt,
-            images: [post.featured_image],
+        alternates: {
+            canonical: `https://dishshuffle.com/${locale}/blog/${slug}`,
+            languages: {
+                en: `https://dishshuffle.com/en/blog/${slug}`,
+                fr: `https://dishshuffle.com/fr/blog/${slug}`,
+                es: `https://dishshuffle.com/es/blog/${slug}`,
+                "pt-br": `https://dishshuffle.com/pt-br/blog/${slug}`,
+                de: `https://dishshuffle.com/de/blog/${slug}`,
+                ar: `https://dishshuffle.com/ar/blog/${slug}`,
+            },
         },
     };
 }
@@ -164,6 +169,29 @@ export default async function BlogPostPage({ params }: Props) {
         }],
         description: post.excerpt,
         articleBody: post.content, // Strip markdown or use description for brevity? Full body is fine for schema.
+        breadcrumb: {
+            "@type": "BreadcrumbList",
+            itemListElement: [
+                {
+                    "@type": "ListItem",
+                    position: 1,
+                    name: "Home",
+                    item: `https://dishshuffle.com/${locale}`
+                },
+                {
+                    "@type": "ListItem",
+                    position: 2,
+                    name: "Blog",
+                    item: `https://dishshuffle.com/${locale}/blog`
+                },
+                {
+                    "@type": "ListItem",
+                    position: 3,
+                    name: post.title,
+                    item: `https://dishshuffle.com/${locale}/blog/${post.slug}`
+                }
+            ]
+        }
     };
 
     return (

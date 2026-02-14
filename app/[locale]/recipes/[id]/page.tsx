@@ -280,6 +280,29 @@ export default async function RecipePage({ params }: RecipePageProps) {
         },
       };
     })(),
+    breadcrumb: {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: "Home",
+          item: `https://dishshuffle.com/${locale}`
+        },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: "Recipes",
+          item: `https://dishshuffle.com/${locale}/recipes`
+        },
+        {
+          "@type": "ListItem",
+          position: 3,
+          name: recipe.name,
+          item: `https://dishshuffle.com/${locale}/recipes/${slug}`
+        }
+      ]
+    }
   };
 
   // FAQ Schema for SEO (if enrichment available)

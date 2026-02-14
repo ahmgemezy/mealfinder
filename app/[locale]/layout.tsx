@@ -99,7 +99,6 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 
 import AutoGoogleTranslate from "@/components/features/AutoGoogleTranslate";
 import GoogleTranslateFix from "@/components/features/GoogleTranslateFix";
-import EzoicAdsHandler from "@/components/features/EzoicAdsHandler";
 
 export default async function RootLayout({
   children,
@@ -126,31 +125,7 @@ export default async function RootLayout({
   return (
     <html lang={htmlLang} dir={dir}>
       <head>
-        {/* Ezoic Privacy & Header Scripts */}
-        <Script
-          id="ezoic-privacy-cmp"
-          strategy="afterInteractive"
-          src="https://cmp.gatekeeperconsent.com/min.js"
-          data-cfasync="false"
-        />
-        <Script
-          id="ezoic-privacy-gatekeeper"
-          strategy="afterInteractive"
-          src="https://the.gatekeeperconsent.com/cmp.min.js"
-          data-cfasync="false"
-        />
-        <Script
-          id="ezoic-header"
-          strategy="afterInteractive"
-          src="//www.ezojs.com/ezoic/sa.min.js"
-        />
-        <Script
-          id="ezoic-init"
-          strategy="afterInteractive"
-          dangerouslySetInnerHTML={{
-            __html: `window.ezstandalone = window.ezstandalone || {}; ezstandalone.cmd = ezstandalone.cmd || [];`,
-          }}
-        />
+
 
         {/* Google Consent Mode - Set defaults BEFORE loading gtag.js */}
         <Script
@@ -223,7 +198,7 @@ export default async function RootLayout({
                   <SurpriseMeModal />
                   <GoogleTranslateFix />
                   <AutoGoogleTranslate locale={locale} />
-                  <EzoicAdsHandler />
+
                 </div>
                 <ToastContainer />
                 <SpeedInsights />
