@@ -1,12 +1,12 @@
 "use client";
 
 import { useLocale } from "next-intl";
-import { usePathname } from "@/navigation";
+import { usePathname, useRouter } from "@/navigation";
 import { useState, useRef, useEffect } from "react";
 
 export default function LanguageSwitcher() {
     const locale = useLocale();
-    // const router = useRouter();
+    const router = useRouter(); // Initialize router
     const pathname = usePathname();
     const [isOpen, setIsOpen] = useState(false);
     const dropdownRef = useRef<HTMLDivElement>(null);
@@ -48,9 +48,8 @@ export default function LanguageSwitcher() {
             setCookie('googtrans', `/en/${newLocale}`);
         }
 
-        // Force reload to ensure Google Translate widget resets
-        const newPath = `/${newLocale}${pathname === '/' ? '' : pathname}`;
-        window.location.assign(newPath);
+        // Use next-intl router to handle localized path resolution
+        router.replace(pathname, { locale: newLocale });
         setIsOpen(false);
     };
 
