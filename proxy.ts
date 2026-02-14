@@ -18,6 +18,6 @@ export const config = {
         // - favicon.ico (favicon file)
         // - site.webmanifest (web manifest file)
         // - various other static assets
-        '/((?!api|_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt|site.webmanifest|blog/rss.xml|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)'
+        '/((?!api|_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt|llms.txt|site.webmanifest|blog/rss.xml|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)'
     ]
 };
