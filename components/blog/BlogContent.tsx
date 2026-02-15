@@ -36,8 +36,8 @@ export default function BlogContent({ content }: BlogContentProps) {
                         );
                     },
                     // styled headings (ids are now handled by rehype-slug)
-                    h2: ({ node, ...props }) => <h2 className="scroll-mt-24" {...props} />,
-                    h3: ({ node, ...props }) => <h3 className="scroll-mt-24" {...props} />
+                    h2: ({ node: _node, ...props }) => <h2 className="scroll-mt-24" {...props} />,
+                    h3: ({ node: _node, ...props }) => <h3 className="scroll-mt-24" {...props} />
                 }}
             >
                 {content}

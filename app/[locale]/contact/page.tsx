@@ -1,5 +1,4 @@
 import { Metadata } from "next";
-import { getTranslations } from "next-intl/server";
 import ContactForm from "@/components/contact/ContactForm";
 
 export async function generateMetadata({
@@ -23,8 +22,7 @@ export default async function ContactPage({
 }: {
   params: Promise<{ locale: string }>;
 }) {
-  const { locale } = await params;
-  const t = await getTranslations({ locale });
+  await params;
 
   return (
     <div className="container mx-auto px-4 py-16 max-w-4xl text-start" lang="en">

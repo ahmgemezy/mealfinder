@@ -1,11 +1,9 @@
 "use client";
 
-import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { submitContactForm } from "@/actions/submit-contact";
 
 export default function ContactForm() {
-  const t = useTranslations("Footer"); // Reusing footer keys or fallback
   const [isLoading, setIsLoading] = useState(false);
   const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
   const [errorMessage, setErrorMessage] = useState("");

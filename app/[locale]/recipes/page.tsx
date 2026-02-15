@@ -14,7 +14,7 @@ export async function generateMetadata({
     searchParams
 }: RecipesPageProps): Promise<Metadata> {
     const { locale } = await params;
-    const { category, area, search } = await searchParams;
+    const { category, area, search: _search } = await searchParams;
     const t = await getTranslations({ locale, namespace: 'Recipes' });
 
     const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://dishshuffle.com";

@@ -1,6 +1,19 @@
 import { test, expect } from "@playwright/test";
 
-const PAGES = ["/", "/recipes", "/blog", "/about", "/contact"];
+const PAGES = [
+  "/en",
+  "/en/recipes",
+  "/en/blog",
+  "/en/about",
+  "/en/contact",
+  "/en/collections",
+  "/en/faq",
+  "/en/pantry",
+  "/en/surprise-me",
+  "/en/privacy-policy",
+  "/en/terms-of-service",
+  "/en/cookies-policy",
+];
 
 for (const path of PAGES) {
   test(`page ${path} loads without console errors`, async ({ page }) => {
@@ -9,9 +22,8 @@ for (const path of PAGES) {
       if (msg.type() === "error") errors.push(msg.text());
     });
 
-    await page.goto(path);
+    await page.goto(path, { waitUntil: "domcontentloaded" });
 
-    // At least some visible content on the page (body text)
     await expect(page.locator("body")).toBeVisible();
     expect(errors).toEqual([]);
   });

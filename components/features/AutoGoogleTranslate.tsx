@@ -41,7 +41,7 @@ export default function AutoGoogleTranslate({ locale }: AutoGoogleTranslateProps
         };
 
         // Helper to delete cookie
-        const deleteCookie = (name: string, domain?: string) => {
+        const _deleteCookie = (name: string, domain?: string) => {
             let cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/`;
             if (domain) cookie += `; domain=${domain}`;
             document.cookie = cookie;

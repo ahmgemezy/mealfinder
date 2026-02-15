@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Image from "next/image";
 import { Recipe } from "@/lib/types/recipe";
 import {
   searchRecipeVideo,
@@ -169,10 +170,12 @@ export default function RecipeVideo({ recipe }: RecipeVideoProps) {
               aria-label={`Play video for ${recipe.name}`}
             >
               {/* Thumbnail */}
-              <img
+              <Image
                 src={`https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`}
                 alt={recipe.name}
-                className="w-full h-full object-cover"
+                fill
+                className="object-cover"
+                sizes="(max-width: 768px) 100vw, 896px"
                 loading="lazy"
               />
 

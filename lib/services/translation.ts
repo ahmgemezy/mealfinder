@@ -273,7 +273,7 @@ export async function translateRecipesList(recipes: Recipe[], locale: string): P
 import { BlogPost, DBBlogPost } from '@/lib/types/blog';
 
 // Helper for concurrency control
-async function pMap<T, R>(
+async function _pMap<T, R>(
     collection: T[],
     mapper: (item: T) => Promise<R>,
     concurrency: number
@@ -349,7 +349,7 @@ export async function translateBlogPosts<T extends BlogPost | DBBlogPost>(posts:
                 chunkedPosts.push(missingPosts.slice(i, i + BATCH_SIZE));
             }
 
-            const translatedChunks = await Promise.all(chunkedPosts.map(async (chunk) => {
+            await Promise.all(chunkedPosts.map(async (chunk) => {
                 try {
                     const combinedText = chunk
                         .map(p => `${p.title || ''}${delimiter}${p.excerpt || ''}`)

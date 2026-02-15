@@ -113,7 +113,7 @@ export default function Navigation() {
                 <Link
                   key={item.href}
                   href={item.href}
-                  onClick={(e) => {
+                  onClick={() => {
                     // No special auth requirements for public links
                   }}
                   className={`px-5 py-2.5 rounded-full font-medium text-sm transition-all duration-300 ${isActive(item.href)

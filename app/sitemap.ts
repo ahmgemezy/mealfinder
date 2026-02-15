@@ -1,7 +1,7 @@
 import { MetadataRoute } from "next";
 import { RECIPE_CATEGORIES, RECIPE_AREAS } from "@/lib/constants";
 import { supabase } from "@/lib/supabase";
-import { getAllPostsMetadata } from "@/lib/utils/blog-helpers";
+
 
 import { generateRecipeSlug } from "@/lib/utils/slugs";
 

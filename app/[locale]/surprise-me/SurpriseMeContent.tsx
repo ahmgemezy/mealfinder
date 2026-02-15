@@ -42,7 +42,7 @@ export default function SurpriseMeContent() {
             }
 
             setRecipe(data.recipe);
-        } catch (err) {
+        } catch (_err) {
             setError(t('error'));
         } finally {
             setIsLoading(false);
