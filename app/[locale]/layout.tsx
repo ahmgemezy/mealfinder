@@ -90,6 +90,18 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
         "max-snippet": -1,
       },
     },
+    alternates: {
+      canonical: `${baseUrl}/${locale}`,
+      languages: {
+        'en': `${baseUrl}/en`,
+        'fr': `${baseUrl}/fr`,
+        'es': `${baseUrl}/es`,
+        'pt-BR': `${baseUrl}/pt-br`,
+        'de': `${baseUrl}/de`,
+        'ar': `${baseUrl}/ar`,
+        'x-default': `${baseUrl}/en`,
+      },
+    },
     manifest: "/site.webmanifest",
     other: {
       "google-adsense-account": "ca-pub-2393924023690242",
@@ -142,7 +154,7 @@ export default async function RootLayout({
                 'ad_storage': 'denied',
                 'ad_user_data': 'denied',
                 'ad_personalization': 'denied',
-                'analytics_storage': 'denied',
+                'analytics_storage': 'granted',
                 'ads_data_redaction': true,
                 'url_passthrough': true,
                 'wait_for_update': 500
