@@ -1,7 +1,7 @@
 import { MetadataRoute } from "next";
 
 export default function robots(): MetadataRoute.Robots {
-    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://dishshuffle.com";
 
     return {
         rules: [
@@ -9,7 +9,6 @@ export default function robots(): MetadataRoute.Robots {
                 userAgent: [
                     "GPTBot",
                     "ChatGPT-User",
-                    "Google-Extended",
                     "Bytespider",
                     "CCBot",
                     "ClaudeBot",
