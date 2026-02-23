@@ -34,7 +34,7 @@ export async function generateStaticParams() {
 
   if (!recipes) return [];
 
-  const locales = ["en", "fr", "es"];
+  const locales = ["en", "fr", "es", "pt-br", "de", "ar"];
   const params = [];
 
   for (const recipe of recipes) {
