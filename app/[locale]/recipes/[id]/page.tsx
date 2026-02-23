@@ -89,6 +89,15 @@ export async function generateMetadata({
   const recipeUrl = `https://dishshuffle.com/${locale}/recipes/${slug}`;
   const imageUrl = recipe.thumbnail || "https://dishshuffle.com/logo-final.png";
 
+  const ogLocaleMap: Record<string, string> = {
+    en: "en_US",
+    fr: "fr_FR",
+    es: "es_ES",
+    "pt-br": "pt_BR",
+    de: "de_DE",
+    ar: "ar_AR",
+  };
+
   return {
     title: `${recipe.name} Recipe`,
     description,
@@ -98,7 +107,7 @@ export async function generateMetadata({
       description,
       url: recipeUrl,
       siteName: "Dish Shuffle",
-      locale: locale === "en" ? "en_US" : locale === "fr" ? "fr_FR" : "es_ES",
+      locale: ogLocaleMap[locale] ?? "en_US",
       type: "article",
       images: [
         {
@@ -119,6 +128,14 @@ export async function generateMetadata({
     },
     alternates: {
       canonical: recipeUrl,
+      languages: {
+        en: `https://dishshuffle.com/en/recipes/${slug}`,
+        fr: `https://dishshuffle.com/fr/recipes/${slug}`,
+        es: `https://dishshuffle.com/es/recipes/${slug}`,
+        "pt-br": `https://dishshuffle.com/pt-br/recipes/${slug}`,
+        de: `https://dishshuffle.com/de/recipes/${slug}`,
+        ar: `https://dishshuffle.com/ar/recipes/${slug}`,
+      },
     },
   };
 }

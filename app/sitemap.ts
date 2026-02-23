@@ -1,5 +1,4 @@
 import { MetadataRoute } from "next";
-import { RECIPE_CATEGORIES, RECIPE_AREAS } from "@/lib/constants";
 import { supabase } from "@/lib/supabase";
 
 
@@ -63,47 +62,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   });
 
   // 2. Dynamic Routes: Categories & Areas
-  RECIPE_CATEGORIES.forEach((category) => {
-    const path = `/recipes?category=${encodeURIComponent(category)}`;
-    locales.forEach((locale) => {
-      // Dynamic alternates for filters
-      const languages: Record<string, string> = {};
-      locales.forEach((l) => {
-        languages[l] = `${baseUrl}/${l}${path}`;
-      });
-
-      allRoutes.push({
-        url: `${baseUrl}/${locale}${path}`,
-        lastModified: new Date(),
-        changeFrequency: "weekly",
-        priority: 0.7,
-        alternates: {
-          languages,
-        },
-      });
-    });
-  });
-
-  RECIPE_AREAS.forEach((area) => {
-    const path = `/recipes?area=${encodeURIComponent(area)}`;
-    locales.forEach((locale) => {
-      // Dynamic alternates for filters
-      const languages: Record<string, string> = {};
-      locales.forEach((l) => {
-        languages[l] = `${baseUrl}/${l}${path}`;
-      });
-
-      allRoutes.push({
-        url: `${baseUrl}/${locale}${path}`,
-        lastModified: new Date(),
-        changeFrequency: "weekly",
-        priority: 0.7,
-        alternates: {
-          languages,
-        },
-      });
-    });
-  });
+  // NOTE: Query parameter URLs are excluded from the sitemap to avoid duplicate content issues.
+  // If category/area filter pages need to be indexed, create dedicated static routes instead.
+  // NOTE: With 10,000 recipes × 6 locales = 60,000 recipe URLs, plus static and blog routes,
+  // this sitemap approaches Google's 50,000 URL per file limit. Consider splitting into a
+  // sitemap index (using generateSitemaps()) if the recipe count grows significantly.
 
   // 3. Blog Posts
   try {
