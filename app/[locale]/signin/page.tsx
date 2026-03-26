@@ -7,6 +7,7 @@ import Input from "@/components/ui/Input";
 import Button from "@/components/ui/Button";
 import GoogleButton from "@/components/auth/GoogleButton";
 import { useTranslations } from "next-intl";
+import { devLog } from "@/lib/utils/logger";
 
 import { supabase, isSupabaseConfigured } from "@/lib/supabase";
 
@@ -62,10 +63,10 @@ export default function SignInPage() {
                 // Successfully signed in, redirect to home
                 window.location.href = "/";
             }
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        } catch (error: any) {
-            console.error("Error signing in:", error);
-            setError(error.message || "Invalid email or password. Please try again.");
+        } catch (error: unknown) {
+            devLog.error("Error signing in:", error);
+            const errorMessage = error instanceof Error ? error.message : "Invalid email or password. Please try again.";
+            setError(errorMessage);
         } finally {
             setIsLoading(false);
         }

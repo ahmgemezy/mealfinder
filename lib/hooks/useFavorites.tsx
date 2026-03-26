@@ -136,13 +136,12 @@ export function FavoritesProvider({ children }: { children: ReactNode }) {
 
             if (error) throw error;
             addToast(`${recipe.name} added to favorites!`, "success");
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        } catch (error: any) {
+        } catch (error: unknown) {
             console.error("Error adding favorite:", error);
             // Revert optimistic update on error
             setFavorites((prev) => prev.filter((fav) => fav.id !== recipe.id));
 
-            if (error.code === "23505") {
+            if (typeof error === 'object' && error !== null && 'code' in error && error.code === "23505") {
                 // Duplicate key error - already favorited
                 addToast(`${recipe.name} is already in your favorites`, "info");
                 return;

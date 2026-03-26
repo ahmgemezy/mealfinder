@@ -358,8 +358,12 @@ export async function translateBlogPosts<T extends BlogPost | DBBlogPost>(posts:
                     const translatedText = await translateText(combinedText, locale);
                     const translatedItems = translatedText.split(itemDelimiter);
 
-                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                    const batchUpdates: any[] = [];
+                    const batchUpdates: {
+                        post_slug: string;
+                        locale: string;
+                        title: string;
+                        excerpt: string;
+                    }[] = [];
 
                     const translatedChunk = chunk.map((post, index) => {
                         const parts = translatedItems[index]?.split(delimiter);

@@ -870,8 +870,7 @@ export async function searchByIngredients(ingredients: string[]): Promise<Recipe
 
           // Note: Supabase JS client types might treat `dbRecipes` as generic array.
           // We cast each row's data to Recipe.
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          const mappedDbRecipes = (dbRecipes as any[]).map(row => row.data as Recipe);
+          const mappedDbRecipes = (dbRecipes as Array<{ data: Recipe }>).map(row => row.data);
           results.push(...mappedDbRecipes);
 
           devLog.log(`Found ${mappedDbRecipes.length} cached recipes for ingredients: ${searchIngredients.join(", ")}`);

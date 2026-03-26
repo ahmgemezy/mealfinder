@@ -1,7 +1,7 @@
 "use server";
 
 import { GoogleSpreadsheet } from "google-spreadsheet";
-import { JWT } from "google-auth-library";
+import { JWT } from "google-auth-library";import { devLog } from "@/lib/utils/logger";
 
 // Validate env vars
 const SHEET_ID = process.env.GOOGLE_SHEET_ID;
@@ -9,23 +9,38 @@ const CLIENT_EMAIL = process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL;
 // Handle newlines in private key if they were escaped
 const PRIVATE_KEY = process.env.GOOGLE_PRIVATE_KEY?.replace(/\\n/g, "\n");
 
-export async function submitContactForm(formData: FormData) {
-    const name = formData.get("name") as string;
-    const email = formData.get("email") as string;
-    const subject = formData.get("subject") as string;
-    const message = formData.get("message") as string;
+import { z } from "zod";
 
-    if (!name || !email || !message) {
-        return { success: false, error: "Missing required fields" };
+const ContactSchema = z.object({
+    name: z.string().min(1, "Name is required").max(100),
+    email: z.string().email("Invalid email").max(100),
+    subject: z.string().max(200).optional().default(""),
+    message: z.string().min(1, "Message is required").max(5000),
+});
+
+export async function submitContactForm(formData: FormData) {
+    const rawData = {
+        name: formData.get("name"),
+        email: formData.get("email"),
+        subject: formData.get("subject"),
+        message: formData.get("message"),
+    };
+
+    const validatedFields = ContactSchema.safeParse(rawData);
+
+    if (!validatedFields.success) {
+        return { success: false, error: "Invalid or missing fields" };
     }
 
+    const { name, email, subject, message } = validatedFields.data;
+
     if (!SHEET_ID || !CLIENT_EMAIL || !PRIVATE_KEY) {
-        console.error("Missing Google Sheets credentials");
+        devLog.error("Missing Google Sheets credentials");
         return { success: false, error: "Server configuration error" };
     }
 
     try {
-        console.log(`Submitting contact form from: ${email}`);
+        devLog.log(`Submitting contact form from: ${email}`);
 
         // 1. Authenticate
         const serviceAccountAuth = new JWT({
@@ -48,7 +63,7 @@ export async function submitContactForm(formData: FormData) {
         const a1 = sheet.getCell(0, 0);
 
         if (!a1.value) {
-            console.log("Sheet appears empty (A1 is null), initializing headers...");
+            devLog.log("Sheet appears empty (A1 is null), initializing headers...");
             await sheet.setHeaderRow(['Timestamp', 'Name', 'Email', 'Subject', 'Message']);
         }
 
@@ -62,8 +77,8 @@ export async function submitContactForm(formData: FormData) {
         ]);
 
         return { success: true };
-    } catch (error) {
-        console.error("Error submitting to Google Sheets:", error);
+    } catch (error: unknown) {
+        devLog.error("Error submitting to Google Sheets:", error);
         return { success: false, error: "Failed to submit message" };
     }
 }

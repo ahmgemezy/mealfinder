@@ -36,8 +36,7 @@ function isValidRecipe(recipe: Recipe): boolean {
 }
 
 // Cache for API responses
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const cache = new Map<string, { data: any; timestamp: number }>();
+const cache = new Map<string, { data: unknown; timestamp: number }>();
 const CACHE_TTL = 15 * 60 * 1000; // 15 minutes
 
 function getCacheKey(endpoint: string, params?: Record<string, string>): string {
