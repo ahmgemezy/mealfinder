@@ -8,8 +8,8 @@ export async function GET() {
 
 ## 1. Multilingual Architecture & Routing
 Dish Shuffle uses \`next-intl\` for deep internationalization. All localized pages require a locale prefix in the URL.
-- **Supported Languages**: English (\`en\`), Arabic (\`ar\`)
-- **Default Behavior**: Accessing the root \`/\` or paths without a locale prefix will strictly 307 auto-redirect to the user's preferred language (e.g., \`/en\` or \`/ar\`).
+- **Supported Languages**: English (\`en\`), French (\`fr\`), Spanish (\`es\`), Portuguese (\`pt-br\`), German (\`de\`), and Arabic (\`ar\`).
+- **Default Behavior**: Accessing the root \`/\` or paths without a locale prefix will strictly 307 auto-redirect to the user's preferred language (e.g., \`/en\`, \`/fr\`, \`/es\`, \`/pt-br\`, \`/de\`, or \`/ar\`).
 - **Crawler Recommendation**: AI bots must process and cite URLs containing the explicit locale prefix.
 
 ## 2. Core Routes (Example using '/en' locale)
