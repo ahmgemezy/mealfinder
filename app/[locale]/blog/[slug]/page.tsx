@@ -154,43 +154,68 @@ export default async function BlogPostPage({ params }: Props) {
     }
 
     // JSON-LD Structured Data
-    const jsonLd = {
-        "@context": "https://schema.org",
-        "@type": "BlogPosting",
-        headline: post.title,
-        image: [post.featured_image], // In a real app, this should be a full URL
-        datePublished: post.published_date,
-        dateModified: post.updated_at,
-        author: [{
-            "@type": "Person",
-            name: post.author,
-        }],
-        description: post.excerpt,
-        articleBody: post.content, // Strip markdown or use description for brevity? Full body is fine for schema.
-        breadcrumb: {
-            "@type": "BreadcrumbList",
-            itemListElement: [
+    const jsonLd = [
+        {
+            "@context": "https://schema.org",
+            "@type": "BlogPosting",
+            headline: post.title,
+            image: [post.featured_image],
+            datePublished: new Date(post.published_date).toISOString(),
+            dateModified: new Date(post.updated_at || post.published_date).toISOString(),
+            author: {
+                "@type": "Person",
+                name: post.author,
+                url: `https://dishshuffle.com/${locale}/blog?author=${encodeURIComponent(post.author)}`
+            },
+            description: post.excerpt,
+            articleBody: post.content,
+            breadcrumb: {
+                "@type": "BreadcrumbList",
+                itemListElement: [
+                    {
+                        "@type": "ListItem",
+                        position: 1,
+                        name: "Home",
+                        item: `https://dishshuffle.com/${locale}`
+                    },
+                    {
+                        "@type": "ListItem",
+                        position: 2,
+                        name: "Blog",
+                        item: `https://dishshuffle.com/${locale}/blog`
+                    },
+                    {
+                        "@type": "ListItem",
+                        position: 3,
+                        name: post.title,
+                        item: `https://dishshuffle.com/${locale}/blog/${post.slug}`
+                    }
+                ]
+            }
+        },
+        {
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            mainEntity: [
                 {
-                    "@type": "ListItem",
-                    position: 1,
-                    name: "Home",
-                    item: `https://dishshuffle.com/${locale}`
+                    "@type": "Question",
+                    name: `What is the summary of ${post.title}?`,
+                    acceptedAnswer: {
+                        "@type": "Answer",
+                        text: post.excerpt
+                    }
                 },
                 {
-                    "@type": "ListItem",
-                    position: 2,
-                    name: "Blog",
-                    item: `https://dishshuffle.com/${locale}/blog`
-                },
-                {
-                    "@type": "ListItem",
-                    position: 3,
-                    name: post.title,
-                    item: `https://dishshuffle.com/${locale}/blog/${post.slug}`
+                    "@type": "Question",
+                    name: `Who wrote ${post.title}?`,
+                    acceptedAnswer: {
+                        "@type": "Answer",
+                        text: `This article was written by ${post.author}.`
+                    }
                 }
             ]
         }
-    };
+    ];
 
     return (
         <article className="min-h-screen pb-20 relative">

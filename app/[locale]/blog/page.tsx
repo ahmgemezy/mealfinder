@@ -77,6 +77,21 @@ export default async function BlogPage({
 
   return (
     <div className="container mx-auto px-4 py-12 md:py-20 max-w-7xl">
+      <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+              __html: JSON.stringify({
+                  "@context": "https://schema.org",
+                  "@type": "Blog",
+                  name: "Dish Shuffle Blog",
+                  description: "Discover cooking tips, nutrition advice, and culinary inspiration.",
+                  author: {
+                      "@type": "Organization",
+                      name: "Dish Shuffle Editorial Team"
+                  }
+              })
+          }}
+      />
       {/* Header */}
       <div className="text-center mb-16">
         <h1 className="font-display text-4xl md:text-5xl font-bold mb-4 bg-linear-to-r from-primary-600 to-accent-600 bg-clip-text text-transparent">

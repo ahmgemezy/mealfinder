@@ -73,6 +73,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
       />
 
       <div className="min-h-screen">
+        <h1 className="sr-only">Dish Shuffle - Explore Thousands of Recipes</h1>
         {/* Hero Section */}
         <HeroSection />
 

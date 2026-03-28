@@ -47,9 +47,23 @@ export default function NotFound() {
                 <h1 className="font-display text-4xl md:text-6xl font-bold mb-4 gradient-text">
                     {t("title")}
                 </h1>
+                <h2 className="text-2xl md:text-3xl font-semibold mb-2 text-foreground">
+                    Page Not Found
+                </h2>
                 <p className="text-xl md:text-2xl text-muted-foreground mb-3 max-w-md mx-auto">
                     {t("description")}
                 </p>
+                <script
+                    type="application/ld+json"
+                    dangerouslySetInnerHTML={{
+                        __html: JSON.stringify({
+                            "@context": "https://schema.org",
+                            "@type": "WebPage",
+                            name: "404 - Page Not Found",
+                            description: "The page you are looking for could not be found."
+                        })
+                    }}
+                />
                 <p className="text-lg text-muted-foreground mb-8 max-w-sm mx-auto">
                     {t("suggestion")}
                 </p>

@@ -42,5 +42,21 @@ export async function generateMetadata({
 }
 
 export default function RecipesPage() {
-    return <RecipesList />;
+    return (
+        <>
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{
+                    __html: JSON.stringify({
+                        "@context": "https://schema.org",
+                        "@type": "CollectionPage",
+                        name: "All Recipes",
+                        description: "Browse all available recipes, meals, and culinary ideas."
+                    })
+                }}
+            />
+            <h1 className="sr-only">All Recipes and Meals</h1>
+            <RecipesList />
+        </>
+    );
 }

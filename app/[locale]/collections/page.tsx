@@ -40,6 +40,25 @@ export default async function CollectionsIndexPage({ params }: CollectionsIndexP
             />
 
             <div className="py-12 text-center max-w-3xl mx-auto">
+                <script
+                    type="application/ld+json"
+                    dangerouslySetInnerHTML={{
+                        __html: JSON.stringify({
+                            "@context": "https://schema.org",
+                            "@type": "CollectionPage",
+                            name: "Meal Collections",
+                            description: "Browse categorized recipe collections.",
+                            publisher: {
+                                "@type": "Organization",
+                                name: "Dish Shuffle"
+                            },
+                            author: {
+                                "@type": "Organization",
+                                name: "Dish Shuffle Team"
+                            }
+                        })
+                    }}
+                />
                 <h1 className="font-display text-4xl md:text-5xl font-bold mb-6 text-foreground">
                     {t('title')}
                 </h1>

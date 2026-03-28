@@ -137,7 +137,25 @@ export default async function RootLayout({
   return (
     <html lang={htmlLang} dir={dir}>
       <head>
-
+        {/* Organization Schema for global entity recognition */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Organization",
+              name: "Dish Shuffle",
+              url: "https://dishshuffle.com",
+              logo: "https://dishshuffle.com/logo-final.png",
+              sameAs: [],
+              contactPoint: {
+                "@type": "ContactPoint",
+                contactType: "customer service",
+                url: "https://dishshuffle.com"
+              }
+            })
+          }}
+        />
 
         {/* Google Consent Mode - Set defaults BEFORE loading gtag.js */}
         <Script

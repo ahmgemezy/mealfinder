@@ -34,13 +34,25 @@ export default function Error({
                     </svg>
                 </div>
 
-                <h2 className="text-2xl font-bold text-foreground mb-4">
+                <h1 className="text-2xl font-bold text-foreground mb-4">
                     Oops! Something went wrong
-                </h2>
+                </h1>
 
                 <p className="text-muted-foreground mb-8">
                     We encountered an unexpected error. Don&apos;t worry, we&apos;re working on it!
                 </p>
+
+                <script
+                    type="application/ld+json"
+                    dangerouslySetInnerHTML={{
+                        __html: JSON.stringify({
+                            "@context": "https://schema.org",
+                            "@type": "WebPage",
+                            name: "Error Page",
+                            description: "An unexpected error occurred.",
+                        })
+                    }}
+                />
 
                 <div className="space-y-4">
                     <button
