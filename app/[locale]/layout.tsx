@@ -92,15 +92,10 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     },
     alternates: {
       canonical: `${baseUrl}/${locale}`,
-      languages: {
-        'en': `${baseUrl}/en`,
-        'fr': `${baseUrl}/fr`,
-        'es': `${baseUrl}/es`,
-        'pt-BR': `${baseUrl}/pt-br`,
-        'de': `${baseUrl}/de`,
-        'ar': `${baseUrl}/ar`,
-        'x-default': `${baseUrl}/en`,
-      },
+      // Removed statically hardcoded 'languages' block.
+      // Next.js merges this globally, meaning ALL sub-pages (like /en/recipes) were
+      // wrongly telling Google that their Arabic alternate was /ar (the homepage),
+      // leading to "Crawled - currently not indexed" errors.
     },
     manifest: "/site.webmanifest",
     other: {
