@@ -9,7 +9,7 @@ export default function Skeleton({
     className = "",
     variant = "rectangular",
 }: SkeletonProps) {
-    const baseStyles = "shimmer bg-muted rounded animate-pulse";
+    const baseStyles = "shimmer rounded";
 
     const variants = {
         text: "h-4 w-full rounded",

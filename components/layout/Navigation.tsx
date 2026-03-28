@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState, startTransition } from "react";
 import { Link, usePathname } from "@/navigation"; // Use localized navigation
+import { useRouter } from "next/navigation";
 import { useSurpriseMe } from "@/lib/contexts/SurpriseMeContext";
 import { useFavorites } from "@/lib/hooks/useFavorites";
 import { supabase } from "@/lib/supabase";
@@ -14,6 +15,7 @@ import { ChefHat } from "lucide-react";
 export default function Navigation() {
   const t = useTranslations("Navigation");
   const pathname = usePathname();
+  const router = useRouter();
   const { openModal, closeModal } = useSurpriseMe();
   const { openAuthModal } = useFavorites();
   const [user, setUser] = useState<User | null>(null);
@@ -49,7 +51,7 @@ export default function Navigation() {
 
   const handleSignOut = async () => {
     await supabase.auth.signOut();
-    window.location.href = "/";
+    router.push("/");
   };
 
   const getUserName = () => {
@@ -63,8 +65,8 @@ export default function Navigation() {
     { href: "/", label: t("home"), icon: HomeIcon },
     { href: "/pantry", label: t("pantry"), icon: ChefHat },
     { href: "/recipes", label: t("recipes"), icon: BookIcon },
-    { href: "/blog", label: t("blog"), icon: NewsIcon },
     { href: "/collections", label: t("collections"), icon: CollectionsIcon },
+    { href: "/blog", label: t("blog"), icon: NewsIcon },
   ];
 
   const isActive = (href: string) => {

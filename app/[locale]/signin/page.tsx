@@ -2,6 +2,7 @@
 
 import { Link } from "@/navigation";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import AuthLayout from "@/components/auth/AuthLayout";
 import Input from "@/components/ui/Input";
 import Button from "@/components/ui/Button";
@@ -13,6 +14,7 @@ import { supabase, isSupabaseConfigured } from "@/lib/supabase";
 
 export default function SignInPage() {
     const t = useTranslations('Auth');
+    const router = useRouter();
     const [isLoading, setIsLoading] = useState(false);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -61,7 +63,7 @@ export default function SignInPage() {
 
             if (data.user) {
                 // Successfully signed in, redirect to home
-                window.location.href = "/";
+                router.push("/");
             }
         } catch (error: unknown) {
             devLog.error("Error signing in:", error);
@@ -134,12 +136,12 @@ export default function SignInPage() {
                         </div>
 
                         <div className="text-sm">
-                            <a
-                                href="#"
-                                className="font-medium text-primary-500 hover:text-primary-500"
+                            <Link
+                                href="/forgot-password"
+                                className="font-medium text-primary-500 hover:text-primary-400 transition-colors duration-200"
                             >
                                 {t('forgotPassword')}
-                            </a>
+                            </Link>
                         </div>
                     </div>
 
@@ -152,7 +154,7 @@ export default function SignInPage() {
                     {t('noAccount')}{" "}
                     <Link
                         href="/signup"
-                        className="font-medium text-primary-500 hover:text-primary-500"
+                        className="font-medium text-primary-500 hover:text-primary-400 transition-colors duration-200"
                     >
                         {t('signUp')}
                     </Link>

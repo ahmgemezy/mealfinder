@@ -208,6 +208,13 @@ body {
   --animate-bounce-plate: bounce-plate 2s ease-in-out infinite;
   --animate-wiggle-left: wiggle-left 3s ease-in-out infinite;
   --animate-wiggle-right: wiggle-right 3s ease-in-out infinite 0.5s;
+
+  /* Shimmer skeleton animation */
+  @keyframes shimmer {
+    0%   { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+  }
+  --animate-shimmer: shimmer 2s infinite linear;
 }
 
 /* CSS Custom Properties */
@@ -282,4 +289,27 @@ body {
 
 .shadow-soft {
   box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+}
+
+/* Shimmer skeleton helper */
+.shimmer {
+  background: linear-gradient(
+    90deg,
+    var(--muted) 25%,
+    var(--border) 50%,
+    var(--muted) 75%
+  );
+  background-size: 200% 100%;
+  animation: var(--animate-shimmer);
+}
+
+/* Respect prefers-reduced-motion globally */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

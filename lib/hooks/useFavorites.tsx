@@ -6,6 +6,7 @@ import { supabase } from "@/lib/supabase";
 import type { User } from "@supabase/supabase-js";
 import AuthModal from "@/components/features/AuthModal";
 import { useToast } from "@/lib/contexts/ToastContext";
+import { devLog } from "@/lib/utils/logger";
 
 interface FavoritesContextType {
     favorites: Recipe[];
@@ -31,7 +32,7 @@ export function FavoritesProvider({ children }: { children: ReactNode }) {
         // Get initial user
         supabase.auth.getSession().then(({ data: { session }, error }) => {
             if (error) {
-                console.error("Error getting session:", error);
+                devLog.error("Error getting session:", error);
                 // If the refresh token is invalid, sign out to clear the stale session
                 if (error.message.includes("Refresh Token")) {
                     supabase.auth.signOut();
@@ -98,8 +99,8 @@ export function FavoritesProvider({ children }: { children: ReactNode }) {
                 );
 
                 setFavorites(recipesFromFavorites);
-            } catch (error) {
-                console.error("Error loading favorites:", error);
+            } catch (error: unknown) {
+                devLog.error("Error loading favorites:", error);
                 setFavorites([]);
             } finally {
                 setIsLoading(false);
@@ -137,7 +138,7 @@ export function FavoritesProvider({ children }: { children: ReactNode }) {
             if (error) throw error;
             addToast(`${recipe.name} added to favorites!`, "success");
         } catch (error: unknown) {
-            console.error("Error adding favorite:", error);
+            devLog.error("Error adding favorite:", error);
             // Revert optimistic update on error
             setFavorites((prev) => prev.filter((fav) => fav.id !== recipe.id));
 
@@ -170,8 +171,8 @@ export function FavoritesProvider({ children }: { children: ReactNode }) {
 
             if (error) throw error;
             addToast(`${recipeName} removed from favorites`, "success");
-        } catch (error) {
-            console.error("Error removing favorite:", error);
+        } catch (error: unknown) {
+            devLog.error("Error removing favorite:", error);
             // Revert optimistic update on error
             setFavorites(previousFavorites);
             addToast("Failed to remove favorite. Please try again.", "error");

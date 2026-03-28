@@ -1,773 +1,774 @@
 {
-    "Navigation": {
-        "home": "Accueil",
-        "recipes": "Recettes",
-        "favorites": "Favoris",
-        "collections": "Collections",
-        "blog": "Blog",
-        "surpriseMe": "Surprends-moi",
-        "signIn": "Connexion",
-        "signOut": "Déconnexion",
-        "myFavorites": "Mes Favoris",
-        "pantry": "Garde-manger Intelligent"
-    },
-    "SmartPantry": {
-        "newFeatureTag": "Nouvelle Fonctionnalité",
-        "heroTitle": "Cuisinez avec ce que",
-        "heroTitleHighlight": "vous avez.",
-        "heroSubtitle": "Ne gaspillez pas vos restes. Entrez vos ingrédients ci-dessous et nous trouverons de délicieuses recettes à préparer dès maintenant.",
-        "inputPlaceholder": "Entrez un ingrédient (ex. œufs, riz)...",
-        "addIngredientHelp": "Ajoutez au moins un ingrédient pour commencer à cuisiner !",
-        "findRecipesButton": "Trouver des Recettes",
-        "resultsTitle": "Voici ce que vous pouvez cuisiner :",
-        "matchesFound": "{count} correspondances trouvées",
-        "noResults": "Aucune recette trouvée 😔",
-        "noResultsDesc": "Essayez de combiner moins d'ingrédients ou d'en utiliser des plus courants.",
-        "topCategory": "Catégorie Principale"
-    },
-    "Hero": {
-        "title": "Qu'est-ce qu'on mange ?",
-        "subtitle": "Découvrez de délicieux repas du monde entier.",
-        "cta": "Commencer",
-        "surprise": "Surprends-moi"
-    },
-    "CTA": {
-        "title": "Dish Shuffle",
-        "subtitle": "Trouvez votre prochain plat préféré aujourd'hui.",
-        "button": "Parcourir les recettes"
-    },
-    "Recipe": {
-        "ingredients": "Ingrédients",
-        "instructions": "Instructions",
-        "youMightAlsoLike": "Vous aimerez peut-être aussi",
-        "shopIngredients": "Acheter les Ingrédients",
-        "shopIngredientsDesc": "Faites-vous livrer par Amazon",
-        "loveThisRecipe": "Vous aimez cette recette ?",
-        "saveToFavorites": "Enregistrez-la dans vos favoris pour ne jamais la perdre !",
-        "viewFullRecipe": "Voir la recette complète",
-        "video": "Tutoriel Vidéo",
-        "videoTutorial": "Tutoriel vidéo",
-        "category": "Catégorie",
-        "area": "Cuisine",
-        "tags": "Tags",
-        "share": "Partager la recette",
-        "shareDescription": "Partagez cette recette avec vos amis",
-        "copyLink": "Copier le lien",
-        "copied": "Copié !",
-        "shareOnFacebook": "Partager sur Facebook",
-        "shareOnTwitter": "Partager sur X",
-        "shareOnWhatsApp": "Partager sur WhatsApp",
-        "kitchenGear": "Équipements de cuisine recommandés"
-    },
-    "Auth": {
-        "signInTitle": "Connexion",
-        "signUpTitle": "Inscription",
-        "email": "Email",
-        "password": "Mot de passe",
-        "noAccount": "Pas encore de compte ?",
-        "hasAccount": "Déjà un compte ?",
-        "signUpLink": "S'inscrire",
-        "signInLink": "Se connecter",
-        "welcomeBack": "Bon retour",
-        "signInSubtitle": "Connectez-vous à votre compte pour accéder à vos favoris",
-        "signInGoogle": "Se connecter avec Google",
-        "orContinueWith": "Ou continuer avec",
-        "emailAddress": "Adresse e-mail",
-        "rememberMe": "Se souvenir de moi",
-        "forgotPassword": "Mot de passe oublié ?",
-        "signIn": "Se connecter",
-        "signUp": "S'inscrire",
-        "createAccount": "Créer un compte",
-        "signUpSubtitle": "Rejoignez-nous pour sauvegarder vos recettes préférées et plus encore",
-        "signUpGoogle": "S'inscrire avec Google",
-        "fullName": "Nom complet",
-        "alreadyHaveAccount": "Vous avez déjà un compte ?"
-    },
-    "Common": {
-        "loading": "Chargement...",
-        "error": "Une erreur est survenue",
-        "back": "Retour"
-    },
-    "Home": {
-        "howItWorks": "Comment ça marche",
-        "featuredRecipes": "Recettes en vedette",
-        "viewAll": "Voir tout",
-        "features": {
-            "surprise": {
-                "title": "Laissez-vous surprendre",
-                "description": "Indécis ? Laissez-nous choisir un délicieux repas au hasard pour vous."
-            },
-            "browse": {
-                "title": "Parcourir et Rechercher",
-                "description": "Explorez des milliers de recettes par cuisine, catégorie ou recherchez des plats spécifiques."
-            },
-            "favorites": {
-                "title": "Sauvegarder les favoris",
-                "description": "Gardez une trace de vos recettes préférées et créez votre livre de cuisine personnel."
-            }
-        }
-    },
-    "Recipes": {
-        "title": "Parcourir les recettes",
-        "subtitle": "Explorez des milliers de recettes délicieuses du monde entier",
-        "searchPlaceholder": "Rechercher une recette...",
-        "category": "Catégorie",
-        "cuisine": "Cuisine",
-        "allCategories": "Toutes les catégories",
-        "allCuisines": "Toutes les cuisines",
-        "activeFilters": "Filtres actifs :",
-        "searchPrefix": "Recherche :",
-        "clearAll": "Tout effacer",
-        "resultsCount": "{count} recette{count, plural, =1 {} other {s}} trouvée{count, plural, =1 {} other {s}}",
-        "foundRecipes": "{count} recette{count, plural, =1 {} other {s}} trouvée{count, plural, =1 {} other {s}}",
-        "noRecipes": "Aucune recette trouvée",
-        "noRecipesDesc": "Essayez d'ajuster votre recherche ou vos filtres",
-        "clearFilters": "Effacer les filtres",
-        "loadingMore": "Chargement de plus de recettes...",
-        "searching": "Recherche en cours...",
-        "preparingRecipes": "Préparation de délicieuses recettes pour vous...",
-        "justAMoment": "Cela ne prendra qu'un instant",
-        "recipeNotFound": "Recette non trouvée",
-        "ingredients": "Ingrédients",
-        "instructions": "Instructions",
-        "noInstructionsAvailable": "Les instructions ne sont pas disponibles pour cette recette.",
-        "viewOriginalRecipe": "Voir la recette originale",
-        "videoTutorial": "Tutoriel vidéo",
-        "youMightAlsoLike": "Vous pourriez aussi aimer",
-        "previousPage": "Page précédente",
-        "nextPage": "Page suivante",
-        "chefsNote": "Note du Chef"
-    },
-    "Favorites": {
-        "title": "Vos Favoris",
-        "empty": "Vous n'avez pas encore sauvegardé de recettes.",
-        "count": "Vous avez sauvegardé {count} recette{count, plural, =1 {} other {s}}.",
-        "emptyTitle": "Commencez à créer votre livre de cuisine",
-        "emptyDesc": "Sauvegardez vos recettes préférées ici pour les retrouver facilement plus tard. Parcourez notre collection pour commencer !",
-        "browseRecipes": "Parcourir les recettes"
-    },
-    "Footer": {
-        "quickLinks": "Liens Rapides",
-        "home": "Accueil",
-        "surpriseMe": "Surprends-moi",
-        "browseRecipes": "Parcourir les recettes",
-        "favorites": "Favoris",
-        "blog": "Blog",
-        "faq": "FAQ",
-        "legal": "Légal",
-        "privacyPolicy": "Politique de confidentialité",
-        "cookiePolicy": "Politique de cookies",
-        "termsOfService": "Conditions d'utilisation",
-        "rightsReserved": "Tous droits réservés.",
-        "providedBy": "Données de recettes fournies par",
-        "about": "À propos de nous",
-        "contact": "Contactez-nous"
-    },
-    "SurpriseMe": {
-        "title": "Surprends-moi !",
-        "metaTitle": "Surprends-moi - Générateur de Recettes Aléatoires | Dish Shuffle",
-        "metaDescription": "Indécis pour le repas ? Laissez Dish Shuffle choisir une délicieuse recette au hasard pour vous. Filtrez par catégorie ou cuisine.",
-        "subtitle": "Indécis ? Laissez-nous choisir un délicieux repas au hasard pour vous.",
-        "filterTitle": "Filtrez votre Surprise",
-        "categoryLabel": "Catégorie",
-        "cuisineLabel": "Cuisine",
-        "anyCategory": "Toute catégorie",
-        "anyCuisine": "Toute cuisine",
-        "activeFilters": "Filtres actifs :",
-        "clearAll": "Tout effacer",
-        "generateButton": "Générer un repas",
-        "tryAnotherButton": "Essayez un autre !",
-        "failedToFetch": "Échec de la récupération du repas",
-        "noRecipeFound": "Aucune recette trouvée correspondant à vos filtres",
-        "error": "Une erreur est survenue",
-        "emptyStateText": "Cliquez sur le bouton ci-dessus pour découvrir votre prochain repas !",
-        "findingRecipe": "Recherche d'une délicieuse recette...",
-        "keyIngredients": "Ingrédients Clés",
-        "recipePreview": "Aperçu de la Recette",
-        "clickToView": "Cliquez sur 'Voir la recette complète' pour voir les instructions complètes et tous les ingrédients",
-        "failedToLoad": "Échec du chargement de la recette. Veuillez réessayer.",
-        "close": "Fermer",
-        "viewFullRecipe": "Voir la recette complète",
-        "getAnotherMeal": "Obtenir un autre repas",
-        "moreIngredients": "+{count} de plus"
-    },
-    "FAQ": {
-        "title": "Questions Fréquemment Posées",
-        "subtitle": "Trouvez des réponses aux questions courantes sur la cuisine, les recettes et l'utilisation de Dish Shuffle",
-        "categories": {
-            "cooking": "Bases de Cuisine",
-            "safety": "Sécurité Alimentaire & Stockage",
-            "substitutions": "Substitutions d'Ingrédients",
-            "planning": "Planification des Repas",
-            "platform": "Utiliser Dish Shuffle",
-            "health": "Santé et Nutrition pour les Adultes de 40 ans et plus"
-        },
-        "questions": {
-            "howToBoilEgg": {
-                "q": "Comment faire bouillir un œuf parfaitement ?",
-                "a": "Placez les œufs dans une casserole et couvrez d'eau froide de 2,5 cm. Portez à ébullition, puis éteignez le feu et couvrez. Laissez reposer 10-12 minutes pour des œufs durs, 6-7 minutes pour des œufs mollets. Transférez immédiatement dans de l'eau glacée pour arrêter la cuisson."
-            },
-            "howToCookPasta": {
-                "q": "Comment cuire des pâtes al dente ?",
-                "a": "Utilisez une grande casserole avec beaucoup d'eau bouillante salée (environ 1 cuillère à soupe de sel pour 4 litres d'eau). Faites cuire les pâtes 1-2 minutes de moins que les instructions du paquet, en remuant occasionnellement. Goûtez pour une texture ferme mais tendre."
-            },
-            "howToCookRice": {
-                "q": "Quelle est la meilleure façon de cuire du riz moelleux ?",
-                "a": "Rincez le riz jusqu'à ce que l'eau soit claire pour enlever l'excès d'amidon. Utilisez un ratio de 2:1 d'eau pour le riz. Portez à ébullition, réduisez à feu doux, couvrez et laissez mijoter 18-20 minutes sans soulever le couvercle. Retirez du feu et laissez reposer couvert 5 minutes, puis aérez avec une fourchette."
-            },
-            "howToCookSteak": {
-                "q": "Comment cuire le steak parfait ?",
-                "a": "Séchez le steak et assaisonnez généreusement de sel et poivre 30-40 minutes avant la cuisson. Préchauffez une poêle épaisse jusqu'à ce qu'elle soit très chaude. Saisissez 3-4 minutes de chaque côté pour une cuisson saignante (température interne de 54-57°C). Laissez reposer 5-10 minutes avant de trancher."
-            },
-            "bakingPowderVsSoda": {
-                "q": "Quelle est la différence entre la levure chimique et le bicarbonate de soude ?",
-                "a": "Le bicarbonate de soude est du bicarbonate de sodium pur et nécessite un acide (comme du babeurre ou du jus de citron) pour s'activer. La levure chimique contient du bicarbonate de soude plus un acide, donc elle fonctionne seule. Ils ne sont pas interchangeables."
-            },
-            "shouldWashChicken": {
-                "q": "Dois-je laver le poulet cru avant de le cuire ?",
-                "a": "Non, ne lavez jamais le poulet cru. Le rinçage peut propager des bactéries nocives comme la salmonelle à votre évier, plans de travail et autres surfaces par les éclaboussures d'eau. La cuisson du poulet à une température interne de 75°C tuera toutes les bactéries en toute sécurité."
-            },
-            "howLongFoodLeftOut": {
-                "q": "Combien de temps les aliments cuits peuvent-ils rester dehors ?",
-                "a": "Les aliments cuits ne doivent pas rester à température ambiante pendant plus de 2 heures (1 heure si la température dépasse 32°C). Les bactéries se multiplient rapidement entre 4°C et 60°C. Réfrigérez rapidement les restes dans des contenants peu profonds pour un refroidissement rapide."
-            },
-            "frozenVsFresh": {
-                "q": "Les légumes surgelés sont-ils aussi nutritifs que les frais ?",
-                "a": "Oui ! Les légumes surgelés sont souvent cueillis et congelés à maturité maximale, préservant les nutriments. Ils peuvent en fait être plus nutritifs que les légumes frais qui sont restés plusieurs jours. Les légumes surgelés sont parfaits pour les soupes, sautés et casseroles."
-            },
-            "cheeseGoneBad": {
-                "q": "Comment savoir si le fromage est périmé ?",
-                "a": "Pour les fromages à pâte dure, de petites quantités de moisissure peuvent être coupées (coupez 2,5 cm autour et en dessous de la moisissure). Jetez les fromages à pâte molle s'ils sont moisis. Les signes de détérioration incluent une odeur inhabituelle, une texture visqueuse ou des changements de couleur significatifs."
-            },
-            "restMeatAfterCooking": {
-                "q": "Pourquoi dois-je laisser reposer la viande après la cuisson ?",
-                "a": "Le repos permet aux fibres musculaires de se détendre et aux jus de se redistribuer dans toute la viande. Si vous coupez immédiatement, les jus s'écoulent dans l'assiette. Laissez reposer les petites pièces 5-10 minutes, les grands rôtis 15-20 minutes, recouvertes légèrement de papier aluminium."
-            },
-            "butterSaltedOrUnsalted": {
-                "q": "Dois-je utiliser du beurre salé ou non salé pour la pâtisserie ?",
-                "a": "Utilisez du beurre non salé pour la pâtisserie. Il vous donne un contrôle complet sur la teneur en sel de votre recette. Le beurre salé peut varier en salinité entre les marques, rendant plus difficile l'obtention de résultats cohérents."
-            },
-            "freshVsDriedHerbs": {
-                "q": "Comment substituer les herbes séchées aux herbes fraîches ?",
-                "a": "Utilisez un tiers de la quantité d'herbes séchées par rapport aux herbes fraîches (1 cuillère à café séchée = 1 cuillère à soupe fraîche). Les herbes séchées sont plus concentrées. Ajoutez les herbes séchées tôt dans la cuisson, les herbes fraîches vers la fin. Les herbes délicates comme le basilic, la coriandre et le persil sont bien meilleures fraîches."
-            },
-            "oliveOilForBaking": {
-                "q": "Puis-je substituer l'huile d'olive à l'huile végétale en pâtisserie ?",
-                "a": "Oui, mais l'huile d'olive a une saveur plus forte qui affectera le goût. Pour la pâtisserie salée, cela fonctionne bien. Pour les gâteaux et les produits de boulangerie sucrés, utilisez de l'huile d'olive légère ou restez avec des huiles neutres comme l'huile végétale ou de canola."
-            },
-            "wholeWheatFlour": {
-                "q": "Puis-je utiliser de la farine de blé entier au lieu de la farine tout usage ?",
-                "a": "Pour les produits de boulangerie tendres comme les gâteaux, ce n'est pas recommandé car la farine de blé entier produit des résultats plus denses. Pour les muffins, pains rapides et biscuits, vous pouvez substituer jusqu'à 50% de farine tout usage par de la farine de blé entier. Commencez avec 25% et ajustez au goût."
-            },
-            "eggSubstitutes": {
-                "q": "Que puis-je utiliser à la place des œufs en pâtisserie ?",
-                "a": "Substituts courants : 60 ml de compote de pommes, 60 ml de banane écrasée, ou 1 cuillère à soupe de graines de lin moulues mélangées à 3 cuillères à soupe d'eau (laissez reposer 5 minutes) par œuf. Les substituts d'œufs commerciaux fonctionnent également bien. Les résultats varient selon la recette."
-            },
-            "whatIsMealPlanning": {
-                "q": "Qu'est-ce que la planification des repas exactement ?",
-                "a": "La planification des repas consiste à décider à l'avance quels repas vous préparerez pour une période spécifique, généralement une semaine. Cela implique de choisir des recettes, de faire une liste de courses et parfois de préparer des ingrédients à l'avance. Cela permet d'économiser du temps, de l'argent et de réduire le gaspillage alimentaire."
-            },
-            "howOftenMealPlan": {
-                "q": "À quelle fréquence dois-je planifier mes repas ?",
-                "a": "La planification hebdomadaire est la plus courante et pratique. Planifiez le même jour chaque semaine (beaucoup choisissent le dimanche) pour vous aligner sur votre emploi du temps et vos courses. Certaines personnes planifient pour 2 semaines à la fois, tandis que d'autres préfèrent 3-5 jours."
-            },
-            "mealPlanSaveMoney": {
-                "q": "Comment la planification des repas permet-elle d'économiser de l'argent ?",
-                "a": "La planification des repas réduit les achats impulsifs, minimise le gaspillage alimentaire, vous permet de profiter des soldes et d'acheter en vrac, et évite les plats à emporter coûteux de dernière minute. Vous achetez seulement ce dont vous avez besoin et utilisez tout ce que vous achetez."
-            },
-            "mealPrepStorage": {
-                "q": "Combien de temps les aliments préparés à l'avance se conservent-ils ?",
-                "a": "La plupart des aliments préparés durent 3-4 jours dans des contenants hermétiques au réfrigérateur. Certains articles comme les soupes et ragoûts durent jusqu'à 5 jours. Pour un stockage plus long, congelez les portions jusqu'à 3 mois. Étiquetez toujours les contenants avec les dates."
-            },
-            "portionSizes": {
-                "q": "Comment déterminer les portions ?",
-                "a": "Une assiette équilibrée comprend généralement : 1/2 de légumes, 1/4 de protéines maigres (environ la taille de votre paume), et 1/4 de céréales complètes ou de légumes féculents (environ la taille de votre poing). Ajustez en fonction de votre niveau d'activité et de vos besoins alimentaires."
-            },
-            "howToSaveRecipes": {
-                "q": "Comment sauvegarder des recettes sur Dish Shuffle ?",
-                "a": "Cliquez sur l'icône cœur sur n'importe quelle carte de recette ou page de détails de recette. Vous devrez vous connecter pour sauvegarder des recettes. Toutes vos recettes sauvegardées apparaissent dans votre page Favoris, accessible depuis le menu de navigation."
-            },
-            "howToSearchRecipes": {
-                "q": "Comment rechercher des recettes spécifiques ?",
-                "a": "Utilisez la barre de recherche sur la page Recettes pour rechercher par nom de recette, ingrédient ou cuisine. Vous pouvez également filtrer par catégorie (comme Dessert ou Petit-déjeuner) et cuisine (comme Italien ou Mexicain) à l'aide des filtres déroulants."
-            },
-            "surpriseMeFeature": {
-                "q": "Qu'est-ce que la fonctionnalité Surprends-moi ?",
-                "a": "Surprends-moi sélectionne aléatoirement une délicieuse recette pour vous lorsque vous ne pouvez pas décider quoi cuisiner. Cliquez sur le bouton 'Surprends-moi' dans la navigation, et nous vous montrerons une recette aléatoire avec un aperçu. Vous pouvez continuer à cliquer pour de nouvelles suggestions jusqu'à ce que vous trouviez quelque chose que vous aimez !"
-            },
-            "recipesFromWhere": {
-                "q": "D'où viennent les recettes ?",
-                "a": "Nos recettes proviennent de TheMealDB et Spoonacular, deux bases de données de recettes complètes. Nous organisons et organisons des milliers de recettes de diverses cuisines et catégories pour vous aider à découvrir de nouveaux plats."
-            },
-            "canIShareRecipes": {
-                "q": "Puis-je partager des recettes avec des amis ?",
-                "a": "Oui ! Chaque page de recette a un bouton Partager qui vous permet de partager via Facebook, Twitter (X), WhatsApp ou de copier le lien pour partager n'importe où. Partagez vos découvertes préférées avec vos amis et votre famille !"
-            },
-            "essentialTools": {
-                "q": "Quels outils de cuisine essentiels dois-je avoir pour commencer ?",
-                "a": "Commencez avec un couteau de chef, une planche à découper, des tasses/cuillères à mesurer, une grande marmite, une casserole, une poêle et une plaque de cuisson. Ces bases couvrent la plupart des recettes."
-            },
-            "readRecipe": {
-                "q": "Quelle est l'importance de lire la recette au préalable ?",
-                "a": "Crucial ! Lisez-la deux fois pour comprendre les étapes, le timing et vous assurer d'avoir tous les ingrédients. Cela évite les surprises en cours de cuisson."
-            },
-            "miseEnPlace": {
-                "q": "Que signifie 'mise en place' ?",
-                "a": "Cela signifie 'chaque chose à sa place'. Préparez, coupez et mesurez tous les ingrédients avant de commencer à cuisiner. Cela rend la cuisine sans stress et évite de brûler les aliments pendant que vous cherchez des épices."
-            },
-            "pantryStaples": {
-                "q": "Que devrais-je stocker dans mon garde-manger ?",
-                "a": "Gardez des huiles (olive, végétale), du vinaigre, des herbes/épices séchées, du sel, du poivre, de la farine, du sucre, du riz, des pâtes, des tomates en conserve et des haricots à portée de main pour des repas faciles."
-            },
-            "seasoningTips": {
-                "q": "Comment assaisonner correctement les aliments ?",
-                "a": "Assaisonnez par couches tout au long de la cuisson, pas seulement à la fin. Goûtez au fur et à mesure. Le sel rehausse la saveur, tandis que l'acide (citron, vinaigre) illumine les plats fades."
-            },
-            "preventSticking": {
-                "q": "Comment empêcher les aliments de coller à la poêle ?",
-                "a": "Préchauffez correctement votre poêle avant d'ajouter l'huile, puis laissez l'huile devenir chaude avant d'ajouter les aliments. Ne surchargez pas la poêle, sinon les aliments cuiront à la vapeur au lieu de saisir."
-            },
-            "checkMeatDoneness": {
-                "q": "Comment savoir quand la viande est cuite ?",
-                "a": "La seule façon sûre est d'utiliser un thermomètre à viande numérique. La couleur n'est pas fiable. Le poulet doit être à 74°C, le porc/steaks à 63°C, et la viande hachée à 71°C."
-            },
-            "saltPastaWater": {
-                "q": "Pourquoi saler l'eau des pâtes ?",
-                "a": "C'est votre seule chance d'aromatiser les pâtes elles-mêmes. Elle doit avoir le goût de la mer. Ne rincez jamais les pâtes après la cuisson (sauf pour une salade froide) car l'amidon aide la sauce à adhérer."
-            },
-            "tenderizeMeat": {
-                "q": "Comment attendrir une viande dure ?",
-                "a": "Utilisez une marinade avec de l'acide (vinaigre, agrumes, yaourt), battez-la avec un maillet, ou faites-la cuire doucement et longtemps (braisage/ragoût) pour briser les fibres."
-            },
-            "bakingMeasure": {
-                "q": "Comment mesurer la farine pour la pâtisserie ?",
-                "a": "Ne puisez pas directement ! Aérez la farine, versez-la à la cuillère dans la tasse et nivelez-la. Puiser compresse la farine, en ajoutant trop et rendant les gâteaux secs."
-            },
-            "cookingMistakes": {
-                "q": "Quelle est une erreur de cuisine courante chez les débutants ?",
-                "a": "Surcharger la poêle : cela abaisse la température et cuit les aliments à la vapeur au lieu de les dorer. Cuisinez par lots si nécessaire pour une meilleure saveur."
-            },
-            "tastingFood": {
-                "q": "Pourquoi est-il important de goûter en cuisinant ?",
-                "a": "Les ingrédients varient (les citrons varient en acidité, le sel en force). Goûter vous aide à équilibrer les saveurs (ajouter du sel, de l'acide ou du sucre) avant de servir."
-            },
-            "knifeSkills": {
-                "q": "Comment améliorer mes compétences au couteau ?",
-                "a": "Gardez les couteaux aiguisés (plus sûrs que les émoussés !). Utilisez la 'prise en griffe' avec votre main qui tient l'aliment pour protéger les doigts. Commencez doucement, la vitesse vient avec la pratique."
-            },
-            "restingSteak": {
-                "q": "Pourquoi laisser reposer le steak avant de le couper ?",
-                "a": "Le repos permet aux jus de se redistribuer. Couper immédiatement laisse les jus s'écouler, laissant la viande sèche. Laissez reposer 5-10 minutes sous du papier aluminium."
-            },
-            "boilingVsSimmering": {
-                "q": "Quelle est la différence entre bouillir et mijoter ?",
-                "a": "Bouillir, c'est de grosses bulles rapides (100°C) pour les pâtes/pommes de terre. Mijoter, c'est de petites bulles douces (85-95°C) pour les soupes/ragoûts pour cuire tendrement."
-            },
-            "handwashing": {
-                "q": "Comment se laver les mains pour la sécurité alimentaire ?",
-                "a": "Lavez-vous avec de l'eau tiède savonneuse pendant au moins 20 secondes avant/après avoir manipulé de la nourriture, surtout la viande crue/œufs. N'oubliez pas les poignets et sous les ongles."
-            },
-            "crossContamination": {
-                "q": "Qu'est-ce que la contamination croisée et comment l'éviter ?",
-                "a": "C'est la propagation de bactéries d'aliments crus à des aliments prêts à manger. Utilisez des planches à découper séparées pour la viande et les légumes. Lavez-vous les mains et les outils immédiatement après avoir touché de la viande crue."
-            },
-            "dangerZone": {
-                "q": "Qu'est-ce que la 'Zone de Danger' alimentaire ?",
-                "a": "Les bactéries se multiplient rapidement entre 4°C et 60°C. Ne laissez jamais les aliments périssables dehors plus de 2 heures (ou 1 heure s'il fait plus de 32°C dehors)."
-            },
-            "fridgeTemp": {
-                "q": "Quelle température doit avoir mon frigo/congélateur ?",
-                "a": "Frigo strictement en dessous de 4°C et congélateur à -18°C. Utilisez un thermomètre d'appareil pour vérifier, car les cadrans peuvent être imprécis."
-            },
-            "thawingFood": {
-                "q": "Quelle est la façon la plus sûre de décongeler des aliments ?",
-                "a": "Au réfrigérateur toute la nuit (le plus sûr), dans l'eau froide (changer l'eau toutes les 30 min), ou au micro-ondes. Ne décongelez jamais sur le comptoir à température ambiante."
-            },
-            "leftoverSafety": {
-                "q": "Combien de temps les restes sont-ils bons ?",
-                "a": "Généralement 3-4 jours au réfrigérateur. Réchauffez à 74°C. Dans le doute, jetez-le. Étiquetez les contenants avec les dates pour suivre."
-            },
-            "washingMeat": {
-                "q": "Dois-je laver le poulet cru ?",
-                "a": "NON. Le lavage propage les bactéries jusqu'à 1 mètre via les éclaboussures d'eau. La cuisson à 74°C est le seul moyen de tuer les bactéries en toute sécurité."
-            },
-            "refreezing": {
-                "q": "Puis-je recongeler des aliments décongelés ?",
-                "a": "S'ils ont été décongelés au réfrigérateur et gardés au froid (moins de 4°C), il est sûr de recongeler, bien que la texture puisse en souffrir. Ne recongelez pas si décongelé sur le comptoir."
-            },
-            "safeTemps": {
-                "q": "Quelles sont les températures de cuisson internes sûres ?",
-                "a": "Volaille 74°C, Viande hachée 71°C, Steaks et Rôtis de Bœuf/Porc/Agneau 63°C (+3 min de repos), Poisson 63°C. Utilisez un thermomètre."
-            },
-            "produceTech": {
-                "q": "Comment nettoyer les fruits et légumes ?",
-                "a": "Rincez sous l'eau courante juste avant de manger/cuisiner. Frottez les peaux fermes (melons, pommes de terre). N'utilisez pas de savon. Séchez avec un chiffon propre ou une serviette en papier."
-            },
-            "useByVsBestBy": {
-                "q": "Dates limite de consommation vs dates de péremption ?",
-                "a": "'À consommer jusqu'au' est une date limite de sécurité—ne pas manger après. 'À consommer de préférence avant le' concerne la qualité/saveur—probablement sûr mais strictement passé son apogée après la date."
-            },
-            "fridgeStorage": {
-                "q": "Où dois-je stocker la viande crue dans le frigo ?",
-                "a": "Étagère du bas, dans un contenant/plateau scellé. Cela empêche les jus de couler sur les produits frais et les aliments prêts à manger en dessous."
-            },
-            "coolingFood": {
-                "q": "À quelle vitesse dois-je réfrigérer les aliments cuits ?",
-                "a": "Dans les 2 heures (1 heure si la pièce est chaude). Divisez les grandes casseroles de soupe/ragoût en contenants peu profonds pour les aider à refroidir rapidement."
-            },
-            "kitchenHygiene": {
-                "q": "À quelle fréquence dois-je nettoyer les éponges de cuisine ?",
-                "a": "Les éponges abritent des bactéries. Désinfectez quotidiennement (micro-ondes éponge humide 1 min ou lave-vaisselle) et remplacez fréquemment. Les torchons doivent être lavés à chaud."
-            },
-            "visualCues": {
-                "q": "Puis-je me fier à la couleur de la viande pour la cuisson ?",
-                "a": "Non. Les hamburgers peuvent brunir avant d'atteindre 71°C. La couleur rose ne signifie pas toujours insuffisamment cuit. Seul un thermomètre garantit la sécurité."
-            },
-            "substitutionRules": {
-                "q": "Règle générale pour les substitutions ?",
-                "a": "Considérez l'humidité, la douceur et la structure. Limitez à 1-2 échanges par recette. La pâtisserie est de la chimie, donc elle est moins indulgente que la cuisine."
-            },
-            "buttermilkSub": {
-                "q": "Substitut pour le babeurre ?",
-                "a": "Ajoutez 1 c. à soupe de jus de citron ou de vinaigre blanc à 1 tasse de lait. Laissez reposer 5-10 min jusqu'à ce qu'il caille. Ou utilisez du yaourt nature dilué."
-            },
-            "butterVsOil": {
-                "q": "Puis-je échanger le beurre contre de l'huile ?",
-                "a": "En pâtisserie : Oui (1:1), mais le beurre ajoute saveur/moelleux, l'huile rend humide/dense. En cuisine : Le beurre brûle facilement ; l'huile a une tolérance à la chaleur plus élevée."
-            },
-            "glutenFreeFlour": {
-                "q": "Puis-je utiliser de la farine sans gluten tasse pour tasse ?",
-                "a": "Oui, si c'est un mélange de pâtisserie '1 pour 1' avec de la gomme xanthane. Remplacer juste par de la farine de riz/amande seule ne fonctionnera pas pour les gâteaux/pains sans liants."
-            },
-            "sugarTypes": {
-                "q": "Remplacer le sucre brun par du blanc ?",
-                "a": "Oui (1:1). Le sucre brun ajoute de l'humidité et une saveur de mélasse, rendant les biscuits plus moelleux. Le sucre blanc les rend plus croustillants."
-            },
-            "honeyVsSugar": {
-                "q": "Remplacer le sucre par du miel ?",
-                "a": "Utilisez 3/4 tasse de miel pour 1 tasse de sucre. Réduisez le liquide dans la recette de 1/4 tasse et baissez la température du four de 15°C car le miel brunit plus vite."
-            },
-            "breadcrumbsSub": {
-                "q": "Pas de chapelure ?",
-                "a": "Utilisez des cornflakes écrasés, des craquelins, des bretzels, de l'avoine ou du pain grillé et mixez-le. Pour le sans gluten, utilisez de la poudre d'amande ou de l'avoine SG."
-            },
-            "cornstarchSub": {
-                "q": "Substitut pour la fécule de maïs ?",
-                "a": "Pour épaissir : Utilisez 2 c. à soupe de farine pour chaque 1 c. à soupe de fécule (cuisez plus longtemps pour enlever le goût de farine crue). Ou utilisez de la fécule d'arrow-root/pomme de terre 1:1."
-            },
-            "brothSub": {
-                "q": "Pas de bouillon de poulet/bœuf ?",
-                "a": "Utilisez un cube de bouillon + de l'eau, du bouillon de légumes, ou même de l'eau assaisonnée de sauce soja/herbes. L'alcool (vin/bière) peut remplacer un peu de liquide pour la saveur."
-            },
-            "freshVsDried": {
-                "q": "Ratio pour les herbes fraîches vs séchées ?",
-                "a": "Le séché est plus fort. Utilisez 1 c. à café séchée pour chaque 1 c. à soupe fraîche (ratio 1:3). Ajoutez le séché tôt pour réhydrater ; le frais à la fin."
-            },
-            "dairyFreeMilk": {
-                "q": "Meilleur lait sans produits laitiers pour la pâtisserie ?",
-                "a": "Le lait de soja et d'avoine ont des protéines/graisses les plus proches des produits laitiers. L'amande est plus fine. Le lait de coco en conserve entier est excellent pour la richesse/crémosité."
-            },
-            "cheeseSub": {
-                "q": "Substituer des fromages ?",
-                "a": "Faites correspondre la texture/la fonte. Mozzarella ↔ Provolone/Monterey Jack. Cheddar ↔ Colby/Gruyère. Les fromages à pâte molle ne s'échangent pas bien avec ceux à pâte dure affinée."
-            },
-            "bakingChocolate": {
-                "q": "Substitut pour le chocolat non sucré ?",
-                "a": "3 c. à soupe de cacao en poudre + 1 c. à soupe d'huile/beurre pour 30g de chocolat non sucré."
-            },
-            "lemonJuice": {
-                "q": "Substitut pour le jus de citron frais ?",
-                "a": "Le jus de citron en bouteille fonctionne mais manque d'huiles de zeste. Le vinaigre peut remplacer l'acidité (en cuisine). L'orange/lime fonctionne mais change le profil de saveur."
-            },
-            "yogurtSourCream": {
-                "q": "Remplacer la crème sure par du yaourt ?",
-                "a": "Oui, le yaourt grec est un substitut sain parfait 1:1 dans les trempettes, la pâtisserie et les tacos. Le yaourt ordinaire est plus liquide."
-            },
-            "startMealPlanning": {
-                "q": "Comment commencer la planification des repas ?",
-                "a": "Commencez petit. Planifiez juste 3-4 dîners pour la semaine. Vérifiez votre calendrier pour les soirs chargés et choisissez des repas faciles pour ceux-ci. Faites une liste de courses basée sur votre plan."
-            },
-            "benefitsMealPlan": {
-                "q": "Pourquoi planifier les repas ?",
-                "a": "Économise de l'argent (moins de plats à emporter/gaspillage), économise du temps (moins de courses), réduit le stress quotidien ('qu'est-ce qu'on mange ?'), et vous aide à manger plus sainement."
-            },
-            "planningSchedule": {
-                "q": "À quelle fréquence dois-je planifier ?",
-                "a": "Hebdomadaire est le mieux pour la plupart. Choisissez un jour (ex. vendredi ou dimanche) pour planifier et acheter. Certains font mensuellement, mais hebdomadaire permet une flexibilité d'horaire."
-            },
-            "pickyEaters": {
-                "q": "Planification des repas pour les mangeurs difficiles ?",
-                "a": "Impliquez-les ! Laissez les enfants choisir 1 repas/semaine. Utilisez des repas 'déconstruits' (bar à tacos, bols) pour que chacun personnalise sa propre garniture."
-            },
-            "saveMoneyGroceries": {
-                "q": "Comment économiser de l'argent sur l'épicerie ?",
-                "a": "Faites vos courses dans votre garde-manger/congélateur d'abord. Planifiez les repas autour des circulaires de vente. Faites une liste et RESPECTEZ-la. Achetez des produits de saison et des céréales en vrac."
-            },
-            "mealPrepVsPlan": {
-                "q": "Différence entre planifier et préparer ?",
-                "a": "Planifier = décider quoi manger. Préparer = faire le travail (couper, cuire) à l'avance. Vous pouvez planifier sans préparer, mais préparer aide les semaines chargées."
-            },
-            "themeNights": {
-                "q": "Qu'est-ce que les soirées à thème ?",
-                "a": "Attribuez des thèmes aux jours : 'Lundi sans viande', 'Mardi Tacos', 'Jeudi Pâtes'. Cela restreint les choix et rend la prise de décision plus rapide."
-            },
-            "handleLeftovers": {
-                "q": "Stratégies pour les restes ?",
-                "a": "Prévoyez une 'Soirée Buffet' pour vider le frigo. Ou emballez les restes immédiatement pour le déjeuner du lendemain. Réutilisez : Poulet rôti → Tacos le lendemain."
-            },
-            "backupMeals": {
-                "q": "Et si je suis trop fatigué pour cuisiner le plan ?",
-                "a": "Gardez 1-2 'Repas d'Urgence' (pizza surgelée, pâtes & sauce en pot, œufs). La flexibilité est clé—échangez les jours si nécessaire. Ne culpabilisez pas."
-            },
-            "balancedPlan": {
-                "q": "Comment assurer un plan équilibré ?",
-                "a": "Visez la variété. Vérifiez votre semaine : Avons-nous du poisson ? Soirée végé ? Viande rouge ? Alternez les protéines et assurez-vous que chaque dîner a un accompagnement de légumes."
-            },
-            "shoppingTips": {
-                "q": "Une astuce pour l'épicerie ?",
-                "a": "Ne magasinez jamais le ventre vide ! Organisez votre liste par allée (Fruits & Légumes, Produits Laitiers, Viande) pour accélérer le voyage. Utilisez le click-and-collect pour éviter les achats impulsifs."
-            },
-            "batchCooking": {
-                "q": "Qu'est-ce que la cuisson par lots ?",
-                "a": "Cuisiner 2x ou 3x portions d'un repas (chili, soupe, ragoût) et congeler le surplus. C'est 'cuisiner une fois, manger deux fois'—un énorme gain de temps."
-            },
-            "familyInvolvement": {
-                "q": "Comment impliquer la famille ?",
-                "a": "Demandez des demandes. Partagez le menu visuel sur le frigo. Laissez les enfants aider à préparer des choses simples. Quand ils aident à décider/cuisiner, ils mangent mieux."
-            },
-            "fridgeFreezerLife": {
-                "q": "Combien de temps durent les repas préparés ?",
-                "a": "Frigo : 3-4 jours max. Congélateur : 2-3 mois. Étiquetez tout ! Si vous ne le mangez pas d'ici jeudi, congelez-le lundi."
-            },
-            "convenienceItems": {
-                "q": "Est-ce correct d'utiliser des légumes pré-coupés ?",
-                "a": "Absolument. Si acheter des oignons pré-hachés ou du poulet rôti signifie que vous cuisinez à la maison au lieu de prendre des plats à emporter, c'est une victoire. Utilisez des raccourcis !"
-            },
-            "weightGainAfter40": {
-                "q": "Pourquoi je prends du poids plus facilement après 40 ans ?",
-                "a": "La prise de poids après 40 ans est souvent liée aux fluctuations hormonales, à une sensibilité à l'insuline plus faible et à la perte musculaire liée à l'âge (sarcopénie), ce qui diminue naturellement votre métabolisme. Le stress et les changements de sommeil peuvent aussi contribuer."
-            },
-            "dietaryChanges40": {
-                "q": "Quels sont les changements alimentaires les plus importants après 40 ans ?",
-                "a": "Privilégiez les aliments riches en nutriments : fruits et légumes colorés, céréales complètes, protéines maigres et graisses saines. Limitez les aliments transformés, les sucres ajoutés et le sodium. L'hydratation et le calcium deviennent de plus en plus importants."
-            },
-            "proteinNeeds40": {
-                "q": "De combien de protéines les adultes de plus de 40 ans ont-ils besoin ?",
-                "a": "Les experts recommandent d'augmenter l'apport en protéines à 1,0–1,2 grammes par kg de poids corporel pour maintenir la masse musculaire. Visez 20-30g de protéines de haute qualité par repas (viandes maigres, poisson, œufs, produits laitiers ou options végétales)."
-            },
-            "boneHealth": {
-                "q": "Quels nutriments sont cruciaux pour la santé des os ?",
-                "a": "Le calcium et la vitamine D sont essentiels. Les besoins en calcium passent à 1 200 mg/jour après 50 ans. La vitamine D aide à l'absorption. Le magnésium et les exercices de port de poids sont aussi vitaux pour maintenir la densité osseuse."
-            },
-            "metabolismBoost": {
-                "q": "Comment booster mon métabolisme après 40 ans ?",
-                "a": "Privilégiez la musculation pour développer du muscle (qui brûle plus de calories au repos), mangez suffisamment de protéines, restez hydraté avec de l'eau froide, dormez suffisamment et ne sautez pas le petit-déjeuner pour démarrer votre journée."
-            },
-            "intermittentFasting": {
-                "q": "Le jeûne intermittent est-il sûr après 40 ans ?",
-                "a": "Il peut être bénéfique pour la sensibilité à l'insuline et l'inflammation, mais consultez un médecin d'abord. Les femmes doivent être prudentes car le jeûne strict peut impacter les hormones. Des approches douces comme 12:12 ou 14:10 sont souvent de meilleurs points de départ."
-            },
-            "cognitiveFoods": {
-                "q": "Quels aliments aident à la santé du cerveau et à la mémoire ?",
-                "a": "Le régime MIND suggère des légumes feuilles, des baies (surtout myrtilles), des noix, des poissons gras (riches en oméga-3), de l'huile d'olive et des céréales complètes. Réduisez la viande rouge, le beurre, le fromage et les aliments frits."
-            },
-            "vitaminB12": {
-                "q": "Pourquoi la vitamine B12 est-elle importante en vieillissant ?",
-                "a": "L'acide gastrique diminue avec l'âge, réduisant l'absorption de la B12. La carence cause fatigue et problèmes cognitifs. Les sources incluent viande, poisson, œufs et céréales enrichies. Un supplément peut être nécessaire après 50 ans ou si végétalien."
-            },
-            "adultAllergies": {
-                "q": "Les adultes peuvent-ils développer de nouvelles allergies alimentaires ?",
-                "a": "Oui, les allergies apparues à l'âge adulte sont possibles, même aux aliments consommés depuis des années. Les déclencheurs courants incluent les crustacés, les noix et certains fruits/légumes liés aux allergies au pollen (Syndrome d'allergie orale)."
-            },
-            "allergyVsIntolerance": {
-                "q": "Quelle est la différence entre allergie et intolérance alimentaire ?",
-                "a": "Une allergie est une réaction immunitaire (peut être mortelle) apparaissant rapidement. Une intolérance (comme le lactose) est un problème digestif causant ballonnements/inconfort généralement des heures après avoir mangé, mais n'est pas mortelle."
-            },
-            "commonIntolerances": {
-                "q": "Quelles sont les intolérances alimentaires courantes après 40 ans ?",
-                "a": "L'intolérance au lactose augmente souvent avec l'âge car la production de lactase baisse. La sensibilité au gluten et aux FODMAPs (glucides fermentescibles) est aussi courante. Tenir un journal alimentaire aide à identifier les déclencheurs."
-            },
-            "heartHealth40": {
-                "q": "Pourquoi la santé cardiaque est-elle critique après 40 ans ?",
-                "a": "Les facteurs de risque comme le raidissement des artères et l'accumulation de plaque augmentent naturellement. L'hypertension et le cholestérol apparaissent souvent dans cette décennie. C'est le moment idéal pour adopter des habitudes saines pour le cœur."
-            },
-            "protectHeart": {
-                "q": "Comment protéger au mieux mon cœur ?",
-                "a": "Suivez un régime de type méditerranéen, faites de l'exercice 150 min/semaine, gérez le stress, arrêtez de fumer et surveillez régulièrement vos chiffres : tension artérielle, cholestérol et glycémie."
-            },
-            "digestiveIssues40": {
-                "q": "Pourquoi la digestion semble pire après 40 ans ?",
-                "a": "La digestion ralentit en raison d'une production d'enzymes moindre, d'une diminution de l'acide gastrique et de changements du microbiome intestinal. Les changements hormonaux (surtout ménopause) et le stress impactent aussi la fonction intestinale."
-            },
-            "improveGutHealth": {
-                "q": "Comment améliorer ma santé intestinale ?",
-                "a": "Mangez une diversité de plantes riches en fibres (30+ types par semaine), incluez des aliments fermentés comme yaourt/kimchi, restez hydraté, mâchez bien et gérez le stress."
-            },
-            "supplements40": {
-                "q": "Ai-je besoin de suppléments après 40 ans ?",
-                "a": "Une alimentation équilibrée est préférable, mais beaucoup de plus de 40 ans bénéficient de Vitamine D, B12, Calcium, Magnésium ou Oméga-3. Consultez toujours un professionnel de santé avant de commencer un régime de suppléments."
-            },
-            "hydration40": {
-                "q": "Pourquoi l'hydratation est importante en vieillissant ?",
-                "a": "Notre sensation de soif diminue avec l'âge, augmentant le risque de déshydratation. Une bonne hydratation soutient la digestion, la santé des articulations, la fonction cognitive et les niveaux d'énergie. Visez l'eau plutôt que les boissons sucrées."
-            },
-            "heartRiskFactors": {
-                "q": "Quels sont les principaux facteurs de risque de maladie cardiaque ?",
-                "a": "Hypertension, cholestérol élevé, tabagisme, obésité, diabète et inactivité physique. L'histoire familiale joue aussi un rôle, rendant le dépistage encore plus important."
-            },
-            "agingHeart": {
-                "q": "Comment le cœur change-t-il avec l'âge ?",
-                "a": "Les vaisseaux sanguins peuvent devenir plus rigides (augmentant la tension), et le muscle cardiaque peut s'épaissir ou pomper un peu moins efficacement lors d'un effort maximal. Le cardio régulier aide à maintenir l'élasticité."
-            },
-            "heartWarningSigns": {
-                "q": "Quels signes d'alerte cardiaque surveiller ?",
-                "a": "Douleur/serrement thoracique, essoufflement, palpitations, fatigue inexpliquée ou gonflement des chevilles. Les symptômes peuvent être subtils, surtout chez les femmes. Consultez pour de nouveaux symptômes."
-            },
-            "commonDidgestiveProbs": {
-                "q": "Quels sont les problèmes digestifs courants après 40 ans ?",
-                "a": "Le reflux acide (RGO), ballonnements, gaz, constipation et diverticulose deviennent plus courants. Un transit plus lent dans le côlon peut contribuer à l'irrégularité."
-            },
-            "gutHealthSigns": {
-                "q": "Quels signes indiquent une mauvaise santé intestinale ?",
-                "a": "Ballonnements fréquents, gaz, brûlures d'estomac, selles irrégulières ou développement de nouvelles sensibilités alimentaires peuvent signaler des déséquilibres intestinaux."
-            },
-            "foodSensitivities40": {
-                "q": "Des sensibilités alimentaires peuvent-elles se développer plus tard ?",
-                "a": "Oui, le déclin des enzymes digestives (comme la lactase) ou les changements de la paroi intestinale peuvent mener à de nouvelles sensibilités aux produits laitiers, gluten ou autres aliments à la quarantaine."
-            },
-            "caloricNeeds40": {
-                "q": "Mes besoins caloriques changent-ils après 40 ans ?",
-                "a": "Oui, le taux métabolique ralentit typiquement, donc vous pourriez avoir besoin de moins de calories pour maintenir votre poids. Privilégiez la qualité des nutriments sur la quantité—maximisez vitamines/minéraux par calorie."
-            },
-            "prioritizeFoods40": {
-                "q": "Quels aliments devrais-je privilégier ?",
-                "a": "Privilégiez les fibres (légumes, fruits, haricots), les protéines maigres pour le maintien musculaire, et les aliments anti-inflammatoires comme les poissons gras, l'huile d'olive, les noix et les baies."
-            },
-            "managingSugar": {
-                "q": "Comment mieux gérer la glycémie ?",
-                "a": "Associez les glucides aux protéines et graisses pour ralentir l'absorption. Choisissez des glucides complexes (avoine, quinoa) plutôt que des sucres simples. La marche régulière après les repas aide significativement à baisser les pics de glucose."
-            },
-            "oralAllergySyndrome": {
-                "q": "Qu'est-ce que le Syndrome d'Allergie Orale ?",
-                "a": "C'est quand les fruits/légumes crus causent des démangeaisons buccales car leurs protéines ressemblent au pollen auquel vous êtes allergique (bouleau, herbe à poux). Cuire l'aliment détruit souvent la protéine et prévient la réaction."
-            },
-            "suspectAllergy": {
-                "q": "Que faire si je suspecte une allergie alimentaire ?",
-                "a": "Consultez un allergologue pour des tests cutanés ou sanguins. Ne vous autodiagnostiquez pas, car les vraies allergies peuvent être dangereuses. Pour les intolérances, un régime d'éviction guidé par un diététicien est la référence."
-            },
-            "manageCravings": {
-                "q": "Comment gérer les fringales ?",
-                "a": "Les fringales signalent souvent une glycémie irrégulière, du stress ou un manque de sommeil. Assurer des protéines à chaque repas, boire de l'eau et dormir 7-8 heures peut les réduire significativement."
-            }
-        }
-    },
-    "Blog": {
-        "title": "Blog Dish Shuffle",
-        "subtitle": "Découvrez des conseils de cuisine, des conseils nutritionnels et une inspiration culinaire de nos experts.",
-        "readPost": "Lire l'article",
-        "tableOfContents": "Table des matières",
-        "tryThisRecipe": {
-            "title": "Essayez cette recette !",
-            "description": "Inspiré par cet article ? Voici une délicieuse recette à préparer dès maintenant.",
-            "viewRecipe": "Voir la recette"
-        },
-        "minRead": "min de lecture",
-        "relatedArticles": "Articles Connexes",
-        "sharePost": "Partager cet article :",
-        "categories": {
-            "all": "Tous les Articles",
-            "fundamentals": "Fondamentaux de la Cuisine",
-            "nutrition": "Alimentation & Nutrition",
-            "cuisine": "Exploration Culinaire",
-            "tips": "Conseils & Tendances"
-        },
-        "readMore": "Lire la suite",
-        "exploreMore": "Découvrez plus sur notre blog",
-        "exploreSubtitle": "Apprenez des astuces, des conseils et des secrets de cuisine liés à ce plat.",
-        "viewAll": "Voir tous les articles"
-    },
-    "NotFound": {
-        "title": "Recette Introuvable",
-        "description": "Oups ! Il semble que ce plat se soit échappé.",
-        "suggestion": "Ne vous inquiétez pas, nous avons beaucoup d'autres recettes délicieuses qui vous attendent !",
-        "goHome": "Accueil",
-        "browseRecipes": "Parcourir les recettes",
-        "funTagline": "Même les grands chefs perdent parfois une recette... 👨‍🍳"
-    },
-    "CookieConsent": {
-        "title": "Nous respectons votre vie privée",
-        "description": "Nous utilisons des cookies pour améliorer votre expérience de navigation, diffuser du contenu personnalisé et analyser notre trafic. En cliquant sur « Tout accepter », vous consentez à notre utilisation des cookies.",
-        "settings": "Paramètres",
-        "reject": "Refuser",
-        "acceptAll": "Tout accepter",
-        "settingsModal": {
-            "title": "Paramètres des cookies",
-            "description": "Gérez vos préférences en matière de cookies. Les cookies essentiels sont toujours actifs.",
-            "back": "Retour",
-            "save": "Enregistrer les préférences",
-            "essential": {
-                "title": "Cookies essentiels",
-                "description": "Nécessaires au fonctionnement du site web. Ne peuvent pas être désactivés."
-            },
-            "performance": {
-                "title": "Cookies de performance",
-                "description": "Nous aident à comprendre comment les visiteurs interagissent avec le site web."
-            },
-            "functional": {
-                "title": "Cookies fonctionnels",
-                "description": "Permettent des fonctionnalités améliorées et la personnalisation."
-            },
-            "targeting": {
-                "title": "Cookies de ciblage",
-                "description": "Utilisés pour diffuser des publicités plus pertinentes pour vous et vos intérêts."
-            }
-        }
-    },
-    "CollectionsPage": {
-        "title": "Collections de Recettes",
-        "subtitle": "Explorez nos sélections de recettes délicieuses pour chaque occasion.",
-        "browseCollection": "Parcourir la Collection",
-        "collections": {
-            "vegetarian-dinner-recipes": {
-                "title": "Meilleures Recettes Végétariennes pour le Dîner",
-                "description": "Découvrez des idées de dîner végétarien délicieuses et satisfaisantes. Des pâtes aux currys, ces repas sans viande sont parfaits pour les soirs de semaine."
-            },
-            "healthy-chicken-recipes": {
-                "title": "Recettes de Poulet Saines",
-                "description": "Des recettes de poulet légères et nutritives qui ne lésinent pas sur la saveur. Riches en protéines, faibles en gras et parfaites pour une alimentation équilibrée."
-            },
-            "gluten-free-options": {
-                "title": "Collection de Recettes Sans Gluten",
-                "description": "Des recettes sans gluten sûres et délicieuses pour tous. Explorez des repas sans blé, orge ou seigle."
-            },
-            "authentic-italian-pasta": {
-                "title": "Recettes Authentiques de Pâtes Italiennes",
-                "description": "Apportez le goût de l'Italie dans votre cuisine avec ces plats de pâtes traditionnels. Carbonara, Bolognaise et plus encore."
-            },
-            "spicy-mexican-food": {
-                "title": "Recettes Mexicaines Épicées",
-                "description": "Des plats mexicains savoureux et épicés pour pimenter votre routine. Tacos, enchiladas et salsas fraîches."
-            },
-            "asian-stir-fry": {
-                "title": "Sauté Asiatique Rapide et Facile",
-                "description": "Mieux que la livraison. Rapide, frais et savoureux avec des recettes de sauté de toute l'Asie."
-            },
-            "quick-breakfast-ideas": {
-                "title": "Idées de Petit-déjeuner Rapides",
-                "description": "Commencez bien votre journée avec ces recettes de petit-déjeuner rapides et énergisantes. Prêtes en quelques minutes."
-            },
-            "comfort-food-desserts": {
-                "title": "Desserts Réconfortants",
-                "description": "Savourez des douceurs qui réchauffent le cœur. Cookies chauds, gâteaux riches et puddings classiques."
-            },
-            "seafood-lovers": {
-                "title": "Recettes pour les Amateurs de Fruits de Mer",
-                "description": "Poissons frais et fruits de mer. Sains, élégants et plus faciles à préparer que vous ne le pensez."
-            },
-            "vegan-friendly-meals": {
-                "title": "Repas Végétaliens",
-                "description": "La puissance des plantes dans votre assiette. Sans produits animaux, 100% saveur."
-            }
-        }
+  "Navigation": {
+    "home": "Accueil",
+    "recipes": "Recettes",
+    "favorites": "Favoris",
+    "collections": "Collections",
+    "blog": "Blog",
+    "surpriseMe": "Surprends-moi",
+    "signIn": "Connexion",
+    "signOut": "Déconnexion",
+    "myFavorites": "Mes Favoris",
+    "pantry": "Garde-manger Intelligent"
+  },
+  "SmartPantry": {
+    "newFeatureTag": "Nouvelle Fonctionnalité",
+    "heroTitle": "Cuisinez avec ce que",
+    "heroTitleHighlight": "vous avez.",
+    "heroSubtitle": "Ne gaspillez pas vos restes. Entrez vos ingrédients ci-dessous et nous trouverons de délicieuses recettes à préparer dès maintenant.",
+    "inputPlaceholder": "Entrez un ingrédient (ex. œufs, riz)...",
+    "addIngredientHelp": "Ajoutez au moins un ingrédient pour commencer à cuisiner !",
+    "findRecipesButton": "Trouver des Recettes",
+    "resultsTitle": "Voici ce que vous pouvez cuisiner :",
+    "matchesFound": "{count} correspondances trouvées",
+    "noResults": "Aucune recette trouvée 😔",
+    "noResultsDesc": "Essayez de combiner moins d'ingrédients ou d'en utiliser des plus courants.",
+    "topCategory": "Catégorie Principale"
+  },
+  "Hero": {
+    "title": "Qu'est-ce qu'on mange ?",
+    "subtitle": "Découvrez de délicieux repas du monde entier.",
+    "cta": "Commencer",
+    "surprise": "Surprends-moi",
+    "tagline": "✨ Des milliers de recettes, un mélange à la fois"
+  },
+  "CTA": {
+    "title": "Dish Shuffle",
+    "subtitle": "Trouvez votre prochain plat préféré aujourd'hui.",
+    "button": "Parcourir les recettes"
+  },
+  "Recipe": {
+    "ingredients": "Ingrédients",
+    "instructions": "Instructions",
+    "youMightAlsoLike": "Vous aimerez peut-être aussi",
+    "shopIngredients": "Acheter les Ingrédients",
+    "shopIngredientsDesc": "Faites-vous livrer par Amazon",
+    "loveThisRecipe": "Vous aimez cette recette ?",
+    "saveToFavorites": "Enregistrez-la dans vos favoris pour ne jamais la perdre !",
+    "viewFullRecipe": "Voir la recette complète",
+    "video": "Tutoriel Vidéo",
+    "videoTutorial": "Tutoriel vidéo",
+    "category": "Catégorie",
+    "area": "Cuisine",
+    "tags": "Tags",
+    "share": "Partager la recette",
+    "shareDescription": "Partagez cette recette avec vos amis",
+    "copyLink": "Copier le lien",
+    "copied": "Copié !",
+    "shareOnFacebook": "Partager sur Facebook",
+    "shareOnTwitter": "Partager sur X",
+    "shareOnWhatsApp": "Partager sur WhatsApp",
+    "kitchenGear": "Équipements de cuisine recommandés"
+  },
+  "Auth": {
+    "signInTitle": "Connexion",
+    "signUpTitle": "Inscription",
+    "email": "Email",
+    "password": "Mot de passe",
+    "noAccount": "Pas encore de compte ?",
+    "hasAccount": "Déjà un compte ?",
+    "signUpLink": "S'inscrire",
+    "signInLink": "Se connecter",
+    "welcomeBack": "Bon retour",
+    "signInSubtitle": "Connectez-vous à votre compte pour accéder à vos favoris",
+    "signInGoogle": "Se connecter avec Google",
+    "orContinueWith": "Ou continuer avec",
+    "emailAddress": "Adresse e-mail",
+    "rememberMe": "Se souvenir de moi",
+    "forgotPassword": "Mot de passe oublié ?",
+    "signIn": "Se connecter",
+    "signUp": "S'inscrire",
+    "createAccount": "Créer un compte",
+    "signUpSubtitle": "Rejoignez-nous pour sauvegarder vos recettes préférées et plus encore",
+    "signUpGoogle": "S'inscrire avec Google",
+    "fullName": "Nom complet",
+    "alreadyHaveAccount": "Vous avez déjà un compte ?"
+  },
+  "Common": {
+    "loading": "Chargement...",
+    "error": "Une erreur est survenue",
+    "back": "Retour"
+  },
+  "Home": {
+    "howItWorks": "Comment ça marche",
+    "featuredRecipes": "Recettes en vedette",
+    "viewAll": "Voir tout",
+    "features": {
+      "surprise": {
+        "title": "Laissez-vous surprendre",
+        "description": "Indécis ? Laissez-nous choisir un délicieux repas au hasard pour vous."
+      },
+      "browse": {
+        "title": "Parcourir et Rechercher",
+        "description": "Explorez des milliers de recettes par cuisine, catégorie ou recherchez des plats spécifiques."
+      },
+      "favorites": {
+        "title": "Sauvegarder les favoris",
+        "description": "Gardez une trace de vos recettes préférées et créez votre livre de cuisine personnel."
+      }
     }
+  },
+  "Recipes": {
+    "title": "Parcourir les recettes",
+    "subtitle": "Explorez des milliers de recettes délicieuses du monde entier",
+    "searchPlaceholder": "Rechercher une recette...",
+    "category": "Catégorie",
+    "cuisine": "Cuisine",
+    "allCategories": "Toutes les catégories",
+    "allCuisines": "Toutes les cuisines",
+    "activeFilters": "Filtres actifs :",
+    "searchPrefix": "Recherche :",
+    "clearAll": "Tout effacer",
+    "resultsCount": "{count} recette{count, plural, =1 {} other {s}} trouvée{count, plural, =1 {} other {s}}",
+    "foundRecipes": "{count} recette{count, plural, =1 {} other {s}} trouvée{count, plural, =1 {} other {s}}",
+    "noRecipes": "Aucune recette trouvée",
+    "noRecipesDesc": "Essayez d'ajuster votre recherche ou vos filtres",
+    "clearFilters": "Effacer les filtres",
+    "loadingMore": "Chargement de plus de recettes...",
+    "searching": "Recherche en cours...",
+    "preparingRecipes": "Préparation de délicieuses recettes pour vous...",
+    "justAMoment": "Cela ne prendra qu'un instant",
+    "recipeNotFound": "Recette non trouvée",
+    "ingredients": "Ingrédients",
+    "instructions": "Instructions",
+    "noInstructionsAvailable": "Les instructions ne sont pas disponibles pour cette recette.",
+    "viewOriginalRecipe": "Voir la recette originale",
+    "videoTutorial": "Tutoriel vidéo",
+    "youMightAlsoLike": "Vous pourriez aussi aimer",
+    "previousPage": "Page précédente",
+    "nextPage": "Page suivante",
+    "chefsNote": "Note du Chef"
+  },
+  "Favorites": {
+    "title": "Vos Favoris",
+    "empty": "Vous n'avez pas encore sauvegardé de recettes.",
+    "count": "Vous avez sauvegardé {count} recette{count, plural, =1 {} other {s}}.",
+    "emptyTitle": "Commencez à créer votre livre de cuisine",
+    "emptyDesc": "Sauvegardez vos recettes préférées ici pour les retrouver facilement plus tard. Parcourez notre collection pour commencer !",
+    "browseRecipes": "Parcourir les recettes"
+  },
+  "Footer": {
+    "quickLinks": "Liens Rapides",
+    "home": "Accueil",
+    "surpriseMe": "Surprends-moi",
+    "browseRecipes": "Parcourir les recettes",
+    "favorites": "Favoris",
+    "blog": "Blog",
+    "faq": "FAQ",
+    "legal": "Légal",
+    "privacyPolicy": "Politique de confidentialité",
+    "cookiePolicy": "Politique de cookies",
+    "termsOfService": "Conditions d'utilisation",
+    "rightsReserved": "Tous droits réservés.",
+    "providedBy": "Données de recettes fournies par",
+    "about": "À propos de nous",
+    "contact": "Contactez-nous"
+  },
+  "SurpriseMe": {
+    "title": "Surprends-moi !",
+    "metaTitle": "Surprends-moi - Générateur de Recettes Aléatoires | Dish Shuffle",
+    "metaDescription": "Indécis pour le repas ? Laissez Dish Shuffle choisir une délicieuse recette au hasard pour vous. Filtrez par catégorie ou cuisine.",
+    "subtitle": "Indécis ? Laissez-nous choisir un délicieux repas au hasard pour vous.",
+    "filterTitle": "Filtrez votre Surprise",
+    "categoryLabel": "Catégorie",
+    "cuisineLabel": "Cuisine",
+    "anyCategory": "Toute catégorie",
+    "anyCuisine": "Toute cuisine",
+    "activeFilters": "Filtres actifs :",
+    "clearAll": "Tout effacer",
+    "generateButton": "Générer un repas",
+    "tryAnotherButton": "Essayez un autre !",
+    "failedToFetch": "Échec de la récupération du repas",
+    "noRecipeFound": "Aucune recette trouvée correspondant à vos filtres",
+    "error": "Une erreur est survenue",
+    "emptyStateText": "Cliquez sur le bouton ci-dessus pour découvrir votre prochain repas !",
+    "findingRecipe": "Recherche d'une délicieuse recette...",
+    "keyIngredients": "Ingrédients Clés",
+    "recipePreview": "Aperçu de la Recette",
+    "clickToView": "Cliquez sur 'Voir la recette complète' pour voir les instructions complètes et tous les ingrédients",
+    "failedToLoad": "Échec du chargement de la recette. Veuillez réessayer.",
+    "close": "Fermer",
+    "viewFullRecipe": "Voir la recette complète",
+    "getAnotherMeal": "Obtenir un autre repas",
+    "moreIngredients": "+{count} de plus"
+  },
+  "FAQ": {
+    "title": "Questions Fréquemment Posées",
+    "subtitle": "Trouvez des réponses aux questions courantes sur la cuisine, les recettes et l'utilisation de Dish Shuffle",
+    "categories": {
+      "cooking": "Bases de Cuisine",
+      "safety": "Sécurité Alimentaire & Stockage",
+      "substitutions": "Substitutions d'Ingrédients",
+      "planning": "Planification des Repas",
+      "platform": "Utiliser Dish Shuffle",
+      "health": "Santé et Nutrition pour les Adultes de 40 ans et plus"
+    },
+    "questions": {
+      "howToBoilEgg": {
+        "q": "Comment faire bouillir un œuf parfaitement ?",
+        "a": "Placez les œufs dans une casserole et couvrez d'eau froide de 2,5 cm. Portez à ébullition, puis éteignez le feu et couvrez. Laissez reposer 10-12 minutes pour des œufs durs, 6-7 minutes pour des œufs mollets. Transférez immédiatement dans de l'eau glacée pour arrêter la cuisson."
+      },
+      "howToCookPasta": {
+        "q": "Comment cuire des pâtes al dente ?",
+        "a": "Utilisez une grande casserole avec beaucoup d'eau bouillante salée (environ 1 cuillère à soupe de sel pour 4 litres d'eau). Faites cuire les pâtes 1-2 minutes de moins que les instructions du paquet, en remuant occasionnellement. Goûtez pour une texture ferme mais tendre."
+      },
+      "howToCookRice": {
+        "q": "Quelle est la meilleure façon de cuire du riz moelleux ?",
+        "a": "Rincez le riz jusqu'à ce que l'eau soit claire pour enlever l'excès d'amidon. Utilisez un ratio de 2:1 d'eau pour le riz. Portez à ébullition, réduisez à feu doux, couvrez et laissez mijoter 18-20 minutes sans soulever le couvercle. Retirez du feu et laissez reposer couvert 5 minutes, puis aérez avec une fourchette."
+      },
+      "howToCookSteak": {
+        "q": "Comment cuire le steak parfait ?",
+        "a": "Séchez le steak et assaisonnez généreusement de sel et poivre 30-40 minutes avant la cuisson. Préchauffez une poêle épaisse jusqu'à ce qu'elle soit très chaude. Saisissez 3-4 minutes de chaque côté pour une cuisson saignante (température interne de 54-57°C). Laissez reposer 5-10 minutes avant de trancher."
+      },
+      "bakingPowderVsSoda": {
+        "q": "Quelle est la différence entre la levure chimique et le bicarbonate de soude ?",
+        "a": "Le bicarbonate de soude est du bicarbonate de sodium pur et nécessite un acide (comme du babeurre ou du jus de citron) pour s'activer. La levure chimique contient du bicarbonate de soude plus un acide, donc elle fonctionne seule. Ils ne sont pas interchangeables."
+      },
+      "shouldWashChicken": {
+        "q": "Dois-je laver le poulet cru avant de le cuire ?",
+        "a": "Non, ne lavez jamais le poulet cru. Le rinçage peut propager des bactéries nocives comme la salmonelle à votre évier, plans de travail et autres surfaces par les éclaboussures d'eau. La cuisson du poulet à une température interne de 75°C tuera toutes les bactéries en toute sécurité."
+      },
+      "howLongFoodLeftOut": {
+        "q": "Combien de temps les aliments cuits peuvent-ils rester dehors ?",
+        "a": "Les aliments cuits ne doivent pas rester à température ambiante pendant plus de 2 heures (1 heure si la température dépasse 32°C). Les bactéries se multiplient rapidement entre 4°C et 60°C. Réfrigérez rapidement les restes dans des contenants peu profonds pour un refroidissement rapide."
+      },
+      "frozenVsFresh": {
+        "q": "Les légumes surgelés sont-ils aussi nutritifs que les frais ?",
+        "a": "Oui ! Les légumes surgelés sont souvent cueillis et congelés à maturité maximale, préservant les nutriments. Ils peuvent en fait être plus nutritifs que les légumes frais qui sont restés plusieurs jours. Les légumes surgelés sont parfaits pour les soupes, sautés et casseroles."
+      },
+      "cheeseGoneBad": {
+        "q": "Comment savoir si le fromage est périmé ?",
+        "a": "Pour les fromages à pâte dure, de petites quantités de moisissure peuvent être coupées (coupez 2,5 cm autour et en dessous de la moisissure). Jetez les fromages à pâte molle s'ils sont moisis. Les signes de détérioration incluent une odeur inhabituelle, une texture visqueuse ou des changements de couleur significatifs."
+      },
+      "restMeatAfterCooking": {
+        "q": "Pourquoi dois-je laisser reposer la viande après la cuisson ?",
+        "a": "Le repos permet aux fibres musculaires de se détendre et aux jus de se redistribuer dans toute la viande. Si vous coupez immédiatement, les jus s'écoulent dans l'assiette. Laissez reposer les petites pièces 5-10 minutes, les grands rôtis 15-20 minutes, recouvertes légèrement de papier aluminium."
+      },
+      "butterSaltedOrUnsalted": {
+        "q": "Dois-je utiliser du beurre salé ou non salé pour la pâtisserie ?",
+        "a": "Utilisez du beurre non salé pour la pâtisserie. Il vous donne un contrôle complet sur la teneur en sel de votre recette. Le beurre salé peut varier en salinité entre les marques, rendant plus difficile l'obtention de résultats cohérents."
+      },
+      "freshVsDriedHerbs": {
+        "q": "Comment substituer les herbes séchées aux herbes fraîches ?",
+        "a": "Utilisez un tiers de la quantité d'herbes séchées par rapport aux herbes fraîches (1 cuillère à café séchée = 1 cuillère à soupe fraîche). Les herbes séchées sont plus concentrées. Ajoutez les herbes séchées tôt dans la cuisson, les herbes fraîches vers la fin. Les herbes délicates comme le basilic, la coriandre et le persil sont bien meilleures fraîches."
+      },
+      "oliveOilForBaking": {
+        "q": "Puis-je substituer l'huile d'olive à l'huile végétale en pâtisserie ?",
+        "a": "Oui, mais l'huile d'olive a une saveur plus forte qui affectera le goût. Pour la pâtisserie salée, cela fonctionne bien. Pour les gâteaux et les produits de boulangerie sucrés, utilisez de l'huile d'olive légère ou restez avec des huiles neutres comme l'huile végétale ou de canola."
+      },
+      "wholeWheatFlour": {
+        "q": "Puis-je utiliser de la farine de blé entier au lieu de la farine tout usage ?",
+        "a": "Pour les produits de boulangerie tendres comme les gâteaux, ce n'est pas recommandé car la farine de blé entier produit des résultats plus denses. Pour les muffins, pains rapides et biscuits, vous pouvez substituer jusqu'à 50% de farine tout usage par de la farine de blé entier. Commencez avec 25% et ajustez au goût."
+      },
+      "eggSubstitutes": {
+        "q": "Que puis-je utiliser à la place des œufs en pâtisserie ?",
+        "a": "Substituts courants : 60 ml de compote de pommes, 60 ml de banane écrasée, ou 1 cuillère à soupe de graines de lin moulues mélangées à 3 cuillères à soupe d'eau (laissez reposer 5 minutes) par œuf. Les substituts d'œufs commerciaux fonctionnent également bien. Les résultats varient selon la recette."
+      },
+      "whatIsMealPlanning": {
+        "q": "Qu'est-ce que la planification des repas exactement ?",
+        "a": "La planification des repas consiste à décider à l'avance quels repas vous préparerez pour une période spécifique, généralement une semaine. Cela implique de choisir des recettes, de faire une liste de courses et parfois de préparer des ingrédients à l'avance. Cela permet d'économiser du temps, de l'argent et de réduire le gaspillage alimentaire."
+      },
+      "howOftenMealPlan": {
+        "q": "À quelle fréquence dois-je planifier mes repas ?",
+        "a": "La planification hebdomadaire est la plus courante et pratique. Planifiez le même jour chaque semaine (beaucoup choisissent le dimanche) pour vous aligner sur votre emploi du temps et vos courses. Certaines personnes planifient pour 2 semaines à la fois, tandis que d'autres préfèrent 3-5 jours."
+      },
+      "mealPlanSaveMoney": {
+        "q": "Comment la planification des repas permet-elle d'économiser de l'argent ?",
+        "a": "La planification des repas réduit les achats impulsifs, minimise le gaspillage alimentaire, vous permet de profiter des soldes et d'acheter en vrac, et évite les plats à emporter coûteux de dernière minute. Vous achetez seulement ce dont vous avez besoin et utilisez tout ce que vous achetez."
+      },
+      "mealPrepStorage": {
+        "q": "Combien de temps les aliments préparés à l'avance se conservent-ils ?",
+        "a": "La plupart des aliments préparés durent 3-4 jours dans des contenants hermétiques au réfrigérateur. Certains articles comme les soupes et ragoûts durent jusqu'à 5 jours. Pour un stockage plus long, congelez les portions jusqu'à 3 mois. Étiquetez toujours les contenants avec les dates."
+      },
+      "portionSizes": {
+        "q": "Comment déterminer les portions ?",
+        "a": "Une assiette équilibrée comprend généralement : 1/2 de légumes, 1/4 de protéines maigres (environ la taille de votre paume), et 1/4 de céréales complètes ou de légumes féculents (environ la taille de votre poing). Ajustez en fonction de votre niveau d'activité et de vos besoins alimentaires."
+      },
+      "howToSaveRecipes": {
+        "q": "Comment sauvegarder des recettes sur Dish Shuffle ?",
+        "a": "Cliquez sur l'icône cœur sur n'importe quelle carte de recette ou page de détails de recette. Vous devrez vous connecter pour sauvegarder des recettes. Toutes vos recettes sauvegardées apparaissent dans votre page Favoris, accessible depuis le menu de navigation."
+      },
+      "howToSearchRecipes": {
+        "q": "Comment rechercher des recettes spécifiques ?",
+        "a": "Utilisez la barre de recherche sur la page Recettes pour rechercher par nom de recette, ingrédient ou cuisine. Vous pouvez également filtrer par catégorie (comme Dessert ou Petit-déjeuner) et cuisine (comme Italien ou Mexicain) à l'aide des filtres déroulants."
+      },
+      "surpriseMeFeature": {
+        "q": "Qu'est-ce que la fonctionnalité Surprends-moi ?",
+        "a": "Surprends-moi sélectionne aléatoirement une délicieuse recette pour vous lorsque vous ne pouvez pas décider quoi cuisiner. Cliquez sur le bouton 'Surprends-moi' dans la navigation, et nous vous montrerons une recette aléatoire avec un aperçu. Vous pouvez continuer à cliquer pour de nouvelles suggestions jusqu'à ce que vous trouviez quelque chose que vous aimez !"
+      },
+      "recipesFromWhere": {
+        "q": "D'où viennent les recettes ?",
+        "a": "Nos recettes proviennent de TheMealDB et Spoonacular, deux bases de données de recettes complètes. Nous organisons et organisons des milliers de recettes de diverses cuisines et catégories pour vous aider à découvrir de nouveaux plats."
+      },
+      "canIShareRecipes": {
+        "q": "Puis-je partager des recettes avec des amis ?",
+        "a": "Oui ! Chaque page de recette a un bouton Partager qui vous permet de partager via Facebook, Twitter (X), WhatsApp ou de copier le lien pour partager n'importe où. Partagez vos découvertes préférées avec vos amis et votre famille !"
+      },
+      "essentialTools": {
+        "q": "Quels outils de cuisine essentiels dois-je avoir pour commencer ?",
+        "a": "Commencez avec un couteau de chef, une planche à découper, des tasses/cuillères à mesurer, une grande marmite, une casserole, une poêle et une plaque de cuisson. Ces bases couvrent la plupart des recettes."
+      },
+      "readRecipe": {
+        "q": "Quelle est l'importance de lire la recette au préalable ?",
+        "a": "Crucial ! Lisez-la deux fois pour comprendre les étapes, le timing et vous assurer d'avoir tous les ingrédients. Cela évite les surprises en cours de cuisson."
+      },
+      "miseEnPlace": {
+        "q": "Que signifie 'mise en place' ?",
+        "a": "Cela signifie 'chaque chose à sa place'. Préparez, coupez et mesurez tous les ingrédients avant de commencer à cuisiner. Cela rend la cuisine sans stress et évite de brûler les aliments pendant que vous cherchez des épices."
+      },
+      "pantryStaples": {
+        "q": "Que devrais-je stocker dans mon garde-manger ?",
+        "a": "Gardez des huiles (olive, végétale), du vinaigre, des herbes/épices séchées, du sel, du poivre, de la farine, du sucre, du riz, des pâtes, des tomates en conserve et des haricots à portée de main pour des repas faciles."
+      },
+      "seasoningTips": {
+        "q": "Comment assaisonner correctement les aliments ?",
+        "a": "Assaisonnez par couches tout au long de la cuisson, pas seulement à la fin. Goûtez au fur et à mesure. Le sel rehausse la saveur, tandis que l'acide (citron, vinaigre) illumine les plats fades."
+      },
+      "preventSticking": {
+        "q": "Comment empêcher les aliments de coller à la poêle ?",
+        "a": "Préchauffez correctement votre poêle avant d'ajouter l'huile, puis laissez l'huile devenir chaude avant d'ajouter les aliments. Ne surchargez pas la poêle, sinon les aliments cuiront à la vapeur au lieu de saisir."
+      },
+      "checkMeatDoneness": {
+        "q": "Comment savoir quand la viande est cuite ?",
+        "a": "La seule façon sûre est d'utiliser un thermomètre à viande numérique. La couleur n'est pas fiable. Le poulet doit être à 74°C, le porc/steaks à 63°C, et la viande hachée à 71°C."
+      },
+      "saltPastaWater": {
+        "q": "Pourquoi saler l'eau des pâtes ?",
+        "a": "C'est votre seule chance d'aromatiser les pâtes elles-mêmes. Elle doit avoir le goût de la mer. Ne rincez jamais les pâtes après la cuisson (sauf pour une salade froide) car l'amidon aide la sauce à adhérer."
+      },
+      "tenderizeMeat": {
+        "q": "Comment attendrir une viande dure ?",
+        "a": "Utilisez une marinade avec de l'acide (vinaigre, agrumes, yaourt), battez-la avec un maillet, ou faites-la cuire doucement et longtemps (braisage/ragoût) pour briser les fibres."
+      },
+      "bakingMeasure": {
+        "q": "Comment mesurer la farine pour la pâtisserie ?",
+        "a": "Ne puisez pas directement ! Aérez la farine, versez-la à la cuillère dans la tasse et nivelez-la. Puiser compresse la farine, en ajoutant trop et rendant les gâteaux secs."
+      },
+      "cookingMistakes": {
+        "q": "Quelle est une erreur de cuisine courante chez les débutants ?",
+        "a": "Surcharger la poêle : cela abaisse la température et cuit les aliments à la vapeur au lieu de les dorer. Cuisinez par lots si nécessaire pour une meilleure saveur."
+      },
+      "tastingFood": {
+        "q": "Pourquoi est-il important de goûter en cuisinant ?",
+        "a": "Les ingrédients varient (les citrons varient en acidité, le sel en force). Goûter vous aide à équilibrer les saveurs (ajouter du sel, de l'acide ou du sucre) avant de servir."
+      },
+      "knifeSkills": {
+        "q": "Comment améliorer mes compétences au couteau ?",
+        "a": "Gardez les couteaux aiguisés (plus sûrs que les émoussés !). Utilisez la 'prise en griffe' avec votre main qui tient l'aliment pour protéger les doigts. Commencez doucement, la vitesse vient avec la pratique."
+      },
+      "restingSteak": {
+        "q": "Pourquoi laisser reposer le steak avant de le couper ?",
+        "a": "Le repos permet aux jus de se redistribuer. Couper immédiatement laisse les jus s'écouler, laissant la viande sèche. Laissez reposer 5-10 minutes sous du papier aluminium."
+      },
+      "boilingVsSimmering": {
+        "q": "Quelle est la différence entre bouillir et mijoter ?",
+        "a": "Bouillir, c'est de grosses bulles rapides (100°C) pour les pâtes/pommes de terre. Mijoter, c'est de petites bulles douces (85-95°C) pour les soupes/ragoûts pour cuire tendrement."
+      },
+      "handwashing": {
+        "q": "Comment se laver les mains pour la sécurité alimentaire ?",
+        "a": "Lavez-vous avec de l'eau tiède savonneuse pendant au moins 20 secondes avant/après avoir manipulé de la nourriture, surtout la viande crue/œufs. N'oubliez pas les poignets et sous les ongles."
+      },
+      "crossContamination": {
+        "q": "Qu'est-ce que la contamination croisée et comment l'éviter ?",
+        "a": "C'est la propagation de bactéries d'aliments crus à des aliments prêts à manger. Utilisez des planches à découper séparées pour la viande et les légumes. Lavez-vous les mains et les outils immédiatement après avoir touché de la viande crue."
+      },
+      "dangerZone": {
+        "q": "Qu'est-ce que la 'Zone de Danger' alimentaire ?",
+        "a": "Les bactéries se multiplient rapidement entre 4°C et 60°C. Ne laissez jamais les aliments périssables dehors plus de 2 heures (ou 1 heure s'il fait plus de 32°C dehors)."
+      },
+      "fridgeTemp": {
+        "q": "Quelle température doit avoir mon frigo/congélateur ?",
+        "a": "Frigo strictement en dessous de 4°C et congélateur à -18°C. Utilisez un thermomètre d'appareil pour vérifier, car les cadrans peuvent être imprécis."
+      },
+      "thawingFood": {
+        "q": "Quelle est la façon la plus sûre de décongeler des aliments ?",
+        "a": "Au réfrigérateur toute la nuit (le plus sûr), dans l'eau froide (changer l'eau toutes les 30 min), ou au micro-ondes. Ne décongelez jamais sur le comptoir à température ambiante."
+      },
+      "leftoverSafety": {
+        "q": "Combien de temps les restes sont-ils bons ?",
+        "a": "Généralement 3-4 jours au réfrigérateur. Réchauffez à 74°C. Dans le doute, jetez-le. Étiquetez les contenants avec les dates pour suivre."
+      },
+      "washingMeat": {
+        "q": "Dois-je laver le poulet cru ?",
+        "a": "NON. Le lavage propage les bactéries jusqu'à 1 mètre via les éclaboussures d'eau. La cuisson à 74°C est le seul moyen de tuer les bactéries en toute sécurité."
+      },
+      "refreezing": {
+        "q": "Puis-je recongeler des aliments décongelés ?",
+        "a": "S'ils ont été décongelés au réfrigérateur et gardés au froid (moins de 4°C), il est sûr de recongeler, bien que la texture puisse en souffrir. Ne recongelez pas si décongelé sur le comptoir."
+      },
+      "safeTemps": {
+        "q": "Quelles sont les températures de cuisson internes sûres ?",
+        "a": "Volaille 74°C, Viande hachée 71°C, Steaks et Rôtis de Bœuf/Porc/Agneau 63°C (+3 min de repos), Poisson 63°C. Utilisez un thermomètre."
+      },
+      "produceTech": {
+        "q": "Comment nettoyer les fruits et légumes ?",
+        "a": "Rincez sous l'eau courante juste avant de manger/cuisiner. Frottez les peaux fermes (melons, pommes de terre). N'utilisez pas de savon. Séchez avec un chiffon propre ou une serviette en papier."
+      },
+      "useByVsBestBy": {
+        "q": "Dates limite de consommation vs dates de péremption ?",
+        "a": "'À consommer jusqu'au' est une date limite de sécurité—ne pas manger après. 'À consommer de préférence avant le' concerne la qualité/saveur—probablement sûr mais strictement passé son apogée après la date."
+      },
+      "fridgeStorage": {
+        "q": "Où dois-je stocker la viande crue dans le frigo ?",
+        "a": "Étagère du bas, dans un contenant/plateau scellé. Cela empêche les jus de couler sur les produits frais et les aliments prêts à manger en dessous."
+      },
+      "coolingFood": {
+        "q": "À quelle vitesse dois-je réfrigérer les aliments cuits ?",
+        "a": "Dans les 2 heures (1 heure si la pièce est chaude). Divisez les grandes casseroles de soupe/ragoût en contenants peu profonds pour les aider à refroidir rapidement."
+      },
+      "kitchenHygiene": {
+        "q": "À quelle fréquence dois-je nettoyer les éponges de cuisine ?",
+        "a": "Les éponges abritent des bactéries. Désinfectez quotidiennement (micro-ondes éponge humide 1 min ou lave-vaisselle) et remplacez fréquemment. Les torchons doivent être lavés à chaud."
+      },
+      "visualCues": {
+        "q": "Puis-je me fier à la couleur de la viande pour la cuisson ?",
+        "a": "Non. Les hamburgers peuvent brunir avant d'atteindre 71°C. La couleur rose ne signifie pas toujours insuffisamment cuit. Seul un thermomètre garantit la sécurité."
+      },
+      "substitutionRules": {
+        "q": "Règle générale pour les substitutions ?",
+        "a": "Considérez l'humidité, la douceur et la structure. Limitez à 1-2 échanges par recette. La pâtisserie est de la chimie, donc elle est moins indulgente que la cuisine."
+      },
+      "buttermilkSub": {
+        "q": "Substitut pour le babeurre ?",
+        "a": "Ajoutez 1 c. à soupe de jus de citron ou de vinaigre blanc à 1 tasse de lait. Laissez reposer 5-10 min jusqu'à ce qu'il caille. Ou utilisez du yaourt nature dilué."
+      },
+      "butterVsOil": {
+        "q": "Puis-je échanger le beurre contre de l'huile ?",
+        "a": "En pâtisserie : Oui (1:1), mais le beurre ajoute saveur/moelleux, l'huile rend humide/dense. En cuisine : Le beurre brûle facilement ; l'huile a une tolérance à la chaleur plus élevée."
+      },
+      "glutenFreeFlour": {
+        "q": "Puis-je utiliser de la farine sans gluten tasse pour tasse ?",
+        "a": "Oui, si c'est un mélange de pâtisserie '1 pour 1' avec de la gomme xanthane. Remplacer juste par de la farine de riz/amande seule ne fonctionnera pas pour les gâteaux/pains sans liants."
+      },
+      "sugarTypes": {
+        "q": "Remplacer le sucre brun par du blanc ?",
+        "a": "Oui (1:1). Le sucre brun ajoute de l'humidité et une saveur de mélasse, rendant les biscuits plus moelleux. Le sucre blanc les rend plus croustillants."
+      },
+      "honeyVsSugar": {
+        "q": "Remplacer le sucre par du miel ?",
+        "a": "Utilisez 3/4 tasse de miel pour 1 tasse de sucre. Réduisez le liquide dans la recette de 1/4 tasse et baissez la température du four de 15°C car le miel brunit plus vite."
+      },
+      "breadcrumbsSub": {
+        "q": "Pas de chapelure ?",
+        "a": "Utilisez des cornflakes écrasés, des craquelins, des bretzels, de l'avoine ou du pain grillé et mixez-le. Pour le sans gluten, utilisez de la poudre d'amande ou de l'avoine SG."
+      },
+      "cornstarchSub": {
+        "q": "Substitut pour la fécule de maïs ?",
+        "a": "Pour épaissir : Utilisez 2 c. à soupe de farine pour chaque 1 c. à soupe de fécule (cuisez plus longtemps pour enlever le goût de farine crue). Ou utilisez de la fécule d'arrow-root/pomme de terre 1:1."
+      },
+      "brothSub": {
+        "q": "Pas de bouillon de poulet/bœuf ?",
+        "a": "Utilisez un cube de bouillon + de l'eau, du bouillon de légumes, ou même de l'eau assaisonnée de sauce soja/herbes. L'alcool (vin/bière) peut remplacer un peu de liquide pour la saveur."
+      },
+      "freshVsDried": {
+        "q": "Ratio pour les herbes fraîches vs séchées ?",
+        "a": "Le séché est plus fort. Utilisez 1 c. à café séchée pour chaque 1 c. à soupe fraîche (ratio 1:3). Ajoutez le séché tôt pour réhydrater ; le frais à la fin."
+      },
+      "dairyFreeMilk": {
+        "q": "Meilleur lait sans produits laitiers pour la pâtisserie ?",
+        "a": "Le lait de soja et d'avoine ont des protéines/graisses les plus proches des produits laitiers. L'amande est plus fine. Le lait de coco en conserve entier est excellent pour la richesse/crémosité."
+      },
+      "cheeseSub": {
+        "q": "Substituer des fromages ?",
+        "a": "Faites correspondre la texture/la fonte. Mozzarella ↔ Provolone/Monterey Jack. Cheddar ↔ Colby/Gruyère. Les fromages à pâte molle ne s'échangent pas bien avec ceux à pâte dure affinée."
+      },
+      "bakingChocolate": {
+        "q": "Substitut pour le chocolat non sucré ?",
+        "a": "3 c. à soupe de cacao en poudre + 1 c. à soupe d'huile/beurre pour 30g de chocolat non sucré."
+      },
+      "lemonJuice": {
+        "q": "Substitut pour le jus de citron frais ?",
+        "a": "Le jus de citron en bouteille fonctionne mais manque d'huiles de zeste. Le vinaigre peut remplacer l'acidité (en cuisine). L'orange/lime fonctionne mais change le profil de saveur."
+      },
+      "yogurtSourCream": {
+        "q": "Remplacer la crème sure par du yaourt ?",
+        "a": "Oui, le yaourt grec est un substitut sain parfait 1:1 dans les trempettes, la pâtisserie et les tacos. Le yaourt ordinaire est plus liquide."
+      },
+      "startMealPlanning": {
+        "q": "Comment commencer la planification des repas ?",
+        "a": "Commencez petit. Planifiez juste 3-4 dîners pour la semaine. Vérifiez votre calendrier pour les soirs chargés et choisissez des repas faciles pour ceux-ci. Faites une liste de courses basée sur votre plan."
+      },
+      "benefitsMealPlan": {
+        "q": "Pourquoi planifier les repas ?",
+        "a": "Économise de l'argent (moins de plats à emporter/gaspillage), économise du temps (moins de courses), réduit le stress quotidien ('qu'est-ce qu'on mange ?'), et vous aide à manger plus sainement."
+      },
+      "planningSchedule": {
+        "q": "À quelle fréquence dois-je planifier ?",
+        "a": "Hebdomadaire est le mieux pour la plupart. Choisissez un jour (ex. vendredi ou dimanche) pour planifier et acheter. Certains font mensuellement, mais hebdomadaire permet une flexibilité d'horaire."
+      },
+      "pickyEaters": {
+        "q": "Planification des repas pour les mangeurs difficiles ?",
+        "a": "Impliquez-les ! Laissez les enfants choisir 1 repas/semaine. Utilisez des repas 'déconstruits' (bar à tacos, bols) pour que chacun personnalise sa propre garniture."
+      },
+      "saveMoneyGroceries": {
+        "q": "Comment économiser de l'argent sur l'épicerie ?",
+        "a": "Faites vos courses dans votre garde-manger/congélateur d'abord. Planifiez les repas autour des circulaires de vente. Faites une liste et RESPECTEZ-la. Achetez des produits de saison et des céréales en vrac."
+      },
+      "mealPrepVsPlan": {
+        "q": "Différence entre planifier et préparer ?",
+        "a": "Planifier = décider quoi manger. Préparer = faire le travail (couper, cuire) à l'avance. Vous pouvez planifier sans préparer, mais préparer aide les semaines chargées."
+      },
+      "themeNights": {
+        "q": "Qu'est-ce que les soirées à thème ?",
+        "a": "Attribuez des thèmes aux jours : 'Lundi sans viande', 'Mardi Tacos', 'Jeudi Pâtes'. Cela restreint les choix et rend la prise de décision plus rapide."
+      },
+      "handleLeftovers": {
+        "q": "Stratégies pour les restes ?",
+        "a": "Prévoyez une 'Soirée Buffet' pour vider le frigo. Ou emballez les restes immédiatement pour le déjeuner du lendemain. Réutilisez : Poulet rôti → Tacos le lendemain."
+      },
+      "backupMeals": {
+        "q": "Et si je suis trop fatigué pour cuisiner le plan ?",
+        "a": "Gardez 1-2 'Repas d'Urgence' (pizza surgelée, pâtes & sauce en pot, œufs). La flexibilité est clé—échangez les jours si nécessaire. Ne culpabilisez pas."
+      },
+      "balancedPlan": {
+        "q": "Comment assurer un plan équilibré ?",
+        "a": "Visez la variété. Vérifiez votre semaine : Avons-nous du poisson ? Soirée végé ? Viande rouge ? Alternez les protéines et assurez-vous que chaque dîner a un accompagnement de légumes."
+      },
+      "shoppingTips": {
+        "q": "Une astuce pour l'épicerie ?",
+        "a": "Ne magasinez jamais le ventre vide ! Organisez votre liste par allée (Fruits & Légumes, Produits Laitiers, Viande) pour accélérer le voyage. Utilisez le click-and-collect pour éviter les achats impulsifs."
+      },
+      "batchCooking": {
+        "q": "Qu'est-ce que la cuisson par lots ?",
+        "a": "Cuisiner 2x ou 3x portions d'un repas (chili, soupe, ragoût) et congeler le surplus. C'est 'cuisiner une fois, manger deux fois'—un énorme gain de temps."
+      },
+      "familyInvolvement": {
+        "q": "Comment impliquer la famille ?",
+        "a": "Demandez des demandes. Partagez le menu visuel sur le frigo. Laissez les enfants aider à préparer des choses simples. Quand ils aident à décider/cuisiner, ils mangent mieux."
+      },
+      "fridgeFreezerLife": {
+        "q": "Combien de temps durent les repas préparés ?",
+        "a": "Frigo : 3-4 jours max. Congélateur : 2-3 mois. Étiquetez tout ! Si vous ne le mangez pas d'ici jeudi, congelez-le lundi."
+      },
+      "convenienceItems": {
+        "q": "Est-ce correct d'utiliser des légumes pré-coupés ?",
+        "a": "Absolument. Si acheter des oignons pré-hachés ou du poulet rôti signifie que vous cuisinez à la maison au lieu de prendre des plats à emporter, c'est une victoire. Utilisez des raccourcis !"
+      },
+      "weightGainAfter40": {
+        "q": "Pourquoi je prends du poids plus facilement après 40 ans ?",
+        "a": "La prise de poids après 40 ans est souvent liée aux fluctuations hormonales, à une sensibilité à l'insuline plus faible et à la perte musculaire liée à l'âge (sarcopénie), ce qui diminue naturellement votre métabolisme. Le stress et les changements de sommeil peuvent aussi contribuer."
+      },
+      "dietaryChanges40": {
+        "q": "Quels sont les changements alimentaires les plus importants après 40 ans ?",
+        "a": "Privilégiez les aliments riches en nutriments : fruits et légumes colorés, céréales complètes, protéines maigres et graisses saines. Limitez les aliments transformés, les sucres ajoutés et le sodium. L'hydratation et le calcium deviennent de plus en plus importants."
+      },
+      "proteinNeeds40": {
+        "q": "De combien de protéines les adultes de plus de 40 ans ont-ils besoin ?",
+        "a": "Les experts recommandent d'augmenter l'apport en protéines à 1,0–1,2 grammes par kg de poids corporel pour maintenir la masse musculaire. Visez 20-30g de protéines de haute qualité par repas (viandes maigres, poisson, œufs, produits laitiers ou options végétales)."
+      },
+      "boneHealth": {
+        "q": "Quels nutriments sont cruciaux pour la santé des os ?",
+        "a": "Le calcium et la vitamine D sont essentiels. Les besoins en calcium passent à 1 200 mg/jour après 50 ans. La vitamine D aide à l'absorption. Le magnésium et les exercices de port de poids sont aussi vitaux pour maintenir la densité osseuse."
+      },
+      "metabolismBoost": {
+        "q": "Comment booster mon métabolisme après 40 ans ?",
+        "a": "Privilégiez la musculation pour développer du muscle (qui brûle plus de calories au repos), mangez suffisamment de protéines, restez hydraté avec de l'eau froide, dormez suffisamment et ne sautez pas le petit-déjeuner pour démarrer votre journée."
+      },
+      "intermittentFasting": {
+        "q": "Le jeûne intermittent est-il sûr après 40 ans ?",
+        "a": "Il peut être bénéfique pour la sensibilité à l'insuline et l'inflammation, mais consultez un médecin d'abord. Les femmes doivent être prudentes car le jeûne strict peut impacter les hormones. Des approches douces comme 12:12 ou 14:10 sont souvent de meilleurs points de départ."
+      },
+      "cognitiveFoods": {
+        "q": "Quels aliments aident à la santé du cerveau et à la mémoire ?",
+        "a": "Le régime MIND suggère des légumes feuilles, des baies (surtout myrtilles), des noix, des poissons gras (riches en oméga-3), de l'huile d'olive et des céréales complètes. Réduisez la viande rouge, le beurre, le fromage et les aliments frits."
+      },
+      "vitaminB12": {
+        "q": "Pourquoi la vitamine B12 est-elle importante en vieillissant ?",
+        "a": "L'acide gastrique diminue avec l'âge, réduisant l'absorption de la B12. La carence cause fatigue et problèmes cognitifs. Les sources incluent viande, poisson, œufs et céréales enrichies. Un supplément peut être nécessaire après 50 ans ou si végétalien."
+      },
+      "adultAllergies": {
+        "q": "Les adultes peuvent-ils développer de nouvelles allergies alimentaires ?",
+        "a": "Oui, les allergies apparues à l'âge adulte sont possibles, même aux aliments consommés depuis des années. Les déclencheurs courants incluent les crustacés, les noix et certains fruits/légumes liés aux allergies au pollen (Syndrome d'allergie orale)."
+      },
+      "allergyVsIntolerance": {
+        "q": "Quelle est la différence entre allergie et intolérance alimentaire ?",
+        "a": "Une allergie est une réaction immunitaire (peut être mortelle) apparaissant rapidement. Une intolérance (comme le lactose) est un problème digestif causant ballonnements/inconfort généralement des heures après avoir mangé, mais n'est pas mortelle."
+      },
+      "commonIntolerances": {
+        "q": "Quelles sont les intolérances alimentaires courantes après 40 ans ?",
+        "a": "L'intolérance au lactose augmente souvent avec l'âge car la production de lactase baisse. La sensibilité au gluten et aux FODMAPs (glucides fermentescibles) est aussi courante. Tenir un journal alimentaire aide à identifier les déclencheurs."
+      },
+      "heartHealth40": {
+        "q": "Pourquoi la santé cardiaque est-elle critique après 40 ans ?",
+        "a": "Les facteurs de risque comme le raidissement des artères et l'accumulation de plaque augmentent naturellement. L'hypertension et le cholestérol apparaissent souvent dans cette décennie. C'est le moment idéal pour adopter des habitudes saines pour le cœur."
+      },
+      "protectHeart": {
+        "q": "Comment protéger au mieux mon cœur ?",
+        "a": "Suivez un régime de type méditerranéen, faites de l'exercice 150 min/semaine, gérez le stress, arrêtez de fumer et surveillez régulièrement vos chiffres : tension artérielle, cholestérol et glycémie."
+      },
+      "digestiveIssues40": {
+        "q": "Pourquoi la digestion semble pire après 40 ans ?",
+        "a": "La digestion ralentit en raison d'une production d'enzymes moindre, d'une diminution de l'acide gastrique et de changements du microbiome intestinal. Les changements hormonaux (surtout ménopause) et le stress impactent aussi la fonction intestinale."
+      },
+      "improveGutHealth": {
+        "q": "Comment améliorer ma santé intestinale ?",
+        "a": "Mangez une diversité de plantes riches en fibres (30+ types par semaine), incluez des aliments fermentés comme yaourt/kimchi, restez hydraté, mâchez bien et gérez le stress."
+      },
+      "supplements40": {
+        "q": "Ai-je besoin de suppléments après 40 ans ?",
+        "a": "Une alimentation équilibrée est préférable, mais beaucoup de plus de 40 ans bénéficient de Vitamine D, B12, Calcium, Magnésium ou Oméga-3. Consultez toujours un professionnel de santé avant de commencer un régime de suppléments."
+      },
+      "hydration40": {
+        "q": "Pourquoi l'hydratation est importante en vieillissant ?",
+        "a": "Notre sensation de soif diminue avec l'âge, augmentant le risque de déshydratation. Une bonne hydratation soutient la digestion, la santé des articulations, la fonction cognitive et les niveaux d'énergie. Visez l'eau plutôt que les boissons sucrées."
+      },
+      "heartRiskFactors": {
+        "q": "Quels sont les principaux facteurs de risque de maladie cardiaque ?",
+        "a": "Hypertension, cholestérol élevé, tabagisme, obésité, diabète et inactivité physique. L'histoire familiale joue aussi un rôle, rendant le dépistage encore plus important."
+      },
+      "agingHeart": {
+        "q": "Comment le cœur change-t-il avec l'âge ?",
+        "a": "Les vaisseaux sanguins peuvent devenir plus rigides (augmentant la tension), et le muscle cardiaque peut s'épaissir ou pomper un peu moins efficacement lors d'un effort maximal. Le cardio régulier aide à maintenir l'élasticité."
+      },
+      "heartWarningSigns": {
+        "q": "Quels signes d'alerte cardiaque surveiller ?",
+        "a": "Douleur/serrement thoracique, essoufflement, palpitations, fatigue inexpliquée ou gonflement des chevilles. Les symptômes peuvent être subtils, surtout chez les femmes. Consultez pour de nouveaux symptômes."
+      },
+      "commonDidgestiveProbs": {
+        "q": "Quels sont les problèmes digestifs courants après 40 ans ?",
+        "a": "Le reflux acide (RGO), ballonnements, gaz, constipation et diverticulose deviennent plus courants. Un transit plus lent dans le côlon peut contribuer à l'irrégularité."
+      },
+      "gutHealthSigns": {
+        "q": "Quels signes indiquent une mauvaise santé intestinale ?",
+        "a": "Ballonnements fréquents, gaz, brûlures d'estomac, selles irrégulières ou développement de nouvelles sensibilités alimentaires peuvent signaler des déséquilibres intestinaux."
+      },
+      "foodSensitivities40": {
+        "q": "Des sensibilités alimentaires peuvent-elles se développer plus tard ?",
+        "a": "Oui, le déclin des enzymes digestives (comme la lactase) ou les changements de la paroi intestinale peuvent mener à de nouvelles sensibilités aux produits laitiers, gluten ou autres aliments à la quarantaine."
+      },
+      "caloricNeeds40": {
+        "q": "Mes besoins caloriques changent-ils après 40 ans ?",
+        "a": "Oui, le taux métabolique ralentit typiquement, donc vous pourriez avoir besoin de moins de calories pour maintenir votre poids. Privilégiez la qualité des nutriments sur la quantité—maximisez vitamines/minéraux par calorie."
+      },
+      "prioritizeFoods40": {
+        "q": "Quels aliments devrais-je privilégier ?",
+        "a": "Privilégiez les fibres (légumes, fruits, haricots), les protéines maigres pour le maintien musculaire, et les aliments anti-inflammatoires comme les poissons gras, l'huile d'olive, les noix et les baies."
+      },
+      "managingSugar": {
+        "q": "Comment mieux gérer la glycémie ?",
+        "a": "Associez les glucides aux protéines et graisses pour ralentir l'absorption. Choisissez des glucides complexes (avoine, quinoa) plutôt que des sucres simples. La marche régulière après les repas aide significativement à baisser les pics de glucose."
+      },
+      "oralAllergySyndrome": {
+        "q": "Qu'est-ce que le Syndrome d'Allergie Orale ?",
+        "a": "C'est quand les fruits/légumes crus causent des démangeaisons buccales car leurs protéines ressemblent au pollen auquel vous êtes allergique (bouleau, herbe à poux). Cuire l'aliment détruit souvent la protéine et prévient la réaction."
+      },
+      "suspectAllergy": {
+        "q": "Que faire si je suspecte une allergie alimentaire ?",
+        "a": "Consultez un allergologue pour des tests cutanés ou sanguins. Ne vous autodiagnostiquez pas, car les vraies allergies peuvent être dangereuses. Pour les intolérances, un régime d'éviction guidé par un diététicien est la référence."
+      },
+      "manageCravings": {
+        "q": "Comment gérer les fringales ?",
+        "a": "Les fringales signalent souvent une glycémie irrégulière, du stress ou un manque de sommeil. Assurer des protéines à chaque repas, boire de l'eau et dormir 7-8 heures peut les réduire significativement."
+      }
+    }
+  },
+  "Blog": {
+    "title": "Blog Dish Shuffle",
+    "subtitle": "Découvrez des conseils de cuisine, des conseils nutritionnels et une inspiration culinaire de nos experts.",
+    "readPost": "Lire l'article",
+    "tableOfContents": "Table des matières",
+    "tryThisRecipe": {
+      "title": "Essayez cette recette !",
+      "description": "Inspiré par cet article ? Voici une délicieuse recette à préparer dès maintenant.",
+      "viewRecipe": "Voir la recette"
+    },
+    "minRead": "min de lecture",
+    "relatedArticles": "Articles Connexes",
+    "sharePost": "Partager cet article :",
+    "categories": {
+      "all": "Tous les Articles",
+      "fundamentals": "Fondamentaux de la Cuisine",
+      "nutrition": "Alimentation & Nutrition",
+      "cuisine": "Exploration Culinaire",
+      "tips": "Conseils & Tendances"
+    },
+    "readMore": "Lire la suite",
+    "exploreMore": "Découvrez plus sur notre blog",
+    "exploreSubtitle": "Apprenez des astuces, des conseils et des secrets de cuisine liés à ce plat.",
+    "viewAll": "Voir tous les articles"
+  },
+  "NotFound": {
+    "title": "Recette Introuvable",
+    "description": "Oups ! Il semble que ce plat se soit échappé.",
+    "suggestion": "Ne vous inquiétez pas, nous avons beaucoup d'autres recettes délicieuses qui vous attendent !",
+    "goHome": "Accueil",
+    "browseRecipes": "Parcourir les recettes",
+    "funTagline": "Même les grands chefs perdent parfois une recette... 👨‍🍳"
+  },
+  "CookieConsent": {
+    "title": "Nous respectons votre vie privée",
+    "description": "Nous utilisons des cookies pour améliorer votre expérience de navigation, diffuser du contenu personnalisé et analyser notre trafic. En cliquant sur « Tout accepter », vous consentez à notre utilisation des cookies.",
+    "settings": "Paramètres",
+    "reject": "Refuser",
+    "acceptAll": "Tout accepter",
+    "settingsModal": {
+      "title": "Paramètres des cookies",
+      "description": "Gérez vos préférences en matière de cookies. Les cookies essentiels sont toujours actifs.",
+      "back": "Retour",
+      "save": "Enregistrer les préférences",
+      "essential": {
+        "title": "Cookies essentiels",
+        "description": "Nécessaires au fonctionnement du site web. Ne peuvent pas être désactivés."
+      },
+      "performance": {
+        "title": "Cookies de performance",
+        "description": "Nous aident à comprendre comment les visiteurs interagissent avec le site web."
+      },
+      "functional": {
+        "title": "Cookies fonctionnels",
+        "description": "Permettent des fonctionnalités améliorées et la personnalisation."
+      },
+      "targeting": {
+        "title": "Cookies de ciblage",
+        "description": "Utilisés pour diffuser des publicités plus pertinentes pour vous et vos intérêts."
+      }
+    }
+  },
+  "CollectionsPage": {
+    "title": "Collections de Recettes",
+    "subtitle": "Explorez nos sélections de recettes délicieuses pour chaque occasion.",
+    "browseCollection": "Parcourir la Collection",
+    "collections": {
+      "vegetarian-dinner-recipes": {
+        "title": "Meilleures Recettes Végétariennes pour le Dîner",
+        "description": "Découvrez des idées de dîner végétarien délicieuses et satisfaisantes. Des pâtes aux currys, ces repas sans viande sont parfaits pour les soirs de semaine."
+      },
+      "healthy-chicken-recipes": {
+        "title": "Recettes de Poulet Saines",
+        "description": "Des recettes de poulet légères et nutritives qui ne lésinent pas sur la saveur. Riches en protéines, faibles en gras et parfaites pour une alimentation équilibrée."
+      },
+      "gluten-free-options": {
+        "title": "Collection de Recettes Sans Gluten",
+        "description": "Des recettes sans gluten sûres et délicieuses pour tous. Explorez des repas sans blé, orge ou seigle."
+      },
+      "authentic-italian-pasta": {
+        "title": "Recettes Authentiques de Pâtes Italiennes",
+        "description": "Apportez le goût de l'Italie dans votre cuisine avec ces plats de pâtes traditionnels. Carbonara, Bolognaise et plus encore."
+      },
+      "spicy-mexican-food": {
+        "title": "Recettes Mexicaines Épicées",
+        "description": "Des plats mexicains savoureux et épicés pour pimenter votre routine. Tacos, enchiladas et salsas fraîches."
+      },
+      "asian-stir-fry": {
+        "title": "Sauté Asiatique Rapide et Facile",
+        "description": "Mieux que la livraison. Rapide, frais et savoureux avec des recettes de sauté de toute l'Asie."
+      },
+      "quick-breakfast-ideas": {
+        "title": "Idées de Petit-déjeuner Rapides",
+        "description": "Commencez bien votre journée avec ces recettes de petit-déjeuner rapides et énergisantes. Prêtes en quelques minutes."
+      },
+      "comfort-food-desserts": {
+        "title": "Desserts Réconfortants",
+        "description": "Savourez des douceurs qui réchauffent le cœur. Cookies chauds, gâteaux riches et puddings classiques."
+      },
+      "seafood-lovers": {
+        "title": "Recettes pour les Amateurs de Fruits de Mer",
+        "description": "Poissons frais et fruits de mer. Sains, élégants et plus faciles à préparer que vous ne le pensez."
+      },
+      "vegan-friendly-meals": {
+        "title": "Repas Végétaliens",
+        "description": "La puissance des plantes dans votre assiette. Sans produits animaux, 100% saveur."
+      }
+    }
+  }
 }

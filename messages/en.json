@@ -1,769 +1,770 @@
 {
-    "Navigation": {
-        "home": "Home",
-        "recipes": "Recipes",
-        "favorites": "Favorites",
-        "collections": "Collections",
-        "blog": "Blog",
-        "surpriseMe": "Surprise Me",
-        "signIn": "Sign In",
-        "signOut": "Sign Out",
-        "myFavorites": "My Favorites",
-        "pantry": "Smart Pantry"
-    },
-    "SmartPantry": {
-        "newFeatureTag": "New Feature",
-        "heroTitle": "Cook with what",
-        "heroTitleHighlight": "you have.",
-        "heroSubtitle": "Don't let those leftovers go to waste. Enter your ingredients below and we'll find delicious recipes you can make right now.",
-        "inputPlaceholder": "Enter an ingredient (e.g. eggs, rice)...",
-        "addIngredientHelp": "Add at least one ingredient to start cooking!",
-        "findRecipesButton": "Find Recipes",
-        "resultsTitle": "Here's what you can cook:",
-        "matchesFound": "{count} matches found",
-        "noResults": "No recipes found 😔",
-        "noResultsDesc": "Try combining fewer ingredients or using more common ones.",
-        "topCategory": "Top Category"
-    },
-    "Hero": {
-        "title": "Dish Shuffle",
-        "subtitle": "Discover delicious meals from around the world.",
-        "cta": "Get Started",
-        "surprise": "Surprise Me"
-    },
-    "CTA": {
-        "title": "Ready to cook?",
-        "subtitle": "Find your next favorite meal today.",
-        "button": "Browse Recipes"
-    },
-    "Recipe": {
-        "ingredients": "Ingredients",
-        "instructions": "Instructions",
-        "youMightAlsoLike": "You Might Also Like",
-        "loveThisRecipe": "Love This Recipe?",
-        "saveToFavorites": "Save it to your favorites and never lose it!",
-        "viewFullRecipe": "View Full Recipe",
-        "video": "Video Tutorial",
-        "videoTutorial": "Video Tutorial",
-        "shopIngredients": "Shop Ingredients",
-        "shopIngredientsDesc": "Get these items delivered by Amazon Fresh",
-        "category": "Category",
-        "area": "Cuisine",
-        "tags": "Tags",
-        "share": "Share Recipe",
-        "shareDescription": "Share this recipe with your friends",
-        "copyLink": "Copy Link",
-        "copied": "Copied!",
-        "shareOnFacebook": "Share on Facebook",
-        "shareOnTwitter": "Share on X",
-        "shareOnWhatsApp": "Share on WhatsApp",
-        "kitchenGear": "Recommended Kitchen Gear"
-    },
-    "Common": {
-        "loading": "Loading...",
-        "error": "Something went wrong",
-        "back": "Back"
-    },
-    "Home": {
-        "howItWorks": "How It Works",
-        "featuredRecipes": "Featured Recipes",
-        "viewAll": "View All",
-        "features": {
-            "surprise": {
-                "title": "Get Surprised",
-                "description": "Can't decide? Let us pick a random delicious meal for you with our Surprise Me feature."
-            },
-            "browse": {
-                "title": "Browse & Search",
-                "description": "Explore thousands of recipes by cuisine, category, or search for specific dishes."
-            },
-            "favorites": {
-                "title": "Save Favorites",
-                "description": "Keep track of your favorite recipes and build your personal cookbook."
-            }
-        }
-    },
-    "Recipes": {
-        "title": "Browse Recipes",
-        "subtitle": "Explore thousands of delicious recipes from around the world",
-        "searchPlaceholder": "Search for a recipe...",
-        "category": "Category",
-        "cuisine": "Cuisine",
-        "allCategories": "All Categories",
-        "allCuisines": "All Cuisines",
-        "activeFilters": "Active filters:",
-        "searchPrefix": "Search:",
-        "clearAll": "Clear all",
-        "resultsCount": "Found {count} recipe{count, plural, =1 {} other {s}}",
-        "latestRecipes": "Latest Recipes",
-        "showingRange": "Showing {start}-{end} of {total}",
-        "foundRecipes": "Found {count} recipe{count, plural, =1 {} other {s}}",
-        "noRecipes": "No recipes found",
-        "noRecipesDesc": "Try adjusting your search or filters",
-        "clearFilters": "Clear Filters",
-        "loadingMore": "Loading more recipes...",
-        "searching": "Searching...",
-        "preparingRecipes": "Preparing delicious recipes for you...",
-        "justAMoment": "This will only take a moment",
-        "recipeNotFound": "Recipe Not Found",
-        "ingredients": "Ingredients",
-        "instructions": "Instructions",
-        "noInstructionsAvailable": "Instructions are not available for this recipe.",
-        "viewOriginalRecipe": "View Original Recipe",
-        "videoTutorial": "Video Tutorial",
-        "youMightAlsoLike": "You Might Also Like",
-        "previousPage": "Previous Page",
-        "nextPage": "Next Page",
-        "chefsNote": "Chef's Note"
-    },
-    "Favorites": {
-        "title": "Your Favorites",
-        "empty": "You haven't saved any recipes yet.",
-        "count": "You have saved {count} recipe{count, plural, =1 {} other {s}}.",
-        "emptyTitle": "Start Building Your Cookbook",
-        "emptyDesc": "Save your favorite recipes here so you can easily find them later. Browse our collection to get started!",
-        "browseRecipes": "Browse Recipes"
-    },
-    "Auth": {
-        "welcomeBack": "Welcome back",
-        "signInSubtitle": "Sign in to your account to access your favorites",
-        "signInGoogle": "Sign in with Google",
-        "orContinueWith": "Or continue with",
-        "emailAddress": "Email address",
-        "password": "Password",
-        "rememberMe": "Remember me",
-        "forgotPassword": "Forgot password?",
-        "signIn": "Sign in",
-        "noAccount": "Don't have an account?",
-        "signUp": "Sign up",
-        "createAccount": "Create an account",
-        "signUpSubtitle": "Join us to save your favorite recipes and more",
-        "signUpGoogle": "Sign up with Google",
-        "fullName": "Full Name",
-        "alreadyHaveAccount": "Already have an account?"
-    },
-    "Footer": {
-        "quickLinks": "Quick Links",
-        "home": "Home",
-        "surpriseMe": "Surprise Me",
-        "browseRecipes": "Browse Recipes",
-        "favorites": "Favorites",
-        "blog": "Blog",
-        "faq": "FAQ",
-        "legal": "Legal",
-        "privacyPolicy": "Privacy Policy",
-        "cookiePolicy": "Cookie Policy",
-        "termsOfService": "Terms of Service",
-        "rightsReserved": "All rights reserved.",
-        "providedBy": "Recipe data provided by",
-        "about": "About Us",
-        "contact": "Contact Us"
-    },
-    "SurpriseMe": {
-        "title": "Surprise Me!",
-        "metaTitle": "Surprise Me - Random Recipe Generator | Dish Shuffle",
-        "metaDescription": "Can't decide what to cook? Let Dish Shuffle pick a random delicious recipe for you. Filter by category or cuisine.",
-        "subtitle": "Can't decide what to eat? Let us pick a delicious meal for you!",
-        "filterTitle": "Filter Your Surprise",
-        "categoryLabel": "Category",
-        "cuisineLabel": "Cuisine",
-        "anyCategory": "Any Category",
-        "anyCuisine": "Any Cuisine",
-        "activeFilters": "Active filters:",
-        "clearAll": "Clear all",
-        "generateButton": "Generate Meal",
-        "tryAnotherButton": "Try Another!",
-        "failedToFetch": "Failed to fetch meal",
-        "noRecipeFound": "No recipe found matching your filters",
-        "error": "Something went wrong",
-        "emptyStateText": "Click the button above to discover your next meal!",
-        "findingRecipe": "Finding a delicious recipe...",
-        "keyIngredients": "Key Ingredients",
-        "recipePreview": "Recipe Preview",
-        "clickToView": "Click 'View Full Recipe' to see complete instructions and all ingredients",
-        "failedToLoad": "Failed to load recipe. Please try again.",
-        "close": "Close",
-        "viewFullRecipe": "View Full Recipe",
-        "getAnotherMeal": "Get Another Meal",
-        "moreIngredients": "+{count} more"
-    },
-    "FAQ": {
-        "title": "Frequently Asked Questions",
-        "subtitle": "Find answers to common questions about cooking, recipes, and using Dish Shuffle",
-        "categories": {
-            "cooking": "Cooking Basics",
-            "safety": "Food Safety & Storage",
-            "substitutions": "Ingredient Substitutions",
-            "planning": "Meal Planning",
-            "platform": "Using Dish Shuffle",
-            "health": "Health & Nutrition for Adults 40+"
-        },
-        "questions": {
-            "howToBoilEgg": {
-                "q": "How do I boil an egg perfectly?",
-                "a": "Place eggs in a pot and cover with cold water by 1 inch. Bring to a boil, then turn off heat and cover. Let sit for 10-12 minutes for hard-boiled, 6-7 minutes for soft-boiled. Transfer to ice water immediately to stop cooking and prevent the green ring around the yolk."
-            },
-            "howToCookPasta": {
-                "q": "How do I cook pasta al dente?",
-                "a": "Use a large pot with plenty of salted boiling water (about 1 tablespoon salt per 4 quarts water). Cook pasta for 1-2 minutes less than package directions, stirring occasionally. Taste test for a firm but tender texture. Reserve 1 cup pasta water before draining to help thicken sauces."
-            },
-            "howToCookRice": {
-                "q": "What's the best way to cook fluffy rice?",
-                "a": "Rinse rice until water runs clear to remove excess starch. Use a 2:1 ratio of water to rice. Bring to a boil, reduce to low heat, cover, and simmer for 18-20 minutes without lifting the lid. Remove from heat and let stand covered for 5 minutes, then fluff with a fork."
-            },
-            "howToCookSteak": {
-                "q": "How do I cook the perfect steak?",
-                "a": "Pat steak dry and season generously with salt and pepper 30-40 minutes before cooking. Preheat a heavy pan until very hot. Sear 3-4 minutes per side for medium-rare (internal temp 130-135°F). Let rest 5-10 minutes before slicing to allow juices to redistribute."
-            },
-            "bakingPowderVsSoda": {
-                "q": "What's the difference between baking powder and baking soda?",
-                "a": "Baking soda is pure sodium bicarbonate and needs an acid (like buttermilk or lemon juice) to activate. Baking powder contains baking soda plus an acid, so it works on its own. They're not interchangeable - use what the recipe calls for."
-            },
-            "essentialTools": {
-                "q": "What essential kitchen tools do I need to start?",
-                "a": "Start with a chef's knife, cutting board, measuring cups/spoons, a large pot, a saucepan, a skillet, and a baking sheet. These basics cover most recipes."
-            },
-            "readRecipe": {
-                "q": "How important is reading the recipe beforehand?",
-                "a": "Crucial! Read it twice to understand steps, timing, and ensure you have all ingredients. This prevents mid-cooking surprises."
-            },
-            "miseEnPlace": {
-                "q": "What is 'mise en place'?",
-                "a": "It means 'everything in its place'. Prep, chop, and measure all ingredients before you start cooking. It makes cooking stress-free and prevents burning food while you look for spices."
-            },
-            "pantryStaples": {
-                "q": "What should I stock in my pantry?",
-                "a": "Keep oils (olive, vegetable), vinegar, dried herbs/spices, salt, pepper, flour, sugar, rice, pasta, canned tomatoes, and beans on hand for easy meals."
-            },
-            "seasoningTips": {
-                "q": "How do I season food correctly?",
-                "a": "Season in layers throughout cooking, not just at the end. Taste as you go. Salt enhances flavor, while acid (lemon, vinegar) brightens dull dishes."
-            },
-            "preventSticking": {
-                "q": "How do I stop food from sticking to the pan?",
-                "a": "Preheat your pan properly before adding oil, then let the oil get hot before adding food. Don't overcrowd the pan, or food will steam instead of sear."
-            },
-            "checkMeatDoneness": {
-                "q": "How do I know when meat is cooked?",
-                "a": "The only safe way is using a digital meat thermometer. Color isn't reliable. Chicken should be 165°F, pork/steaks 145°F, and ground meat 160°F."
-            },
-            "saltPastaWater": {
-                "q": "Why salt pasta water?",
-                "a": "It's your only chance to flavor the pasta itself. It should taste salty like the sea. Never rinse pasta after cooking (unless for cold salad) as starch helps sauce stick."
-            },
-            "tenderizeMeat": {
-                "q": "How can I tenderize tough meat?",
-                "a": "Use a marinade with acid (vinegar, citrus, yogurt), pound it with a mallet, or cook it low and slow (braising/stewing) to break down fibers."
-            },
-            "bakingMeasure": {
-                "q": "How do I measure flour for baking?",
-                "a": "Don't scoop directly! Fluff the flour, spoon it into the cup, and level it off. Scooping packs it down, adding too much flour and making cakes dry."
-            },
-            "cookingMistakes": {
-                "q": "What's a common beginner cooking mistake?",
-                "a": "Overcrowding the pan—it lowers the temperature and steams food instead of browning it. Cook in batches if needed for better flavor."
-            },
-            "tastingFood": {
-                "q": "Why is tasting while cooking important?",
-                "a": "Ingredients vary (lemons vary in sourness, salt in strength). Tasting helps you balance flavors (add salt, acid, or sugar) before serving."
-            },
-            "knifeSkills": {
-                "q": "How can I improve my knife skills?",
-                "a": "Keep knives sharp (safer than dull ones!). Use the 'claw grip' with your holding hand to protect fingers. Start slow—speed comes with practice."
-            },
-            "restingSteak": {
-                "q": "Why rest steak before cutting?",
-                "a": "Resting allows juices to redistribute. Cutting immediately lets juices run out, leaving the meat dry. Rest for 5-10 minutes under foil."
-            },
-            "boilingVsSimmering": {
-                "q": "What's the difference between boil and simmer?",
-                "a": "Boiling is big, rapid bubbles (212°F) for pasta/potatoes. Simmering is gentle, small bubbles (185-205°F) for soups/stews to cook tenderly."
-            },
-            "shouldWashChicken": {
-                "q": "Should I wash raw chicken before cooking?",
-                "a": "No, never wash raw chicken. Rinsing can spread harmful bacteria like salmonella to your sink, countertops, and other surfaces through water splashes. Cooking chicken to an internal temperature of 165°F will kill any bacteria safely."
-            },
-            "howLongFoodLeftOut": {
-                "q": "How long can cooked food be left out?",
-                "a": "Cooked food should not be left at room temperature for more than 2 hours (1 hour if temperature is above 90°F). Bacteria multiply rapidly between 40°F and 140°F. Refrigerate leftovers promptly in shallow containers for quick cooling."
-            },
-            "frozenVsFresh": {
-                "q": "Are frozen vegetables as nutritious as fresh?",
-                "a": "Yes! Frozen vegetables are often picked and frozen at peak ripeness, preserving nutrients. They can actually be more nutritious than fresh vegetables that have been sitting for days. Frozen vegetables are perfect for soups, stir-fries, and casseroles."
-            },
-            "cheeseGoneBad": {
-                "q": "How do I know if cheese has gone bad?",
-                "a": "For hard cheeses, small amounts of mold can be cut away (cut 1 inch around and below the mold). Discard soft cheeses if moldy. Signs of spoilage include unusual smell, slimy texture, or significant color changes. When in doubt, throw it out."
-            },
-            "restMeatAfterCooking": {
-                "q": "Why should I rest meat after cooking?",
-                "a": "Resting allows muscle fibers to relax and juices to redistribute throughout the meat. If you cut immediately, juices run out onto the plate. Rest small cuts 5-10 minutes, larger roasts 15-20 minutes, tented loosely with foil."
-            },
-            "handwashing": {
-                "q": "How should I wash hands for food safety?",
-                "a": "Wash with warm soapy water for at least 20 seconds before/after handling food, especially raw meat/eggs. Don't forget wrists and under fingernails."
-            },
-            "crossContamination": {
-                "q": "What is cross-contamination and how to prevent it?",
-                "a": "It's spreading bacteria from raw food to ready-to-eat food. Use separate cutting boards for meat and veg. Wash hands/tools immediately after touching raw meat."
-            },
-            "dangerZone": {
-                "q": "What is the food 'Danger Zone'?",
-                "a": "Bacteria grow rapidly between 40°F and 140°F. Never leave perishable food out for more than 2 hours (or 1 hour if it's over 90°F outside)."
-            },
-            "fridgeTemp": {
-                "q": "What temperature should my fridge/freezer be?",
-                "a": "Fridge strictly below 40°F (4°C) and freezer at 0°F (-18°C). Use an appliance thermometer to check, as dials can be inaccurate."
-            },
-            "thawingFood": {
-                "q": "What is the safest way to thaw frozen food?",
-                "a": "In the fridge overnight (safest), in cold water (change water every 30 mins), or microwave. Never thaw on the counter at room temperature."
-            },
-            "leftoverSafety": {
-                "q": "How long are leftovers good for?",
-                "a": "Generally 3-4 days in the fridge. Reheat to 165°F. If in doubt, throw it out. Label containers with dates to keep track."
-            },
-            "washingMeat": {
-                "q": "Should I wash raw chicken?",
-                "a": "NO. Washing spreads bacteria up to 3 feet via splashing water. Cooking to 165°F is the only way to kill bacteria safely."
-            },
-            "refreezing": {
-                "q": "Can I refreeze thawed food?",
-                "a": "If it was thawed in the fridge and kept cold (under 40°F), it's safe to refreeze, though texture may suffer. Do not refreeze if thawed on counter."
-            },
-            "safeTemps": {
-                "q": "What are safe internal cooking temperatures?",
-                "a": "Poultry 165°F, Ground Meat 160°F, Beef/Pork/Lamb Steaks & Roasts 145°F (+3 min rest), Fish 145°F. Use a thermometer."
-            },
-            "produceTech": {
-                "q": "How to clean fruits and vegetables?",
-                "a": "Rinse under running water just before eating/cooking. Scrub firm skins (melons, potatoes). Don't use soap. Dry with clean cloth/paper towel."
-            },
-            "useByVsBestBy": {
-                "q": "Use-By vs. Best-Before dates?",
-                "a": "'Use-By' is a safety deadline—don't eat after this. 'Best-Before' is about quality/flavor—likely safe but strictly past prime after date."
-            },
-            "fridgeStorage": {
-                "q": "Where should I store raw meat in the fridge?",
-                "a": "Bottom shelf, in a sealed container/tray. This prevents juices from dripping down onto fresh produce or ready-to-eat foods below."
-            },
-            "coolingFood": {
-                "q": "How fast should I refrigerate cooked food?",
-                "a": "Within 2 hours (1 hour if hot room). Divide large pots of soup/stew into shallow containers to help them cool down quickly."
-            },
-            "kitchenHygiene": {
-                "q": "How often should I clean kitchen sponges?",
-                "a": "Sponges harbor bacteria. Sanitize daily (microwave wet sponge 1 min or dishwasher) and replace frequently. Dishcloths should be washed in hot cycle."
-            },
-            "visualCues": {
-                "q": "Can I trust meat color for doneness?",
-                "a": "No. Burgers can turn brown before hitting 160°F. Pinkness doesn't always mean undercooked. Only a thermometer guarantees safety."
-            },
-            "butterSaltedOrUnsalted": {
-                "q": "Should I use salted or unsalted butter for baking?",
-                "a": "Use unsalted butter for baking. It gives you complete control over the salt content in your recipe. Salted butter can vary in saltiness between brands, making it harder to achieve consistent results. Save salted butter for spreading and cooking."
-            },
-            "freshVsDriedHerbs": {
-                "q": "How do I substitute dried herbs for fresh?",
-                "a": "Use one-third the amount of dried herbs compared to fresh (1 teaspoon dried = 1 tablespoon fresh). Dried herbs are more concentrated. Add dried herbs early in cooking, fresh herbs near the end. Delicate herbs like basil, cilantro, and parsley are much better fresh."
-            },
-            "oliveOilForBaking": {
-                "q": "Can I substitute olive oil for vegetable oil in baking?",
-                "a": "Yes, but olive oil has a stronger flavor that will affect the taste. For savory baking, it works well. For cakes and sweet baked goods, use light olive oil or stick with neutral oils like vegetable or canola oil for best results."
-            },
-            "wholeWheatFlour": {
-                "q": "Can I use whole wheat flour instead of all-purpose flour?",
-                "a": "For tender baked goods like cakes, it's not recommended as whole wheat flour produces denser results. For muffins, quick breads, and cookies, you can substitute up to 50% of all-purpose flour with whole wheat. Start with 25% and adjust to taste."
-            },
-            "eggSubstitutes": {
-                "q": "What can I use instead of eggs in baking?",
-                "a": "Common substitutes: 1/4 cup applesauce, 1/4 cup mashed banana, or 1 tablespoon ground flaxseed mixed with 3 tablespoons water (let sit 5 minutes) per egg. Commercial egg replacers also work well. Results vary by recipe."
-            },
-            "substitutionRules": {
-                "q": "General rule for substitutions?",
-                "a": "Consider moisture, sweetness, and structure. Limit to 1-2 swaps per recipe. Baking is chemistry, so it's less forgiving than cooking."
-            },
-            "buttermilkSub": {
-                "q": "Substitute for buttermilk?",
-                "a": "Add 1 tbsp lemon juice or white vinegar to 1 cup milk. Let sit 5-10 mins until curdled. Or use thinned plain yogurt."
-            },
-            "butterVsOil": {
-                "q": "Can I swap butter for oil?",
-                "a": "In baking: Yes (1:1), but butter adds flavor/fluffiness, oil makes it moist/dense. In cooking: Butter burns easily; oil has higher heat tolerance."
-            },
-            "glutenFreeFlour": {
-                "q": "Can I use GF flour cup-for-cup?",
-                "a": "Yes, if it's a '1-to-1' baking blend with xanthan gum. Substituting just rice/almond flour alone won't work for cakes/breads without binders."
-            },
-            "sugarTypes": {
-                "q": "Sub brown sugar for white?",
-                "a": "Yes (1:1). Brown sugar adds moisture and molasses flavor, making cookies chewier. White sugar makes them crisper."
-            },
-            "honeyVsSugar": {
-                "q": "Sub honey for sugar?",
-                "a": "Use 3/4 cup honey for 1 cup sugar. Reduce liquid in recipe by 1/4 cup and lower oven temp by 25°F as honey browns faster."
-            },
-            "breadcrumbsSub": {
-                "q": "No breadcrumbs?",
-                "a": "Use crushed cornflakes, crackers, pretzels, oats, or toast bread and blitz it. For gluten-free, use almond meal or GF oats."
-            },
-            "cornstarchSub": {
-                "q": "Substitute for cornstarch?",
-                "a": "For thickening: Use 2 tbsp flour for every 1 tbsp cornstarch (cook longer to remove raw flour taste). Or use arrowroot/potato starch 1:1."
-            },
-            "brothSub": {
-                "q": "No chicken/beef broth?",
-                "a": "Use bouillon cube + water, vegetable broth, or even water seasoned with soy sauce/herbs. Alcohol (wine/beer) can replace some liquid for flavor."
-            },
-            "freshVsDried": {
-                "q": "Ratio for fresh vs dried herbs?",
-                "a": "Dried is stronger. Use 1 tsp dried for every 1 tbsp fresh (1:3 ratio). Add dried early to rehydrate; fresh at the end."
-            },
-            "dairyFreeMilk": {
-                "q": "Best dairy-free milk for baking?",
-                "a": "Soy and Oat milk have protein/fat closest to dairy. Almond is thinner. Full-fat canned coconut milk is great for richness/creaminess."
-            },
-            "cheeseSub": {
-                "q": "Substituting cheeses?",
-                "a": "Match texture/melting. Mozzarella ↔ Provolone/Monterey Jack. Cheddar ↔ Colby/Gruyère. Soft cheeses don't swap well with hard aged ones."
-            },
-            "bakingChocolate": {
-                "q": "Sub for unsweetened chocolate?",
-                "a": "3 tbsp cocoa powder + 1 tbsp oil/butter per 1 oz unsweetened chocolate."
-            },
-            "lemonJuice": {
-                "q": "Sub for fresh lemon juice?",
-                "a": "Bottled lemon juice works but lacks zest oils. Vinegar can sub for acidity (in cooking). Orange/Lime works but changes flavor profile."
-            },
-            "yogurtSourCream": {
-                "q": "Sub yogurt for sour cream?",
-                "a": "Yes, Greek yogurt is a perfect 1:1 healthy substitute in dips, baking, and tacos. Regular yogurt is thinner."
-            },
-            "whatIsMealPlanning": {
-                "q": "What exactly is meal planning?",
-                "a": "Meal planning is deciding in advance what meals you'll prepare for a specific period, usually a week. It involves choosing recipes, making a shopping list, and sometimes prepping ingredients ahead. It saves time, money, and reduces food waste."
-            },
-            "howOftenMealPlan": {
-                "q": "How often should I meal plan?",
-                "a": "Weekly planning is most common and practical. Plan on the same day each week (many choose Sunday) to align with your schedule and grocery shopping. Some people plan for 2 weeks at a time, while others prefer 3-5 days."
-            },
-            "mealPlanSaveMoney": {
-                "q": "How does meal planning save money?",
-                "a": "Meal planning reduces impulse purchases, minimizes food waste, allows you to shop sales and buy in bulk, and prevents expensive last-minute takeout. You buy only what you need and use everything you purchase."
-            },
-            "mealPrepStorage": {
-                "q": "How long does meal-prepped food last?",
-                "a": "Most meal-prepped food lasts 3-4 days in airtight containers in the refrigerator. Some items like soups and stews last up to 5 days. For longer storage, freeze portions for up to 3 months. Always label containers with dates."
-            },
-            "portionSizes": {
-                "q": "How do I figure out portion sizes?",
-                "a": "A balanced plate typically includes: 1/2 vegetables, 1/4 lean protein (about the size of your palm), and 1/4 whole grains or starchy vegetables (about the size of your fist). Adjust based on your activity level and dietary needs."
-            },
-            "howToSaveRecipes": {
-                "q": "How do I save recipes on Dish Shuffle?",
-                "a": "Click the heart icon on any recipe card or recipe detail page. You'll need to sign in to save recipes. All your saved recipes appear in your Favorites page, accessible from the navigation menu."
-            },
-            "howToSearchRecipes": {
-                "q": "How do I search for specific recipes?",
-                "a": "Use the search bar on the Recipes page to search by recipe name, ingredient, or cuisine. You can also filter by category (like Dessert or Breakfast) and cuisine (like Italian or Mexican) using the dropdown filters."
-            },
-            "surpriseMeFeature": {
-                "q": "What is the Surprise Me feature?",
-                "a": "Surprise Me randomly selects a delicious recipe for you when you can't decide what to cook. Click the 'Surprise Me' button in the navigation, and we'll show you a random recipe with a preview. You can keep clicking for new suggestions until you find something you love!"
-            },
-            "recipesFromWhere": {
-                "q": "Where do the recipes come from?",
-                "a": "Our recipes are sourced from TheMealDB and Spoonacular, two comprehensive recipe databases. We curate and organize thousands of recipes from various cuisines and categories to help you discover new dishes."
-            },
-            "canIShareRecipes": {
-                "q": "Can I share recipes with friends?",
-                "a": "Yes! Every recipe page has a Share button that lets you share via Facebook, Twitter (X), WhatsApp, or copy the link to share anywhere. Share your favorite discoveries with friends and family!"
-            },
-            "startMealPlanning": {
-                "q": "How do I start meal planning?",
-                "a": "Start small. Plan just 3-4 dinners for the week. Check your calendar for busy nights and choose easy meals for those. Make a grocery list based on your plan."
-            },
-            "benefitsMealPlan": {
-                "q": "Why meal plan?",
-                "a": "Saves money (less takeout/waste), saves time (fewer grocery trips), reduces daily stress ('what's for dinner?'), and helps you eat healthier."
-            },
-            "planningSchedule": {
-                "q": "How often should I plan?",
-                "a": "Weekly is best for most. Pick a day (e.g., Friday or Sunday) to plan and shop. Some do monthly, but weekly allows for schedule flexibility."
-            },
-            "pickyEaters": {
-                "q": "Meal planning for picky eaters?",
-                "a": "Involve them! Let kids pick 1 meal/week. Use 'deconstructed' meals (taco bar, bowls) so everyone customizes their own topping."
-            },
-            "saveMoneyGroceries": {
-                "q": "How to save money on groceries?",
-                "a": "Shop your pantry/freezer first. Plan meals around sales flyers. Make a list and STICK to it. Buy seasonal produce and bulk grains."
-            },
-            "mealPrepVsPlan": {
-                "q": "Diff between planning and prepping?",
-                "a": "Planning = deciding what to eat. Prepping = doing the work (chopping, cooking) in advance. You can plan without prepping, but prepping helps busy weeks."
-            },
-            "themeNights": {
-                "q": "What are Theme Nights?",
-                "a": "Assign themes to days: 'Meatless Monday', 'Taco Tuesday', 'Pasta Thursday'. It narrows choices and makes decision-making faster."
-            },
-            "handleLeftovers": {
-                "q": "Strategies for leftovers?",
-                "a": "Plan a 'Buffet Night' to clear the fridge. Or pack leftovers immediately for next day's lunch. Repurpose: Roast chicken → Tacos next day."
-            },
-            "backupMeals": {
-                "q": "What if I'm too tired to cook the plan?",
-                "a": "Keep 1-2 'Emergency Meals' (frozen pizza, pasta & jar sauce, eggs). Flexibility is key—swap days if needed. Don't guilt trip yourself."
-            },
-            "balancedPlan": {
-                "q": "How to ensure a balanced plan?",
-                "a": "Aim for variety. Check your week: Do we have fish? Veggie night? Red meat? Rotate proteins and make sure every dinner has a veggie side."
-            },
-            "shoppingTips": {
-                "q": "Grocery shopping tips?",
-                "a": "Never shop hungry! Organize your list by aisle (Produce, Dairy, Meat) to speed up the trip. Use click-and-collect to avoid impulse buys."
-            },
-            "batchCooking": {
-                "q": "What is batch cooking?",
-                "a": "Cooking 2x or 3x portions of a meal (chili, soup, casserole) and freezing the extra. It's 'cooking once, eating twice'—a huge time saver."
-            },
-            "familyInvolvement": {
-                "q": "How to get family involved?",
-                "a": "Ask for requests. Share the visual menu on the fridge. Let kids help prep simple things. When they help decide/cook, they eat better."
-            },
-            "fridgeFreezerLife": {
-                "q": "How long do prepped meals last?",
-                "a": "Fridge: 3-4 days max. Freezer: 2-3 months. Label everything! If you won't eat it by Thursday, freeze it on Monday."
-            },
-            "convenienceItems": {
-                "q": "Is it ok to use pre-cut veggies?",
-                "a": "Absolutely. If buying pre-chopped onions or rotisserie chicken means you cook at home instead of getting takeout, it's a win. Use shortcuts!"
-            },
-            "weightGainAfter40": {
-                "q": "Why do I gain weight more easily after 40?",
-                "a": "Weight gain after 40 is often linked to hormonal fluctuations, lower insulin sensitivity, and age-related muscle loss (sarcopenia), which naturally lowers your metabolism. Stress and changes in sleep patterns can also contribute."
-            },
-            "dietaryChanges40": {
-                "q": "What are the most important dietary changes after 40?",
-                "a": "Focus on nutrient-dense foods: colorful fruits and vegetables, whole grains, lean proteins, and healthy fats. Limit processed foods, added sugars, and sodium. Hydration and calcium intake also become increasingly important."
-            },
-            "proteinNeeds40": {
-                "q": "How much protein do adults over 40 need?",
-                "a": "Experts recommend increasing protein intake to 1.0–1.2 grams per kg of body weight to maintain muscle mass. Aim for 20-30g of high-quality protein per meal from sources like lean meats, fish, eggs, dairy, or plant-based options."
-            },
-            "boneHealth": {
-                "q": "What nutrients are crucial for bone health?",
-                "a": "Calcium and Vitamin D are critical. Calcium needs increase to 1,200 mg/day after age 50. Vitamin D helps absorption. Magnesium and weight-bearing exercises are also vital for maintaining bone density."
-            },
-            "metabolismBoost": {
-                "q": "How can I boost my metabolism after 40?",
-                "a": "Prioritize strength training to build muscle (which burns more calories at rest), eat enough protein, stay hydrated with cold water, get adequate sleep, and don't skip breakfast to kickstart your day."
-            },
-            "intermittentFasting": {
-                "q": "Is intermittent fasting safe for over 40s?",
-                "a": "It can be beneficial for insulin sensitivity and inflammation, but consult a doctor first. Women should be cautious as strict fasting can impact hormones. Gentle approaches like 12:12 or 14:10 windows are often better starting points."
-            },
-            "cognitiveFoods": {
-                "q": "What foods help with brain health and memory?",
-                "a": "The MIND diet suggests leafy greens, berries (especially blueberries), nuts, fatty fish (rich in Omega-3s), olive oil, and whole grains. Reduce intake of red meats, butter, cheese, and fried foods."
-            },
-            "vitaminB12": {
-                "q": "Why is Vitamin B12 important as we age?",
-                "a": "Stomach acid decreases with age, reducing B12 absorption. Deficiency causes fatigue and cognitive issues. Sources include meat, fish, eggs, and fortified cereals. A supplement may be needed if you are over 50 or plant-based."
-            },
-            "adultAllergies": {
-                "q": "Can adults develop new food allergies?",
-                "a": "Yes, adult-onset allergies are possible, even to foods eaten for years. Common triggers involve shellfish, tree nuts, and certain fruits/veggies related to pollen allergies (Oral Allergy Syndrome)."
-            },
-            "allergyVsIntolerance": {
-                "q": "What is the difference between food allergy and intolerance?",
-                "a": "An allergy is an immune reaction (can be life-threatening) appearing quickly. An intolerance (like lactose) is a digestive issue causing bloating/discomfort usually hours after eating, but is not life-threatening."
-            },
-            "commonIntolerances": {
-                "q": "What are common food intolerances after 40?",
-                "a": "Lactose intolerance often increases with age as lactase enzyme production drops. Gluten sensitivity and sensitivity to FODMAPs (fermentable carbs) are also common. Keeping a food diary helps identify triggers."
-            },
-            "heartHealth40": {
-                "q": "Why is heart health critical after 40?",
-                "a": "Risk factors like stiffening arteries and plaque buildup naturally increase. High blood pressure and cholesterol often appear in this decade. It's the prime time to adopt heart-healthy habits to prevent future disease."
-            },
-            "protectHeart": {
-                "q": "How can I best protect my heart?",
-                "a": "Follow a Mediterranean-style diet, exercise for 150 minutes/week, manage stress, quit smoking, and keep regular tabs on your numbers: blood pressure, cholesterol, and blood sugar."
-            },
-            "digestiveIssues40": {
-                "q": "Why does digestion seem worse after 40?",
-                "a": "Digestion slows due to lower enzyme production, decreased stomach acid, and changes in the gut microbiome. Hormonal shifts (especially in menopause) and stress also directly impact gut function."
-            },
-            "improveGutHealth": {
-                "q": "How can I improve my gut health?",
-                "a": "Eat a diverse range of fiber-rich plants (30+ types per week), include fermented foods like yogurt/kimchi, stay hydrated, chew food thoroughly, and manage stress levels."
-            },
-            "supplements40": {
-                "q": "Do I need supplements after 40?",
-                "a": "A balanced diet is best, but many over 40 benefit from Vitamin D, B12, Calcium, Magnesium, or Omega-3s. Always consult a healthcare provider before starting any new supplement regimen."
-            },
-            "hydration40": {
-                "q": "Why is hydration important as we age?",
-                "a": "Our sense of thirst diminishes with age, increasing dehydration risk. Proper hydration supports digestion, joint health, cognitive function, and energy levels. Aim for water over sugary drinks."
-            },
-            "heartRiskFactors": {
-                "q": "What are the main heart disease risk factors?",
-                "a": "High blood pressure, high cholesterol, smoking, obesity, diabetes, and physical inactivity. Family history also plays a role, making screening even more important."
-            },
-            "agingHeart": {
-                "q": "How does the heart change with age?",
-                "a": "Blood vessels may become stiffer (raising blood pressure), and the heart muscle may thicken or pump slightly less efficiently during maximum exertion. Regular cardio helps maintain elasticity."
-            },
-            "heartWarningSigns": {
-                "q": "What are heart warning signs to watch for?",
-                "a": "Chest pain/tightness, shortness of breath, palpitations, unexplained fatigue, or swelling in ankles. Symptoms can be subtle, especially in women. Seek medical care for new symptoms."
-            },
-            "commonDidgestiveProbs": {
-                "q": "What are common digestive issues after 40?",
-                "a": "Acid reflux (GERD), bloating, gas, constipation, and diverticulosis become more common. Slower transit time in the colon can contribute to irregularity."
-            },
-            "gutHealthSigns": {
-                "q": "What signs indicate poor gut health?",
-                "a": "Frequent bloating, gas, heartburn, irregular bowel movements, or developing new sensitivities to foods you used to eat without issue can signal gut imbalances."
-            },
-            "foodSensitivities40": {
-                "q": "Can food sensitivities develop later in life?",
-                "a": "Yes, declining digestive enzymes (like lactase) or gut lining changes can lead to new sensitivities to dairy, gluten, or other foods in midlife."
-            },
-            "caloricNeeds40": {
-                "q": "Do my calorie needs change after 40?",
-                "a": "Yes, metabolic rate typically slows, so you may need fewer calories to maintain weight. Focus on nutrient quality over quantity—maximize vitamins/minerals per calorie."
-            },
-            "prioritizeFoods40": {
-                "q": "Which foods should I prioritize?",
-                "a": "Prioritize fiber (veg, fruit, beans), lean protein for muscle maintenance, and anti-inflammatory foods like fatty fish, olive oil, nuts, and berries."
-            },
-            "managingSugar": {
-                "q": "How can I better manage blood sugar?",
-                "a": "Pair carbs with protein and fat to slow absorption. Choose complex carbs (oats, quinoa) over simple sugars. Regular walking after meals significantly helps lower glucose spikes."
-            },
-            "oralAllergySyndrome": {
-                "q": "What is Oral Allergy Syndrome?",
-                "a": "It's when raw fruits/veggies cause an itchy mouth because their proteins resemble pollen you're allergic to like birch or ragweed. Cooking the food often destroys the protein and prevents reaction."
-            },
-            "suspectAllergy": {
-                "q": "What should I do if I suspect a food allergy?",
-                "a": "See an allergist for skin prick or blood testing. Don't self-diagnose, as true allergies can be dangerous. For intolerances, an elimination diet guided by a dietitian is the gold standard."
-            },
-            "manageCravings": {
-                "q": "How do I deal with food cravings?",
-                "a": "Cravings often signal irregular blood sugar, stress, or lack of sleep. ensuring protein at every meal, drinking water, and getting 7-8 hours of sleep can reduce them significantly."
-            }
-        }
-    },
-    "Blog": {
-        "title": "Dish Shuffle Blog",
-        "subtitle": "Discover cooking tips, nutrition advice, and culinary inspiration from our experts.",
-        "readPost": "Read Post",
-        "tableOfContents": "Table of Contents",
-        "tryThisRecipe": {
-            "title": "Try This Recipe!",
-            "description": "Inspired by this article? Here's a delicious recipe you can make right now.",
-            "viewRecipe": "View Recipe"
-        },
-        "minRead": "min read",
-        "relatedArticles": "Related Articles",
-        "exploreMore": "Explore More on Our Blog",
-        "exploreSubtitle": "Learn tips, tricks, and kitchen secrets related to this dish.",
-        "viewAll": "View All Articles",
-        "sharePost": "Share this post:",
-        "categories": {
-            "all": "All Posts",
-            "fundamentals": "Cooking Fundamentals",
-            "nutrition": "Diet & Nutrition",
-            "cuisine": "Cuisine Exploration",
-            "tips": "Cooking Tips & Trends"
-        },
-        "readMore": "Read More"
-    },
-    "NotFound": {
-        "title": "Recipe Not Found",
-        "description": "Oops! Looks like this dish got away.",
-        "suggestion": "Don't worry, we have plenty more delicious recipes waiting for you!",
-        "goHome": "Go Home",
-        "browseRecipes": "Browse Recipes",
-        "funTagline": "Even the best chefs sometimes lose a recipe... 👨‍🍳"
-    },
-    "CookieConsent": {
-        "title": "We value your privacy",
-        "description": "We use cookies to enhance your browsing experience, serve personalized content, and analyze our traffic. By clicking \"Accept All\", you consent to our use of cookies.",
-        "settings": "Settings",
-        "reject": "Reject",
-        "acceptAll": "Accept All",
-        "settingsModal": {
-            "title": "Cookie Settings",
-            "description": "Manage your cookie preferences. Essential cookies are always active.",
-            "back": "Back",
-            "save": "Save Preferences",
-            "essential": {
-                "title": "Essential Cookies",
-                "description": "Necessary for the website to function. Cannot be disabled."
-            },
-            "performance": {
-                "title": "Performance Cookies",
-                "description": "Help us understand how visitors interact with the website."
-            },
-            "functional": {
-                "title": "Functional Cookies",
-                "description": "Enable enhanced functionality and personalization."
-            },
-            "targeting": {
-                "title": "Targeting Cookies",
-                "description": "Used to deliver advertisements more relevant to you and your interests."
-            }
-        }
-    },
-    "CollectionsPage": {
-        "title": "Recipe Collections",
-        "subtitle": "Explore our hand-picked selections of delicious recipes for every occasion.",
-        "browseCollection": "Browse Collection",
-        "collections": {
-            "vegetarian-dinner-recipes": {
-                "title": "Best Vegetarian Dinner Recipes",
-                "description": "Discover delicious and satisfying vegetarian dinner ideas. From pasta to curries, these meat-free meals are perfect for weeknight cooking."
-            },
-            "healthy-chicken-recipes": {
-                "title": "Healthy Chicken Recipes",
-                "description": "Light and nutritious chicken recipes that don't skimp on flavor. High protein, low fat, and perfect for a balanced diet."
-            },
-            "gluten-free-options": {
-                "title": "Gluten-Free Recipe Collection",
-                "description": "Safe and delicious gluten-free recipes for everyone. Explore meals without wheat, barley, or rye."
-            },
-            "authentic-italian-pasta": {
-                "title": "Authentic Italian Pasta Recipes",
-                "description": "Bring the taste of Italy to your kitchen with these traditional pasta dishes. Carbonara, Bolognese, and more."
-            },
-            "spicy-mexican-food": {
-                "title": "Spicy Mexican Recipes",
-                "description": "Fiesty and flavorful Mexican dishes to spice up your routine. Tacos, enchiladas, and fresh salsas."
-            },
-            "asian-stir-fry": {
-                "title": "Quick & Easy Asian Stir-Fry",
-                "description": "Better than takeout. Fast, fresh, and flavorful stir-fry recipes from across Asia."
-            },
-            "quick-breakfast-ideas": {
-                "title": "Quick Breakfast Ideas for Busy Mornings",
-                "description": "Start your day right with these fast and fueling breakfast recipes. Ready in minutes."
-            },
-            "comfort-food-desserts": {
-                "title": "Ultimate Comfort Food Desserts",
-                "description": "Indulge in sweet treats that feel like a hug. Warm cookies, rich cakes, and classic puddings."
-            },
-            "seafood-lovers": {
-                "title": "Recipes for Seafood Lovers",
-                "description": "Fresh fish and shellfish recipes. Healthy, elegant, and easier to make than you think."
-            },
-            "vegan-friendly-meals": {
-                "title": "Vegan Friendly Meals",
-                "description": "Plant-based power on a plate. No animal products, 100% flavor."
-            }
-        }
+  "Navigation": {
+    "home": "Home",
+    "recipes": "Recipes",
+    "favorites": "Favorites",
+    "collections": "Collections",
+    "blog": "Blog",
+    "surpriseMe": "Surprise Me",
+    "signIn": "Sign In",
+    "signOut": "Sign Out",
+    "myFavorites": "My Favorites",
+    "pantry": "Smart Pantry"
+  },
+  "SmartPantry": {
+    "newFeatureTag": "New Feature",
+    "heroTitle": "Cook with what",
+    "heroTitleHighlight": "you have.",
+    "heroSubtitle": "Don't let those leftovers go to waste. Enter your ingredients below and we'll find delicious recipes you can make right now.",
+    "inputPlaceholder": "Enter an ingredient (e.g. eggs, rice)...",
+    "addIngredientHelp": "Add at least one ingredient to start cooking!",
+    "findRecipesButton": "Find Recipes",
+    "resultsTitle": "Here's what you can cook:",
+    "matchesFound": "{count} matches found",
+    "noResults": "No recipes found 😔",
+    "noResultsDesc": "Try combining fewer ingredients or using more common ones.",
+    "topCategory": "Top Category"
+  },
+  "Hero": {
+    "title": "Dish Shuffle",
+    "subtitle": "Discover delicious meals from around the world.",
+    "cta": "Get Started",
+    "surprise": "Surprise Me",
+    "tagline": "✨ Thousands of recipes, one shuffle away"
+  },
+  "CTA": {
+    "title": "Ready to cook?",
+    "subtitle": "Find your next favorite meal today.",
+    "button": "Browse Recipes"
+  },
+  "Recipe": {
+    "ingredients": "Ingredients",
+    "instructions": "Instructions",
+    "youMightAlsoLike": "You Might Also Like",
+    "loveThisRecipe": "Love This Recipe?",
+    "saveToFavorites": "Save it to your favorites and never lose it!",
+    "viewFullRecipe": "View Full Recipe",
+    "video": "Video Tutorial",
+    "videoTutorial": "Video Tutorial",
+    "shopIngredients": "Shop Ingredients",
+    "shopIngredientsDesc": "Get these items delivered by Amazon Fresh",
+    "category": "Category",
+    "area": "Cuisine",
+    "tags": "Tags",
+    "share": "Share Recipe",
+    "shareDescription": "Share this recipe with your friends",
+    "copyLink": "Copy Link",
+    "copied": "Copied!",
+    "shareOnFacebook": "Share on Facebook",
+    "shareOnTwitter": "Share on X",
+    "shareOnWhatsApp": "Share on WhatsApp",
+    "kitchenGear": "Recommended Kitchen Gear"
+  },
+  "Common": {
+    "loading": "Loading...",
+    "error": "Something went wrong",
+    "back": "Back"
+  },
+  "Home": {
+    "howItWorks": "How It Works",
+    "featuredRecipes": "Featured Recipes",
+    "viewAll": "View All",
+    "features": {
+      "surprise": {
+        "title": "Get Surprised",
+        "description": "Can't decide? Let us pick a random delicious meal for you with our Surprise Me feature."
+      },
+      "browse": {
+        "title": "Browse & Search",
+        "description": "Explore thousands of recipes by cuisine, category, or search for specific dishes."
+      },
+      "favorites": {
+        "title": "Save Favorites",
+        "description": "Keep track of your favorite recipes and build your personal cookbook."
+      }
     }
+  },
+  "Recipes": {
+    "title": "Browse Recipes",
+    "subtitle": "Explore thousands of delicious recipes from around the world",
+    "searchPlaceholder": "Search for a recipe...",
+    "category": "Category",
+    "cuisine": "Cuisine",
+    "allCategories": "All Categories",
+    "allCuisines": "All Cuisines",
+    "activeFilters": "Active filters:",
+    "searchPrefix": "Search:",
+    "clearAll": "Clear all",
+    "resultsCount": "Found {count} recipe{count, plural, =1 {} other {s}}",
+    "latestRecipes": "Latest Recipes",
+    "showingRange": "Showing {start}-{end} of {total}",
+    "foundRecipes": "Found {count} recipe{count, plural, =1 {} other {s}}",
+    "noRecipes": "No recipes found",
+    "noRecipesDesc": "Try adjusting your search or filters",
+    "clearFilters": "Clear Filters",
+    "loadingMore": "Loading more recipes...",
+    "searching": "Searching...",
+    "preparingRecipes": "Preparing delicious recipes for you...",
+    "justAMoment": "This will only take a moment",
+    "recipeNotFound": "Recipe Not Found",
+    "ingredients": "Ingredients",
+    "instructions": "Instructions",
+    "noInstructionsAvailable": "Instructions are not available for this recipe.",
+    "viewOriginalRecipe": "View Original Recipe",
+    "videoTutorial": "Video Tutorial",
+    "youMightAlsoLike": "You Might Also Like",
+    "previousPage": "Previous Page",
+    "nextPage": "Next Page",
+    "chefsNote": "Chef's Note"
+  },
+  "Favorites": {
+    "title": "Your Favorites",
+    "empty": "You haven't saved any recipes yet.",
+    "count": "You have saved {count} recipe{count, plural, =1 {} other {s}}.",
+    "emptyTitle": "Start Building Your Cookbook",
+    "emptyDesc": "Save your favorite recipes here so you can easily find them later. Browse our collection to get started!",
+    "browseRecipes": "Browse Recipes"
+  },
+  "Auth": {
+    "welcomeBack": "Welcome back",
+    "signInSubtitle": "Sign in to your account to access your favorites",
+    "signInGoogle": "Sign in with Google",
+    "orContinueWith": "Or continue with",
+    "emailAddress": "Email address",
+    "password": "Password",
+    "rememberMe": "Remember me",
+    "forgotPassword": "Forgot password?",
+    "signIn": "Sign in",
+    "noAccount": "Don't have an account?",
+    "signUp": "Sign up",
+    "createAccount": "Create an account",
+    "signUpSubtitle": "Join us to save your favorite recipes and more",
+    "signUpGoogle": "Sign up with Google",
+    "fullName": "Full Name",
+    "alreadyHaveAccount": "Already have an account?"
+  },
+  "Footer": {
+    "quickLinks": "Quick Links",
+    "home": "Home",
+    "surpriseMe": "Surprise Me",
+    "browseRecipes": "Browse Recipes",
+    "favorites": "Favorites",
+    "blog": "Blog",
+    "faq": "FAQ",
+    "legal": "Legal",
+    "privacyPolicy": "Privacy Policy",
+    "cookiePolicy": "Cookie Policy",
+    "termsOfService": "Terms of Service",
+    "rightsReserved": "All rights reserved.",
+    "providedBy": "Recipe data provided by",
+    "about": "About Us",
+    "contact": "Contact Us"
+  },
+  "SurpriseMe": {
+    "title": "Surprise Me!",
+    "metaTitle": "Surprise Me - Random Recipe Generator | Dish Shuffle",
+    "metaDescription": "Can't decide what to cook? Let Dish Shuffle pick a random delicious recipe for you. Filter by category or cuisine.",
+    "subtitle": "Can't decide what to eat? Let us pick a delicious meal for you!",
+    "filterTitle": "Filter Your Surprise",
+    "categoryLabel": "Category",
+    "cuisineLabel": "Cuisine",
+    "anyCategory": "Any Category",
+    "anyCuisine": "Any Cuisine",
+    "activeFilters": "Active filters:",
+    "clearAll": "Clear all",
+    "generateButton": "Generate Meal",
+    "tryAnotherButton": "Try Another!",
+    "failedToFetch": "Failed to fetch meal",
+    "noRecipeFound": "No recipe found matching your filters",
+    "error": "Something went wrong",
+    "emptyStateText": "Click the button above to discover your next meal!",
+    "findingRecipe": "Finding a delicious recipe...",
+    "keyIngredients": "Key Ingredients",
+    "recipePreview": "Recipe Preview",
+    "clickToView": "Click 'View Full Recipe' to see complete instructions and all ingredients",
+    "failedToLoad": "Failed to load recipe. Please try again.",
+    "close": "Close",
+    "viewFullRecipe": "View Full Recipe",
+    "getAnotherMeal": "Get Another Meal",
+    "moreIngredients": "+{count} more"
+  },
+  "FAQ": {
+    "title": "Frequently Asked Questions",
+    "subtitle": "Find answers to common questions about cooking, recipes, and using Dish Shuffle",
+    "categories": {
+      "cooking": "Cooking Basics",
+      "safety": "Food Safety & Storage",
+      "substitutions": "Ingredient Substitutions",
+      "planning": "Meal Planning",
+      "platform": "Using Dish Shuffle",
+      "health": "Health & Nutrition for Adults 40+"
+    },
+    "questions": {
+      "howToBoilEgg": {
+        "q": "How do I boil an egg perfectly?",
+        "a": "Place eggs in a pot and cover with cold water by 1 inch. Bring to a boil, then turn off heat and cover. Let sit for 10-12 minutes for hard-boiled, 6-7 minutes for soft-boiled. Transfer to ice water immediately to stop cooking and prevent the green ring around the yolk."
+      },
+      "howToCookPasta": {
+        "q": "How do I cook pasta al dente?",
+        "a": "Use a large pot with plenty of salted boiling water (about 1 tablespoon salt per 4 quarts water). Cook pasta for 1-2 minutes less than package directions, stirring occasionally. Taste test for a firm but tender texture. Reserve 1 cup pasta water before draining to help thicken sauces."
+      },
+      "howToCookRice": {
+        "q": "What's the best way to cook fluffy rice?",
+        "a": "Rinse rice until water runs clear to remove excess starch. Use a 2:1 ratio of water to rice. Bring to a boil, reduce to low heat, cover, and simmer for 18-20 minutes without lifting the lid. Remove from heat and let stand covered for 5 minutes, then fluff with a fork."
+      },
+      "howToCookSteak": {
+        "q": "How do I cook the perfect steak?",
+        "a": "Pat steak dry and season generously with salt and pepper 30-40 minutes before cooking. Preheat a heavy pan until very hot. Sear 3-4 minutes per side for medium-rare (internal temp 130-135°F). Let rest 5-10 minutes before slicing to allow juices to redistribute."
+      },
+      "bakingPowderVsSoda": {
+        "q": "What's the difference between baking powder and baking soda?",
+        "a": "Baking soda is pure sodium bicarbonate and needs an acid (like buttermilk or lemon juice) to activate. Baking powder contains baking soda plus an acid, so it works on its own. They're not interchangeable - use what the recipe calls for."
+      },
+      "essentialTools": {
+        "q": "What essential kitchen tools do I need to start?",
+        "a": "Start with a chef's knife, cutting board, measuring cups/spoons, a large pot, a saucepan, a skillet, and a baking sheet. These basics cover most recipes."
+      },
+      "readRecipe": {
+        "q": "How important is reading the recipe beforehand?",
+        "a": "Crucial! Read it twice to understand steps, timing, and ensure you have all ingredients. This prevents mid-cooking surprises."
+      },
+      "miseEnPlace": {
+        "q": "What is 'mise en place'?",
+        "a": "It means 'everything in its place'. Prep, chop, and measure all ingredients before you start cooking. It makes cooking stress-free and prevents burning food while you look for spices."
+      },
+      "pantryStaples": {
+        "q": "What should I stock in my pantry?",
+        "a": "Keep oils (olive, vegetable), vinegar, dried herbs/spices, salt, pepper, flour, sugar, rice, pasta, canned tomatoes, and beans on hand for easy meals."
+      },
+      "seasoningTips": {
+        "q": "How do I season food correctly?",
+        "a": "Season in layers throughout cooking, not just at the end. Taste as you go. Salt enhances flavor, while acid (lemon, vinegar) brightens dull dishes."
+      },
+      "preventSticking": {
+        "q": "How do I stop food from sticking to the pan?",
+        "a": "Preheat your pan properly before adding oil, then let the oil get hot before adding food. Don't overcrowd the pan, or food will steam instead of sear."
+      },
+      "checkMeatDoneness": {
+        "q": "How do I know when meat is cooked?",
+        "a": "The only safe way is using a digital meat thermometer. Color isn't reliable. Chicken should be 165°F, pork/steaks 145°F, and ground meat 160°F."
+      },
+      "saltPastaWater": {
+        "q": "Why salt pasta water?",
+        "a": "It's your only chance to flavor the pasta itself. It should taste salty like the sea. Never rinse pasta after cooking (unless for cold salad) as starch helps sauce stick."
+      },
+      "tenderizeMeat": {
+        "q": "How can I tenderize tough meat?",
+        "a": "Use a marinade with acid (vinegar, citrus, yogurt), pound it with a mallet, or cook it low and slow (braising/stewing) to break down fibers."
+      },
+      "bakingMeasure": {
+        "q": "How do I measure flour for baking?",
+        "a": "Don't scoop directly! Fluff the flour, spoon it into the cup, and level it off. Scooping packs it down, adding too much flour and making cakes dry."
+      },
+      "cookingMistakes": {
+        "q": "What's a common beginner cooking mistake?",
+        "a": "Overcrowding the pan—it lowers the temperature and steams food instead of browning it. Cook in batches if needed for better flavor."
+      },
+      "tastingFood": {
+        "q": "Why is tasting while cooking important?",
+        "a": "Ingredients vary (lemons vary in sourness, salt in strength). Tasting helps you balance flavors (add salt, acid, or sugar) before serving."
+      },
+      "knifeSkills": {
+        "q": "How can I improve my knife skills?",
+        "a": "Keep knives sharp (safer than dull ones!). Use the 'claw grip' with your holding hand to protect fingers. Start slow—speed comes with practice."
+      },
+      "restingSteak": {
+        "q": "Why rest steak before cutting?",
+        "a": "Resting allows juices to redistribute. Cutting immediately lets juices run out, leaving the meat dry. Rest for 5-10 minutes under foil."
+      },
+      "boilingVsSimmering": {
+        "q": "What's the difference between boil and simmer?",
+        "a": "Boiling is big, rapid bubbles (212°F) for pasta/potatoes. Simmering is gentle, small bubbles (185-205°F) for soups/stews to cook tenderly."
+      },
+      "shouldWashChicken": {
+        "q": "Should I wash raw chicken before cooking?",
+        "a": "No, never wash raw chicken. Rinsing can spread harmful bacteria like salmonella to your sink, countertops, and other surfaces through water splashes. Cooking chicken to an internal temperature of 165°F will kill any bacteria safely."
+      },
+      "howLongFoodLeftOut": {
+        "q": "How long can cooked food be left out?",
+        "a": "Cooked food should not be left at room temperature for more than 2 hours (1 hour if temperature is above 90°F). Bacteria multiply rapidly between 40°F and 140°F. Refrigerate leftovers promptly in shallow containers for quick cooling."
+      },
+      "frozenVsFresh": {
+        "q": "Are frozen vegetables as nutritious as fresh?",
+        "a": "Yes! Frozen vegetables are often picked and frozen at peak ripeness, preserving nutrients. They can actually be more nutritious than fresh vegetables that have been sitting for days. Frozen vegetables are perfect for soups, stir-fries, and casseroles."
+      },
+      "cheeseGoneBad": {
+        "q": "How do I know if cheese has gone bad?",
+        "a": "For hard cheeses, small amounts of mold can be cut away (cut 1 inch around and below the mold). Discard soft cheeses if moldy. Signs of spoilage include unusual smell, slimy texture, or significant color changes. When in doubt, throw it out."
+      },
+      "restMeatAfterCooking": {
+        "q": "Why should I rest meat after cooking?",
+        "a": "Resting allows muscle fibers to relax and juices to redistribute throughout the meat. If you cut immediately, juices run out onto the plate. Rest small cuts 5-10 minutes, larger roasts 15-20 minutes, tented loosely with foil."
+      },
+      "handwashing": {
+        "q": "How should I wash hands for food safety?",
+        "a": "Wash with warm soapy water for at least 20 seconds before/after handling food, especially raw meat/eggs. Don't forget wrists and under fingernails."
+      },
+      "crossContamination": {
+        "q": "What is cross-contamination and how to prevent it?",
+        "a": "It's spreading bacteria from raw food to ready-to-eat food. Use separate cutting boards for meat and veg. Wash hands/tools immediately after touching raw meat."
+      },
+      "dangerZone": {
+        "q": "What is the food 'Danger Zone'?",
+        "a": "Bacteria grow rapidly between 40°F and 140°F. Never leave perishable food out for more than 2 hours (or 1 hour if it's over 90°F outside)."
+      },
+      "fridgeTemp": {
+        "q": "What temperature should my fridge/freezer be?",
+        "a": "Fridge strictly below 40°F (4°C) and freezer at 0°F (-18°C). Use an appliance thermometer to check, as dials can be inaccurate."
+      },
+      "thawingFood": {
+        "q": "What is the safest way to thaw frozen food?",
+        "a": "In the fridge overnight (safest), in cold water (change water every 30 mins), or microwave. Never thaw on the counter at room temperature."
+      },
+      "leftoverSafety": {
+        "q": "How long are leftovers good for?",
+        "a": "Generally 3-4 days in the fridge. Reheat to 165°F. If in doubt, throw it out. Label containers with dates to keep track."
+      },
+      "washingMeat": {
+        "q": "Should I wash raw chicken?",
+        "a": "NO. Washing spreads bacteria up to 3 feet via splashing water. Cooking to 165°F is the only way to kill bacteria safely."
+      },
+      "refreezing": {
+        "q": "Can I refreeze thawed food?",
+        "a": "If it was thawed in the fridge and kept cold (under 40°F), it's safe to refreeze, though texture may suffer. Do not refreeze if thawed on counter."
+      },
+      "safeTemps": {
+        "q": "What are safe internal cooking temperatures?",
+        "a": "Poultry 165°F, Ground Meat 160°F, Beef/Pork/Lamb Steaks & Roasts 145°F (+3 min rest), Fish 145°F. Use a thermometer."
+      },
+      "produceTech": {
+        "q": "How to clean fruits and vegetables?",
+        "a": "Rinse under running water just before eating/cooking. Scrub firm skins (melons, potatoes). Don't use soap. Dry with clean cloth/paper towel."
+      },
+      "useByVsBestBy": {
+        "q": "Use-By vs. Best-Before dates?",
+        "a": "'Use-By' is a safety deadline—don't eat after this. 'Best-Before' is about quality/flavor—likely safe but strictly past prime after date."
+      },
+      "fridgeStorage": {
+        "q": "Where should I store raw meat in the fridge?",
+        "a": "Bottom shelf, in a sealed container/tray. This prevents juices from dripping down onto fresh produce or ready-to-eat foods below."
+      },
+      "coolingFood": {
+        "q": "How fast should I refrigerate cooked food?",
+        "a": "Within 2 hours (1 hour if hot room). Divide large pots of soup/stew into shallow containers to help them cool down quickly."
+      },
+      "kitchenHygiene": {
+        "q": "How often should I clean kitchen sponges?",
+        "a": "Sponges harbor bacteria. Sanitize daily (microwave wet sponge 1 min or dishwasher) and replace frequently. Dishcloths should be washed in hot cycle."
+      },
+      "visualCues": {
+        "q": "Can I trust meat color for doneness?",
+        "a": "No. Burgers can turn brown before hitting 160°F. Pinkness doesn't always mean undercooked. Only a thermometer guarantees safety."
+      },
+      "butterSaltedOrUnsalted": {
+        "q": "Should I use salted or unsalted butter for baking?",
+        "a": "Use unsalted butter for baking. It gives you complete control over the salt content in your recipe. Salted butter can vary in saltiness between brands, making it harder to achieve consistent results. Save salted butter for spreading and cooking."
+      },
+      "freshVsDriedHerbs": {
+        "q": "How do I substitute dried herbs for fresh?",
+        "a": "Use one-third the amount of dried herbs compared to fresh (1 teaspoon dried = 1 tablespoon fresh). Dried herbs are more concentrated. Add dried herbs early in cooking, fresh herbs near the end. Delicate herbs like basil, cilantro, and parsley are much better fresh."
+      },
+      "oliveOilForBaking": {
+        "q": "Can I substitute olive oil for vegetable oil in baking?",
+        "a": "Yes, but olive oil has a stronger flavor that will affect the taste. For savory baking, it works well. For cakes and sweet baked goods, use light olive oil or stick with neutral oils like vegetable or canola oil for best results."
+      },
+      "wholeWheatFlour": {
+        "q": "Can I use whole wheat flour instead of all-purpose flour?",
+        "a": "For tender baked goods like cakes, it's not recommended as whole wheat flour produces denser results. For muffins, quick breads, and cookies, you can substitute up to 50% of all-purpose flour with whole wheat. Start with 25% and adjust to taste."
+      },
+      "eggSubstitutes": {
+        "q": "What can I use instead of eggs in baking?",
+        "a": "Common substitutes: 1/4 cup applesauce, 1/4 cup mashed banana, or 1 tablespoon ground flaxseed mixed with 3 tablespoons water (let sit 5 minutes) per egg. Commercial egg replacers also work well. Results vary by recipe."
+      },
+      "substitutionRules": {
+        "q": "General rule for substitutions?",
+        "a": "Consider moisture, sweetness, and structure. Limit to 1-2 swaps per recipe. Baking is chemistry, so it's less forgiving than cooking."
+      },
+      "buttermilkSub": {
+        "q": "Substitute for buttermilk?",
+        "a": "Add 1 tbsp lemon juice or white vinegar to 1 cup milk. Let sit 5-10 mins until curdled. Or use thinned plain yogurt."
+      },
+      "butterVsOil": {
+        "q": "Can I swap butter for oil?",
+        "a": "In baking: Yes (1:1), but butter adds flavor/fluffiness, oil makes it moist/dense. In cooking: Butter burns easily; oil has higher heat tolerance."
+      },
+      "glutenFreeFlour": {
+        "q": "Can I use GF flour cup-for-cup?",
+        "a": "Yes, if it's a '1-to-1' baking blend with xanthan gum. Substituting just rice/almond flour alone won't work for cakes/breads without binders."
+      },
+      "sugarTypes": {
+        "q": "Sub brown sugar for white?",
+        "a": "Yes (1:1). Brown sugar adds moisture and molasses flavor, making cookies chewier. White sugar makes them crisper."
+      },
+      "honeyVsSugar": {
+        "q": "Sub honey for sugar?",
+        "a": "Use 3/4 cup honey for 1 cup sugar. Reduce liquid in recipe by 1/4 cup and lower oven temp by 25°F as honey browns faster."
+      },
+      "breadcrumbsSub": {
+        "q": "No breadcrumbs?",
+        "a": "Use crushed cornflakes, crackers, pretzels, oats, or toast bread and blitz it. For gluten-free, use almond meal or GF oats."
+      },
+      "cornstarchSub": {
+        "q": "Substitute for cornstarch?",
+        "a": "For thickening: Use 2 tbsp flour for every 1 tbsp cornstarch (cook longer to remove raw flour taste). Or use arrowroot/potato starch 1:1."
+      },
+      "brothSub": {
+        "q": "No chicken/beef broth?",
+        "a": "Use bouillon cube + water, vegetable broth, or even water seasoned with soy sauce/herbs. Alcohol (wine/beer) can replace some liquid for flavor."
+      },
+      "freshVsDried": {
+        "q": "Ratio for fresh vs dried herbs?",
+        "a": "Dried is stronger. Use 1 tsp dried for every 1 tbsp fresh (1:3 ratio). Add dried early to rehydrate; fresh at the end."
+      },
+      "dairyFreeMilk": {
+        "q": "Best dairy-free milk for baking?",
+        "a": "Soy and Oat milk have protein/fat closest to dairy. Almond is thinner. Full-fat canned coconut milk is great for richness/creaminess."
+      },
+      "cheeseSub": {
+        "q": "Substituting cheeses?",
+        "a": "Match texture/melting. Mozzarella ↔ Provolone/Monterey Jack. Cheddar ↔ Colby/Gruyère. Soft cheeses don't swap well with hard aged ones."
+      },
+      "bakingChocolate": {
+        "q": "Sub for unsweetened chocolate?",
+        "a": "3 tbsp cocoa powder + 1 tbsp oil/butter per 1 oz unsweetened chocolate."
+      },
+      "lemonJuice": {
+        "q": "Sub for fresh lemon juice?",
+        "a": "Bottled lemon juice works but lacks zest oils. Vinegar can sub for acidity (in cooking). Orange/Lime works but changes flavor profile."
+      },
+      "yogurtSourCream": {
+        "q": "Sub yogurt for sour cream?",
+        "a": "Yes, Greek yogurt is a perfect 1:1 healthy substitute in dips, baking, and tacos. Regular yogurt is thinner."
+      },
+      "whatIsMealPlanning": {
+        "q": "What exactly is meal planning?",
+        "a": "Meal planning is deciding in advance what meals you'll prepare for a specific period, usually a week. It involves choosing recipes, making a shopping list, and sometimes prepping ingredients ahead. It saves time, money, and reduces food waste."
+      },
+      "howOftenMealPlan": {
+        "q": "How often should I meal plan?",
+        "a": "Weekly planning is most common and practical. Plan on the same day each week (many choose Sunday) to align with your schedule and grocery shopping. Some people plan for 2 weeks at a time, while others prefer 3-5 days."
+      },
+      "mealPlanSaveMoney": {
+        "q": "How does meal planning save money?",
+        "a": "Meal planning reduces impulse purchases, minimizes food waste, allows you to shop sales and buy in bulk, and prevents expensive last-minute takeout. You buy only what you need and use everything you purchase."
+      },
+      "mealPrepStorage": {
+        "q": "How long does meal-prepped food last?",
+        "a": "Most meal-prepped food lasts 3-4 days in airtight containers in the refrigerator. Some items like soups and stews last up to 5 days. For longer storage, freeze portions for up to 3 months. Always label containers with dates."
+      },
+      "portionSizes": {
+        "q": "How do I figure out portion sizes?",
+        "a": "A balanced plate typically includes: 1/2 vegetables, 1/4 lean protein (about the size of your palm), and 1/4 whole grains or starchy vegetables (about the size of your fist). Adjust based on your activity level and dietary needs."
+      },
+      "howToSaveRecipes": {
+        "q": "How do I save recipes on Dish Shuffle?",
+        "a": "Click the heart icon on any recipe card or recipe detail page. You'll need to sign in to save recipes. All your saved recipes appear in your Favorites page, accessible from the navigation menu."
+      },
+      "howToSearchRecipes": {
+        "q": "How do I search for specific recipes?",
+        "a": "Use the search bar on the Recipes page to search by recipe name, ingredient, or cuisine. You can also filter by category (like Dessert or Breakfast) and cuisine (like Italian or Mexican) using the dropdown filters."
+      },
+      "surpriseMeFeature": {
+        "q": "What is the Surprise Me feature?",
+        "a": "Surprise Me randomly selects a delicious recipe for you when you can't decide what to cook. Click the 'Surprise Me' button in the navigation, and we'll show you a random recipe with a preview. You can keep clicking for new suggestions until you find something you love!"
+      },
+      "recipesFromWhere": {
+        "q": "Where do the recipes come from?",
+        "a": "Our recipes are sourced from TheMealDB and Spoonacular, two comprehensive recipe databases. We curate and organize thousands of recipes from various cuisines and categories to help you discover new dishes."
+      },
+      "canIShareRecipes": {
+        "q": "Can I share recipes with friends?",
+        "a": "Yes! Every recipe page has a Share button that lets you share via Facebook, Twitter (X), WhatsApp, or copy the link to share anywhere. Share your favorite discoveries with friends and family!"
+      },
+      "startMealPlanning": {
+        "q": "How do I start meal planning?",
+        "a": "Start small. Plan just 3-4 dinners for the week. Check your calendar for busy nights and choose easy meals for those. Make a grocery list based on your plan."
+      },
+      "benefitsMealPlan": {
+        "q": "Why meal plan?",
+        "a": "Saves money (less takeout/waste), saves time (fewer grocery trips), reduces daily stress ('what's for dinner?'), and helps you eat healthier."
+      },
+      "planningSchedule": {
+        "q": "How often should I plan?",
+        "a": "Weekly is best for most. Pick a day (e.g., Friday or Sunday) to plan and shop. Some do monthly, but weekly allows for schedule flexibility."
+      },
+      "pickyEaters": {
+        "q": "Meal planning for picky eaters?",
+        "a": "Involve them! Let kids pick 1 meal/week. Use 'deconstructed' meals (taco bar, bowls) so everyone customizes their own topping."
+      },
+      "saveMoneyGroceries": {
+        "q": "How to save money on groceries?",
+        "a": "Shop your pantry/freezer first. Plan meals around sales flyers. Make a list and STICK to it. Buy seasonal produce and bulk grains."
+      },
+      "mealPrepVsPlan": {
+        "q": "Diff between planning and prepping?",
+        "a": "Planning = deciding what to eat. Prepping = doing the work (chopping, cooking) in advance. You can plan without prepping, but prepping helps busy weeks."
+      },
+      "themeNights": {
+        "q": "What are Theme Nights?",
+        "a": "Assign themes to days: 'Meatless Monday', 'Taco Tuesday', 'Pasta Thursday'. It narrows choices and makes decision-making faster."
+      },
+      "handleLeftovers": {
+        "q": "Strategies for leftovers?",
+        "a": "Plan a 'Buffet Night' to clear the fridge. Or pack leftovers immediately for next day's lunch. Repurpose: Roast chicken → Tacos next day."
+      },
+      "backupMeals": {
+        "q": "What if I'm too tired to cook the plan?",
+        "a": "Keep 1-2 'Emergency Meals' (frozen pizza, pasta & jar sauce, eggs). Flexibility is key—swap days if needed. Don't guilt trip yourself."
+      },
+      "balancedPlan": {
+        "q": "How to ensure a balanced plan?",
+        "a": "Aim for variety. Check your week: Do we have fish? Veggie night? Red meat? Rotate proteins and make sure every dinner has a veggie side."
+      },
+      "shoppingTips": {
+        "q": "Grocery shopping tips?",
+        "a": "Never shop hungry! Organize your list by aisle (Produce, Dairy, Meat) to speed up the trip. Use click-and-collect to avoid impulse buys."
+      },
+      "batchCooking": {
+        "q": "What is batch cooking?",
+        "a": "Cooking 2x or 3x portions of a meal (chili, soup, casserole) and freezing the extra. It's 'cooking once, eating twice'—a huge time saver."
+      },
+      "familyInvolvement": {
+        "q": "How to get family involved?",
+        "a": "Ask for requests. Share the visual menu on the fridge. Let kids help prep simple things. When they help decide/cook, they eat better."
+      },
+      "fridgeFreezerLife": {
+        "q": "How long do prepped meals last?",
+        "a": "Fridge: 3-4 days max. Freezer: 2-3 months. Label everything! If you won't eat it by Thursday, freeze it on Monday."
+      },
+      "convenienceItems": {
+        "q": "Is it ok to use pre-cut veggies?",
+        "a": "Absolutely. If buying pre-chopped onions or rotisserie chicken means you cook at home instead of getting takeout, it's a win. Use shortcuts!"
+      },
+      "weightGainAfter40": {
+        "q": "Why do I gain weight more easily after 40?",
+        "a": "Weight gain after 40 is often linked to hormonal fluctuations, lower insulin sensitivity, and age-related muscle loss (sarcopenia), which naturally lowers your metabolism. Stress and changes in sleep patterns can also contribute."
+      },
+      "dietaryChanges40": {
+        "q": "What are the most important dietary changes after 40?",
+        "a": "Focus on nutrient-dense foods: colorful fruits and vegetables, whole grains, lean proteins, and healthy fats. Limit processed foods, added sugars, and sodium. Hydration and calcium intake also become increasingly important."
+      },
+      "proteinNeeds40": {
+        "q": "How much protein do adults over 40 need?",
+        "a": "Experts recommend increasing protein intake to 1.0–1.2 grams per kg of body weight to maintain muscle mass. Aim for 20-30g of high-quality protein per meal from sources like lean meats, fish, eggs, dairy, or plant-based options."
+      },
+      "boneHealth": {
+        "q": "What nutrients are crucial for bone health?",
+        "a": "Calcium and Vitamin D are critical. Calcium needs increase to 1,200 mg/day after age 50. Vitamin D helps absorption. Magnesium and weight-bearing exercises are also vital for maintaining bone density."
+      },
+      "metabolismBoost": {
+        "q": "How can I boost my metabolism after 40?",
+        "a": "Prioritize strength training to build muscle (which burns more calories at rest), eat enough protein, stay hydrated with cold water, get adequate sleep, and don't skip breakfast to kickstart your day."
+      },
+      "intermittentFasting": {
+        "q": "Is intermittent fasting safe for over 40s?",
+        "a": "It can be beneficial for insulin sensitivity and inflammation, but consult a doctor first. Women should be cautious as strict fasting can impact hormones. Gentle approaches like 12:12 or 14:10 windows are often better starting points."
+      },
+      "cognitiveFoods": {
+        "q": "What foods help with brain health and memory?",
+        "a": "The MIND diet suggests leafy greens, berries (especially blueberries), nuts, fatty fish (rich in Omega-3s), olive oil, and whole grains. Reduce intake of red meats, butter, cheese, and fried foods."
+      },
+      "vitaminB12": {
+        "q": "Why is Vitamin B12 important as we age?",
+        "a": "Stomach acid decreases with age, reducing B12 absorption. Deficiency causes fatigue and cognitive issues. Sources include meat, fish, eggs, and fortified cereals. A supplement may be needed if you are over 50 or plant-based."
+      },
+      "adultAllergies": {
+        "q": "Can adults develop new food allergies?",
+        "a": "Yes, adult-onset allergies are possible, even to foods eaten for years. Common triggers involve shellfish, tree nuts, and certain fruits/veggies related to pollen allergies (Oral Allergy Syndrome)."
+      },
+      "allergyVsIntolerance": {
+        "q": "What is the difference between food allergy and intolerance?",
+        "a": "An allergy is an immune reaction (can be life-threatening) appearing quickly. An intolerance (like lactose) is a digestive issue causing bloating/discomfort usually hours after eating, but is not life-threatening."
+      },
+      "commonIntolerances": {
+        "q": "What are common food intolerances after 40?",
+        "a": "Lactose intolerance often increases with age as lactase enzyme production drops. Gluten sensitivity and sensitivity to FODMAPs (fermentable carbs) are also common. Keeping a food diary helps identify triggers."
+      },
+      "heartHealth40": {
+        "q": "Why is heart health critical after 40?",
+        "a": "Risk factors like stiffening arteries and plaque buildup naturally increase. High blood pressure and cholesterol often appear in this decade. It's the prime time to adopt heart-healthy habits to prevent future disease."
+      },
+      "protectHeart": {
+        "q": "How can I best protect my heart?",
+        "a": "Follow a Mediterranean-style diet, exercise for 150 minutes/week, manage stress, quit smoking, and keep regular tabs on your numbers: blood pressure, cholesterol, and blood sugar."
+      },
+      "digestiveIssues40": {
+        "q": "Why does digestion seem worse after 40?",
+        "a": "Digestion slows due to lower enzyme production, decreased stomach acid, and changes in the gut microbiome. Hormonal shifts (especially in menopause) and stress also directly impact gut function."
+      },
+      "improveGutHealth": {
+        "q": "How can I improve my gut health?",
+        "a": "Eat a diverse range of fiber-rich plants (30+ types per week), include fermented foods like yogurt/kimchi, stay hydrated, chew food thoroughly, and manage stress levels."
+      },
+      "supplements40": {
+        "q": "Do I need supplements after 40?",
+        "a": "A balanced diet is best, but many over 40 benefit from Vitamin D, B12, Calcium, Magnesium, or Omega-3s. Always consult a healthcare provider before starting any new supplement regimen."
+      },
+      "hydration40": {
+        "q": "Why is hydration important as we age?",
+        "a": "Our sense of thirst diminishes with age, increasing dehydration risk. Proper hydration supports digestion, joint health, cognitive function, and energy levels. Aim for water over sugary drinks."
+      },
+      "heartRiskFactors": {
+        "q": "What are the main heart disease risk factors?",
+        "a": "High blood pressure, high cholesterol, smoking, obesity, diabetes, and physical inactivity. Family history also plays a role, making screening even more important."
+      },
+      "agingHeart": {
+        "q": "How does the heart change with age?",
+        "a": "Blood vessels may become stiffer (raising blood pressure), and the heart muscle may thicken or pump slightly less efficiently during maximum exertion. Regular cardio helps maintain elasticity."
+      },
+      "heartWarningSigns": {
+        "q": "What are heart warning signs to watch for?",
+        "a": "Chest pain/tightness, shortness of breath, palpitations, unexplained fatigue, or swelling in ankles. Symptoms can be subtle, especially in women. Seek medical care for new symptoms."
+      },
+      "commonDidgestiveProbs": {
+        "q": "What are common digestive issues after 40?",
+        "a": "Acid reflux (GERD), bloating, gas, constipation, and diverticulosis become more common. Slower transit time in the colon can contribute to irregularity."
+      },
+      "gutHealthSigns": {
+        "q": "What signs indicate poor gut health?",
+        "a": "Frequent bloating, gas, heartburn, irregular bowel movements, or developing new sensitivities to foods you used to eat without issue can signal gut imbalances."
+      },
+      "foodSensitivities40": {
+        "q": "Can food sensitivities develop later in life?",
+        "a": "Yes, declining digestive enzymes (like lactase) or gut lining changes can lead to new sensitivities to dairy, gluten, or other foods in midlife."
+      },
+      "caloricNeeds40": {
+        "q": "Do my calorie needs change after 40?",
+        "a": "Yes, metabolic rate typically slows, so you may need fewer calories to maintain weight. Focus on nutrient quality over quantity—maximize vitamins/minerals per calorie."
+      },
+      "prioritizeFoods40": {
+        "q": "Which foods should I prioritize?",
+        "a": "Prioritize fiber (veg, fruit, beans), lean protein for muscle maintenance, and anti-inflammatory foods like fatty fish, olive oil, nuts, and berries."
+      },
+      "managingSugar": {
+        "q": "How can I better manage blood sugar?",
+        "a": "Pair carbs with protein and fat to slow absorption. Choose complex carbs (oats, quinoa) over simple sugars. Regular walking after meals significantly helps lower glucose spikes."
+      },
+      "oralAllergySyndrome": {
+        "q": "What is Oral Allergy Syndrome?",
+        "a": "It's when raw fruits/veggies cause an itchy mouth because their proteins resemble pollen you're allergic to like birch or ragweed. Cooking the food often destroys the protein and prevents reaction."
+      },
+      "suspectAllergy": {
+        "q": "What should I do if I suspect a food allergy?",
+        "a": "See an allergist for skin prick or blood testing. Don't self-diagnose, as true allergies can be dangerous. For intolerances, an elimination diet guided by a dietitian is the gold standard."
+      },
+      "manageCravings": {
+        "q": "How do I deal with food cravings?",
+        "a": "Cravings often signal irregular blood sugar, stress, or lack of sleep. ensuring protein at every meal, drinking water, and getting 7-8 hours of sleep can reduce them significantly."
+      }
+    }
+  },
+  "Blog": {
+    "title": "Dish Shuffle Blog",
+    "subtitle": "Discover cooking tips, nutrition advice, and culinary inspiration from our experts.",
+    "readPost": "Read Post",
+    "tableOfContents": "Table of Contents",
+    "tryThisRecipe": {
+      "title": "Try This Recipe!",
+      "description": "Inspired by this article? Here's a delicious recipe you can make right now.",
+      "viewRecipe": "View Recipe"
+    },
+    "minRead": "min read",
+    "relatedArticles": "Related Articles",
+    "exploreMore": "Explore More on Our Blog",
+    "exploreSubtitle": "Learn tips, tricks, and kitchen secrets related to this dish.",
+    "viewAll": "View All Articles",
+    "sharePost": "Share this post:",
+    "categories": {
+      "all": "All Posts",
+      "fundamentals": "Cooking Fundamentals",
+      "nutrition": "Diet & Nutrition",
+      "cuisine": "Cuisine Exploration",
+      "tips": "Cooking Tips & Trends"
+    },
+    "readMore": "Read More"
+  },
+  "NotFound": {
+    "title": "Recipe Not Found",
+    "description": "Oops! Looks like this dish got away.",
+    "suggestion": "Don't worry, we have plenty more delicious recipes waiting for you!",
+    "goHome": "Go Home",
+    "browseRecipes": "Browse Recipes",
+    "funTagline": "Even the best chefs sometimes lose a recipe... 👨‍🍳"
+  },
+  "CookieConsent": {
+    "title": "We value your privacy",
+    "description": "We use cookies to enhance your browsing experience, serve personalized content, and analyze our traffic. By clicking \"Accept All\", you consent to our use of cookies.",
+    "settings": "Settings",
+    "reject": "Reject",
+    "acceptAll": "Accept All",
+    "settingsModal": {
+      "title": "Cookie Settings",
+      "description": "Manage your cookie preferences. Essential cookies are always active.",
+      "back": "Back",
+      "save": "Save Preferences",
+      "essential": {
+        "title": "Essential Cookies",
+        "description": "Necessary for the website to function. Cannot be disabled."
+      },
+      "performance": {
+        "title": "Performance Cookies",
+        "description": "Help us understand how visitors interact with the website."
+      },
+      "functional": {
+        "title": "Functional Cookies",
+        "description": "Enable enhanced functionality and personalization."
+      },
+      "targeting": {
+        "title": "Targeting Cookies",
+        "description": "Used to deliver advertisements more relevant to you and your interests."
+      }
+    }
+  },
+  "CollectionsPage": {
+    "title": "Recipe Collections",
+    "subtitle": "Explore our hand-picked selections of delicious recipes for every occasion.",
+    "browseCollection": "Browse Collection",
+    "collections": {
+      "vegetarian-dinner-recipes": {
+        "title": "Best Vegetarian Dinner Recipes",
+        "description": "Discover delicious and satisfying vegetarian dinner ideas. From pasta to curries, these meat-free meals are perfect for weeknight cooking."
+      },
+      "healthy-chicken-recipes": {
+        "title": "Healthy Chicken Recipes",
+        "description": "Light and nutritious chicken recipes that don't skimp on flavor. High protein, low fat, and perfect for a balanced diet."
+      },
+      "gluten-free-options": {
+        "title": "Gluten-Free Recipe Collection",
+        "description": "Safe and delicious gluten-free recipes for everyone. Explore meals without wheat, barley, or rye."
+      },
+      "authentic-italian-pasta": {
+        "title": "Authentic Italian Pasta Recipes",
+        "description": "Bring the taste of Italy to your kitchen with these traditional pasta dishes. Carbonara, Bolognese, and more."
+      },
+      "spicy-mexican-food": {
+        "title": "Spicy Mexican Recipes",
+        "description": "Fiesty and flavorful Mexican dishes to spice up your routine. Tacos, enchiladas, and fresh salsas."
+      },
+      "asian-stir-fry": {
+        "title": "Quick & Easy Asian Stir-Fry",
+        "description": "Better than takeout. Fast, fresh, and flavorful stir-fry recipes from across Asia."
+      },
+      "quick-breakfast-ideas": {
+        "title": "Quick Breakfast Ideas for Busy Mornings",
+        "description": "Start your day right with these fast and fueling breakfast recipes. Ready in minutes."
+      },
+      "comfort-food-desserts": {
+        "title": "Ultimate Comfort Food Desserts",
+        "description": "Indulge in sweet treats that feel like a hug. Warm cookies, rich cakes, and classic puddings."
+      },
+      "seafood-lovers": {
+        "title": "Recipes for Seafood Lovers",
+        "description": "Fresh fish and shellfish recipes. Healthy, elegant, and easier to make than you think."
+      },
+      "vegan-friendly-meals": {
+        "title": "Vegan Friendly Meals",
+        "description": "Plant-based power on a plate. No animal products, 100% flavor."
+      }
+    }
+  }
 }

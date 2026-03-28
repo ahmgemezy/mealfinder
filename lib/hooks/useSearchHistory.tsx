@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
+import { devLog } from "@/lib/utils/logger";
 
 const STORAGE_KEY = "meal_finder_search_history";
 const MAX_HISTORY_ITEMS = 10;
@@ -24,8 +25,8 @@ export function useSearchHistory() {
                     }, 0);
                 }
             }
-        } catch (error) {
-            console.error("Failed to load search history:", error);
+        } catch (error: unknown) {
+            devLog.error("Failed to load search history:", error);
         }
     }, []);
 
@@ -44,8 +45,8 @@ export function useSearchHistory() {
             // Save to localStorage
             try {
                 localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
-            } catch (error) {
-                console.error("Failed to save search history:", error);
+            } catch (error: unknown) {
+                devLog.error("Failed to save search history:", error);
             }
 
             return updated;
@@ -57,8 +58,8 @@ export function useSearchHistory() {
         setHistory([]);
         try {
             localStorage.removeItem(STORAGE_KEY);
-        } catch (error) {
-            console.error("Failed to clear search history:", error);
+        } catch (error: unknown) {
+            devLog.error("Failed to clear search history:", error);
         }
     }, []);
 

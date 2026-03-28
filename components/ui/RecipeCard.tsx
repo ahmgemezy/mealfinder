@@ -4,6 +4,7 @@ import { Link } from "@/navigation";
 import { Recipe } from "@/lib/types/recipe";
 import FavoriteButton from "./FavoriteButton";
 import { getRecipeUrl } from "@/lib/utils/slugs";
+import { UtensilsCrossed } from "lucide-react";
 
 export interface RecipeCardProps {
   recipe: Recipe;
@@ -31,7 +32,7 @@ export default function RecipeCard({
           />
         ) : (
           <div className="w-full h-full bg-linear-to-br from-muted to-muted-foreground/20 flex items-center justify-center">
-            <span className="text-6xl">🍽️</span>
+            <UtensilsCrossed className="w-16 h-16 text-muted-foreground/40" aria-hidden="true" />
           </div>
         )}
         <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/20 to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-500" />
@@ -57,13 +58,11 @@ export default function RecipeCard({
               </span>
             )}
           </div>
-          <span
-            role="heading"
-            aria-level={3}
+          <h3
             className="font-display text-xl font-bold leading-tight mb-1 line-clamp-2 group-hover:text-primary-200 transition-colors"
           >
             {recipe.name}
-          </span>
+          </h3>
         </div>
       </div>
 

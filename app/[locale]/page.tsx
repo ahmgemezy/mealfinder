@@ -7,6 +7,7 @@ import HeroSection from "@/components/sections/HeroSection";
 import CTASection from "@/components/sections/CTASection";
 import { getTranslations } from "next-intl/server";
 import { translateRecipesList } from "@/lib/services/translation";
+import { Shuffle, Search, Heart } from "lucide-react";
 
 // Enable Incremental Static Regeneration (ISR)
 export const revalidate = 604800; // Revalidate every 7 days
@@ -83,17 +84,17 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               <FeatureCard
-                icon="🎲"
+                icon={Shuffle}
                 title={t('features.surprise.title')}
                 description={t('features.surprise.description')}
               />
               <FeatureCard
-                icon="🔍"
+                icon={Search}
                 title={t('features.browse.title')}
                 description={t('features.browse.description')}
               />
               <FeatureCard
-                icon="❤️"
+                icon={Heart}
                 title={t('features.favorites.title')}
                 description={t('features.favorites.description')}
               />
@@ -160,20 +161,24 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
   );
 }
 
+import type { LucideIcon } from "lucide-react";
+
 function FeatureCard({
-  icon,
+  icon: Icon,
   title,
   description,
 }: {
-  icon: string;
+  icon: LucideIcon;
   title: string;
   description: string;
 }) {
   return (
-    <div className="bg-card rounded-2xl p-8 shadow-soft hover:shadow-medium transition-all duration-300 hover:-translate-y-1 text-center">
-      <div className="text-6xl mb-4">{icon}</div>
-      <h3 className="font-display text-2xl font-bold mb-3">{title}</h3>
-      <p className="text-muted-foreground">{description}</p>
+    <div className="bg-card rounded-2xl p-8 shadow-soft hover:shadow-xl transition-all duration-300 hover:-translate-y-1 text-center group cursor-default">
+      <div className="w-16 h-16 mx-auto mb-6 rounded-2xl bg-primary-50 dark:bg-primary-950 flex items-center justify-center ring-1 ring-primary-100 dark:ring-primary-900 group-hover:bg-primary-100 dark:group-hover:bg-primary-900 transition-colors duration-300">
+        <Icon className="w-8 h-8 text-primary-500" aria-hidden="true" />
+      </div>
+      <h3 className="font-display text-xl font-bold mb-3">{title}</h3>
+      <p className="text-muted-foreground text-sm leading-relaxed">{description}</p>
     </div>
   );
 }
