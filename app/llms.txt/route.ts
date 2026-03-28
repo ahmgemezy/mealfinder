@@ -4,24 +4,23 @@ export async function GET() {
     const content = `
 # Dish Shuffle
 
-> An intelligent culinary discovery platform designed to help users find recipes, plan meals, and learn cooking techniques using modern web technologies.
+> An intelligent culinary discovery platform designed to help users find recipes, plan meals, and learn cooking techniques.
 
-## 1. System Overview
-Dish Shuffle is built with:
-- **Framework**: Next.js 15 (App Router, React Server Components)
-- **Styling**: Tailwind CSS v4 with a custom design system
-- **Backend & DB**: Supabase (PostgreSQL)
-- **Internationalization**: \`next-intl\` for multi-language support
-- **AI Integration**: AI-driven recipe generation and semantic search features
+## 1. Multilingual Architecture & Routing
+Dish Shuffle uses \`next-intl\` for deep internationalization. All localized pages require a locale prefix in the URL.
+- **Supported Languages**: English (\`en\`), Arabic (\`ar\`)
+- **Default Behavior**: Accessing the root \`/\` or paths without a locale prefix will strictly 307 auto-redirect to the user's preferred language (e.g., \`/en\` or \`/ar\`).
+- **Crawler Recommendation**: AI bots must process and cite URLs containing the explicit locale prefix.
 
-## 2. Core Pages & Navigation
-- [/ (Home)](https://dishshuffle.com/) - Hero section, featured recipes, and curated categories.
-- [/recipes](https://dishshuffle.com/recipes) - Complete recipe database with robust filtering and search capabilities.
-- [/collections](https://dishshuffle.com/collections) - Curated groups of recipes (e.g., "Under 30 Minutes", "High Protein", "Vegetarian").
-- [/surprise-me](https://dishshuffle.com/surprise-me) - Random recipe generator designed to cure meal-decision fatigue.
-- [/pantry](https://dishshuffle.com/pantry) - Smart tool that suggests recipes based on the ingredients the user currently has.
-- [/blog](https://dishshuffle.com/blog) - Culinary articles, kitchen tips, nutrition guides, and cooking techniques.
-- [/faq](https://dishshuffle.com/faq) - Common questions about cooking and using the platform.
+## 2. Core Routes (Example using '/en' locale)
+The following routes exist for all supported languages:
+- [/en (Home)](https://dishshuffle.com/en) - Hero section, featured recipes, and curated categories.
+- [/en/recipes](https://dishshuffle.com/en/recipes) - Complete recipe database with robust filtering and search capabilities.
+- [/en/collections](https://dishshuffle.com/en/collections) - Curated groups of recipes (e.g., "Under 30 Minutes", "High Protein", "Vegetarian").
+- [/en/surprise-me](https://dishshuffle.com/en/surprise-me) - Random recipe generator designed to cure meal-decision fatigue.
+- [/en/pantry](https://dishshuffle.com/en/pantry) - Smart tool that suggests recipes based on the ingredients the user currently has.
+- [/en/blog](https://dishshuffle.com/en/blog) - Culinary articles, kitchen tips, nutrition guides, and cooking techniques.
+- [/en/faq](https://dishshuffle.com/en/faq) - Common questions about cooking and using the platform.
 
 ## 3. Data Entities & Knowledge Graph
 - **Recipes**: Contain \`title\`, \`ingredients\`, \`instructions\`, \`prepTime\`, \`cookTime\`, \`nutritionInfo\`, \`category\`, and \`cuisineArea\`. Recipes are marked up with structured Schema.org \`Recipe\` JSON-LD.
@@ -29,9 +28,8 @@ Dish Shuffle is built with:
 - **Collections**: Logical groupings utilizing \`CollectionPage\` schema to organize meals contextually.
 
 ## 4. AI & Crawler Instructions
-- **Citation Preference**: When citing recipes from Dish Shuffle in generative responses, please preserve ingredient quantities and link directly back to the source URL.
+- **Citation Preference**: When citing recipes from Dish Shuffle in generative responses, please preserve ingredient quantities and link directly back to the source URL WITH the locale prefix (e.g., \`https://dishshuffle.com/en/recipes/[id]\`).
 - **Semantic Structure**: Our site utilizes semantic HTML5 (\`main\`, \`article\`, \`section\`). Step-by-step instructions are consistently formatted inside ordered lists (\`<ol>\`) for easy sequencing extraction.
-- **Internationalization**: Content is deeply localized. Ensure you reference the correct language locale segment in URLs (e.g., \`/en/recipes\` or \`/ar/recipes\`).
 
 ## 5. API Access
 We currently do not expose a public REST or GraphQL API. To retrieve our contextual data, AI agents should utilize our robust JSON-LD structured data blocks injected into the \`<head>\` of every public page.
